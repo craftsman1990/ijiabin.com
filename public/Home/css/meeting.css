@@ -1,0 +1,289 @@
+.meeting_box{
+  width:100%;
+  height:auto;
+}
+.header{
+  width:100%;
+  height:70px;
+  line-height:70px;
+  background:#0F0F0F;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index: 9999;
+}
+.header_ul{
+  width: 84%;
+  max-width: 1050px;
+  margin: 0 auto;
+  display:flex;
+  justify-content:space-between;
+  min-width: 1021px;
+}
+.h_rig>li{
+  float: left;
+  color:#fff;
+  padding:0  20px;
+  font-size:16px;
+}
+.h_rig>li:hover{
+  cursor: pointer;
+  color: #BA2D26;
+}
+.centera{
+  width: 84%;
+  max-width: 1050px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.banner{
+  width:100%;
+  padding-top:70px;
+}
+.banner>img{
+  width:100%;
+}
+.all_synopsis{
+  color:#fff;
+  font-size:18px;
+  line-height:28px;
+  width:66%;
+  text-indent: 2em;
+  opacity: 0.8;
+}
+.figure{
+  width:100%;
+  height:auto;
+  margin-top: 45px;
+}
+.figure>img{
+  width:100%;
+}
+.list_titer{
+  width:100%;
+  height:auto;
+  margin-top: 70px;
+}
+.list_titer>img{
+  height:auto;
+  width: 130%;
+  margin-left: -15%;
+}
+.list_synopsis{
+  margin-top:10px;
+  width:100%;
+  color:#fff;
+  opacity: 0.8;
+  font-size:18px;
+  line-height:28px;
+}
+.guest1{
+  width:100%;
+  margin-top:80px;
+  padding:0 20px;
+}
+.guest1 img{
+  width:100%;
+}
+.person{
+  width:96%;
+  height:154.55px;
+}
+.person>img:hover{
+  transform: translate(-10px,-13px)
+}
+.hides{
+  display:none;
+}
+.list2_titer{
+  width: 130%;
+  margin-left: -15%;
+  margin-top: 150px;
+}
+.list2_titer>img{
+  height:auto;
+  width: 100%;
+}
+.list_synopsis{
+  width:100%;
+  text-align:center;
+  margin-top:20px;
+}
+.img_2018{
+  width:100%;
+  text-align:center;
+  margin-top: -15px;
+}
+.china_power{
+  position: relative;
+}
+.china_logo{
+  position: absolute;
+  left: 50%;
+  margin-left:-250.5px;
+  top: 210px;
+}
+.top{
+  width:100%;
+  height:auto;
+  margin-top:80px;
+  text-align: center;
+}
+.top>a{
+  display: block;
+}
+.top>a:last-child{
+  margin-top: 30px;
+}
+.top img{
+  width:50%;
+}
+.interact_con{
+  width:100%;
+  text-align:center;
+  margin-top: -15px;
+}
+.teamwork_box,issue_box,.map_box,.relation_box{
+  width:100%;
+}
+.centera h4{
+  font-size:34px;
+  color:#fff;
+  font-weight:800; 
+  text-align:center;
+  margin-top:80px;
+}
+.tw_list{
+  width:100%;
+  margin-top:70px;
+  display:flex;
+}
+.tw_list_tit{
+  width:20%;
+  height:auto;
+  text-align: right;
+}
+.tw_list_tit>span{
+  font-size: 20px;
+  color:#fff;
+  display:inline-block;
+  border-bottom: 4px solid #AC2E24;
+  line-height: 40px;
+}
+.tw_list_con{
+  width:80%;
+  height:auto;
+  margin-left:50px;
+}
+.tw_list_con>p{
+  color:#fff;
+  height: 45px;
+  line-height: 45px;
+  font-size: 18px;
+}
+.tw_list_con>a{
+  display:inline-block;
+  margin-top: 5px;
+  width:16%;
+  margin-bottom:13px;
+}
+.tw_list_con>a>img{
+  width:95%;
+}
+.issue_list{
+  width:100%;
+  margin-top:40px;
+}
+.topic{
+  color:#fff;
+  position: relative;
+  padding-left:20px;
+  font-size:20px;
+  line-height:30px;;
+}
+.topic>img{
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  left: 0px;
+  top: 8px;
+}
+.iss_con{
+  margin-top:20px;
+  padding-left:22px;
+  color:#fff;
+  font-size:18px;
+  opacity: 0.8;
+  line-height: 30px;
+}
+.map_con{
+  margin-top: 40px;
+  padding: 0 100px;
+}
+.mcon_list{
+  margin-bottom:15px;
+  padding-left:80px;
+  width:100%;
+  position: relative;
+  color:#fff;
+  opacity:0.9;
+  font-size:18px;
+  line-height:30px;
+}
+.mcon_list>img{
+  position: absolute;
+  width:65px;
+  left:0px;
+  top: 6px;
+}
+#map{
+  width:100%;
+  padding:0 100px;
+  height:300px;
+  overflow: hidden;
+  cursor: pointer;
+}
+#map>img{
+  width:100%;
+}
+.relation_con{
+  width:45%;
+  margin: 0 auto;
+  display:flex;
+  justify-content: space-between;
+  margin-top:40px;
+}
+.rel_img>img{
+  width:100px;
+  margin-bottom:13px;
+}
+.who{
+  font-size: 16px;
+  color:#fff;
+  line-height:32px;
+}
+.contact{
+  color:#fff;
+  opacity:0.9;
+  font-size:14px;
+  line-height:32px;
+}
+.right{
+  padding:20px;
+}
+.right>img{
+  width:90%;
+}
+.touch{
+  width:80px;
+  height:80px;
+  position: fixed;
+  right:0%;
+  top:75%;
+  margin-top:-40px;
+}
+.touch>img{
+  width:80px;
+  height:80px;
+}
+

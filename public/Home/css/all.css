@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* @font-face {
+  font-family: "pingfang";
+  src: url("../fonts/PingFang/pingfang.woff2") format("woff2"),
+       url("../fonts/PingFang/pingfang.woff") format("woff"),
+       url("../fonts/PingFang/pingfang.ttf") format("truetype"),
+       url("../fonts/PingFang/pingfang.eot") format("embedded-opentype"),
+       url("../fonts/PingFang/pingfang.svg") format("svg");
+} */
+*{
+  margin:0px;
+  padding:0px;
+  text-decoration:none;
+  box-sizing:border-box;
+  font-style:normal;
+  font-weight:normal;
+}
+div,dl,dt,dd,form,h1,h2,h3,h4,h5,h6,img,ol,ul,li,table,th,td,p,span,a{border:0;}
+img,input{border:none;vertical-align:middle;}
+/*img{width: 100%;}*/
+body{width:100%;min-width:1220px;max-width:100%;height:100%;font-family:PingFang SC,Lantinghei SC,Helvetica Neue,Helvetica,Arial,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,STHeitiSC-Light,simsun,\\5B8B\4F53,WenQuanYi Zen Hei,WenQuanYi Micro Hei,"sans-serif";background:#FFF;color:#000;}
+html{width:100%;height:100%;overflow-y:scroll;}
+ul,ol{list-style-type:none;}
+th,td,input{font-size:12px;}
+input{outline:none;border:none;box-shadow:none;}
+button{border:none;cursor:pointer;font-size:12px;background-color:transparent;}
+select{border-width:1px;_zoom:1;border-style:solid;padding-top:2px;font-size:12px;}
+.clear{clear:both;font-size:1px;height:0;visibility:hidden;line-height:0;}
+.clearfix:after{content:"";display:block;height:0;clear:both;visibility: hidden;}
+.clearfix{display: inline-block}
+a:link,a:visited{text-decoration:none;color:#333;}
+a:hover,a:active{text-decoration:underline;color:#f60;}
+.wrapper{
+  min-height: 100%;
+}
+.main1{
+  min-height: 400px;
+}
+* html .clearfix{height: 1%}
+.clearfix{display: block;}
+li>a{
+  font-size: 14px;
+}

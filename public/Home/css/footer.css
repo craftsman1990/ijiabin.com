@@ -1,0 +1,134 @@
+.footer{
+  position: relative;
+  margin-top: -130px;
+  width: 100%;
+  height: 130px;
+  clear: both;
+  background: #1f2848;
+  padding: 35px 0%;
+}
+.footer_box{
+  width:84%;
+  height:90px;
+  max-width: 1180px;
+  margin: 0 auto;
+  display:flex;
+  justify-content: space-between;
+}
+.footer-left{
+  float: left;
+  width: 336px;
+  height:60px;
+  border-right: 1px solid #dedede;
+  position: relative;
+}
+.foo-nav{
+  position: absolute;
+  top:50%;
+  margin-top:-15px;
+  width: 97%;
+  height: 30px;
+  padding: 5px 0;
+  padding-left: 0px;
+}
+.foo-nav>li{
+  float: left;
+  width: 80px;
+  text-align: center;
+  border-right: 1px solid #dedede;
+}
+.foo-nav>li:last-child{
+  border:none;
+}
+.foo-nav>li>a{
+  text-decoration: none;
+  font-size: 14px;
+  color: #ecebeb;
+}
+.foo-bot{
+  background: #111830;
+  text-align:center;
+  color:#999999;
+  font-size:12px;
+  height:30px;
+  line-height:30px;
+  padding-left: 5px;
+}
+.footer-cen{
+  float: left;
+  margin-left: 10px;
+}
+.footer-cen>p{
+  font-size: 12px;
+  color:#ecebeb;
+  line-height: 20px;
+  height: 20px;
+  margin-bottom: 0;
+}
+.footer-rig{ 
+  margin-top:-16px;
+  width:160px;
+  display:flex;
+  justify-content:space-between;
+}
+.jbcm1{
+  width:65px;
+  /* float: left; */
+  margin-right:20px;
+  position: relative;
+}
+.code1{
+  position: absolute;
+  background:#fff;
+  width:95px;
+  height:95px;
+  bottom:96px;
+  left: -12px;
+  z-index:999;
+  display:none;
+}
+.code1>img{
+  width:95px;
+  height:95px;
+}
+.jbcm2{
+  width:65px;
+  /* float: left; */
+  position: relative;
+}
+.code2{
+  position: absolute;
+  background:#fff;
+  width:95px;
+  height:95px;
+  bottom:96px;
+  left: -12px;
+  z-index:999;
+  display:none;
+}
+.code2>img{
+  width:95px;
+  height:95px;
+}
+.cm-img{
+  width:50px;
+  height:50px;
+  padding-left:7.5px;
+}
+.cm-img>img{
+  width:50px;
+  height:50px;
+}
+.cm-tit,.cm-con{
+  text-align:center;
+  color:#ecebeb;
+  line-height:18px;
+  margin-bottom:0;
+  font-size:12px;
+}
+.cm-tit{
+  margin-top:3px;
+}
+.cm-con{
+  color:#dedede;
+}

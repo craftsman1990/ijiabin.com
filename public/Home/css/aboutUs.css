@@ -1,0 +1,473 @@
+body{
+    background:#f2f2f2;
+}
+#myTabContent{
+    padding-bottom:0 !important;
+}
+.main1{
+    width:1180px !important; 
+    margin: 0 auto;
+    padding-bottom: 150px;
+}
+#myTabContent{
+    width:100% !important;
+}
+.main {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin-top: 30px;
+    background-color: #f2f2f2;
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+
+.main-left {
+    margin-top: 30px;
+    width: 200px;
+    background-color: #fafafa;
+}
+
+.left-list li {
+    height: 60px;
+    width: 100%;
+    text-align: center;
+    line-height: 60px;
+}
+.seled{
+    background:#fff;
+    border-left:3px solid #4d63a7;
+}
+.actived{
+    color:#4d63a7;
+}
+.left-list li a{
+    font-size:18px;
+}
+.left-list li a:hover {
+    text-decoration:none;
+    color:#4d63a7;
+}
+.left-list li a:visited{
+    color:#4d63a7;
+}
+.text-company-profile {
+    margin:0;
+    padding:0;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 18px;
+    height: 50px;
+    line-height: 50px;
+    border-bottom:1px solid #f2f2f2;
+}
+.text-company-profile>b{
+    font-size: 18px;
+    color:#333333;
+    display:inline-block;
+    height: 48px;
+    line-height: 48px;
+    border-bottom:3px solid #bcbaba;
+}
+.text-line {
+    margin-left: 10px;
+    margin-top: -10px;
+    width: 60px;
+    height: 2px;
+    background-color: #bcbaba;
+}
+
+.main-right {
+    margin-top: -310px;
+    margin-left: 100%;
+    width: 980px;
+    background-color:#ffffff;
+}
+.main-right li {
+    margin-top: 0px;
+    height: 45px;
+    width: 191px;
+    text-align: center;
+}
+
+.Company-profile {
+    margin-top: 5px;
+    height: auto;
+    padding:30px;
+    padding-bottom:20px;
+}
+
+
+.con{
+    color:#333333;
+    font-size:14px;
+    line-height:30px;
+    margin-bottom:30px;
+}
+.second_con{
+    color:#333333;
+    font-size:14px;
+    line-height:35px;
+    margin-top:25px;
+}
+.list{
+    width:100%;
+    height:auto;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+.list>li{
+    width:100%;
+    font-size: 14px;
+    color:#333333;
+    text-align:left;
+    line-height:37px;
+}
+/* 公司简介 */
+.logo{
+    width:100%;
+    text-align:center;
+    height:auto;
+}
+.logo_img{
+    width:100%;
+}
+.jj_tit{
+    width:100%;
+    text-align:center;
+    font-size:18px;
+    color:#333333;
+    font-style: italic;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.second_tit{
+    width:100%;
+    font-size:20px;
+    color:#333333;
+    text-align:center;
+    font-weight:800;
+    margin-top: 39px;
+    margin-bottom: 20px;
+
+}
+.second_tit>span{
+    font-size:20px;
+    color:#333333;
+    font-weight:800;
+    display:inline-block;
+    border-bottom:3px solid #313A5E;
+}
+.third_tit{
+    width:100%;
+    font-size:18px;
+    color:#333333;
+    text-align:center;
+    font-weight:800;
+    margin-top:27px;
+    margin-bottom:15px;
+}
+.fouth_tit_cen{
+    width:100%;
+    font-size:16px;
+    color:#333333;
+    text-align:center;
+    margin-top:20px;
+    font-weight:500;
+}
+.fouth_tit{
+    width:100%;
+    font-size:16px;
+    color:#333333;
+    margin-top:30px;
+    font-weight:500;
+}
+.lit_tit{
+    width:100%;
+    font-size:18px;
+    font-weight:500;
+    margin-top: 40px;
+}
+.class{
+    width:100%;
+    height:auto;
+    display: flex;
+}
+.class_left{
+    width:50%;
+}
+.class_right{
+    width:50%;
+}
+.s_class{
+    width:100%;
+    color: #333333;
+    font-size:14px;
+    position: relative;
+    padding-left:20px;
+    margin-top:10px;
+    line-height:32px;
+}
+.s_class>span{
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top: -4px;
+    display: inline-block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background: #333333;;
+}
+.t_class{
+    width:100%;
+    color: #333333;
+    font-size:14px;
+    position: relative;
+    padding-left:97px;
+    margin-top:10px;
+}
+.t_class>em{
+    position:absolute;
+    left:20px;
+    color: #333333;
+    font-size:14px;
+}
+.class_bot{
+    margin-top: 55px;
+}
+.honor_list{
+    margin-bottom: 45px;
+}
+.honor_list>.s_class{
+    font-size:16px;
+}
+.b_list{
+    width:100%;
+    height:auto;
+    font-weight:500;
+    padding-left: 20px;
+    font-size: 16px;
+    color:#333333
+}
+/* 创始人 */
+.wt{
+    width:100%;
+    height: auto;
+    display:flex;
+    justify-content: space-between;
+}
+.img{
+    width:25%;
+    height:auto;
+}
+.img>img{
+    width:100%;
+    height:auto;
+    display: block;
+}
+.wu_name{
+    width:75%;
+    height:auto;
+    padding-left:2%;
+}
+.wu_name>h5{
+    font-size:20px;
+    color:#313A5E;
+}
+.con_list{
+    font-size:14px;
+    color:#333333;
+}
+.csr_tit{
+    width:100%;
+    color: #313A5E;
+    font-size:14px;
+    position: relative;
+    padding-left:24px;
+    margin-top:10px;
+}
+.csr_tit>span{
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top: -4px;
+    display: inline-block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#313A5E;
+}
+.csr_titi_con{
+    padding-left:24px;
+    font-size:12px;
+    color:#333333;
+}
+.csr_list{
+    padding-left:24px;
+    margin-top:25px;
+}
+.csr_list>li{
+    width:100%;
+    text-align:left;
+    font-size:12px;
+    color:#333333;
+    font-weight:500;
+}
+/* 合作联系 */
+.cooperation_top{
+    width:100%;
+    height:auto;
+    border-bottom:1px solid #DEDEDE; 
+    padding-bottom:10px;
+}
+.coop_top_list{
+    width:100%;
+    line-height:30px;
+    font-size: 14px;
+    color:#333333;
+}
+.coop_top_list>span{
+    font-size: 14px;
+    color:#313A5E;
+}
+.cooperation_bot{
+    margin-top: 15px;
+}
+.media_list{
+    font-size: 14px;
+    color:#333333;
+    line-height:30px;
+}
+.media_list_img{
+    width:100%;
+    height:150px;
+    position:relative;
+}
+.media_list_img>img{
+    position: absolute;
+    left: 80px;
+    top: 0;
+}
+
+/* 加入我们 */
+.join_se{
+    margin-top:0 !important;
+}
+.poetry{
+    width:100%;
+    height: auto;
+    margin-top:25px;
+}
+.li_first{
+    font-weight:500;
+}
+.poetry>li{
+    width:100%;
+    text-align:center;
+    height: 28px;
+    line-height: 28px;
+    font-size:14px;
+    color:#333333;
+}
+.poetry_bot{
+    margin-top:4px;
+    font-size:14px;
+    color: #333333;
+}
+#shrink{
+    width: 100%;
+    height: auto;
+    margin: 50px auto;
+}
+#shrink dt{
+    width: 100%;
+    height: 50px;
+    line-height:50px;
+    background:#F7F9FC;
+    margin-left:10%;
+    font-size:18px;
+    font-weight:500;
+    margin:0;
+    padding:0 15px;
+    color:#333333;
+}
+#shrink dd{
+    width: 100%;
+    display:none;
+    background:#F7F9FC;
+    border-top:2px solid #DEDEDE;
+    padding:10px 15px;
+}
+#shrink dt span{
+    cursor: pointer;
+    color:#000;
+    font-size:22px;
+    font-weight:bold;
+    float:right;
+    padding-right:10px;
+}
+dd>li{
+    width:100% !important;
+    text-align:left !important;
+    height:40px !important;
+    color:#333333;
+    font-size:14px;
+}
+.job_tit{
+    font-weight:500;
+    font-size:14px;
+}
+
+/* 合作伙伴 */
+#oranization{
+    width:100%;
+    height:auto;
+    display:flex;
+    flex-wrap: wrap;
+    margin-bottom:30px;
+}
+#oranization>li{
+    width: 20%;
+    margin-bottom:28px;
+    text-align: center;
+    height:55px;
+    line-height: 55px;
+}
+.hb_tit{
+    width:100%;
+    color: #333333;
+    font-size:16px;
+    position: relative;
+    padding-left:24px;
+    margin-bottom:26px;
+}
+.hb_tit>span{
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top: -4px;
+    display: inline-block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#333333;
+}
+#media{
+    width:100%;
+    height:350px;
+}
+#media>li{
+    float: left;
+    width:auto;
+    padding:10px 25px;
+    text-align: left;
+}
+#media>li>a{
+    font-size:14px;
+    color:#333333;
+}
+#media>li>a:hover{
+    color:#333333;
+    text-decoration:none;
+}

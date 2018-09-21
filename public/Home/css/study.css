@@ -1,0 +1,91 @@
+
+.tab-pane {
+  width: 100%;
+  margin:0;
+  background: #fff;
+}
+.stu-list{
+  width: 100%;
+}
+.stu-box{
+  float: left;
+  width:24%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom:18px;
+  margin-right:1%;
+  position: relative;
+}
+.stu-box:hover{
+  transform: scale(1.03);
+  -webkit-transform: scale(1.03); /*Safari 和 Chrome*/
+  -moz-transform: scale(1.03); /*Firefox*/
+  -ms-transform: scale(1.03); /*IE9*/
+  -o-transform: scale(1.03); /*Opera*/
+}
+.stu-con{
+  min-height: 320.73px;
+  width: 100%;
+  height: auto;
+  text-align:center;
+  color:#999999;
+}
+.stu-con>img{
+  display:block;
+  width: 100%;
+}
+.superstratum{
+  background:#fff;
+  width:100%;
+  height:59%;
+  position: absolute;
+  top:41%;
+}
+.stu-name{
+  margin-top: 14px;
+  font-size: 18px;
+  color:#333333;
+  width:100%;
+  text-align:center;
+}
+.stu-tit{
+  width:100%;
+  text-align:center;
+  margin-top: -5px;
+  font-size: 16px;
+  color:#666666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+}
+.stu-text{
+  width:100%;
+  padding: 0 25px;
+}
+.stu-text>p{
+  font-size: 14px;
+  color:#999999;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  margin-bottom:10px;
+}
+.stu-icon{
+  position: absolute;
+  bottom:2%;
+  right:0;
+  display:block;
+  height:30px;
+  line-height: 30px;
+  text-align: right;
+  padding:0 25px;
+}
+.stu-icon:hover{
+  text-decoration: none;
+}
+i.icon{
+  color:#313a5e;
+}
