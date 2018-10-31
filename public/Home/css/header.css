@@ -66,7 +66,7 @@ nav ul::after {
   clear:both;
 }
 nav ul li a {
-  display:block;
+  /*display:block; */
   height: 60px;
   padding:0 40px 0 25px;
   line-height:60px;
@@ -127,7 +127,7 @@ nav ul ul li a:hover {
   width:0;
   height:0;
   right:23px;
-  top:28px;
+  top:8px;
   border-top:5px solid #ddd;     /*设置并显示上边框*/  
   border-bottom:none;             /*不设置下边框*/  
   border-left:5px solid transparent;     /*设置但隐藏左边框*/  

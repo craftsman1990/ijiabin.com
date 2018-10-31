@@ -86,7 +86,11 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">封面：</label>
                                 <div class="col-sm-8">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button>
+                                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button> -->
+                                    <button type="button" class="btn btn-primary choi"> 选择图片</button>
+                                    <span class="m-b-none" style="color:red;">
+                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为536*302，小于100k的图片
+                                    </span>
                                 </div>
                             </div>
                              <!-- 封面 -->
@@ -102,7 +106,7 @@
                                 <div class="col-sm-8">
                                     <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="intro">{{old('intro')}}</textarea>
                                     <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
-                                    <p><span id="text-count">80</span>/80</p>
+                                    <p><span id="text-intro">80</span>/80</p>
                                 </div>
                             </div>
 
@@ -122,10 +126,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <div class="checkbox">
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                        <input type="hidden" name="cover" value="{{old('cover')}}">
-                                    </div>
+                                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                                    <input type="file" name="cover" style="display: none;" value="{{old('cover')}}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -145,8 +147,8 @@
 
     <!-- <script src={{asset("Admin/js/plugins/chosen/chosen.jquery.js")}}></script> -->
     <!-- <script src={{asset("Admin/js/demo/form-advanced-demo.min.js")}}></script> -->
-
-    @include('layouts.admin_picpro')
+    <!-- 截图上传 -->
+    <!-- @include('layouts.admin_picpro') -->
 
     {{--百度编辑器--}}
     <!-- <script type="text/javascript" charset="utf-8" src={{asset("UE/ueditor.config.js")}}></script>
@@ -174,39 +176,62 @@
 
     </script>
     <script type="text/javascript">
-        var sgw = $('[name=scre_gm_width]').val(),
-            sgh = $('[name=scre_gm_height]').val(),
-            ogw = $('[name=opt_gm_width]').val(),
-            ogh = $('[name=opt_gm_height]').val();
-        //图片比例 268:161
-        var clipArea = new bjj.PhotoClip("#clipArea", {
-        size: [sgw, sgh],
-        outputSize: [ogw, ogh],
-        file: "#file",
-        view: "#view",
-        ok: "#clipBtn",
-        loadStart: function() {
-            console.log("照片读取中");
-        },
-        loadComplete: function() {
-            console.log("照片读取完成");
-        },
-        clipFinish: function(dataURL) {
-            // console.log(dataURL);
-            $('#cover').attr('src',dataURL);
-            $('[name=cover]').attr('value',dataURL);
-        }
-    });
+        //截图上传
+            /*var sgw = $('[name=scre_gm_width]').val(),
+                sgh = $('[name=scre_gm_height]').val(),
+                ogw = $('[name=opt_gm_width]').val(),
+                ogh = $('[name=opt_gm_height]').val();
+            //图片比例 268:161
+            var clipArea = new bjj.PhotoClip("#clipArea", {
+                size: [sgw, sgh],
+                outputSize: [ogw, ogh],
+                file: "#file",
+                view: "#view",
+                ok: "#clipBtn",
+                loadStart: function() {
+                    console.log("照片读取中");
+                },
+                loadComplete: function() {
+                    console.log("照片读取完成");
+                },
+                clipFinish: function(dataURL) {
+                    // console.log(dataURL);
+                    $('#cover').attr('src',dataURL);
+                    $('[name=cover]').attr('value',dataURL);
+                }
+            });*/
+        // 普通上传
+            $('.choi').click(function(){
+                $('[name=cover]').trigger('click');
+            })
+            $('[name=cover]').change(function(){
+                var imgurl = getObjectURL(this.files[0]);
+                // console.log(imgurl);
+                $('#cover').attr('src',imgurl);
+            });
 
-        $('#intro').on('input propertychange',function(){
-                     var $this = $(this),
-                         _val = $this.val(),
-                         count = "";
-            if (_val.length > 80) {
-                $this.val(_val.substring(0, 80));
+            //图片预览
+            function getObjectURL(file){
+                var url = null;
+                if (window.createObjectURL!=undefined) {  
+                  url = window.createObjectURL(file) ;  
+                 } else if (window.URL!=undefined) { // mozilla(firefox)  
+                  url = window.URL.createObjectURL(file) ;  
+                 } else if (window.webkitURL!=undefined) { // webkit or chrome  
+                  url = window.webkitURL.createObjectURL(file) ;  
+                 }  
+                 return url ;
             }
-            count = 80 - $this.val().length;
-            $("#text-count").text(count);   
-        });
+        //简介
+            $('#intro').on('input propertychange',function(){
+                var $this = $(this),
+                    _val = $this.val(),
+                    count = "";
+                if (_val.length > 80) {
+                    $this.val(_val.substring(0, 80));
+                }
+                count = 80 - $this.val().length;
+                $("#text-intro").text(count);   
+            });
     </script>
 @stop

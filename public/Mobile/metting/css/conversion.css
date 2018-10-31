@@ -1,0 +1,18 @@
+
+.top{
+  width: 90%;
+  margin:0 auto;
+  margin-top: 1.5rem;
+  padding: .3rem;
+  height:auto;
+  padding-bottom: 2rem;
+  border: 1px solid #D6D6D6;
+}
+.top p{
+  width:100%;
+  color:#333;
+  font-size:.8rem;
+}
+.prize_name span{
+  color: #4d63a7;
+}

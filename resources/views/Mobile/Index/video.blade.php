@@ -4,17 +4,16 @@
   <link rel="stylesheet" href="{{asset('Mobile/css/details.css')}}">
   <div class="centera">
     
-    <div class="main-content">
+    <div class="main-content main-content1">
       <h3 class="title">{{$data['video']->title}}</h3>
       <p class="kind"><span>{{$data['video']->nav_name}}</span><span>{{$data['video']->cg_name}}·{{$data['video']->push}}</span></p>
-      <video controls>
+      <video controls poster="{{$data['video']->cover}}">
           <source src="{{$data['video']->address}}" type="video/webm">
           <source src="{{$data['video']->address}}" type="video/mp4">
         </video>
         <p class="text">
             <span class="text-icon">“</span>{!!$data['video']->content!!}
         </p>
-        <p class="btn"><i class="icon iconfont icon-gengduo1"></i>展开全文</p>
     </div>
     <!-- <div class="fun">
         <div class="like">

@@ -14,7 +14,7 @@
    <div id="container"></div>
 </body>  
 </html>  
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ddk4dEgl09mEERDAV94xx6SgeyWmzw8V"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=Ddk4dEgl09mEERDAV94xx6SgeyWmzw8V"></script>
 <script type="text/javascript">  
  
     var map = new BMap.Map("container"); 
@@ -34,7 +34,7 @@
             var latCurrent = r.point.lat;
             var lngCurrent = r.point.lng;
             //alert('我的位置：'+ latCurrent + ',' + lngCurrent);
-              location.href="http://api.map.baidu.com/direction?origin="+latCurrent+","+lngCurrent+"&destination=22.477291,113.899711&mode=driving&region=北京&output=html";
+              location.href="https://api.map.baidu.com/direction?origin="+latCurrent+","+lngCurrent+"&destination=22.477291,113.899711&mode=driving&region=北京&output=html";
         }
         else {
             alert('failed'+this.getStatus());

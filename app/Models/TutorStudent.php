@@ -19,4 +19,5 @@ class TutorStudent extends Model
     public static function getPeople($type,$num,$start=0){
         return self::where('type',$type)->orderBy('sort','desc')->skip($start)->take($num)->get();
     }
+
 }

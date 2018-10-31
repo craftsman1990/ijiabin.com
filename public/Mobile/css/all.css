@@ -109,13 +109,13 @@
 }
 .bofang{
   position: absolute;
-  width: .4rem;
+  width: .33rem;
   top: 50%;
-  height: .4rem;
+  height: .33rem;
   left: 16.2%;
-  margin-left: -.2rem;
-  margin-top: -.2rem;
-  z-index: 999;
+  margin-left: -.15rem;
+  margin-top: -.17rem;
+  z-index: 99;
 }
 .list a{
   display:flex;

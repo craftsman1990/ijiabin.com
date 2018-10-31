@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 
 class WxController extends Controller
 {
@@ -57,4 +59,74 @@ class WxController extends Controller
         return json_encode($data);
     }
 
+
+    //微信登陆
+    public function wxLogin(){
+        $appid = config('hint.appId');;
+        $red_uri = urlencode('https://www.ijiabin.com/api/weixin/getInfo');
+        $scope = 'snsapi_userinfo';
+        $state = 'canshu123';
+        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$red_uri.'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect ';
+        return redirect($url);
+    }
+
+    //通过code换取网页授权access_token
+    public function getInfo(){
+        $appid = config('hint.appId');
+        $appsecret = config('hint.appSecret');
+        $code = $_GET['code'];
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
+        $acctok = $this->request($url);
+        $res = json_decode($acctok,true);
+
+        //判断是否第一次登陆
+        $user = User::where('open_id',$res['openid'])->get()->toArray();
+        if(!$user){
+            $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
+            $newtok = json_decode($this->request($accUrl),true);
+            $data['open_id'] = $newtok['openid'];
+            $data['nickname'] = $newtok['nickname'];
+            $data['head_pic'] = $newtok['headimgurl'];
+            $user = User::create($data);
+//            Session::put('uid',$user->id);
+            setcookie('uid',$user->id, time()+3600*24);
+
+
+        }else{
+            setcookie('uid',$user[0]['id'], time()+3600*24);
+//            Session::put('uid',$user[0]['id']);
+        }
+        define('ABC',123);
+        return redirect('mobile/metting/luckyDraw');
+    }
+
+    /*
+     *封装Curl请求
+     * @param string $url   要请求的url地址
+     * @param bool  $https  是否是https请求
+     * @param string $method 请求方式，默认为get请求
+     * @param data   $data  如果是post请求，post的数据
+     */
+    public function request($url,$https=true,$method='get',$data=null){
+        //1.初始化url
+        $ch = curl_init($url);
+        //2.设置相关的参数
+        //字符串不直接输出,进行一个变量的存储
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //判断是否为https请求
+        if($https === true){
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        //判断是否为post请求
+        if($method == 'post'){
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        //3.发送请求
+        $str = curl_exec($ch);
+        //4.关闭连接,避免无效消耗资源
+        curl_close($ch);
+        return $str;
+    }
 }

@@ -35,7 +35,8 @@ class TutorStudentController extends Controller
             'head_pic'=>'required');
         $credentials = $this->validate($request,$verif);
         //上传头像
-        $pic_path = Upload::baseUpload($credentials['head_pic'],'upload/TutorStudent');
+//        $pic_path = Upload::baseUpload($credentials['head_pic'],'upload/TutorStudent');
+        $pic_path = Upload::uploadOne('TutorStudent',$credentials['head_pic']);
         if ($pic_path){
             $credentials['head_pic'] = $pic_path;
         }else{
@@ -63,8 +64,10 @@ class TutorStudentController extends Controller
             'classic_quote'=>'required');
         $credentials = $this->validate($request,$verif);
         //图像上传
-        if ($request->get('head_pic')){
-            $pic_path = Upload::baseUpload($request->get('head_pic'),'upload/TutorStudent');
+        if ($request->file('head_pic')){
+//            if ($request->get('head_pic')){
+//            $pic_path = Upload::baseUpload($request->get('head_pic'),'upload/TutorStudent');
+            $pic_path = Upload::uploadOne('TutorStudent',$request->file('head_pic'));
             if ($pic_path){
                 $credentials['head_pic'] = $pic_path;
                 @unlink(public_path($request->get('head_old_pic')));

@@ -117,6 +117,21 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-tachometer"></i>
+                            <span class="nav-label">活动管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="metting">年会活动</a>
+                                <!-- <a class="J_menuItem" href="navigation">导航列表</a> -->
+                                <!-- <a class="J_menuItem" href="label">标签列表</a> -->
+                                <!-- <a class="J_menuItem" href="hotbot">热搜列表</a> -->
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>

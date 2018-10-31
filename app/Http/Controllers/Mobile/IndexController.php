@@ -32,15 +32,19 @@ class IndexController extends Controller
         $zuixin = array('id'=>0,'cg_name'=>'最新推荐',"sort"=>100,'status'=>1,'created_at'=>'2018-08-02 08:09:54','updated_at'=>'2018-08-02 08:09:54');
         array_unshift($cate,$zuixin);
         foreach ($cate as &$c){
-            $c['content'] = Article::getArticleVideo($c['id'],config('hint.m_show_num'));
-            foreach ($c['content'] as $cont){
-                $nav = Navigation::find($cont->nav_id);
-                if($nav->id == 1){
-                    $cont->n_name = '';
-                }else{
-                    $cont->n_name = $nav->n_name;
+            if ($c['id']==0){
+                $c['content'] = Article::getArticleVideo($c['id'],config('hint.m_show_num'));
+                foreach ($c['content'] as $cont){
+                    $nav = Navigation::find($cont->nav_id);
+                    if($nav->id == 1){
+                        $cont->n_name = '';
+                    }else{
+                        $cont->n_name = $nav->n_name;
+                    }
+                    $cont->publish_time = Helper::getDifferenceTime($cont->publish_time);
                 }
-                $cont->publish_time = Helper::getDifferenceTime($cont->publish_time);
+            }else{
+                $c['content'] = [];
             }
         }
         $data['cate'] = $cate;
@@ -204,12 +208,15 @@ class IndexController extends Controller
         //二级导航
         $data['towNav'] = Navigation::getNavTwo($oneId);
         foreach ($data['towNav'] as $towNav){
-            if ($towNav->id == 11){
-                $towNav->people = TutorStudent::getPeople(1,config('hint.m_tust_num'));
+            if($towNav->id == $data['secId']){
+                if ($towNav->id == 11){
+                    $towNav->people = TutorStudent::getPeople(1,config('hint.m_tust_num'));
+                }else{
+                    $towNav->people = TutorStudent::getPeople(2,config('hint.m_tust_num'));
+                }
             }else{
-                $towNav->people = TutorStudent::getPeople(2,config('hint.m_tust_num'));
+                $towNav->people = [];
             }
-
         }
 //        dd($data);
         return view('Mobile.Index.tutorStudent',compact('data',$data));
@@ -256,6 +263,8 @@ class IndexController extends Controller
         //当前分类
         $cate = Category::select('cg_name')->find($data['article']->cg_id)->toArray();
         $data['article'] -> cg_name = $cate['cg_name'];
+        //正式服需要替换的
+        $data['article'] -> content = str_replace('http://tx3.ijiabin.net','https://www.ijiabin.com',$data['article'] -> content);
         //时间
         $data['article'] -> push = Helper::getDifferenceTime($data['article']->publish_time);
 

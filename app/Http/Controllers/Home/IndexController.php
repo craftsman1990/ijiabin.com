@@ -36,15 +36,20 @@ class IndexController extends Controller
         $zuixin = array('id'=>0,'cg_name'=>'最新推荐',"sort"=>100,'status'=>1,'created_at'=>'2018-08-02 08:09:54','updated_at'=>'2018-08-02 08:09:54');
         array_unshift($cate,$zuixin);
         foreach ($cate as &$c){
-            $c['content'] = Article::getArticleVideo($c['id'],config('hint.show_num'));
-            foreach ($c['content'] as $cont){
-                $nav = Navigation::find($cont->nav_id);
-                if($nav['id'] == 1){
-                    $cont->n_name = '';
-                }else{
-                    $cont->n_name = $nav->n_name;
+            if($c['id'] ==0){
+                $c['content'] = Article::getArticleVideo($c['id'],config('hint.show_num'));
+                foreach ($c['content'] as $cont){
+                    $nav = Navigation::find($cont->nav_id);
+                    if($nav['id'] == 1){
+                        $cont->n_name = '';
+                    }else{
+                        $cont->n_name = $nav->n_name;
+                    }
                 }
+            }else{
+                $c['content'] = [];
             }
+
         }
         $data['cate'] = $cate;
         //精选
@@ -55,6 +60,7 @@ class IndexController extends Controller
         /*foreach ($data['tutor'] as $tutor){
             $tutor->classic_quote= explode('；',$tutor->classic_quote);
         }*/
+//        dd($data);
         return view('Home.Index.index',compact('data',$data));
     }
 
@@ -196,11 +202,16 @@ class IndexController extends Controller
         //二级导航
         $data['towNav'] = Navigation::getNavTwo($oneId);
         foreach ($data['towNav'] as $twoNav){
-            if ($twoNav->id ==11){
-                $twoNav->user = TutorStudent::where('type',1)->orderBy('sort','desc')->get();
+            if($twoNav->id == $data['secId']){
+                if ($twoNav->id ==11){
+                    $twoNav->user = TutorStudent::getPeople(1,config('hint.ts_show_tust'),0);
+                }else{
+                    $twoNav->user = TutorStudent::getPeople(2,config('hint.ts_show_tust'),0);
+                }
             }else{
-                $twoNav->user = TutorStudent::where('type',2)->orderBy('sort','desc')->get();
+                $twoNav->user = [];
             }
+
         }
 //        dd($data);
         return view('Home.Index.tutorStudent',compact('data',$data));
@@ -259,6 +270,8 @@ class IndexController extends Controller
         $data['navig'] = Helper::_tree_json($navig);
 
         $data['article'] = Article::find($id);
+        $data['article'] -> content = str_replace('http://tx3.ijiabin.net','https://www.ijiabin.com',$data['article'] -> content);
+//        dd($data);
         //当前导航
         $nav = Navigation::select('n_name')->find($data['article']->nav_id)->toArray();
         $data['article'] -> nav_name = $nav['n_name'];

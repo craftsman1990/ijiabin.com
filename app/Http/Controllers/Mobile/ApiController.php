@@ -16,25 +16,31 @@ class ApiController extends Controller
     public function getIndexMessge(Request $request){
         $cid = $request->get('cid');
         $page = $request->get('page');
-        $res = Navigation::getCateAV($cid,config('hint.m_show_num'),$page);
-        foreach ($res as $art){
-            $nav = Navigation::find($art->nav_id);
-            if($nav){
-               if ($nav->id==1){
-                   $art->n_name = '';
-               }else{
-                   $art->n_name = $nav->n_name;
-               }
-            }else{
-                $art->n_name = '未知';
+        if ($page != null) {
+            $res = Navigation::getCateAV($cid, config('hint.m_show_num'), $page);
+        }else{
+            $res = Navigation::getCateAV($cid, config('hint.m_show_num'));
+        }
+        if($res){
+            foreach ($res as $art){
+                $nav = Navigation::find($art->nav_id);
+                if($nav){
+                    if ($nav->id==1){
+                        $art->n_name = '';
+                    }else{
+                        $art->n_name = $nav->n_name;
+                    }
+                }else{
+                    $art->n_name = '未知';
+                }
+                if ($art->type==1){
+                    $art->url = url('mobile/article/id/'.$art->id);
+                }else{
+                    $art->url = url('mobile/video/id/'.$art->id);
+                }
+                $art->cover = asset($art->cover);
+                $art->publish_time = Helper::getDifferenceTime($art->publish_time);
             }
-            if ($art->type==1){
-                $art->url = url('mobile/article/id/'.$art->id);
-            }else{
-                $art->url = url('mobile/video/id/'.$art->id);
-            }
-            $art->cover = asset($art->cover);
-            $art->publish_time = Helper::getDifferenceTime($art->publish_time);
         }
         return response($res);
     }
@@ -60,17 +66,20 @@ class ApiController extends Controller
 
 
             $content = Navigation::getArticleVideo($strIds,config('hint.m_show_num'),$page);
-            foreach ($content as $con){
-                $con->publish_time = Helper::getDifferenceTime($con->publish_time);
-                $thisNav = Navigation::find($con->nav_id);
-                $con->nav_name = $thisNav->n_name;
-                if($con->type ==1){
-                    $con->url = url('mobile/article/id/'.$con->id);
-                }else{
-                    $con->url = url('mobile/video/id/'.$con->id);
+            if ($content){
+                foreach ($content as $con){
+                    $con->publish_time = Helper::getDifferenceTime($con->publish_time);
+                    $thisNav = Navigation::find($con->nav_id);
+                    $con->nav_name = $thisNav->n_name;
+                    if($con->type ==1){
+                        $con->url = url('mobile/article/id/'.$con->id);
+                    }else{
+                        $con->url = url('mobile/video/id/'.$con->id);
+                    }
+                    $con->cover = asset($con->cover);
                 }
-                $con->cover = asset($con->cover);
             }
+
         }
         return response($content);
     }
@@ -84,9 +93,16 @@ class ApiController extends Controller
         }else{
             $type = 2;
         }
-        $res = TutorStudent::getPeople($type,config('hint.m_show_num'),$page);
-        foreach ($res as $v){
-            $v->url = url('mobile/tsDetail/id/'.$v->id);
+        if ($page != null){
+            $res = TutorStudent::getPeople($type,config('hint.m_tust_num'),$page);
+        }else{
+            $res = TutorStudent::getPeople($type,config('hint.m_tust_num'));
+        }
+
+        if ($res){
+            foreach ($res as $v){
+                $v->url = url('mobile/tsDetail/id/'.$v->id);
+            }
         }
         return response($res);
     }

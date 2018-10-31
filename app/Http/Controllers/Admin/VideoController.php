@@ -98,7 +98,8 @@ class VideoController extends Controller
             $credentials['author'] = $request->post('author');
         }
         //上传图片
-        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Video');
+//        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Video');
+        $pic_path = Upload::uploadOne('Video',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
         }else{
@@ -146,8 +147,10 @@ class VideoController extends Controller
         }
 //        dd($credentials);
         //图像上传
-        if ($request->post('cover')){
-            $pic_path = Upload::baseUpload($request->get('cover'),'upload/Video');
+        if ($request->file('cover')){
+//            if ($request->post('cover')){
+//            $pic_path = Upload::baseUpload($request->get('cover'),'upload/Video');
+            $pic_path = Upload::uploadOne   ('Video',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
                 @unlink(public_path($request->get('old_cover')));

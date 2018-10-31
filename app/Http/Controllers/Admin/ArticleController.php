@@ -99,7 +99,8 @@ class articleController extends Controller
         }
 //        dd($credentials);die;
         //上传图片
-        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Article');
+//        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Article');
+        $pic_path = Upload::uploadOne('Article',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
         }else{
@@ -143,8 +144,10 @@ class articleController extends Controller
         }
 
         //图像上传
-        if ($request->post('cover')){
-            $pic_path = Upload::baseUpload($request->get('cover'),'upload/Article');
+        if ($request->file('cover')){
+//            if ($request->post('cover')){
+//            $pic_path = Upload::baseUpload($request->get('cover'),'upload/Article');
+            $pic_path = Upload::uploadOne('Article',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
                 @unlink(public_path($request->get('old_cover')));

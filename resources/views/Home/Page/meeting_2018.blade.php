@@ -80,23 +80,23 @@
                 <img class="shows" src="{{asset('Home/images/imgPc/guest1/3.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest1/3_1.png')}}" alt="">
               </p>
-              <p class="person person5">
+              <p class="person person4">
                 <img class="shows" src="{{asset('Home/images/imgPc/guest1/5.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest1/5_1.png')}}" alt="">
               </p>
-              <p class="person person6">
+              <p class="person person5">
                 <img class="shows" src="{{asset('Home/images/imgPc/guest1/6.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest1/6_1.png')}}" alt="">
               </p>
-              <p class="person person7">
+              <p class="person person6">
                 <img class="shows" src="{{asset('Home/images/imgPc/guest1/7.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest1/7_1.png')}}" alt="">
               </p>
-              <p class="person person8">
+              <p class="person person7">
                 <img class="shows" src="{{asset('Home/images/imgPc/guest1/8.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest1/8_1.png')}}" alt="">
               </p>
-              <p class="person person9">
+              <p class="person person8">
                 <img class="shows" src="{{asset('Home/images/imgPc/guest1/9.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest1/9_1.png')}}" alt="">
               </p>
@@ -143,14 +143,18 @@
                 <img class="shows" src="{{asset('Home/images/imgPc/guest2/10.png')}}" alt="">
                 <img class="hides" src="{{asset('Home/images/imgPc/guest2/10_1.png')}}" alt="">
               </p>
+              <p class="person person20">
+                <img class="shows" src="{{asset('Home/images/imgPc/guest2/11.png')}}" alt="">
+                <img class="hides" src="{{asset('Home/images/imgPc/guest2/11_1.png')}}" alt="">
+              </p>
             </div>
             <div class="guest1">
                 <p><img src="{{asset('Home/images/imgPc/guest3/guest1_top.png')}}" alt=""></p>
-                <p class="person person20">
+                <p class="person person21">
                   <img class="shows" src="{{asset('Home/images/imgPc/guest3/1.png')}}" alt="">
                   <img class="hides" src="{{asset('Home/images/imgPc/guest3/1_1.png')}}" alt="">
                 </p>
-                <p class="person person21">
+                <p class="person person22">
                   <img class="shows" src="{{asset('Home/images/imgPc/guest3/2.png')}}" alt="">
                   <img class="hides" src="{{asset('Home/images/imgPc/guest3/2_1.png')}}" alt="">
                 </p>
@@ -239,7 +243,7 @@
               每一个敢于用创新的力量去引领时代、改变世界的人都值得荣耀。嘉宾传媒联合FT中文网，挖掘七大行业的100家中国企业，发布「中国力量」POWER100商业案例榜单，致敬具有创造精神、冒险精神的时代先锋。
           </p>    
           <div class="top">
-            <a href="JavaScript:;"><img src="{{asset('Home/images/imgPc/top40.png')}}" alt=""></a>
+            <a href="{{url('page/pageTop40')}}"><img src="{{asset('Home/images/imgPc/top40.png')}}" target="_blank"></a>
             <a href="JavaScript:;"><img src="{{asset('Home/images/imgPc/top60.png')}}" alt=""></a>
           </div>
         </div>  
@@ -270,49 +274,56 @@
             </div>
           </div>
           <div class="tw_list">
-            <p class="tw_list_tit"><span>战略合作伙伴</span></p>
+            <p class="tw_list_tit"><span>首席战略合作伙伴</span></p>
+            <div class="tw_list_con">
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/kdxf.png')}}" alt=""></a>
+            </div>
+          </div>
+          <div class="tw_list">
+            <p class="tw_list_tit"><span>战略合作媒体</span></p>
             <div class="tw_list_con">
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zww.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/kdxf.png')}}" alt=""></a>
+            </div>
+          </div>
+          <div class="tw_list">
+            <p class="tw_list_tit"><span>官方指定用车平台</span></p>
+            <div class="tw_list_con">
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sqyc.png')}}" alt=""></a>
             </div>
           </div>
           <div class="tw_list">
             <p class="tw_list_tit"><span>品牌合作伙伴</span></p>
             <div class="tw_list_con tw_lists">
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sqyc.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/szss.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lmm.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/xzdz.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lmm.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/szss.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lw.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/cj.png')}}" alt=""></a>
             </div>
           </div>
           <div class="tw_list">
             <p class="tw_list_tit"><span>合作媒体</span></p>
             <div class="tw_list_con tw_lists">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/36kr.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/tx.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/xl.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/nbd.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zaker.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wlcj.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/jm.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/xlkj.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hs.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zc.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ly.png')}}" alt=""></a>
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/donews.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ly.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/cyj.png')}}" alt=""></a> 
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zqsb.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/cyj.png')}}" alt=""></a>  
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hxsp.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/tysp.png')}}" alt=""></a>           
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>官方视频直播平台</span></p>
-            <div class="tw_list_con tw_lists">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/yxzb.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/szb.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hj.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/dy.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wh.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sy.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/nbd.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zc.png')}}" alt=""></a> 
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lusa.png')}}" alt=""></a>  
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/36kr.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/flf.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/gfcj.png')}}" alt=""></a> 
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wyxw.png')}}" alt=""></a>  
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sz.png')}}" alt=""></a>          
             </div>
           </div>
           <div class="tw_list">
@@ -321,28 +332,52 @@
               <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hdx.png')}}" alt=""></a>
             </div>
           </div>
+          <div class="tw_list">
+            <p class="tw_list_tit"><span>官方独家图片直播平台</span></p>
+            <div class="tw_list_con">
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ps.png')}}" alt=""></a>
+            </div>
+          </div>
+          <div class="tw_list">
+            <p class="tw_list_tit"><span>官方独家共享充电合作伙伴</span></p>
+            <div class="tw_list_con">
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ld.png')}}" alt=""></a>
+            </div>
+          </div>
+          <div class="tw_list">
+            <p class="tw_list_tit"><span>官方视频直播平台</span></p>
+            <div class="tw_list_con tw_lists">
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/fhxw.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wh.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sy.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/dy.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hj.png')}}" alt=""></a>
+              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/yxzb.png')}}" alt=""></a>
+            </div>
+          </div>
+          
         </div>
         <div class="issue_box">
           <h4>相关问题</h4>
           <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icon.png')}}" alt="">如何报名，何时截止报名？</p>
+            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">如何报名，何时截止报名？</p>
             <p class="iss_con">请点击“立即购票”，选择票种；或在活动行PC端、手机端APP搜索“POWER 2018 新时代新经济嘉宾峰会”，点击页面进行购票
               峰会购票截止日期为 2018 年 10月 16 日 22:00</p>
           </div>
           <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icon.png')}}" alt="">购票付款成功后，有凭证吗？如何签到？</p>
+            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">购票付款成功后，有凭证吗？如何签到？</p>
             <p class="iss_con">活动行购票成功后，会收到确认短信通知。在活动当天凭活动行发给您短信中的参会二维码，到深Reborn755签到处找工作人员签到，工作人员会扫取二维码并发放入场手环。</p>
           </div>
           <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icon.png')}}" alt="">是否有座位图？会议现场是否需要对号入座？中途离开，座位是否可以保留？</p>
+            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">是否有座位图？会议现场是否需要对号入座？中途离开，座位是否可以保留？</p>
             <p class="iss_con">购票时，请选择票种，不同票种对应不同区域，暂没有指定座位号码，购票用户可根据现场指引，在指定区域就坐，如您中途离开会场，不能确保继续有座位</p>
           </div>
           <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icon.png')}}" alt="">大会现场有同声传译服务吗？如何领取同传设备？</p>
+            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">大会现场有同声传译服务吗？如何领取同传设备？</p>
             <p class="iss_con">现场有同传设备及服务支持，活动当天可凭本人身份证，到会场入场处换取同传设备，活动结束后，您需归还同传设备并取回身份证。</p>
           </div>
           <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icon.png')}}" alt="">有活动相关照片及视频吗？</p>
+            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">有活动相关照片及视频吗？</p>
             <p class="iss_con">我们会有专门的摄影团队在活动现场进行照片拍摄及上传，现场设置了照片传输通道，可扫描二维码获取，您也可以加会刊上的活动小助手微信，进入活动现场微信群，在第一时间获取活动照片。</p>
           </div>
         </div>

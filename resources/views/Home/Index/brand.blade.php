@@ -81,6 +81,7 @@
                                         <a href="{{url('article/id/'.$art->id)}}" target="_blank">
                                         @else
                                         <a href="{{url('video/id/'.$art->id)}}" target="_blank">
+                                            <img class="bofang1" src="{{asset('Home/images/bfang.png')}}" alt="">
                                         @endif
                                             <dt><img src="{{asset($art->cover)}}" alt=""></dt>
                                             <dd>

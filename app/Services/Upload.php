@@ -39,7 +39,7 @@ class Upload
         $newName = md5(time().mt_rand(10, 99));
         $file_name = $newName.'.'.$file_ex;
         $res = $file->move($Resource_path, $file_name);
-        return 'upload/'.$table.'/'.$file_name;
+        return '/upload/'.$table.'/'.$file_name;
     }
 
     //base64上传

@@ -20,13 +20,13 @@
                     <p class="cm-img wyjb"><img src={{asset("Home/images/jbcm.png")}} alt=""></p>
                     <p class="cm-tit">我有嘉宾</p>
                     <p class="cm-con">微信订阅号</p>
-                    <p class="code1"><img src={{asset("Home/images/wyjb.png")}} alt=""></p>
+                    <p class="code1"><img src="{{asset('Home/images/wyjb.png')}}" alt=""></p>
                 </div>
                 <div class="jbcm2">
                     <p class="cm-img jbdx"><img src={{asset("Home/images/jbdx.png")}} alt=""></p>
                     <p class="cm-tit">嘉宾大学</p>
                     <p class="cm-con">微信服务号</p>
-                    <p class="code2"><img src={{asset("Home/images/jbdx_code.png")}} alt=""></p>
+                    <p class="code2"><img src="{{asset('Home/images/jbdx_code.png')}}" alt=""></p>
                 </div>
             </div>
         </div>

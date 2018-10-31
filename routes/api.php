@@ -28,4 +28,6 @@ Route::get('getSearch','Api\commonController@getSearch');
 //微信接口
 Route::group(['prefix'=>'weixin'],function (){
     Route::get('getShare','Api\WxController@getShare');
+    Route::get('wxLogin','Api\WxController@wxLogin');
+    Route::get('getInfo','Api\WxController@getInfo');
 });

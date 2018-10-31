@@ -1,0 +1,81 @@
+.wrapper{
+  width:100%;
+  height:auto;
+  padding:4rem 1rem;
+  overflow: hidden;
+}
+.fill,.fill3{
+  width:100%;
+  height: 3rem;
+  line-height: 1.5rem;
+}
+.fill3{
+  width:100%;
+  height: 5rem;
+  line-height: 1.5rem;
+}
+.fill3>span{
+  display: inline-block;
+  width:32%;
+  position: relative;
+  top:-50%;
+  text-align:right;
+}
+.fill>span{
+  display: inline-block;
+  width:32%;
+  text-align:right;
+}
+.fill>span>em,.fill3>span>em{
+  color:red;
+  font-size:1.2rem;
+  position: relative;
+  top:.4rem;
+  padding-right:.2rem;
+}
+.fill>input{
+  width:65%;
+  border:none;
+  border-bottom:1px solid #ccc;
+}
+#btn-lq{
+  width:70%;
+  height:2rem;
+  border-radius:8px;
+  margin:0 15%;
+}
+.line{
+  width:100%;
+  position: relative;
+  text-align:center;
+}
+#btn-lq {border-radius: 0.3rem; background-color: #4382D1; color:#fff; border: none; padding: 0.4rem 1rem;
+   display: inline-block;}
+
+.wedded{
+  position: absolute;
+  right: 3rem;
+    width: 4.3rem;
+}
+
+.none{
+  text-align: center;
+  font-size:.7rem;
+  color:#999;
+  margin-top:2rem;
+}
+.hint{
+  margin:0;
+  margin-bottom:2rem;
+  color:#ec640c;
+}
+.hint1{
+  margin:0;
+  margin-bottom:2rem;
+  color:red ! important;
+}
+textarea{
+  border: 1px solid #ccc;
+  width:65%;
+  line-height: 1rem;
+}

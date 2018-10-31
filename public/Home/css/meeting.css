@@ -159,7 +159,7 @@
   display:flex;
 }
 .tw_list_tit{
-  width:20%;
+  width:28%;
   height:auto;
   text-align: right;
 }
@@ -171,7 +171,7 @@
   line-height: 40px;
 }
 .tw_list_con{
-  width:80%;
+  width:72%;
   height:auto;
   margin-left:50px;
 }
@@ -184,7 +184,7 @@
 .tw_list_con>a{
   display:inline-block;
   margin-top: 5px;
-  width:16%;
+  width:18%;
   margin-bottom:13px;
 }
 .tw_list_con>a>img{

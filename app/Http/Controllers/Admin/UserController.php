@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -9,7 +10,8 @@ class UserController extends Controller
 {
     //首页
     public function index(){
-
+        $list = User::paginate(20);
+        return view('Admin.User.index',compact('list',$list));
     }
 
     //展示(单条)

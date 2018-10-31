@@ -97,7 +97,7 @@
             </p>    
             <div class="top">
               <!-- {{url('page/pageTop40')}} -->
-              <a href="JavaScript:;"><img src="{{asset('Mobile/images/imgMeeting/top40.png')}}" alt=""></a>
+              <a href="{{url('page/pageTop40')}}"><img src="{{asset('Mobile/images/imgMeeting/top40.png')}}" alt=""></a>
             </div>
           </div>  
           <div class="interact">
@@ -129,53 +129,82 @@
             <div class="tw_list">
               <p class="tw_list_tit"><span>战略合作伙伴</span></p>
               <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zww.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/kdxf.png')}}" alt=""></a>
+              </div>
+            </div>
+            <div class="tw_list">
+              <p class="tw_list_tit"><span>首席战略合作伙伴</span></p>
+              <div class="tw_list_con">
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zww.png')}}" alt=""></a>
+              </div>
+            </div>
+            <div class="tw_list">
+              <p class="tw_list_tit"><span>官方指定用车平台</span></p>
+              <div class="tw_list_con">
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sqyc.png')}}" alt=""></a>
               </div>
             </div>
             <div class="tw_list">
               <p class="tw_list_tit"><span>品牌合作伙伴</span></p>
               <div class="tw_list_con tw_lists">
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sqyc.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/szss.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lmm.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/xzdz.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lmm.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lw.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/cj.png')}}" alt=""></a>
               </div>
             </div>
             <div class="tw_list">
               <p class="tw_list_tit"><span>合作媒体</span></p>
               <div class="tw_list_con tw_lists">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/36kr.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/tx.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/xl.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/nbd.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zaker.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wlcj.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/jm.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/xlkj.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hs.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zc.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ly.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/donews.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zqsb.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ly.png')}}" alt=""></a>
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/cyj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hxws.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/tysp.png')}}" alt=""></a>                
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>官方视频直播平台</span></p>
-              <div class="tw_list_con tw_lists">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/yxzb.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/szb.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/dy.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wh.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sy.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zqsb.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/nbd.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zc.png')}}" alt=""></a>   
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lusa.png')}}" alt=""></a> 
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/36kr.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/flf.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/gfcj.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wyxw.png')}}" alt=""></a> 
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sz.png')}}" alt=""></a>                
               </div>
             </div>
             <div class="tw_list">
               <p class="tw_list_tit"><span>官方独家票务合作伙伴</span></p>
               <div class="tw_list_con">
                 <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hdx.png')}}" alt=""></a>
+              </div>
+            </div>
+            <div class="tw_list">
+              <p class="tw_list_tit"><span>官方独家图片直播平台</span></p>
+              <div class="tw_list_con">
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ps.png')}}" alt=""></a>
+              </div>
+            </div>
+            <div class="tw_list">
+              <p class="tw_list_tit"><span>官方独家共享充电合作伙伴</span></p>
+              <div class="tw_list_con">
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ld.png')}}" alt=""></a>
+              </div>
+            </div>
+            <div class="tw_list">
+              <p class="tw_list_tit"><span>官方视频直播平台</span></p>
+              <div class="tw_list_con tw_lists">
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/fhxw.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wh.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sy.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/dy.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hj.png')}}" alt=""></a>
+                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/yxzb.png')}}" alt=""></a>
               </div>
             </div>
           </div>
@@ -257,7 +286,7 @@
       </div>
     </div>
   <input type="hidden" name="url" value="{{asset('mobile/page/meeting_2018_map')}}">
-  <script src="{{asset('Mobile/js/jquery-1.10.1.min.js')}}"></script>
+  <!-- <script src="{{asset('Mobile/js/jquery-1.10.1.min.js')}}"></script> -->
   <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
   <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ddk4dEgl09mEERDAV94xx6SgeyWmzw8V"></script> -->
   <input type="hidden" id="signature" value="{{$signPackage['signature']}}">

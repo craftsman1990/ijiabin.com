@@ -57,7 +57,11 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">头像：</label>
                                 <div class="col-sm-8">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button>
+                                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button> -->
+                                    <button type="button" class="btn btn-primary choi"> 选择图片</button>
+                                    <span class="m-b-none" style="color:red;">
+                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为570*790，小于100k的图片
+                                    </span>
                                 </div>
                             </div>
 
@@ -89,11 +93,12 @@
 
                             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                             <input type="hidden" name="_method" value="put"/>
-                            <input type="hidden" name="head_pic">
+                            <!-- <input type="hidden" name="head_pic"> -->
+                            <input type="file" name="head_pic" style="display: none;" value="{{old('head_pic')}}">
                             <!-- 旧图片 提交用-->
                             <input type="hidden" name="head_old_pic" value={{$tutor['head_pic']}}>
                             <!-- 旧图片地址 供点击取消用 不参与提交-->
-                            <input type="hidden" name="head_old_pic_url" value={{asset($tutor['head_pic'])}}>
+                            <!-- <input type="hidden" name="head_old_pic_url" value={{asset($tutor['head_pic'])}}> -->
                             
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
@@ -108,30 +113,53 @@
         </div>
     </div>
     @include('layouts.admin_js')
-    @include('layouts.admin_picpro')
+    <!-- @include('layouts.admin_picpro') -->
     <script type="text/javascript">
-        var clipArea = new bjj.PhotoClip("#clipArea", {
-        size: [285, 395],
-        outputSize: [570, 790],
-        file: "#file",
-        view: "#view",
-        ok: "#clipBtn",
-        loadStart: function() {
-            console.log("照片读取中");
-        },
-        loadComplete: function() {
-            console.log("照片读取完成");
-        },
-        clipFinish: function(dataURL) {
-            // console.log(dataURL);
-            $('#head_pic').attr('src',dataURL);
-            $('[name=head_pic]').attr('value',dataURL);
-        }
-    });
+    // 截图上传
+        /*var clipArea = new bjj.PhotoClip("#clipArea", {
+            size: [285, 395],
+            outputSize: [570, 790],
+            file: "#file",
+            view: "#view",
+            ok: "#clipBtn",
+            loadStart: function() {
+                console.log("照片读取中");
+            },
+            loadComplete: function() {
+                console.log("照片读取完成");
+            },
+            clipFinish: function(dataURL) {
+                // console.log(dataURL);
+                $('#head_pic').attr('src',dataURL);
+                $('[name=head_pic]').attr('value',dataURL);
+            }
+        });
 
-    var apic = $('[name=head_old_pic_url]').val();
-    $('.quxiao').click(function(){
-        $('#head_pic').attr('src',apic)
-    })
+        var apic = $('[name=head_old_pic_url]').val();
+        $('.quxiao').click(function(){
+            $('#head_pic').attr('src',apic)
+        })*/
+     // 普通上传
+        $('.choi').click(function(){
+            $('[name=head_pic]').trigger('click');
+        })
+        $('[name=head_pic]').change(function(){
+            var imgurl = getObjectURL(this.files[0]);
+            // console.log(imgurl);
+            $('#head_pic').attr('src',imgurl);
+        });
+
+        //图片预览
+        function getObjectURL(file){
+            var url = null;
+            if (window.createObjectURL!=undefined) {  
+              url = window.createObjectURL(file) ;  
+             } else if (window.URL!=undefined) { // mozilla(firefox)  
+              url = window.URL.createObjectURL(file) ;  
+             } else if (window.webkitURL!=undefined) { // webkit or chrome  
+              url = window.webkitURL.createObjectURL(file) ;  
+             }  
+             return url ;
+        }             
     </script>
 @stop

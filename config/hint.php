@@ -57,29 +57,31 @@ return [
                                 6 => '国际课程顶部广告位',
                                 7 => '嘉宾峰会顶部广告位'],
     //首页广告位设置
-    'index_show_adv'        => 2,       //1:视频；2：轮播；
+    'index_show_adv'        => 1,       //1:视频；2：轮播；
     //首页导师学员展示设置
     'index_show_tust'       => 8,
+    //导师学员页展示条数
+    'ts_show_tust'          => 8,
     //首页文章推荐 展示几条
-    'show_num'              => 20,
+    'show_num'              => 10,
     //手机端默认展示条数
-    'm_show_num'            => 20,
+    'm_show_num'            => 10,
     //手机端导师学员默认展示
-    'm_tust_num'            => 20,
+    'm_tust_num'            => 8,
 
     //截图比例(通用) 宽*高
     'scre_gm_width'   => 268,
     'scre_gm_height'  => 151,
     //输出比例(通用) 宽*高
-    'opt_gm_width'   => 536,
-    'opt_gm_height'  => 302,
+    'opt_gm_width'   => 402,
+    'opt_gm_height'  => 226,
 
     //截图比例(导师/学员) 宽*高
     'scre_ts_width'   => 285,
     'scre_ts_height'  => 395,
     //输出比例(导师/学员) 宽*高
-    'opt_ts_width'   => 570,
-    'opt_ts_height'  => 790,
+    'opt_ts_width'   => 285,
+    'opt_ts_height'  => 395,
 
     //合作机构
     'hzjg' => [
