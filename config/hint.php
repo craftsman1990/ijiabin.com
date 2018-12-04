@@ -132,7 +132,7 @@ return [
         ['img' => PHP_SAPI === 'cli' ? false : asset('Home/images/img/qszb.png'),'link' => 'https://www.hwazing.com/'],
         ['img' => PHP_SAPI === 'cli' ? false : asset('Home/images/img/bzn.png'),'link' => 'http://www.baozhunniu.com/index'],
         ['img' => PHP_SAPI === 'cli' ? false : asset('Home/images/img/lxty.png'),'link' => 'http://www.lanxiongsports.com/'],
-
+	['img' => PHP_SAPI === 'cli' ? false : asset('Home/images/img/jobs.png'),'link' => 'http://www.jobshaigui.com/'],
     ],
     //合作媒体
     'hzmt' => [

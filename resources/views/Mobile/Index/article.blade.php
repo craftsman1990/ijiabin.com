@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title',$data['title'])
+@section('title',$data['article']->title)
 @section('content')
   <link rel="stylesheet" href="{{asset('Mobile/css/details.css')}}">
   <style>
@@ -65,4 +65,5 @@
       });
       
     </script>
+    @include('layouts._wxshare')
 @stop

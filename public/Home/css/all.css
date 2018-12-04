@@ -60,3 +60,6 @@ li>a{
   margin-left: -27.5px;
   z-index: 999;
 }
+blockquote{
+  line-height: 1.5;  
+}

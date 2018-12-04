@@ -50,13 +50,11 @@
         $(".fun-icon i.icon-praise").click(function () { 
           $(this).css({"color":"#E7605B"});
         })
-        
-
         $('.btn').click(function(){
           $('.main-content').css({"max-height":"none"})
           $('.btn').hide()
         })
       });
-      
     </script>
+    @include('layouts._wxshare')
 @stop

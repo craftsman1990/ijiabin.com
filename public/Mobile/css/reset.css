@@ -38,6 +38,7 @@ body {
 
 blockquote, q {
   quotes: none;
+  line-height: 1.5;
 }
 
 blockquote:before, blockquote:after,
