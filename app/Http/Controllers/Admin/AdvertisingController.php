@@ -7,6 +7,7 @@ use App\Services\Helper;
 use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Compress;
 
 class AdvertisingController extends Controller
 {
@@ -53,6 +54,9 @@ class AdvertisingController extends Controller
         $pic_path = Upload::uploadOne('Advertising',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
+            //创建缩略图
+            $Compress = new Compress(public_path($credentials['cover']),'0.4');
+            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -89,16 +93,29 @@ class AdvertisingController extends Controller
             $credentials['href'] = $request->post('href');
         }
         //图像上传
-        if ($request->file('cover')){
+        if ($request->cover){
             $pic_path = Upload::uploadOne('Advertising',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
-                @unlink(public_path($request->get('old_cover')));
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+                if (is_file(public_path($request->old_cover))){
+                    unlink(public_path($request->old_cover));
+                }
+                if (is_file(public_path(thumbnail($request->old_cover)))){
+                    unlink(public_path(thumbnail($request->old_cover)));
+                }
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }
         }else{
-            $credentials['cover'] = $request->post('old_cover');
+            $credentials['cover'] = $request->old_cover;
+            if (!is_file(public_path(thumbnail($credentials['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+            }
         }
         if(Advertising::find($id)->update($credentials)){
             return redirect('admin/advertising')->with('success', config('hint.mod_success'));
@@ -114,7 +131,13 @@ class AdvertisingController extends Controller
             return back() -> with('hint',config('hint.data_exist'));
         }
         if (Advertising::destroy($id)){
-            @unlink(public_path($Obj->cover));
+//            @unlink(public_path($Obj->cover));
+            if (is_file(public_path($Obj->cover))){
+                unlink(public_path($Obj->cover));
+            }
+            if (is_file(public_path(thumbnail($Obj->cover)))){
+                unlink(public_path(thumbnail($Obj->cover)));
+            }
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));

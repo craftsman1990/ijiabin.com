@@ -31,7 +31,7 @@ Route::get('doSearch','Home\IndexController@doSearch');
 Route::get('getCategoryPage','Home\IndexController@getCategoryPage');       //首页数据获取
 Route::get('getIndexCate','Home\ApiController@getIndexCate');       //首页分类数据获取
 Route::get('getPeopleMessge','Home\ApiController@getPeopleMessge');       //导师学员分页数据获取
-
+Route::get('getThereMessge','Home\ApiController@getThereMessge');       //三级列表数据获取
 //公共链接PC
 Route::get('getHref/id/{id}','Home\IndexController@getHref');
 Route::group(['prefix'=>'page'],function (){
@@ -96,12 +96,12 @@ Route::get('/test', function () {
 
 //后台
 Route::group(['prefix'=>'admin'],function(){
+    //网站
     Route::get('index','Admin\IndexController@index');			//首页
     Route::get('home','Admin\IndexController@home');			//首页内容
     Route::get('login','Admin\IndexController@login');			//登陆界面
     Route::post('login','Admin\IndexController@store');			//执行登陆
    	Route::get('loginout','Admin\IndexController@loginOut');	//退出
-
 
     Route::resource('admin','Admin\AdminController');           //管理员
     Route::resource('category','Admin\CategoryController');     //分类
@@ -114,6 +114,18 @@ Route::group(['prefix'=>'admin'],function(){
     Route::resource('advertising','Admin\AdvertisingController');//广告
     Route::resource('hotbot','Admin\HotbotController');         //热搜
 
+    Route::get('choiceness/setting/type/{type}/id/{id}','Admin\ChoicenessController@setting');                  //设置精选
+    Route::get('choiceness/cancel/id/{id}','Admin\ChoicenessController@cancel');                                //取消精选
+    Route::get('tutorStudent/showIndex/id/{id}','Admin\TutorStudentController@showIndex');                      //首页展示（导师学员）
+    Route::get('tutorStudent/changeSort/id/{id}/sort/{sort}','Admin\TutorStudentController@changeSort');        //修改排序（导师学员）
+
+
+    //小程序
+    Route::resource('season','Admin\SeasonController');         //线下季课
+    Route::resource('site','Admin\SiteController');         //线下季课站点
+
+
+    //年会活动
     Route::resource('metting','Admin\MettingController');                            //年会
     Route::get('metting/award/ldid/{ldid}','Admin\MettingController@award');         //年会奖品列表
     Route::post('metting/awardStore','Admin\MettingController@awardStore');          //年会奖品添加
@@ -124,11 +136,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('metting/winners/ldid/{ldid}','Admin\MettingController@winners');      //年会中奖名单
     Route::get('metting/winnersDistribute/wid/{wid}','Admin\MettingController@winnersDistribute');      //派发
 
-    //功能路由
-    Route::get('choiceness/setting/type/{type}/id/{id}','Admin\ChoicenessController@setting');                  //设置精选
-    Route::get('choiceness/cancel/id/{id}','Admin\ChoicenessController@cancel');                                //取消精选
-    Route::get('tutorStudent/showIndex/id/{id}','Admin\TutorStudentController@showIndex');                      //首页展示（导师学员）
-    Route::get('tutorStudent/changeSort/id/{id}/sort/{sort}','Admin\TutorStudentController@changeSort');        //修改排序（导师学员）
+
 
 });
 

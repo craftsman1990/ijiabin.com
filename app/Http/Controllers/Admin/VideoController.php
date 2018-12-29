@@ -11,6 +11,7 @@ use App\Services\Helper;
 use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Compress;
 
 class VideoController extends Controller
 {
@@ -94,14 +95,17 @@ class VideoController extends Controller
         $credentials = $this->validate($request,$verif);
         $credentials['address'] = Helper::checkVideoLocal($credentials['address']);
         $credentials['labels'] = implode(',',$credentials['labels']);
-        if ($request->post('author')){
-            $credentials['author'] = $request->post('author');
+        if ($request->author){
+            $credentials['author'] = $request->author;
         }
         //上传图片
-//        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Video');
-        $pic_path = Upload::uploadOne('Video',$credentials['cover']);
+        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Video');
+//        $pic_path = Upload::uploadOne('Video',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
+            //创建缩略图
+            $Compress = new Compress(public_path($credentials['cover']),'0.4');
+            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -137,28 +141,41 @@ class VideoController extends Controller
             'intro'=>'required');
         $credentials = $this->validate($request,$verif);
         $credentials['address'] = Helper::checkVideoLocal($credentials['address']);
-        if ($request->post('labels')){
-            $credentials['labels'] = implode(',',$request->post('labels'));
+        if ($request->labels){
+            $credentials['labels'] = implode(',',$request->labels);
         }else{
-            $credentials['labels'] = $request->post('old_labels');
+            $credentials['labels'] = $request->old_labels;
         }
-        if ($request->post('author')){
-            $credentials['author'] = $request->post('author');
+        if ($request->author){
+            $credentials['author'] = $request->author;
         }
 //        dd($credentials);
         //图像上传
-        if ($request->file('cover')){
-//            if ($request->post('cover')){
-//            $pic_path = Upload::baseUpload($request->get('cover'),'upload/Video');
-            $pic_path = Upload::uploadOne   ('Video',$request->file('cover'));
+//        if ($request->file('cover')){
+        if ($request->cover){
+            $pic_path = Upload::baseUpload($request->cover,'upload/Video');
+//            $pic_path = Upload::uploadOne   ('Video',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
-                @unlink(public_path($request->get('old_cover')));
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+                if (is_file(public_path($request->old_cover))){
+                    unlink(public_path($request->old_cover));
+                }
+                if (is_file(public_path(thumbnail($request->old_cover)))){
+                    unlink(public_path(thumbnail($request->old_cover)));
+                }
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }
         }else{
-            $credentials['cover'] = $request->get('old_cover');
+            $credentials['cover'] = $request->old_cover;
+            if (!is_file(public_path(thumbnail($credentials['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+            }
         }
         if(Video::find($id)->update($credentials)){
             return redirect('admin/video')->with('success', config('hint.mod_success'));
@@ -175,7 +192,12 @@ class VideoController extends Controller
         }
         $video = $videoObj->toArray();
         if (Video::destroy($id)){
-            unlink(public_path($video['cover']));
+            if (is_file(public_path($video['cover']))){
+                unlink(public_path($video['cover']));
+            }
+            if (is_file(public_path(thumbnail($video['cover'])))){
+                unlink(public_path(thumbnail($video['cover'])));
+            }
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));

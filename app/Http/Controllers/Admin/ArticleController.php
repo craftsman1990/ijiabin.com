@@ -11,7 +11,7 @@ use App\Services\Helper;
 use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+use App\Services\Compress;
 
 class articleController extends Controller
 {
@@ -73,6 +73,7 @@ class articleController extends Controller
 
     //添加
     public function create(){
+        //echo phpinfo();die;
         $nav = Navigation::getAll();
         $nav_tree = Helper::_tree_json($nav);
         $data['nav'] = Helper::getBottomLayer($nav_tree);
@@ -94,15 +95,18 @@ class articleController extends Controller
             'intro'=>'required');
         $credentials = $this->validate($request,$verif);
         $credentials['labels'] = implode(',',$credentials['labels']);
-        if ($request->post('author')){
-            $credentials['author'] = $request->post('author');
+        if ($request->author){
+            $credentials['author'] = $request->author;
         }
 //        dd($credentials);die;
         //上传图片
-//        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Article');
-        $pic_path = Upload::uploadOne('Article',$credentials['cover']);
+        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Article');
+//        $pic_path = Upload::uploadOne('Article',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
+            //创建缩略图
+            $Compress = new Compress(public_path($credentials['cover']),'0.4');
+            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -134,28 +138,41 @@ class articleController extends Controller
             'publish_time'=>'required',
             'intro'=>'required');
         $credentials = $this->validate($request,$verif);
-        if ($request->post('labels')){
-            $credentials['labels'] = implode(',',$request->post('labels'));
+        if ($request->labels){
+            $credentials['labels'] = implode(',',$request->labels);
         }else{
-            $credentials['labels'] = $request->post('old_labels');
+            $credentials['labels'] = $request->old_labels;
         }
-        if ($request->post('author')){
-            $credentials['author'] = $request->post('author');
+        if ($request->author){
+            $credentials['author'] = $request->author;
         }
 
         //图像上传
-        if ($request->file('cover')){
-//            if ($request->post('cover')){
-//            $pic_path = Upload::baseUpload($request->get('cover'),'upload/Article');
-            $pic_path = Upload::uploadOne('Article',$request->file('cover'));
+//        if ($request->file('cover')){
+        if ($request->cover){
+            $pic_path = Upload::baseUpload($request->cover,'upload/Article');
+//            $pic_path = Upload::uploadOne('Article',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
-                @unlink(public_path($request->get('old_cover')));
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+                if (is_file(public_path($request->old_cover))){
+                    unlink(public_path($request->old_cover));
+                }
+                if (is_file(public_path(thumbnail($request->old_cover)))){
+                    unlink(public_path(thumbnail($request->old_cover)));
+                }
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }
         }else{
             $credentials['cover'] = $request->get('old_cover');
+            if (!is_file(public_path(thumbnail($credentials['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+            }
         }
         if(Article::find($id)->update($credentials)){
             return redirect('admin/article')->with('success', config('hint.mod_success'));
@@ -171,7 +188,12 @@ class articleController extends Controller
             return back() -> with('hint',config('hint.data_exist'));
         }
         if (Article::destroy($id)){
-            @unlink(public_path($Obj->cover));
+            if (is_file(public_path($Obj->cover))){
+                unlink(public_path($Obj->cover));
+            }
+            if (is_file(public_path(thumbnail($Obj->cover)))){
+                unlink(public_path(thumbnail($Obj->cover)));
+            }
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));

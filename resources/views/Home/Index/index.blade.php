@@ -14,7 +14,7 @@
       background:url("{{asset('Home/images/cover.jpg')}}") no-repeat;
       background-size:cover;
     } */
-    .ckgd{width: 100%;height:30px;text-align: center;line-height: 30px;font-size: 16px;color: #00f;}
+    /*.ckgd{width: 100%;height:30px;text-align: center;line-height: 30px;font-size: 16px;color: #00f;}*/
 	</style>
 	<script src={{asset("Home/js/jquery.min.js")}}></script>
 	<script>
@@ -41,7 +41,7 @@
 	                    	@if(config('hint.index_show_adv') ==1)
                             <!-- 视频 -->
 	                    	<div class="vvideo">
-								<video width="100%"  controls poster="{{$data['ind_vid_adv'][0]['cover']}}">
+								<video width="100%"  controls poster="{{asset($data['ind_vid_adv'][0]['cover'])}}">
 									<source src="{{$data['ind_vid_adv'][0]['video']}}" type="video/mp4">
 									<source src="{{$data['ind_vid_adv'][0]['video']}}" type="video/ogg">
 								</video>
@@ -262,6 +262,7 @@
 		// 	$('.cover_box').hide();
 		// })
     	
+        //更多点击
     	$('.btn_more').click(function(){
     		var thisObj = $(this);
     		var cgid = thisObj.find('button').attr('cgid'),

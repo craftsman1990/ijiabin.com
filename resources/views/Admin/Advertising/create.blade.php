@@ -102,9 +102,10 @@
         </div>
     </div>
     @include('layouts.admin_js')
+    <!-- 截图上传 -->
     <!-- @include('layouts.admin_picpro') -->
     <script type="text/javascript">
-        //图片比例 814:513
+        //截图上传
    /*     var clipArea = new bjj.PhotoClip("#clipArea", {
         size: [271, 171],
         outputSize: [407, 256],
@@ -123,6 +124,8 @@
             $('[name=cover]').attr('value',dataURL);
         }
     });*/
+
+    //普通图片上传
     $('.choi').click(function(){
         $('[name=cover]').trigger('click');
     })

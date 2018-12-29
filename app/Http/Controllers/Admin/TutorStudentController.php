@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\TutorStudent;
+use App\Services\Compress;
 use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -35,10 +36,13 @@ class TutorStudentController extends Controller
             'head_pic'=>'required');
         $credentials = $this->validate($request,$verif);
         //上传头像
-//        $pic_path = Upload::baseUpload($credentials['head_pic'],'upload/TutorStudent');
-        $pic_path = Upload::uploadOne('TutorStudent',$credentials['head_pic']);
+        $pic_path = Upload::baseUpload($credentials['head_pic'],'upload/TutorStudent');
+//        $pic_path = Upload::uploadOne('TutorStudent',$credentials['head_pic']);
         if ($pic_path){
             $credentials['head_pic'] = $pic_path;
+            //创建缩略图
+            $Compress = new Compress(public_path($credentials['head_pic']),'0.4');
+            $Compress->compressImg(public_path(thumbnail($credentials['head_pic'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -63,19 +67,35 @@ class TutorStudentController extends Controller
             'intro'=>'required',
             'classic_quote'=>'required');
         $credentials = $this->validate($request,$verif);
+//        var_dump(public_path());
+//        dd(is_file(public_path($request->head_old_pic)));
         //图像上传
-        if ($request->file('head_pic')){
-//            if ($request->get('head_pic')){
-//            $pic_path = Upload::baseUpload($request->get('head_pic'),'upload/TutorStudent');
-            $pic_path = Upload::uploadOne('TutorStudent',$request->file('head_pic'));
+//        if ($request->file('head_pic')){
+        if ($request->head_pic){
+            $pic_path = Upload::baseUpload($request->head_pic,'upload/TutorStudent');
+//            $pic_path = Upload::uploadOne('TutorStudent',$request->file('head_pic'));
             if ($pic_path){
                 $credentials['head_pic'] = $pic_path;
-                @unlink(public_path($request->get('head_old_pic')));
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['head_pic']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['head_pic'])));
+                if (is_file(public_path($request->head_old_pic))){
+                    unlink(public_path($request->head_old_pic));
+                }
+                if (is_file(public_path(thumbnail($request->head_old_pic)))){
+                    unlink(public_path(thumbnail($request->head_old_pic)));
+                }
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }
         }else{
-            $credentials['head_pic'] = $request->get('head_old_pic');
+            $credentials['head_pic'] = $request->head_old_pic;
+            if (!is_file(public_path(thumbnail($credentials['head_pic'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['head_pic']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['head_pic'])));
+            }
+
         }
         if(TutorStudent::find($id)->update($credentials)){
             return redirect('admin/tutorStudent')->with('success', config('hint.mod_success'));
@@ -92,7 +112,12 @@ class TutorStudentController extends Controller
         }
         $tutor = $tutorObj->toArray();
         if (TutorStudent::destroy($id)){
-            unlink(public_path($tutor['head_pic']));
+            if (is_file(public_path($tutor['head_pic']))){
+                unlink(public_path($tutor['head_pic']));
+            }
+            if (is_file(public_path(thumbnail($tutor['head_pic'])))){
+                unlink(public_path(thumbnail($tutor['head_pic'])));
+            }
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));

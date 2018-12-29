@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Home;
 
-use App\Http\Resources\view;
 use App\Models\Advertising;
 use App\Models\Article;
 use App\Models\Category;
@@ -14,6 +13,7 @@ use App\Models\Video;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Compress;
 
 class IndexController extends Controller
 {
@@ -31,6 +31,33 @@ class IndexController extends Controller
         $data['ind_sil_adv'] = Advertising::getAdver(2,5);
         $data['ind_rig_adv'] = Advertising::getAdver(3,3);
 
+        //视频封面压缩
+        foreach ($data['ind_vid_adv'] as &$vid){
+            if (!is_file(public_path(thumbnail($vid['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($vid['cover']),'1');
+                $Compress->compressImg(public_path(thumbnail($vid['cover'])));
+            }
+            $vid['cover'] = thumbnail($vid['cover']);
+        }
+        //轮播压缩
+        foreach ($data['ind_sil_adv'] as &$sil){
+            if (!is_file(public_path(thumbnail($sil['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($sil['cover']),'1');
+                $Compress->compressImg(public_path(thumbnail($sil['cover'])));
+            }
+            $sil['cover'] = thumbnail($sil['cover']);
+        }
+        //右侧小广告压缩
+        foreach ($data['ind_rig_adv'] as &$rig){
+            if (!is_file(public_path(thumbnail($rig['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($rig['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($rig['cover'])));
+            }
+            $rig['cover'] = thumbnail($rig['cover']);
+        }
         //分类
         $cate = Category::all()->toArray();
         $zuixin = array('id'=>0,'cg_name'=>'最新推荐',"sort"=>100,'status'=>1,'created_at'=>'2018-08-02 08:09:54','updated_at'=>'2018-08-02 08:09:54');
@@ -45,6 +72,12 @@ class IndexController extends Controller
                     }else{
                         $cont->n_name = $nav->n_name;
                     }
+                    if (!is_file(public_path(thumbnail($cont->cover)))){
+                        //创建缩略图
+                        $Compress = new Compress(public_path($cont->cover),'0.4');
+                        $Compress->compressImg(public_path(thumbnail($cont->cover)));
+                    }
+                    $cont->cover = thumbnail($cont->cover);
                 }
             }else{
                 $c['content'] = [];
@@ -54,12 +87,25 @@ class IndexController extends Controller
         $data['cate'] = $cate;
         //精选
         $data['choi'] = Choiceness::getChoi(8);
-
+        foreach ($data['choi'] as $choi){
+            if (!is_file(public_path(thumbnail($choi->cover)))){
+                //创建缩略图
+                $Compress = new Compress(public_path($choi->cover),'0.4');
+                $Compress->compressImg(public_path(thumbnail($choi->cover)));
+            }
+            $choi->cover = thumbnail($choi->cover);
+        }
         //导师与学员
         $data['tutor'] = TutorStudent::getIndexShow();
-        /*foreach ($data['tutor'] as $tutor){
-            $tutor->classic_quote= explode('；',$tutor->classic_quote);
-        }*/
+        foreach ($data['tutor'] as $tutor){
+//            $tutor->classic_quote= explode('；',$tutor->classic_quote);
+            if (!is_file(public_path(thumbnail($tutor->head_pic)))){
+                //创建缩略图
+                $Compress = new Compress(public_path($tutor->head_pic),'0.4');
+                $Compress->compressImg(public_path(thumbnail($tutor->head_pic)));
+            }
+            $tutor->head_pic = thumbnail($tutor->head_pic);
+        }
 //        dd($data);
         return view('Home.Index.index',compact('data',$data));
     }
@@ -248,9 +294,15 @@ class IndexController extends Controller
         $data['thrNav'] = Navigation::orderBy('sort','desc')->orderBy('created_at')->where('parent_id',$pid)->get();
         $lables = '';
         foreach ($data['thrNav'] as $thrNav){
-            $thrNav->art = Navigation::getArticleVideo($thrNav->id,10);
+            $thrNav->art = Navigation::getArticleVideo($thrNav->id,config('hint.show_num'));
             foreach ($thrNav->art as $v){
                 $lables .= $v->labels.',';
+                if (!is_file(public_path(thumbnail($v->cover)))){
+                    //创建缩略图
+                    $Compress = new Compress(public_path($v->cover),'0.4');
+                    $Compress->compressImg(public_path(thumbnail($v->cover)));
+                }
+                $v->cover = thumbnail($v->cover);
             }
         }
         $labArr = explode(',',$lables);
@@ -270,6 +322,7 @@ class IndexController extends Controller
         $data['navig'] = Helper::_tree_json($navig);
 
         $data['article'] = Article::find($id);
+        //正式服需要替换的
         $data['article'] -> content = str_replace('http://tx3.ijiabin.net','https://www.ijiabin.com',$data['article'] -> content);
 //        dd($data);
         //当前导航

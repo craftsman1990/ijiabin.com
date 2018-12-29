@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Services\Compress;
 use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,6 +35,9 @@ class AdminController extends Controller
         $credentials['password'] = md5($credentials['password']);
         //上传头像
         $admin_pic = Upload::baseUpload($credentials['admin_pic'],'upload/Admin');
+        //创建缩略图
+        $Compress = new Compress(public_path($admin_pic),'0.4');
+        $Compress->compressImg(public_path(thumbnail($admin_pic)));
         if ($admin_pic){
             $credentials['admin_pic'] = $admin_pic;
         }else{
@@ -69,16 +73,31 @@ class AdminController extends Controller
             }
         }
         //图像上传
-        if ($request->get('admin_pic')){
-            $admin_pic = Upload::baseUpload($request->get('admin_pic'),'upload/Admin');
+        if ($request->admin_pic){
+            $admin_pic = Upload::baseUpload($request->admin_pic,'upload/Admin');
             if ($admin_pic){
                 $credentials['admin_pic'] = $admin_pic;
-                @unlink(public_path($request->get('admin_old_pic')));
+//                @unlink(public_path($request->get('admin_old_pic')));
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['admin_pic']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['admin_pic'])));
+                if (is_file(public_path($request->admin_old_pic))){
+                    unlink(public_path($request->admin_old_pic));
+                }
+                if (is_file(public_path(thumbnail($request->admin_old_pic)))){
+                    unlink(public_path(thumbnail($request->admin_old_pic)));
+                }
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }
         }else{
             $credentials['admin_pic'] = $request->get('admin_old_pic');
+            if (!is_file(public_path(thumbnail($credentials['admin_pic'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['admin_pic']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['admin_pic'])));
+            }
+
         }
         if(Admin::find($id)->update($credentials)){
             return redirect('admin/admin')->with('success', config('hint.mod_success'));
@@ -93,9 +112,16 @@ class AdminController extends Controller
         if (!$adminObj){
             return back() -> with('hint',config('hint.data_exist'));
         }
+//        dd($adminObj->admin_pic);
         $admin = $adminObj->toArray();
         if (Admin::destroy($id)){
-            unlink(public_path($admin['admin_pic']));
+//            unlink(public_path($admin['admin_pic']));
+            if (is_file(public_path($adminObj->admin_pic))){
+                unlink(public_path($adminObj->admin_pic));
+            }
+            if (is_file(public_path(thumbnail($adminObj->admin_pic)))){
+                unlink(public_path(thumbnail($adminObj->admin_pic)));
+            }
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));
