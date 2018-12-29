@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Auth;
 
 class IndexController extends Controller
 {
     //头部及左侧
     public function index(){
-        if (!session('a_id')){
+        $admin = Auth::guard('admin')->user();
+        if (!$admin){
             return Redirect::to('admin/login');
         }
-        return view('Admin.Index.index');
+        return view('Admin.Index.index',compact('admin'));
     }
 
     //首页
@@ -35,8 +38,17 @@ class IndexController extends Controller
     public function store(Request $request){
 
         $credentials = $this->validate($request,['username'=>'required','password'=>'required']);
-
-        switch (Admin::confirm($credentials)){
+//        dd($credentials);
+//        $res = ;
+        if (Auth::guard('admin')->attempt($credentials)){
+//            dd();
+//            return redirect()->intended(route('index.show',[Auth::guard('admin')->user()]))->with('success',config('hint.welcome'));
+            return Redirect::to('admin/index')->with('success',config('hint.welcome'));
+        }else{
+            return back() -> with('hint',config('hint.error'));
+        }
+//        dd($res);
+        /*switch (Admin::confirm($credentials)){
             case 1:
                 return back() -> with('hint',config('hint.account_null'));
                 break;
@@ -46,15 +58,16 @@ class IndexController extends Controller
             case 3:
                 return Redirect::to("admin/index");
                 break;
-        }
+        }*/
 
     }
 
     // 退出
     public function loginOut(){
-        Session::forget('a_id');
-        Session::forget('a_name');
-        Session::forget('a_logo');
-        return Redirect::to('admin/login');
+//        Session::forget('a_id');
+//        Session::forget('a_name');
+//        Session::forget('a_logo');
+        Auth::logout();
+        return Redirect::to('admin/login')->with('success',config('hint.back'));
     }
 }

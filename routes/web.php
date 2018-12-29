@@ -82,6 +82,10 @@ Route::group(['prefix'=>'mobile'],function (){
     });
 });
 
+//嘉宾大学
+/*Route::group(['prefix'=>'university'],function(){
+    Route::resource('index','University\IndexController');
+});*/
 
 //Route::get('upload','Home\IndexController@getCategoryPage');
 
@@ -103,6 +107,8 @@ Route::group(['prefix'=>'admin'],function(){
     Route::post('login','Admin\IndexController@store');			//执行登陆
    	Route::get('loginout','Admin\IndexController@loginOut');	//退出
 
+//    Route::resource('index','Admin\IndexController');           //管理员
+
     Route::resource('admin','Admin\AdminController');           //管理员
     Route::resource('category','Admin\CategoryController');     //分类
     Route::resource('navigation','Admin\NavigationController'); //导航
@@ -120,9 +126,25 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('tutorStudent/changeSort/id/{id}/sort/{sort}','Admin\TutorStudentController@changeSort');        //修改排序（导师学员）
 
 
-    //小程序
-    Route::resource('season','Admin\SeasonController');         //线下季课
-    Route::resource('site','Admin\SiteController');         //线下季课站点
+    //嘉宾大学
+    Route::group(['prefix'=>'jbdx'],function (){
+        Route::resource('course','Admin\DX\CourseController');         //课程列表
+        Route::resource('content','Admin\DX\ContentController');       //课程内容
+        Route::get('content/create/course_id/{course_id}','Admin\DX\ContentController@create');       //课程内容添加
+        Route::resource('quiz','Admin\DX\QuizController');                 //自测题
+        Route::resource('answer','Admin\DX\AnswerController');             //自测题答案
+        Route::get('getQuiz','Admin\DX\QuizController@getQuiz');           //获取自测题信息;
+        Route::get('getAnswer','Admin\DX\AnswerController@getAnswer');     //获取问题列表;
+
+        Route::resource('order','Admin\DX\OrderController');                //订单列表
+        Route::resource('discussion','Admin\DX\DiscussionController');      //议题列表
+
+        Route::get('gjkc','Admin\DX\ApplyController@gjkc');  //国际课程报名
+        Route::get('jbp','Admin\DX\ApplyController@jbp');    //嘉宾派报名
+
+    });
+
+
 
 
     //年会活动

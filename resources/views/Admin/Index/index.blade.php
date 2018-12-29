@@ -32,10 +32,10 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <span><img alt="image" class="img-circle" src={{session('a_pic')}} /></span>
+                            <span><img alt="image" class="img-circle" src="{{thumbnail($admin->admin_pic)}}" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">{{session('a_name')}}</strong></span>
+                               <span class="block m-t-xs"><strong class="font-bold">{{$admin->nickname}}</strong></span>
                                 <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
                                 </span>
                             </a>
@@ -90,7 +90,7 @@
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-book"></i>
+                            <i class="fa fa-file-excel-o"></i>
                             <span class="nav-label">内容管理</span>
                             <span class="fa arrow"></span>
                         </a>
@@ -129,6 +129,21 @@
                                 <!-- <a class="J_menuItem" href="navigation">导航列表</a> -->
                                 <!-- <a class="J_menuItem" href="label">标签列表</a> -->
                                 <!-- <a class="J_menuItem" href="hotbot">热搜列表</a> -->
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span class="nav-label">课程管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="jbdx/course">课程列表</a>
+                                <a class="J_menuItem" href="jbdx/order">课程订单</a>
+                                <a class="J_menuItem" href="jbdx/gjkc">线下报名</a>
+                                <a class="J_menuItem" href="jbdx/discussion">议题列表</a>
                             </li>
                         </ul>
                     </li>

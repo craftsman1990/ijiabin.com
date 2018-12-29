@@ -4,13 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
+    use Notifiable;
 
     protected $table = 'admin';
 
     protected $fillable = ['username', 'password','mobile','email','nickname','admin_pic'];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     // 后台登陆判断
     public static function confirm($data){
