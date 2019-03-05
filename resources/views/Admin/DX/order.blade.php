@@ -33,32 +33,35 @@
                          <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th >ID</th>
+                                    <th >订单号</th>
                                     <th>订单名称</th>
-                                    <th>课程名称</th>
                                     <th>下单用户</th>
                                     <th>订单价格</th>
                                     <th>订单状态</th>
                                     <th>下单时间</th>
+                                    <th>支付时间</th>
+                                    <th>支付方式</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                @foreach($list as $v)
                                 <tr class="gradeC">
-                                    <td>{{$v->id}}</td>
+                                    <td>{{$v->order_num}}</td>
                                     <td>{{$v->title}}</td>
-                                    <td>{{$v->couser_id}}</td>
-                                    <td>{{$v->user_id}}</td>
+                                    <td>{{$v->user}}</td>
                                     <td>{{$v->price}}</td>
                                     <td>
                                         @if($v->status==1)
-                                            <span class="label label-info">未支付</span>
+                                            <span class="label label-info">已支付</span>
                                         @else
                                             <span class="label label-danger">未支付</span>
                                         @endif
                                     </td>
+                                    <td>{{$v->created_at}}</td>
                                     <td>{{$v->pay_time}}</td>
+                                    <td>{{$v->payment_method == 'wechat' ? '微信' : '未知'}}</td>
+
                                     <td class="center">
                                         <div class="btn-group">
                                             <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>

@@ -102,10 +102,11 @@ class AdvertisingController extends Controller
                 $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
                 if (is_file(public_path($request->old_cover))){
                     unlink(public_path($request->old_cover));
+                    if (is_file(public_path(thumbnail($request->old_cover)))){
+                        unlink(public_path(thumbnail($request->old_cover)));
+                    }
                 }
-                if (is_file(public_path(thumbnail($request->old_cover)))){
-                    unlink(public_path(thumbnail($request->old_cover)));
-                }
+
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }

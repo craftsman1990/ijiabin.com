@@ -39,6 +39,7 @@
                                     <th>老师</th>
                                     <th>类别</th>
                                     <th>付费课</th>
+                                    <th>价格</th>
                                     <th>观看量</th>
                                     <th>操作</th>
                                 </tr>
@@ -52,6 +53,7 @@
                                     <!-- <td><img src="{{asset($v->cover)}}" height="50px"></td> -->
                                     <td class="center">{{config('jbdx.course_ify')[$v->ify]}}</td>
                                     <td class="center">{{$v->is_pay ==1 ? '是' : '否'}}</td>
+                                    <td class="center">{{$v->price}}</td>
                                     <td class="center">{{$v->looks}}</td>
                                     <td class="center">
                                         <div class="btn-group">

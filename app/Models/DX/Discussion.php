@@ -8,5 +8,5 @@ class Discussion extends Model
 {
     protected $table = 'dx_discussion';
 
-    protected $fillable = ['title', 'content','author','time'];
+    protected $fillable = ['title', 'content','author','time','cover'];
 }

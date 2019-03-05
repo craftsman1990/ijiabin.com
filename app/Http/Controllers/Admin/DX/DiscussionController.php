@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin\DX;
 use App\Models\DX\Comment;
 use App\Models\DX\Discussion;
 use App\Models\User;
+use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Compress;
 
 class DiscussionController extends Controller
 {
@@ -39,8 +41,20 @@ class DiscussionController extends Controller
         $verif = array('title'=>'required',
             'time'=>'required',
             'author'=>'required',
+            'cover'=>'required',
             'content'=>'required');
         $credentials = $this->validate($request,$verif);
+
+//        dd($credentials);
+        $pic_path = Upload::uploadOne('Discussion',$credentials['cover']);
+        if ($pic_path){
+            $credentials['cover'] = $pic_path;
+            //创建缩略图
+            $Compress = new Compress(public_path($credentials['cover']),'0.4');
+            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+        }else{
+            return back() -> with('hint',config('hint.upload_failure'));
+        }
 //        dd($credentials);
         if (Discussion::create($credentials)){
             return redirect('admin/jbdx/discussion')->with('success', config('hint.add_success'));
@@ -61,6 +75,32 @@ class DiscussionController extends Controller
             'content'=>'required');
         $credentials = $this->validate($request,$verif);
 //        dd($credentials);
+        //图像上传
+        if ($request->cover){
+            $pic_path = Upload::uploadOne('Discussion',$request->file('cover'));
+            if ($pic_path){
+                $credentials['cover'] = $pic_path;
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+                if (is_file(public_path($request->old_cover))){
+                    unlink(public_path($request->old_cover));
+                    if (is_file(public_path(thumbnail($request->old_cover)))){
+                        unlink(public_path(thumbnail($request->old_cover)));
+                    }
+                }
+
+            }else{
+                return back() -> with('hint',config('hint.upload_failure'));
+            }
+        }else{
+            $credentials['cover'] = $request->old_cover;
+            if (!is_file(public_path(thumbnail($credentials['cover'])))){
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['cover']),'0.4');
+                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+            }
+        }
         if (Discussion::find($id)->update($credentials)){
             return redirect('admin/jbdx/discussion')->with('success',config('hint.mod_success'));
         }else{

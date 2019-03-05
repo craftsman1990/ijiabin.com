@@ -61,9 +61,11 @@ class WxController extends Controller
 
 
     //微信登陆
-    public function wxLogin(){
+    public function wxLogin(Request $request){
+//        dd($uri);
+//        return redirect('mobile/metting/luckyDraw');die;
         $appid = config('hint.appId');;
-        $red_uri = urlencode('https://www.ijiabin.com/api/weixin/getInfo');
+        $red_uri = urlencode($request->uri);
         $scope = 'snsapi_userinfo';
         $state = 'canshu123';
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$red_uri.'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect ';
@@ -78,26 +80,22 @@ class WxController extends Controller
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
         $acctok = $this->request($url);
         $res = json_decode($acctok,true);
-
+        return $res;
         //判断是否第一次登陆
-        $user = User::where('open_id',$res['openid'])->get()->toArray();
-        if(!$user){
-            $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
-            $newtok = json_decode($this->request($accUrl),true);
-            $data['open_id'] = $newtok['openid'];
-            $data['nickname'] = $newtok['nickname'];
-            $data['head_pic'] = $newtok['headimgurl'];
-            $user = User::create($data);
-//            Session::put('uid',$user->id);
-            setcookie('uid',$user->id, time()+3600*24);
+        /*$user = User::where('open_id',$res['openid'])->get()->toArray();
+              if(!$user){
+                  $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
+                  $newtok = json_decode($this->request($accUrl),true);
+                  $data['open_id'] = $newtok['openid'];
+                  $data['nickname'] = $newtok['nickname'];
+                  $data['head_pic'] = $newtok['headimgurl'];
+                  $user = User::create($data);
+                  setcookie('uid',$user->id, time()+3600*24);
 
-
-        }else{
-            setcookie('uid',$user[0]['id'], time()+3600*24);
-//            Session::put('uid',$user[0]['id']);
-        }
-        define('ABC',123);
-        return redirect('mobile/metting/luckyDraw');
+              }else{
+                  setcookie('uid',$user[0]['id'], time()+3600*24);
+              }
+              return redirect('mobile/metting/luckyDraw');*/
     }
 
     /*

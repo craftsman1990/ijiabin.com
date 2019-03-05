@@ -11,6 +11,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages.
     |
     */
+    'uppercase'             => ':attribute 有空值，禁止提交空值。',
 
     'accepted'             => ':attribute 必须接受。',
     'active_url'           => ':attribute 不是一个有效的网址。',
@@ -186,5 +187,7 @@ return [
         'labels'                => '标签',
         'href'                  => '链接',
         'location'              => '该广告位',
+        'card'                  => '编号',
+        'answer'                => '答案',
     ],
 ];

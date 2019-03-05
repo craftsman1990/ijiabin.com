@@ -19,6 +19,7 @@ class CreateQuizzesTable extends Migration
             $table->string('title',255);
             $table->string('answer',10);
             $table->string('analysis',255);
+            $table->tinyInteger('type');
             $table->timestamps();
         });
     }

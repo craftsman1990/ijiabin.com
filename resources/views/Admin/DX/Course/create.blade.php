@@ -70,7 +70,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- 昵称： -->
+                             <!-- 价格 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">价格：</label>
+                                <div class="col-sm-3">
+                                    <input name="price" class="form-control" type="number" value="{{old('price')}}">
+                                    <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
+                                </div>
+                            </div>
+                            <!-- 观看次数： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">观看次数：</label>
                                 <div class="col-sm-3">
@@ -78,18 +86,33 @@
                                     <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
                                 </div>
                             </div>
-                            <!-- 头像： -->
+                            <!-- 横向封面图： -->
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">封面图：</label>
+                                <label class="col-sm-3 control-label">横向封面图：</label>
                                 <div class="col-sm-8">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button>
+                                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button> -->
+                                    <button type="button" class="btn btn-primary choi-c"> 选择图片</button>
                                 </div>
                             </div>
-                             <!-- 头像： -->
+                             <!-- 横向封面图： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label"></label>
                                 <div class="col-sm-8">
-                                    <img width="100px;" src="{{old('cover')}}" id="cover">
+                                    <img width="200px;" src="{{old('crosswise_cover')}}" id="crosswise_cover">
+                                </div>
+                            </div>
+                            <!-- 纵向封面图： -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">纵向封面图：</label>
+                                <div class="col-sm-8">
+                                    <button type="button" class="btn btn-primary choi-l"> 选择图片</button>
+                                </div>
+                            </div>
+                             <!-- 纵向封面图： -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <img height="200px;" src="{{old('lengthways_cover')}}" id="lengthways_cover">
                                 </div>
                             </div>
                              <!-- 简介 -->
@@ -104,7 +127,9 @@
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                    <input type="hidden" name="cover" value="{{old('cover')}}">
+                                    <!-- <input type="hidden" name="crosswise_cover" value="{{old('crosswise_cover')}}"> -->
+                                    <input type="file" name="crosswise_cover" style="display: none;" value="{{old('crosswise_cover')}}">
+                                    <input type="file" name="lengthways_cover" style="display: none;" value="{{old('lengthways_cover')}}">
                                 </div>
                             </div>
                             
@@ -121,15 +146,15 @@
         </div>
     </div>
     @include('layouts.admin_js')
-    @include('layouts.admin_picpro')
+    <!-- @include('layouts.admin_picpro') -->
     <script type="text/javascript">
         //截图上传
-            var sgw = $('[name=scre_gm_width]').val(),
+            /*var sgw = $('[name=scre_gm_width]').val(),
                 sgh = $('[name=scre_gm_height]').val(),
                 ogw = $('[name=opt_gm_width]').val(),
-                ogh = $('[name=opt_gm_height]').val();
+                ogh = $('[name=opt_gm_height]').val();*/
             //图片比例 268:161
-            var clipArea = new bjj.PhotoClip("#clipArea", {
+            /*var clipArea = new bjj.PhotoClip("#clipArea", {
                 size: [sgw, sgh],
                 outputSize: [ogw, ogh],
                 file: "#file",
@@ -143,20 +168,51 @@
                 },
                 clipFinish: function(dataURL) {
                     // console.log(dataURL);
-                    $('#cover').attr('src',dataURL);
-                    $('[name=cover]').attr('value',dataURL);
+                    $('#crosswise_cover').attr('src',dataURL);
+                    $('[name=crosswise_cover]').attr('value',dataURL);
                 }
-            });
-            //简介
-            $('#intro').on('input propertychange',function(){
-                var $this = $(this),
-                    _val = $this.val(),
-                    count = "";
-                if (_val.length > 1000) {
-                    $this.val(_val.substring(0, 1000));
-                }
-                count = 1000 - $this.val().length;
-                $("#text-intro").text(count);   
-            });
+            });*/
+        
+        //普通图片上传
+        $('.choi-c').click(function(){
+            $('[name=crosswise_cover]').trigger('click');
+        })
+        $('[name=crosswise_cover]').change(function(){
+            var imgurl = getObjectURL(this.files[0]);
+            // console.log(imgurl);
+            $('#crosswise_cover').attr('src',imgurl);
+        });  
+        $('.choi-l').click(function(){
+            $('[name=lengthways_cover]').trigger('click');
+        })
+        $('[name=lengthways_cover]').change(function(){
+            var imgurl = getObjectURL(this.files[0]);
+            // console.log(imgurl);
+            $('#lengthways_cover').attr('src',imgurl);
+        }); 
+        //简介
+        $('#intro').on('input propertychange',function(){
+            var $this = $(this),
+                _val = $this.val(),
+                count = "";
+            if (_val.length > 1000) {
+                $this.val(_val.substring(0, 1000));
+            }
+            count = 1000 - $this.val().length;
+            $("#text-intro").text(count);   
+        });
+
+        //图片预览
+        function getObjectURL(file){
+            var url = null;
+            if (window.createObjectURL!=undefined) {  
+              url = window.createObjectURL(file) ;  
+             } else if (window.URL!=undefined) { // mozilla(firefox)  
+              url = window.URL.createObjectURL(file) ;  
+             } else if (window.webkitURL!=undefined) { // webkit or chrome  
+              url = window.webkitURL.createObjectURL(file) ;  
+             }  
+             return url ;
+        }
     </script>
 @stop

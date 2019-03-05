@@ -12,6 +12,12 @@ use App\Services\Compress;
 
 class CourseController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     //首页
     public function index(){
         $list = Course::paginate(20);
@@ -41,20 +47,40 @@ class CourseController extends Controller
             'ify'=>'required|numeric',
             'is_pay'=>'required|numeric',
             'looks'=>'required|numeric',
-            'cover'=>'required');
+            'price'=>'required|numeric',
+            'crosswise_cover'=>'required',
+            'lengthways_cover'=>'required');
         $credentials = $this->validate($request,$verif);
-        $size = strlen(file_get_contents($request->cover))/1024;
-        if ($size < 100){
-            $percent = 1;
+//        dd($credentials);
+        //横图
+        $cor_size = $credentials['crosswise_cover']->getSize() / 1024;
+        if ($cor_size < 100){
+            $cor_per = 1;
         }else{
-            $percent = 0.4;
+            $cor_per = 0.4;
         }
-        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Course');
-        if ($pic_path){
-            $credentials['cover'] = $pic_path;
+        $cro_path = Upload::uploadOne('Course',$credentials['crosswise_cover']);
+        if ($cro_path){
+            $credentials['crosswise_cover'] = $cro_path;
             //创建缩略图
-            $Compress = new Compress(public_path($credentials['cover']),$percent);
-            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+            $Compress = new Compress(public_path($credentials['crosswise_cover']),$cor_per);
+            $Compress->compressImg(public_path(thumbnail($credentials['crosswise_cover'])));
+        }else{
+            return back() -> with('hint',config('hint.upload_failure'));
+        }
+        //纵图
+        $len_size = $credentials['lengthways_cover']->getSize() / 1024;
+        if ($len_size < 100){
+            $len_per = 1;
+        }else{
+            $len_per = 0.4;
+        }
+        $len_path = Upload::uploadOne('Course',$credentials['lengthways_cover']);
+        if ($len_path){
+            $credentials['lengthways_cover'] = $len_path;
+            //创建缩略图
+            $Compress = new Compress(public_path($credentials['lengthways_cover']),$len_per);
+            $Compress->compressImg(public_path(thumbnail($credentials['lengthways_cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -79,36 +105,74 @@ class CourseController extends Controller
             'intro'=>'required',
             'ify'=>'required|numeric',
             'is_pay'=>'required|numeric',
-            'looks'=>'required|numeric',
-            'old_cover'=>'required');
+            'price'=>'required|numeric',
+            'looks'=>'required|numeric');
         $credentials = $this->validate($request,$verif);
 //        dd($credentials);
-        if ($request->cover){
-            $size = strlen(file_get_contents($request->cover))/1024;
-            if ($size < 100){
-                $percent = 1;
+        //横图
+        if ($request->crosswise_cover){
+            $cor_size = $request->crosswise_cover->getSize() / 1024;
+            if ($cor_size < 100){
+                $cor_per = 1;
             }else{
-                $percent = 0.4;
+                $cor_per = 0.4;
             }
-            $pic_path = Upload::baseUpload($request->cover,'upload/Course');
-            if ($pic_path){
-                $credentials['cover'] = $pic_path;
+            $cro_path = Upload::uploadOne('Course',$request->crosswise_cover);
+            if ($cro_path){
+                $credentials['crosswise_cover'] = $cro_path;
                 //创建缩略图
-                $Compress = new Compress(public_path($credentials['cover']),$percent);
-                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
-                if (is_file(public_path($request->old_cover))){
-                    unlink(public_path($request->old_cover));
-                }
-                if (is_file(public_path(thumbnail($request->old_cover)))){
-                    unlink(public_path(thumbnail($request->old_cover)));
+                $Compress = new Compress(public_path($credentials['crosswise_cover']),$cor_per);
+                $Compress->compressImg(public_path(thumbnail($credentials['crosswise_cover'])));
+                if (is_file(public_path($request->old_cro_cover))){
+                    unlink(public_path($request->old_cro_cover));
+                    if (is_file(public_path(thumbnail($request->old_cro_cover)))){
+                        unlink(public_path(thumbnail($request->old_cro_cover)));
+                    }
                 }
             }else{
                 return back() -> with('hint',config('hint.upload_failure'));
             }
         }else{
-            $credentials['cover'] = $credentials['old_cover'];
+            if($request->old_cro_cover){
+                $credentials['crosswise_cover'] = $request->old_cro_cover;
+            }else{
+                return back() -> with('hint','没有原图，也没有图片上传');
+            }
         }
-        unset($credentials['old_cover']);
+        //纵图
+        if ($request->lengthways_cover){
+            $len_size = $request->lengthways_cover->getSize() / 1024;
+            if ($len_size < 100){
+                $len_per = 1;
+            }else{
+                $len_per = 0.4;
+            }
+            $len_path = Upload::uploadOne('Course',$request->lengthways_cover);
+
+            if ($len_path){
+                $credentials['lengthways_cover'] = $len_path;
+                //创建缩略图
+                $Compress = new Compress(public_path($credentials['lengthways_cover']),$len_per);
+                $Compress->compressImg(public_path(thumbnail($credentials['lengthways_cover'])));
+                if (is_file(public_path($request->old_len_cover))){
+                    unlink(public_path($request->old_len_cover));
+                    if (is_file(public_path(thumbnail($request->old_len_cover)))){
+                        unlink(public_path(thumbnail($request->old_len_cover)));
+                    }
+                }
+            }else{
+                return back() -> with('hint',config('hint.upload_failure'));
+            }
+        }else{
+            if($request->old_cro_cover){
+                $credentials['lengthways_cover'] = $request->old_len_cover;
+            }else{
+                return back() -> with('hint','没有原图，也没有图片上传');
+            }
+        }
+//        dd($credentials);
+        unset($credentials['old_cro_cover']);
+        unset($credentials['old_len_cover']);
         if (Course::find($id)->update($credentials)){
             return redirect('admin/jbdx/course')->with('success',config('hint.mod_success'));
         }else{

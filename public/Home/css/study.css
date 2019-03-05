@@ -62,17 +62,31 @@
 .stu-text{
   width:100%;
   padding: 0 25px;
+  height:120px;
 }
 .stu-text>p{
   font-size: 14px;
   color:#999999;
-  overflow : hidden;
+  /* overflow : hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: vertical; */
   margin-bottom:10px;
+  position:relative;
+  line-height:20px;
+  height:120px;
+  overflow:hidden;
 }
+/* .stu-text>p::after {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #FFFFFF 50%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+  content:"...";
+  font-weight:bold;
+  position:absolute;
+  bottom:0;
+  right:0;
+  padding:0 20px 1px 45px;
+} */
 .stu-icon{
   position: absolute;
   bottom:2%;

@@ -83,12 +83,75 @@ Route::group(['prefix'=>'mobile'],function (){
 });
 
 //嘉宾大学
-/*Route::group(['prefix'=>'university'],function(){
-    Route::resource('index','University\IndexController');
-});*/
+Route::group(['prefix'=>'university'],function(){
+    Route::get('index','University\IndexController@index');
+    Route::get('jbp','University\IndexController@jbp');
+    Route::any('jbp_apply','University\IndexController@jbp_apply');
+    Route::get('gjkc','University\IndexController@gjkc');
+    Route::get('courseCategory/cgid/{cgid}','University\IndexController@courseCategory');
+
+    //课程部分
+    Route::group(['prefix'=>'course'],function (){
+        Route::get('show/id/{id}','University\CourseController@show');
+        Route::get('audio/id/{id}','University\CourseController@audio');
+        Route::get('buy/id/{id}','University\CourseController@buy');
+        Route::post('quizForm','University\CourseController@quizForm');
+        Route::post('learningPut','University\CourseController@learningPut');
+        Route::post('collect','University\CourseController@collect');
+    });
+
+    //议题部分
+    Route::group(['prefix'=>'discussion'],function (){
+        Route::get('index','University\DiscussionController@index');    //议题列表
+        Route::get('content/id/{id}/source/{source}','University\DiscussionController@content');//评论议题
+        Route::post('putContent','University\DiscussionController@putContent');     //添加评论
+        Route::get('detail/id/{id}','University\DiscussionController@detail');      //议题详情
+        Route::get('reply/cid/{cid}/type/{type}','University\DiscussionController@reply');      //回复评论
+        Route::get('discussionPoster/did/{did}','University\DiscussionController@discussionPoster');      //议题海报
+        Route::get('commentPoster/cid/{cid}','University\DiscussionController@commentPoster');      //评论海报
+        Route::post('putReply','University\DiscussionController@putReply');     //添加回复
+        Route::delete('delReply','University\DiscussionController@delReply');     //删除回复
+        Route::get('commentDetail/id/{id}','University\DiscussionController@commentDetail'); //评论详情
+
+        Route::post('collect','University\DiscussionController@collect');     //添加收藏
+        Route::post('praise','University\DiscussionController@praise');     //点赞
+
+    });
+
+    //我的
+    Route::get('my/index','University\MyController@index');
+    Route::get('my/guesteScore','University\MyController@guesteScore');
+    Route::get('my/aboutGuesteScore','University\MyController@aboutGuesteScore');
+    Route::get('my/setting','University\MyController@setting');
+    Route::get('my/accountManagement','University\MyController@accountManagement');
+    Route::any('my/editMobile','University\MyController@editMobile');
+    Route::any('my/editPassWord','University\MyController@editPassWord');
+    Route::get('my/aboutUs','University\MyController@aboutUs');
+    Route::get('my/replenish','University\MyController@replenish');
+    Route::get('my/doReplenish','University\MyController@doReplenish');
+    Route::any('my/fillInfo','University\MyController@fillInfo');
+
+    //登陆
+    Route::get('login','University\LoginController@passwordLogin');
+    Route::post('login','University\LoginController@doPasswordLogin');
+    Route::get('quickLogin','University\LoginController@quickLogin');
+    Route::post('quickLogin','University\LoginController@doQuickLogin');
+    Route::get('loginOut','University\LoginController@loginOut');
+    Route::get('serviceAgreement','University\LoginController@serviceAgreement');
+
+    Route::get('getCode','University\LoginController@getCode');
+    Route::get('register','University\LoginController@register');
+
+    //支付
+//    Route::
+
+});
+
 
 //Route::get('upload','Home\IndexController@getCategoryPage');
-
+//支付
+Route::get('payment/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
+Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
 //测试
 Route::get('/test', function () {
 //   $abc = \App\Models\Admin::where('email','>','?')->toSql();
@@ -103,9 +166,9 @@ Route::group(['prefix'=>'admin'],function(){
     //网站
     Route::get('index','Admin\IndexController@index');			//首页
     Route::get('home','Admin\IndexController@home');			//首页内容
-    Route::get('login','Admin\IndexController@login');			//登陆界面
-    Route::post('login','Admin\IndexController@store');			//执行登陆
-   	Route::get('loginout','Admin\IndexController@loginOut');	//退出
+    Route::get('login','Admin\LoginController@showLoginForm');	//登陆界面
+    Route::post('login','Admin\LoginController@store');			//执行登陆
+   	Route::get('loginout','Admin\LoginController@logout');	//退出
 
 //    Route::resource('index','Admin\IndexController');           //管理员
 

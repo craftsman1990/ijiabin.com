@@ -132,5 +132,11 @@
             })
         }
     });
+
+    $(".stu-box").each(function(){
+        console.log($('.stu-text p').height())
+        console.log($('.stu-text').height())
+        
+    });
 </script>
 @stop

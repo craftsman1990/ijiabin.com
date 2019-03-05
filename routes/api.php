@@ -24,6 +24,8 @@ Route::post('imgDelete','Api\commonController@imgDelete');
 //搜索
 Route::get('getSearch','Api\commonController@getSearch');
 
+Route::get('getSms','Api\commonController@getSms');
+
 
 //微信接口
 Route::group(['prefix'=>'weixin'],function (){

@@ -54,20 +54,20 @@
                                 </div>
                             </div>
                             
-                            <!-- 封面 -->
-                            <!-- <div class="form-group">
+                             <!-- 封面 -->
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">封面：</label>
                                 <div class="col-sm-8">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button>
+                                    <button type="button" class="btn btn-primary choi"> 选择图片</button>
                                 </div>
-                            </div> -->
-                            <!-- 封面 -->
-                            <!-- <div class="form-group">
+                            </div>
+                             <!-- 封面 -->
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label"></label>
                                 <div class="col-sm-8">
                                     <img width="100px;" src="{{old('cover')}}" id="cover">
                                 </div>
-                            </div> -->
+                            </div>
                             <!-- 内容 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">内容：</label>
@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                    <!-- <input type="hidden" name="cover" value="{{old('cover')}}"> -->
+                                     <input type="file" name="cover" style="display: none;" value="{{old('cover')}}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -147,7 +147,7 @@
                 }
             });*/
         // 普通上传
-            /*$('.choi').click(function(){
+            $('.choi').click(function(){
                 $('[name=cover]').trigger('click');
             })
             $('[name=cover]').change(function(){
@@ -167,6 +167,6 @@
                   url = window.webkitURL.createObjectURL(file) ;  
                  }  
                  return url ;
-            }*/
+            }
     </script>
 @stop

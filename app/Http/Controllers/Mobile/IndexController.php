@@ -54,11 +54,19 @@ class IndexController extends Controller
             $tutor->classic_quote= explode('；',$tutor->classic_quote);
         }
         //dd($data);
-        //分享
-        $signPackage = Helper::getJSSDK();
-        $share['cover'] = 'Home/images/jiabindaxue_logo.png';
-        $share['title'] = '我有嘉宾-遍访天下公司、纪录时代商业';
-        $share['intro'] = '领先的新经济产业服务平台';
+        //分享(判断是不是微信浏览器)
+        if ( strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger') !== false ) {
+            $signPackage = Helper::getJSSDK();
+            $share['cover'] = 'Home/images/jiabindaxue_logo.png';
+            $share['title'] = '我有嘉宾-遍访天下公司、纪录时代商业';
+            $share['intro'] = '领先的新经济产业服务平台';
+        }else{
+            $signPackage = array('appId'=>'wx87a51989fd90054d ','timestamp'=>'1537237991','nonceStr'=>'QS69mHIz3AwodX4T','signature'=>'913ec1d34f2e3529f9ca9fedadb7a7863b63c20d');
+            $share['cover'] = 'Home/images/jiabindaxue_logo.png';
+            $share['title'] = '我有嘉宾-遍访天下公司、纪录时代商业';
+            $share['intro'] = '领先的新经济产业服务平台';
+        }
+
         return view('Mobile.Index.index',compact('data','signPackage','share'));
     }
 
@@ -280,14 +288,19 @@ class IndexController extends Controller
             $thisNav = Navigation::find($like->nav_id);
             $like->nav_name = $thisNav->n_name;
         }
-        //分享
-        $signPackage = Helper::getJSSDK();
-        $share['cover'] = $data['article']->cover;
-        $share['title'] = $data['article']->title;
-        $share['intro'] = $data['article']->intro;
-//        $signPackage = array('appId'=>'wx87a51989fd90054d ','timestamp'=>'1537237991','nonceStr'=>'QS69mHIz3AwodX4T','signature'=>'913ec1d34f2e3529f9ca9fedadb7a7863b63c20d');
-//        dd($data);
 
+        //分享(判断是不是微信浏览器)
+        if ( strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger') !== false ) {
+            $signPackage = Helper::getJSSDK();
+            $share['cover'] = $data['article']->cover;
+            $share['title'] = $data['article']->title;
+            $share['intro'] = $data['article']->intro;
+        }else{
+            $signPackage = array('appId'=>'wx87a51989fd90054d ','timestamp'=>'1537237991','nonceStr'=>'QS69mHIz3AwodX4T','signature'=>'913ec1d34f2e3529f9ca9fedadb7a7863b63c20d');
+            $share['cover'] = $data['article']->cover;
+            $share['title'] = $data['article']->title;
+            $share['intro'] = $data['article']->intro;
+        }
         return view('Mobile.Index.article',compact('data','signPackage','share'));
     }
 
@@ -312,11 +325,19 @@ class IndexController extends Controller
             $thisNav = Navigation::find($like->nav_id);
             $like->nav_name = $thisNav->n_name;
         }
-//        dd($data);
-        $signPackage = Helper::getJSSDK();
-        $share['cover'] = $data['video']->cover;
-        $share['title'] = $data['video']->title;
-        $share['intro'] = $data['video']->intro;
+
+        //分享(判断是不是微信浏览器)
+        if ( strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger') !== false ) {
+            $signPackage = Helper::getJSSDK();
+            $share['cover'] = $data['video']->cover;
+            $share['title'] = $data['video']->title;
+            $share['intro'] = $data['video']->intro;
+        }else{
+            $signPackage = array('appId'=>'wx87a51989fd90054d ','timestamp'=>'1537237991','nonceStr'=>'QS69mHIz3AwodX4T','signature'=>'913ec1d34f2e3529f9ca9fedadb7a7863b63c20d');
+            $share['cover'] = $data['video']->cover;
+            $share['title'] = $data['video']->title;
+            $share['intro'] = $data['video']->intro;
+        }
         return view('Mobile.Index.video',compact('data','signPackage','share'));
     }
 
