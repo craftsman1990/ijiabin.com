@@ -1,5 +1,5 @@
 @extends('layouts.university')
-@section('title','评论')
+@section('title','观点详情')
 @section('content')
   <link rel="stylesheet" href="{{asset('University/css/swiper.min.css')}}">
   <link rel="stylesheet" href="{{asset('University/css/reset.css')}}">
@@ -16,18 +16,29 @@
           </dt>
         </dl>
         @if(Auth::guard('university')->check())
-        <div class="collect" status="{{$comment->coll_status}}">
+        <div class="funr">
+          <a href="#" class="Imgbox collectClick" status="{{$comment->coll_status}}">
           @if($comment->coll_status)
-          <img src="{{asset('University/images/icon_yishoucang@2x.png')}}" alt="">收藏
+            <img src="{{asset('University/images/icon_yishoucang@2x.png')}}" alt="">
+            <em>已收藏</em>
           @else
-          <img src="{{asset('University/images/icon_shoucang@2x.png')}}" alt="">收藏
+            <img src="{{asset('University/images/icon_shoucang@2x.png')}}" alt="">
+            <em>收藏</em>
+          @endif
+          </a>
+          @if($comment->is_my == 1)
+          <a href="#" class="Imgbox delcli"><img src="{{asset('University/images/icon_shanchu@2x.png')}}" />删除</a>
           @endif
         </div>
         @else
-        <div class="collect" onclick="alert('尚未登陆！');window.location.href='{{url("university/login?source=3&yid=".$comment->id)}}'">
+        <div class="collect" onclick="alert('尚未登陆！');window.location.href='{{url("university/quickLogin?source=3&yid=".$comment->id)}}'">
           <img src="{{asset('University/images/icon_shoucang@2x.png')}}" alt="">收藏
         </div>
         @endif
+        <!-- <p class="funr">
+          <a href="#" class="Imgbox"><img src="{{asset('University/images/icon_shoucang@2x.png')}}" />收藏</a>
+            <a href="#" class="Imgbox delcli"><img src="{{asset('University/images/icon_shanchu@2x.png')}}" />删除</a>
+        </p> -->
       </div>
       <div class="detailCon">
           {{$comment->content}}
@@ -49,7 +60,7 @@
         <dl onclick="window.location.href='{{url("university/discussion/reply/cid/$reply[id]/type/1")}}'">
         @endif  
       @else
-      <dl onclick="alert('尚未登陆！');window.location.href='{{url("university/login?source=3&yid=".$comment->id)}}'">
+      <dl onclick="alert('尚未登陆！');window.location.href='{{url("university/quickLogin?source=3&yid=".$comment->id)}}'">
       @endif 
         <dd><img src="{{$reply['user_pic']}}" alt=""></dd>
         <dt>
@@ -70,7 +81,7 @@
       <p class="no">取消</p>
     </div>
     <div class="box2">
-      <p class="boxtit">确认删除你的观点？</p>
+      <p class="boxtit"></p>
       <div class="btns">
         <p class="yesl">确认</p>
         <p class="nor">取消</p>
@@ -86,27 +97,25 @@
       <a href="{{url('university/discussion/commentPoster/cid/'.$comment->id)}}" class="Imgbox">
         <img src="{{asset('University/images/icon_haibao@2x.png')}}" />海报
       </a>
-      <a href="javascript:;" class="Imgbox">
-        <img src="{{asset('University/images/icon_fenxiang2@2x.png')}}"/>转发
-      </a>
       <a href="javascript:;" class="Imgbox dianzan" status="{{$comment->prai_status}}">
         @if($comment->prai_status)
-        <img src="{{asset('University/images/icon_dianzan@2x.png')}}" />赞同
+        <img src="{{asset('University/images/icon_dianzan@2x.png')}}" />
+        <em>{{$comment->praise}}</em>
         @else
-        <img src="{{asset('University/images/icon_dianzan1@2x.png')}}" />赞同
+        <img src="{{asset('University/images/icon_dianzan1@2x.png')}}" />
+        <em>赞同</em>
         @endif
       </a>
     </p>
   </footer>
   @else
-  <footer onclick="alert('尚未登陆！');window.location.href='{{url("university/login?source=3&yid=".$comment->id)}}'">
+  <footer >
     <p class="input"><input type="text" placeholder="我来说两句..." disabled></p>
     <p class="fun">
       <a href="{{url('university/discussion/commentPoster/cid/'.$comment->id)}}" class="Imgbox">
         <img src="{{asset('University/images/icon_haibao@2x.png')}}" />海报
       </a>
-      <a href="#" class="Imgbox"><img src="{{asset('University/images/icon_fenxiang2@2x.png')}}" />转发</a>
-      <a href="javascript:;" class="Imgbox">
+      <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/quickLogin?source=3&yid=".$comment->id)}}'">
         <img src="{{asset('University/images/icon_dianzan1@2x.png')}}" />赞同
       </a>
     </p> 
@@ -126,6 +135,7 @@
           $('.box1').show();
           $('.yes').click(function(){
               $('.box1').hide();
+              $('.boxtit').text('确认删除你的回复？');
               $('.box2').show();
               $('.yesl').click(function(){
                 $.ajax({
@@ -144,26 +154,54 @@
               });
             })
             $('.no').click(function(){
+              rid = null;
               $('.cover').hide();
             })
             $('.nor').click(function(){
+              rid = null;
               $('.cover').hide();
             })
         })
       })
+      //删除自己评论
+      $('.delcli').click(function(){
+        $('.boxtit').text('确认删除你的观点？');
+        $('.cover').show();
+        $('.box2').show();
+        $('.box1').hide();
+        $('.yesl').click(function(){
+            $.ajax({
+              url:"{{url('university/discussion/delComment')}}",
+              data:{_token:csrf,cid:cid},
+              type:'DELETE',
+              dataType:'json',
+              success:function(d){
+                console.log(d);
+                if (d.code == '002') {
+                  window.location.href="{{url('university/discussion/detail/id/'.$comment->discussion_id)}}";
+                }
+              }
+            })
+        });
+        $('.nor').click(function(){
+          $('.cover').hide();
+        })
+      })
       //收藏
-      $('.collect').click(function(){
+      $('.collectClick').click(function(){
         var status = $(this).attr('status') == 1 ? 0 : 1;
-        var thisOBJ = $(this).find("img");
+        var thisOBJ = $(this);
         $.ajax({
           url:"{{url('university/discussion/collect')}}",
           data:{_token:csrf,cid:cid,status:status},
           type:'POST',
+          async:false,
           dataType:'json',
           success:function(d){
             console.log(d)
             if (d.code == '002') {
-              thisOBJ.attr("src") == "{{asset('University/images/icon_shoucang@2x.png')}}"  ?  thisOBJ.attr("src","{{asset('University/images/icon_yishoucang@2x.png')}}") : thisOBJ.attr("src","{{asset('University/images/icon_shoucang@2x.png')}}")
+              thisOBJ.find('em').text() == '收藏' ? thisOBJ.find('em').text('已收藏') : thisOBJ.find('em').text('收藏');
+              thisOBJ.find("img").attr("src") == "{{asset('University/images/icon_shoucang@2x.png')}}"  ?  thisOBJ.find("img").attr("src","{{asset('University/images/icon_yishoucang@2x.png')}}") : thisOBJ.find("img").attr("src","{{asset('University/images/icon_shoucang@2x.png')}}")
             }
           }
         })  
@@ -176,11 +214,13 @@
             url:"{{url('university/discussion/praise')}}",
             data:{_token:csrf,cid:cid,status:status},
             type:'POST',
+            async:false,
             dataType:'json',
             success:function(d){
               if (d.code == '002') {
                 console.log(d)
                 thisOBJ.attr('status',d.status)
+                thisOBJ.find('em').text() == '赞同' ? thisOBJ.find('em').text(d.praise) : thisOBJ.find('em').text('赞同');
                 thisOBJ.find("img").attr("src") == "{{asset('University/images/icon_dianzan1@2x.png')}}"  ?  thisOBJ.find("img").attr("src","{{asset('University/images/icon_dianzan@2x.png')}}") : thisOBJ.find("img").attr("src","{{asset('University/images/icon_dianzan1@2x.png')}}")
              }
             }

@@ -60,10 +60,10 @@
                                             <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="font-bold cgedit" href="{{url('admin/jbdx/discussion/'.$v->id.'/edit')}}">修改</a></li>
-                                                <li><a href="{{url('admin/jbdx/discussion/'.$v->id)}}" class="demo4">内容列表</a></li>
+                                                <!-- <li><a class="font-bold cgedit" href="{{url('admin/jbdx/discussion/'.$v->id.'/edit')}}">修改</a></li> -->
+                                                <li><a href="#" class="demo4">暂不提供操作</a></li>
                                                 <li class="divider"></li>
-                                                <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/discussion/'.$v->id)}}">删除</a>
+                                                <!-- <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/discussion/'.$v->id)}}">删除</a> -->
                                                 </li>
                                             </ul>
                                         </div>

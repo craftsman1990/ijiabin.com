@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Request;
 use App\Models\Article;
 
+
 class Helper
 {
     //横向树形
@@ -76,12 +77,17 @@ class Helper
     public static function getDifferenceTime($date){
         $time = strtotime($date);
         $difference = time() - $time;
-        if ($difference < 60*60){
+        if($difference < 60){
+            $diffTime = '刚刚';
+        }elseif($difference > 60 && $difference < 60*60){
             $diff = floor($difference/60);
             $diffTime = $diff.'分钟前';
         }elseif($difference > 60*60 && $difference < 60*60*24){
             $diff = floor($difference/3600);
             $diffTime = $diff.'小时前';
+        }elseif($difference > 60*60*24 && $difference < 60*60*24*4){
+            $diff = floor($difference/86400);
+            $diffTime = $diff.'天前';
         }else{
             $diffTime = substr($date,0,10);
         }
@@ -136,9 +142,6 @@ class Helper
         //返回
         return $data;
     }
-
-
-
 
 }
 

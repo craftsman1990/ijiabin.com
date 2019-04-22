@@ -54,7 +54,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="font-bold cgedit" href="{{url('admin/jbdx/discussion/'.$v->id.'/edit')}}">修改</a></li>
-                                                <li><a href="{{url('admin/jbdx/discussion/'.$v->id)}}" class="demo4">内容列表</a></li>
+                                                <li><a href="{{url('admin/jbdx/discussion/'.$v->id)}}" class="demo4">评论列表</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/discussion/'.$v->id)}}">删除</a>
                                                 </li>

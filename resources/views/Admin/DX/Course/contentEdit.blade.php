@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标题：</label>
                                 <div class="col-sm-8">
-                                    <input name="title" class="form-control" type="text" value="{{$content->title}}">
+                                    <input name="title" class="form-control" type="text" value="{{$content->title}}" maxlength="30">
                                 </div>
                             </div>
                             <!-- 章节简介： -->

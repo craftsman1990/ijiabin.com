@@ -32,4 +32,11 @@ Route::group(['prefix'=>'weixin'],function (){
     Route::get('getShare','Api\WxController@getShare');
     Route::get('wxLogin','Api\WxController@wxLogin');
     Route::get('getInfo','Api\WxController@getInfo');
+
+    Route::get('getOpenId','Api\WxController@getOpenId');
+    Route::get('callBack','Api\WxController@callBack');
+
+    Route::get('test','Api\WxController@test');
+
+
 });

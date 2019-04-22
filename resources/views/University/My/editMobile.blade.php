@@ -9,45 +9,58 @@
 	    <div class="line"></div>
 	    <form action="" method="post">
 	    <div class="form">
-	      <p class="pas">新手机号：&nbsp;<input type="text" name="mobile" id="user" placeholder="请输入手机号" value="{{old('mobile')}}"><span></span></p>
-	      <p class="pas">验证码：&nbsp;<input type="text" name="yzm" placeholder="请输入验证码" id="yz" value="{{old('yzm')}}"><input type="button" id="btn" value="获取验证码"   /></p>
+	      <p class="pas">新手机号：&nbsp;<input type="tel" name="mobile" id="user" placeholder="请输入手机号" value="{{old('mobile')}}"><span></span></p>
+	      <p class="pas">验证码：&nbsp;<input type="number" name="yzm" placeholder="请输入验证码" id="yz" value="{{old('yzm')}}"><input type="button" id="btn" value="获取验证码"   /></p>
 	      <!-- <button id="btn">免费获取验证码</button> -->
 	      {{ csrf_field() }}
 	      <button class="btn" type="submit" disabled="disabled">提交</button>
 	    </div>
 	</form>
 	    <p class="no">请填写正确的手机号！</p>
-	    <p class="yes">修改成功！</p>
+	    <p class="yes">验证码已发送！</p>
 	</div>
-
+ 	@include('layouts.u_hint')
  	<script type="text/javascript">
+		var phone = /^1[34578]\d{9}$/;
+		//获取验证码
  		$('#btn').click(function(){
- 			var thisOBJ = $(this);
- 			var mobile = $('[name=mobile]').val();
- 			$.ajax({
- 				url:"{{url('university/getCode')}}",
- 				data:{mobile:mobile},
- 				type:'GET',
- 				dataType:'json',
- 				success:function(d){
- 					alert(d.msg);
- 					if (d.code == '003') {
- 						settime(thisOBJ);
- 					}
- 				}
-
- 			})
+ 			var userV = $("#user").val();
+		    if(phone.test(userV)){
+ 				settime($(this));
+		      	var mobile = $('[name=mobile]').val();
+	 			$.ajax({
+	 				url:"{{url('university/getCode')}}",
+	 				data:{mobile:mobile},
+	 				type:'GET',
+	 				dataType:'json',
+	 				success:function(d){
+	 					$(".yes").css("display","block");
+					    setTimeout(function(){//定时器 
+					        $(".yes").css("display","none");
+					    },2000);
+	 				}
+	 			})
+		    }else{
+		      	$(".no").css("display","block");
+			    setTimeout(function(){//定时器 
+			        $(".no").css("display","none");
+			    },2000);
+		    }
  		});
  		
  		//获取验证码倒计时
 	    var countdown=60;
 	    function settime(val) {
 	        if (countdown == 0) {
-	            val.attr("");
-	            val.val('免费获取验证码');
+	            val.attr("disabled",false);
+	            val.val('获取验证码');
 	            countdown = 60;
+	            $(".yes").css("display","block");
+			      setTimeout(function(){//定时器 
+			        $(".yes").css("display","none");
+			    },2000);
 	        } else {
-	            val.attr("disabled");
+	            val.attr("disabled",true);
 	            val.val("重新发送(" + countdown + ")");
 	            countdown--;
 	            setTimeout(function() {
@@ -55,10 +68,7 @@
 	            },1000)
 	        }
 	    }
- 	</script>
- 	<script type="text/javascript">
-	  
-
+		
 		//button禁用可用
 		function content(){
 		    var user = $("#user").val().trim();
@@ -81,19 +91,16 @@
 		    content()
 		}
   
-		$('.btn').click(function(){
-		    var userV = $("#user").val();
-		    var phone = /^1[34578]\d{9}$/;
+		$('form').submit(function(){
+			var userV = $("#user").val();
 		    if(phone.test(userV)){
-		      $(".yes").css("display","block");
-		      setTimeout(function(){//定时器 
-		        $(".yes").css("display","none");
-		      },2000);
+		    	return true;
 		    }else{
-		      $(".no").css("display","block");
-		      setTimeout(function(){//定时器 
-		        $(".no").css("display","none");
-		      },2000);
+		    	$(".no").css("display","block");
+			    setTimeout(function(){//定时器 
+			        $(".no").css("display","none");
+			    },2000);
+			    return false;
 		    }
 		})
 	</script>

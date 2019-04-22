@@ -40,17 +40,38 @@ class CourseController extends Controller
 
     //执行添加
     public function store(Request $request){
-        $verif = array('name'=>'required',
-            'teacher'=>'required',
-            'professional'=>'required',
+        $verif = [
+            'name'=>'required|max:30',
+            'teacher'=>'required|max:10',
+            'professional'=>'required|max:20',
             'intro'=>'required',
             'ify'=>'required|numeric',
             'is_pay'=>'required|numeric',
             'looks'=>'required|numeric',
             'price'=>'required|numeric',
             'crosswise_cover'=>'required',
-            'lengthways_cover'=>'required');
-        $credentials = $this->validate($request,$verif);
+            'lengthways_cover'=>'required'
+        ];
+        $message = [
+            'name.required'=>'课程名称 不能为空',
+            'name.max'=>'课程名称 不能超过30个字符',
+            'teacher.required'=>'授课老师 不能为空',
+            'teacher.max'=>'授课老师 不能超过10个字符',
+            'professional.required'=>'老师职称 不能为空',
+            'professional.max'=>'老师职称 不能超过20个字符',
+            'intro.required'=>'简介 不能为空',
+            'ify.required'=>'类别 未选择',
+            'ify.numeric'=>'类别 类型错误',
+            'is_pay.required'=>'付费课 未选择',
+            'is_pay.numeric'=>'付费课 类型错误',
+            'looks.required'=>'观看次数 不能为空',
+            'looks.numeric'=>'观看次数 只能是数值',
+            'price.required'=>'价格 不能为空',
+            'price.numeric'=>'价格 只能是数值',
+            'crosswise_cover.required'=>'横向封面图 不能为空',
+            'lengthways_cover.required'=>'纵向封面图 不能为空',
+        ];
+        $credentials = $this->validate($request,$verif,$message);
 //        dd($credentials);
         //横图
         $cor_size = $credentials['crosswise_cover']->getSize() / 1024;
@@ -99,15 +120,33 @@ class CourseController extends Controller
 
     //执行修改
     public function update(Request $request,$id){
-        $verif = array('name'=>'required',
-            'teacher'=>'required',
-            'professional'=>'required',
+        $verif = [
+            'name'=>'required|max:30',
+            'teacher'=>'required|max:10',
+            'professional'=>'required|max:20',
             'intro'=>'required',
             'ify'=>'required|numeric',
             'is_pay'=>'required|numeric',
             'price'=>'required|numeric',
-            'looks'=>'required|numeric');
-        $credentials = $this->validate($request,$verif);
+            'looks'=>'required|numeric'];
+        $message = [
+            'name.required'=>'课程名称 不能为空',
+            'name.max'=>'课程名称 不能超过30个字符',
+            'teacher.required'=>'授课老师 不能为空',
+            'teacher.max'=>'授课老师 不能超过10个字符',
+            'professional.required'=>'老师职称 不能为空',
+            'professional.max'=>'老师职称 不能超过20个字符',
+            'intro.required'=>'简介 不能为空',
+            'ify.required'=>'类别 未选择',
+            'ify.numeric'=>'类别 类型错误',
+            'is_pay.required'=>'付费课 未选择',
+            'is_pay.numeric'=>'付费课 类型错误',
+            'price.required'=>'价格 不能为空',
+            'price.numeric'=>'价格 只能是数值',
+            'looks.required'=>'观看次数 不能为空',
+            'looks.numeric'=>'观看次数 只能是数值',
+        ];
+        $credentials = $this->validate($request,$verif,$message);
 //        dd($credentials);
         //横图
         if ($request->crosswise_cover){

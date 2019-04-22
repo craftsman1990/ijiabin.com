@@ -44,3 +44,6 @@
 .btn1{
   background:rgba(48,92,186,1);
 }
+button:disabled {
+  background-color: #DEDEDE!important;
+}

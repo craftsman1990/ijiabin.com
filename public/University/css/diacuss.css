@@ -1,12 +1,18 @@
 .wrapper{
   background:rgba(245,245,245,1);
-  margin-bottom:.45rem;
+  flex: 1;
+  overflow-y: scroll;
+}
+.wrapper::-webkit-scrollbar {
+  display: none;
 }
 .diacuss_box{
-  margin-top:.05rem;
+  margin-bottom:.05rem;
   background:#fff;
   padding: 0 .15rem;
-  padding-bottom: .15rem;
+}
+.diacuss_box:last-child{
+  margin-bottom: 0;
 }
 .dia_tit{
   position: relative;
@@ -29,7 +35,7 @@
   background:rgba(255,255,255,1);
   border:1px solid rgba(222,222,222,1);
   border-radius:4px;
-  padding:.13rem .165rem;
+  padding:.13rem .13rem;
 }
 .dia_topic{
   font-size:.13rem;
@@ -47,6 +53,7 @@
   line-height:.12rem;
   text-align: right;
   opacity:.8;
+  margin-top: .06rem;
 }
 .dia_relevance{
   display: flex;
@@ -55,21 +62,21 @@
   line-height:.35rem;
 }
 .left{
-  font-size:.12rem;
+  font-size:.10rem;
   font-family:PingFang-SC-Medium;
-  color:rgba(33,57,147,1);
+  color:#666;
 }
 .right a{  
   font-size:.12rem;
   font-family:PingFang-SC-Medium;
-  color:rgba(102,102,102,1);
-  margin-left: .2rem;
+  color:rgba(33,57,147,1);
+  margin-left: .3rem;
   position: relative;
 }
 .right img{
   position: absolute;
-  top: .02rem;
-    left: -.15rem;
-    width: .14rem;
-    height: .14rem;
+  top: .009rem;
+  left: -.16rem;
+  width: .14rem;
+  height: .15rem;
 }

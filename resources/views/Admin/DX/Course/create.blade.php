@@ -32,24 +32,24 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">课程名称：</label>
                                 <div class="col-sm-8">
-                                    <input  name="name" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" value="{{old('name')}}">
+                                    <input  name="name" class="form-control" type="text"  value="{{old('name')}}" maxlength="30">
                                 </div>
                             </div>
-                            <!-- 密码： -->
+                            <!-- 授课老师： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">授课老师：</label>
                                 <div class="col-sm-8">
-                                    <input name="teacher" class="form-control" type="text" value="{{old('teacher')}}">
+                                    <input name="teacher" class="form-control" type="text" value="{{old('teacher')}}" maxlength="10">
                                 </div>
                             </div>
-                            <!-- 确认密码： -->
+                            <!-- 老师职称： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">老师职称：</label>
                                 <div class="col-sm-8">
-                                    <input name="professional" class="form-control" type="text" value="{{old('professional')}}">
+                                    <input name="professional" class="form-control" type="text" value="{{old('professional')}}" maxlength="20">
                                 </div>
                             </div>
-                            <!-- 电话： -->
+                            <!-- 类别： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">类别：</label>
                                 <div class="col-sm-3">

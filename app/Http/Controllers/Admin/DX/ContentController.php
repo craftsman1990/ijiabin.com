@@ -31,16 +31,37 @@ class ContentController extends Controller
 
     //执行添加
     public function store(Request $request){
-        $verif = array('chapter'=>'required',
+        $verif = [
+            'chapter'=>'required|numeric|min:1',
             'type'=>'required|numeric',
-            'title'=>'required',
-            'intro'=>'required',
-            'video'=>'required',
-            'audio'=>'required',
-            'time'=>'required',
+            'title'=>'required|max:30',
+            'intro'=>'required|max:255',
+            'video'=>'required|max:255',
+            'audio'=>'required|max:255',
+            'time'=>'required|max:10',
             'content'=>'required',
-            'course_id'=>'required|numeric');
-        $credentials = $this->validate($request,$verif);
+            'course_id'=>'required|numeric'
+        ];
+        $message =[
+            'chapter.required' => '章节编号 不能为空',
+            'chapter.numeric' => '章节编号 必须是数字',
+            'chapter.min' => '章节编号 必须大于或等于1',
+            'type.required' => '属性 不能为空',
+            'type.numeric' => '属性 必须是数字',
+            'title.required' => '章节标题 不能为空',
+            'title.max' => '章节标题 不能超过30个字符',
+            'intro.required' => '章节简介 不能为空',
+            'intro.max' => '章节简介 不能超过255个字符',
+            'video.required' => '视频地址 不能为空',
+            'video.max' => '视频地址 不能超过255个字符',
+            'audio.required' => '音频地址 不能为空',
+            'audio.max' => '音频地址 不能超过255个字符',
+            'time.required' => '章节时长 不能为空',
+            'time.max' => '章节时长 不能超过10个字符',
+            'content.required' => '章节内容 不能为空',
+            'course_id.required' => '课程ID 不能为空',
+        ];
+        $credentials = $this->validate($request,$verif,$message);
 //        dd($credentials);
         if (Content::create($credentials)){
             return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success', config('hint.add_success'));
@@ -57,16 +78,37 @@ class ContentController extends Controller
 
     //执行修改
     public function update(Request $request,$id){
-        $verif = array('chapter'=>'required',
+        $verif = [
+            'chapter'=>'required|numeric|min:1',
             'type'=>'required|numeric',
-            'title'=>'required',
-            'intro'=>'required',
-            'video'=>'required',
-            'audio'=>'required',
-            'time'=>'required',
+            'title'=>'required|max:30',
+            'intro'=>'required|max:255',
+            'video'=>'required|max:255',
+            'audio'=>'required|max:255',
+            'time'=>'required|max:10',
             'content'=>'required',
-            'course_id'=>'required|numeric');
-        $credentials = $this->validate($request,$verif);
+            'course_id'=>'required|numeric'
+        ];
+        $message =[
+            'chapter.required' => '章节编号 不能为空',
+            'chapter.numeric' => '章节编号 必须是数字',
+            'chapter.min' => '章节编号 必须大于或等于1',
+            'type.required' => '属性 不能为空',
+            'type.numeric' => '属性 必须是数字',
+            'title.required' => '章节标题 不能为空',
+            'title.max' => '章节标题 不能超过30个字符',
+            'intro.required' => '章节简介 不能为空',
+            'intro.max' => '章节简介 不能超过255个字符',
+            'video.required' => '视频地址 不能为空',
+            'video.max' => '视频地址 不能超过255个字符',
+            'audio.required' => '音频地址 不能为空',
+            'audio.max' => '音频地址 不能超过255个字符',
+            'time.required' => '章节时长 不能为空',
+            'time.max' => '章节时长 不能超过10个字符',
+            'content.required' => '章节内容 不能为空',
+            'course_id.required' => '课程ID 不能为空',
+        ];
+        $credentials = $this->validate($request,$verif,$message);
 //        dd($credentials);
         if (Content::find($id)->update($credentials)){
             return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success',config('hint.mod_success'));

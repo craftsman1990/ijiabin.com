@@ -9,7 +9,7 @@
 
             </div>
             <h3>嘉宾传媒 管理平台</h3>
-            <form class="m-t" role="form" action="{{url('admin/login')}}" method="POST">
+            <form class="m-t" role="form" action="{{route('admin.dologin')}}" method="POST">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="用户名" name="username">
                 </div>

@@ -26,7 +26,7 @@ class DiscussionController extends Controller
         foreach ($discussion as $disc){
             $disc->count = Comment::where('discussion_id',$disc->id)->count();
         }
-//        dd($disc);
+//        dd($discussion);
         return view('University.Discussion.index',compact('discussion'));
     }
 
@@ -47,6 +47,10 @@ class DiscussionController extends Controller
         }else{
             $data['web'] = 0;
         }
+        $pic = explode('/',$data['discussion']->cover);
+        $len = count($pic);
+        $data['download'] = $pic[$len-1];
+//        dd($data);
         return view('University.Discussion.discussionPoster',compact('data'));
     }
 
@@ -106,8 +110,8 @@ class DiscussionController extends Controller
             return response(['code' => '004','msg' => "detect not success. code:" . $response->code]);
 //            print_r("detect not success. code:" + $response->code);
         }
-        if (Comment::create($data)){
-            return response(['code'=>'002','msg'=>'评论成功']);
+        if ($comment = Comment::create($data)){
+            return response(['code'=>'002','msg'=>'评论成功','data'=>$comment]);
         }else{
             return response(['code'=>'003','msg'=>'评论失败，稍后重试！']);
         }
@@ -169,15 +173,24 @@ class DiscussionController extends Controller
             }
             $v->reply = $info;
         }
+//        dd($comment);
         return view('University.Discussion.detail',compact('discussion','comment'));
     }
 
     //回复评论
     public function reply($cid,$type){
         if ($type == 1){
+            //回复回复
             $reply = Reply::find($cid);
             $rep_user = User::find($reply->user_id);
+            if ($reply->type == 1){
+                $toReply = Reply::find($reply->relevance_id);
+                $comment['id'] = $toReply->relevance_id;
+            }else{
+                $comment['id'] = $reply->relevance_id;
+            }
         }else{
+            //回复评论
             $comment = Comment::find($cid);
             $rep_user = User::find($comment->user_id);
         }
@@ -186,11 +199,10 @@ class DiscussionController extends Controller
         }else{
             $comment['user'] = '该账户已注销';
         }
-        $comment['id'] =$cid;
         $user = Auth::user();
-//        dd($comment);
+//        dd($reply);
 
-        return view('University.Discussion.reply',compact('user','comment','type'));
+        return view('University.Discussion.reply',compact('user','comment','cid','type'));
     }
 
     //添加回复
@@ -241,12 +253,23 @@ class DiscussionController extends Controller
         }
     }
 
+    //删除评论
+    public function delComment(Request $request){
+        $comment = Comment::find($request->cid);
+        if (!$comment){
+            return response(['code'=>'001','msg'=>'该评论已被删除']);
+        }
+        if ($comment->delete()){
+            return response(['code'=>'002','msg'=>'删除成功']);
+        }else{
+            return response(['code'=>'003','msg'=>'删除失败']);
+        }
+    }
     //删除回复
     public function delReply(Request $request){
-//        dd($request->all());
         $reply = Reply::find($request->rid);
         if (!$reply){
-            return response(['code'=>'001','msg'=>'该评论已被删除']);
+            return response(['code'=>'001','msg'=>'该回复已被删除']);
         }
         if (Reply::destroy($request->rid)){
             return response(['code'=>'002','msg'=>'删除成功']);
@@ -258,6 +281,9 @@ class DiscussionController extends Controller
     //评论详情
     public function commentDetail($id){
         $comment = Comment::find($id);
+        if (!$comment){
+            return back();
+        }
         if (Auth::guard('university')->check()){
             $login = Auth::guard('university')->user();
             $collect = Collect::where('user_id',$login->id)->where('by_collect_id',$comment->id)->where('type',2)->first();
@@ -266,11 +292,18 @@ class DiscussionController extends Controller
             }else{
                 $comment->coll_status = 0;
             }
+            //点赞
             $praise = Praise::where('user_id',$login->id)->where('by_praise_id',$comment->id)->where('type',1)->first();
             if ($praise){
                 $comment->prai_status = $praise->status;
             }else{
                 $comment->prai_status = 0;
+            }
+            //判断是否自己的评论
+            if ($login->id == $comment->user_id){
+                $comment->is_my = 1;
+            }else{
+                $comment->is_my = 0;
             }
         }
         $comment->time = Helper::getDifferenceTime($comment->created_at);
@@ -283,7 +316,10 @@ class DiscussionController extends Controller
             $comment->user_pic = 'https://www.ijiabin.com/Home/images/wyjb_logo.png';
         }
         $reply = Reply::where('type',0)->where('relevance_id',$comment->id)->orderBy('created_at','desc')->get()->toArray();
+//        echo '<pre>';
         $replys = $this->recursionReply($reply);
+//        dd($replys);
+
         foreach ($replys as &$v){
             $r_user =User::find($v['user_id']);
             if ($r_user){
@@ -367,13 +403,14 @@ class DiscussionController extends Controller
             $data['by_praise_id'] = $request->cid;
             $data['type'] = 1;
             $data['status'] = 1;
-            if (Praise::create($data)){
-                return response(['code'=>'002','msg'=>'操作成功']);
+            if (Praise::create($data) && $comment->update(['praise'=>$praise_num])){
+                return response(['code'=>'002','msg'=>'操作成功','praise'=>$praise_num,'status'=>$request->status]);
             }else{
                 return response(['code'=>'003','msg'=>'操作失败，稍后重试！']);
             }
         }
     }
+
 
     /**
      *递归获取回复
@@ -391,6 +428,10 @@ class DiscussionController extends Controller
                 $this->recursionReply($result,$v['user_id']);
             }
         }
-        return $reply;
+        $data = $reply;
+        if ($parent ==0){
+            $reply = [];
+        }
+        return $data;
     }
 }

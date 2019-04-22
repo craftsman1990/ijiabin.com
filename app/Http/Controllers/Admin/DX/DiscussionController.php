@@ -38,12 +38,18 @@ class DiscussionController extends Controller
     }
 
     public function store(Request $request){
-        $verif = array('title'=>'required',
+        $verif = [
+            'title'=>'required|max:30',
             'time'=>'required',
-            'author'=>'required',
+            'author'=>'required|max:10',
             'cover'=>'required',
-            'content'=>'required');
-        $credentials = $this->validate($request,$verif);
+            'content'=>'required'
+        ];
+        $message = [
+            'author.required'=> '出题人 不能为空',
+            'author.max'=> '出题人 不能超过10个字符',
+        ];
+        $credentials = $this->validate($request,$verif,$message);
 
 //        dd($credentials);
         $pic_path = Upload::uploadOne('Discussion',$credentials['cover']);
@@ -69,11 +75,17 @@ class DiscussionController extends Controller
     }
 
     public function update(Request $request,$id){
-        $verif = array('title'=>'required',
+        $verif = [
+            'title'=>'required|max:30',
             'time'=>'required',
-            'author'=>'required',
-            'content'=>'required');
-        $credentials = $this->validate($request,$verif);
+            'author'=>'required|max:10',
+            'content'=>'required'
+        ];
+        $message = [
+            'author.required'=> '出题人 不能为空',
+            'author.max'=> '出题人 不能超过10个字符',
+        ];
+        $credentials = $this->validate($request,$verif,$message);
 //        dd($credentials);
         //图像上传
         if ($request->cover){

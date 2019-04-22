@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="foo-bot">© 2018 深圳嘉宾传媒有限公司 | 粤ICP备：16086053号 | 广播电视节目制作经营许可证：（粤）字第02345号 </div>
+        <div class="foo-bot">© 2018 深圳嘉宾传媒有限公司 | <a href="http://www.miitbeian.gov.cn" target="_Blank" style="cursor:pointer;color: #999999;">粤ICP备：16086053号</a> | 广播电视节目制作经营许可证：（粤）字第02345号 </div>
     </div>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src={{asset("Home/js/jquery.min.js")}}></script>

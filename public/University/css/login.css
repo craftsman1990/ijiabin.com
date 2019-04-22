@@ -62,6 +62,7 @@ input::-webkit-input-placeholder {
   font-family:PingFang-SC-Medium;
   color:rgba(255,255,255,1);
   margin-top:1rem;
+  border: none;
 }
 input[type="button"]{
   position: absolute;
@@ -80,8 +81,7 @@ input[type="submit"]{
   color:rgba(255,255,255,1);
   height:.43rem;
   background:rgba(48,92,186,1);
-  box-shadow:0px 3px 35px 0px rgba(48,92,186,0.31);
-  opacity:0.67;
+  box-shadow:0px 3px 18px 0px rgba(88,120,188,0.55);
   border-radius:8px;
   width:100%;
   border:none;
@@ -163,6 +163,7 @@ input[type="submit"]{
   font-size:.13rem;
   font-family:PingFang-SC-Medium;
   color:rgba(255,255,255,1);
+  border: none;
 }
 
 .imgbox{
@@ -235,3 +236,68 @@ input[type="submit"]{
   color:rgba(255,255,255,1);
 
 } */
+
+.cover1{
+  width:70%;
+  background: rgba(0,0,0,.4);
+  height:.4rem;
+  line-height:.4rem;
+  text-align: center;
+  position: fixed;
+  top:26%;
+  left:15%;
+  color: #fff;
+  border-radius:.06rem;
+  font-size:.12rem;
+  display:none;
+}
+
+#myModal{
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  height:100%;
+  display: none;
+}
+#clipArea{
+  margin-top: -.5rem;
+  height: 6.2rem;
+}
+.modal-header{
+  position: fixed;
+  z-index: 999;
+  top: .2rem;
+  right: .2rem;
+}
+.modal-footer{
+  position: fixed;
+  z-index: 999;
+  bottom: .5rem;
+}
+.close{
+  border: none;
+  border-radius: 50%;
+}
+.modal-header img{
+  width:.2rem;
+  height:.2rem;
+}
+.modal-footer{
+  width: 100%;
+  padding: 0 .2rem;
+  display: flex;
+  justify-content: space-between;
+}
+.btn1{
+  margin-top: .3rem;
+  padding: 0 .1rem;
+  height: .27rem;
+  border: none;
+  background: rgba(48,92,186,1);
+  color: #fff;
+  border-radius: 5px;
+}
+.valid{
+  display: none;
+}

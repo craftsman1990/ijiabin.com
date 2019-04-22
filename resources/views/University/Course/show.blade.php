@@ -1,17 +1,19 @@
 @extends('layouts.university')
-@section('title','课程')
+@section('title',$course->name)
 @section('content')
-  <link rel="stylesheet" href="{{asset('University/css/audio.css')}}">
   <link rel="stylesheet" href="{{asset('University/css/reset.css')}}">
   <link rel="stylesheet" href="{{asset('University/css/video.css')}}">
   <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+  <style>
+    #myvideo{
+      width:100%;
+      height:auto;
+    }
+  </style>
   <div class="wrapper">
     <div class="bad-video">
       @if($course->oneType ==0 || Auth::guard('university')->check() && $course->isBuy==1)
-      <video class="video_player" poster="{{asset($course->crosswise_cover)}}" webkit-playsinline style="object-fit:fill;">
-          <source src="{{$course->oneVideo}}" type="video/mp4">            
-          <p>设备不支持</p>
-      </video>
+        <video  id="myvideo" src=""  controls="controls" autoplay="autoplay" controlslist="nodownload"></video>
       @else
       <div class="nopay">
           <p class="nopay_com">开通后才能继续学习~</p>
@@ -20,11 +22,12 @@
           @else
           <button class="nopay_btn onlogin">立即开通</button>
           @endif
-          <img src="{{asset('University/images/icon_yinpin@2x.png')}}" class="vaudio"/>
-          <img src="{{asset('University/images/icon_vshoucang.png')}}" class="vcollect onlogin"/>
       </div>
       @endif
+
+    <div class="wengaotab"><img src="{{asset('University/images/icon_wengao@3x.png')}}" alt=""></div>
     </div>
+
     <div id="centera">
       <div class="orangerb">
         <ul id="oranger"> 
@@ -48,20 +51,21 @@
             <div class="tab-content">
               {{--课程内容--}}
               <div class="box2">
-                @foreach($contents as $content)
+                @foreach($contents as $k=>$content)
                   @if($content->type == 0 || Auth::guard('university')->check() && $course->isBuy == 1)
+                  <div class="class_list">
                   @if(Auth::guard('university')->check())
-                  <div class="class_list get_video" video="{{$content->video}}" content="{{$content->content}}" ls_id="{{$content->learning->id}}">
+                    <p class="list_name get_video" video="{{$content->video}}" content="{{$content->content}}" ls_id="{{$content->learning->id}}" kid="{{$k}}" ls_time="{{$content->learning->learning_time}}">
                   @else  
-                  <div class="class_list get_video" video="{{$content->video}}" content="{{$content->content}}" ls_id="0">
+                    <p class="list_name get_video" video="{{$content->video}}" content="{{$content->content}}" ls_id="0" kid="{{$k}}" ls_time="0">
                   @endif  
-                    <p class="list_name">
                       <span class="col">{{$content->chapter}} {{$content->title}}</span>
-                      <span><img class="bianj" src="{{asset('University/images/icon_bianji@2x2.png')}}" alt=""></span>
+                      <!-- <span><img class="bianj" src="{{asset('University/images/icon_bianji@2x2.png')}}" alt=""></span> -->
                     </p>
                     {{--学习状态--}}
                     <p class="list_time">
-                      <span class="notice">{{$content->type==1? '正课' : '预告'}}</span>{{substr($content->time,3,5)}}
+                      <span class="notice">{{$content->type==1? '正课' : '预告'}}</span>
+                      {{$content->time}}
                       @if(Auth::guard('university')->check())
                       <span class="acc">{{$content->learning->state ==1 ? '已完成' : '学习中'}}</span>
                       @else
@@ -78,7 +82,7 @@
                         <span>{{$content->chapter}} {{$content->title}}</span>
                         <span><img src="{{asset('University/images/icon_suo@2x.png')}}" alt=""></span>
                       </p>
-                      <p class="list_time">{{substr($content->time,3,5)}}</p>
+                      <p class="list_time">{{$content->time}}</p>
                       <p class="list_img"><img src="{{asset('University/images/icon_zhankai@2x.png')}}" alt=""></p>
                     </div> 
                     
@@ -103,12 +107,12 @@
                     <p class="biaoqian"><img src="{{asset('University/images/icon_biaoqianlan@2x.png')}}" alt=""></p>
                     <div class="lis">
                       @if(Auth::guard('university')->check())
-                      <p class="cons blue">({{$content->learning->quiz_state}}/{{$content->quizCount}}）</p>
+                      <p class="cons bla">({{$content->learning->quiz_state}}/{{$content->quizCount}}）</p>
                       @else
-                      <p class="cons blue">(0/{{$content->quizCount}}）</p>
+                      <p class="cons bla">(0/{{$content->quizCount}}）</p>
                       @endif
-                      <p class="con blue">{{$content->chapter}}</p>
-                      <p class="lis_tit blue">{{$content->title}}</p>
+                      <p class="con bla">{{$content->chapter}}</p>
+                      <p class="lis_tit2">{{$content->title}}</p>
                     </div>
                     <div class="testBox">
                       <form id="form_{{$content->id}}">
@@ -119,7 +123,7 @@
                       {{--题目循环--}}
                       @foreach($content->quizs as $k=>$quiz)
                       <div class="topicbox">
-                        <p class="t_tit"><span>({{$quiz->type==1 ? '多选' : '单选'}}）</span>{{$k}}. {{$quiz->title}}</p>
+                        <p class="t_tit"><span>({{$quiz->type==1 ? '多选' : '单选'}}）</span>{{$k+1}}. {{$quiz->title}}</p>
                         {{--答案循环--}}
                         @foreach($quiz->answers as $ak=>$answer)
                         <div>
@@ -178,6 +182,7 @@
           </div>
         </div>
       </div>
+      <!-- <div class="wengaotab"><img src="{{asset('University/images/icon_wengao@3x.png')}}" alt=""></div> -->
     </div>
     {{--判断是否登陆--}}
     @if(Auth::guard('university')->check())
@@ -191,564 +196,123 @@
         <button class="btn onlogin">开通课程 | ￥{{$course->price}}</button>
     @endif
     <div class="hint">购买后才能继续学习</div>
-    @if($course->oneType == 0 || Auth::guard('university')->check() && $course->isBuy == 1)
-    <div class="wengaotab denlu"><img src="{{asset('University/images/icon_wengao@2x.png')}}" alt=""></div>
-    <div class="wengaobox con_content">{{$course->oneContent}}</div>
-    @else
-    <div class="wengaotab onlogin"><img src="{{asset('University/images/icon_wengao@2x.png')}}" alt=""></div>
-    @endif
+   
+    <div class="wengaobox con_content"></div>
+   
   </div>
   {{-- 登陆地址 --}}
-  <input type="hidden" name="loginUrl" value="{{url('university/login?source=4&yid='.$course->id)}}">
-  <input type="hidden" id="audioUrl" value="{{url('university/course/audio/id/'.$course->id)}}">
+  <input type="hidden" name="loginUrl" value="{{url('university/quickLogin?source=4&yid='.$course->id)}}">
+  <input type="hidden" name="getInfoUrl" value="{{url('api/weixin/wxLogin?state='.$course->id.'&uri=https://www.ijiabin.com/university/my/getOpenId')}}">
+  {{--当前视频Key--}}
+  <input type="hidden" id="kid" value="{{$course->kid}}">
   @if(Auth::guard('university')->check())
-  <input type="hidden" name="ls_id" value="{{$course->oneId}}">
+  <div class="cli">
+    <!-- <p class="sc collect" status="{{$course->coll_status}}">
+      @if($course->coll_status)
+      <img src="{{asset('University/images/icon_shoucangdian@2x.png')}}">
+      @else
+      <img src="{{asset('University/images/icon_shoucang@3x.png')}}">
+      @endif
+    </p> -->
+    @if($course->oneType == 0 || $course->isBuy == 1)
+    <p class="wb draft"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @else
+    <p class="wb notBy"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @endif
+    <p class="yp"><img src="{{asset('University/images/icon_yinpin@2x.png')}}"></p>
+  </div>
+  {{--当前小节学习记录ID及时间--}}
+  <input type="hidden" name="ls_id">
+  <input type="hidden" name="ls_time">
+  <input type="hidden" name="ls_key" value="{{$course->learingKey}}">
+  {{--当前课程收藏状态--}}
   <input type="hidden" name="status" value="{{$course->coll_status}}" id="status">
+  {{--当前登陆状态--}}
   <input type="hidden" value="1" id="is_login">
   @else
-  <input type="hidden" name="ls_id" value="0">
+  <div class="cli">
+    <!-- <p class="sc onlogin"><img src="{{asset('University/images/icon_shoucang@3x.png')}}"></p> -->
+    @if($course->oneType == 0)
+    <p class="wb draft"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @else
+    <p class="wb onlogin"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @endif
+    <p class="yp"><img src="{{asset('University/images/icon_yinpin@2x.png')}}"></p>
+  </div>
   <input type="hidden" name="status" value="0" id="status">
   <input type="hidden" value="0" id="is_login">
+  <input type="hidden" name="ls_key" value="0">
   @endif
-    <!-- <script type="text/javascript" src="{{asset('University/js/audio.js')}}"></script> -->
-    <script type="text/javascript" src="{{asset('University/js/mui.min.js')}}"></script>
-    <!-- <script type="text/javascript" src="{{asset('University/js/bvd.js')}}"></script> -->
-    @if($course->oneType ==0 || Auth::guard('university')->check() && $course->isBuy == 1)
-    <script type="text/javascript">
-      (function($) {
-        var bvd = function(dom) {
-          var that = this;
-          $.ready(function() {
-            //获取视频元素
-            that.video = document.querySelector(dom || "video");
-            //获取视频父元素
-            that.vRoom = that.video.parentNode;
-            //元素初始化
-            that.initEm();
-            //事件初始化
-            that.initEvent();
-            //记录信息
-            that.initInfo();
-            //当前播放模式 false 为 mini播放
-            that.isMax = false;
-          });
-        };
+  @include('layouts.u_hint')
+  @if($course->oneType ==0 || Auth::guard('university')->check() && $course->isBuy==1)
+  <script language="javascript">
+    var videoOBJ = $('.get_video');
+    var vList = new Array();
+    var contentList = new Array();
+    var learIdList = new Array();
+    var learTimeList = new Array();
+    for (var i = 0; i <= videoOBJ.length - 1; i++) {
+      vList[i] = videoOBJ[i].getAttribute('video')
+      learIdList[i] = videoOBJ[i].getAttribute('ls_id')
+      learTimeList[i] = videoOBJ[i].getAttribute('ls_time')
+      contentList[i] = videoOBJ[i].getAttribute('content')
+    }
+    var vLen = vList.length;
+    var ls_key = $('[name=ls_key]').val();
+    if (ls_key != 0) {
+       $('#kid').val(ls_key);
+    }
+    var curr = $('#kid').val();
 
-        var pro = bvd.prototype;
-        var status = document.getElementById('status').value;
-        //记录信息
-        pro.initInfo = function() {
-          var that = this;
-          //在onload状态下，offsetHeight才会获取到正确的值
-          window.onload = function() {
-            that.miniInfo = {
-              //mini状态时的样式
-              width: that.video.offsetWidth + "px",
-              height: that.video.offsetHeight + "px",
-              position: that.vRoom.style.position,
-              transform: "translate(0,0) rotate(0deg)"
-            };
+    $(document).ready(function(){
+      if (vList[curr] == undefined) {
+          alert('购买后才能继续学习')
+      }else{
+          play(curr,learTimeList[curr]);
+      }
+    });
+   
+    var video = document.getElementById("myvideo");
+    video.ontimeupdate=function(){
+      window.localStorage.setItem('now_time',Math.floor(this.currentTime))
+    };    
+    video.addEventListener("ended", function(){
+      //    alert("已播放完成，继续下一个视频");
+      getVideoTime(1)
+      console.log(curr);
+      if (vList[curr] != undefined) {
+        play(curr);
+      }
+    });
+    function play(k,time=0) {
+      //切换列表菜单
+      $('.get_video').eq(k).parent().siblings().find('.col').removeClass('coled');
+      $('.get_video').eq(k).find('.col').addClass('coled');
 
-            var info = [
-                document.documentElement.clientWidth || document.body.clientWidth,
-                document.documentElement.clientHeight || document.body.clientHeigth
-              ],
-              w = info[0],
-              h = info[1],
-              cha = Math.abs(h - w) / 2;
-
-            that.maxInfo = {
-              //max状态时的样式
-              zIndex: 99,
-              width: h + "px",
-              height: w + "px",
-              position: "fixed",
-              transform: "translate(-" + cha + "px," + cha + "px) rotate(90deg)"
-            };
-          };
-        };
-
-        pro.initEm = function() {
-          //先添加上一个按钮
-          this.vtop = document.createElement("img");
-          this.vtop.src = "{{asset('University/images/icon_zuojin@2x.png')}}";
-          this.vtop.className = "vtop";
-          this.vRoom.appendChild(this.vtop);
-
-          // 暂停中间按钮
-          this.simg = document.createElement("img");
-          this.simg.src = "{{asset('University/images/pause.png')}}";
-          this.simg.className = "pause";
-          this.vRoom.appendChild(this.simg);
-
-          //先添加下一个按钮
-          this.vbelow = document.createElement("img");
-          this.vbelow.src = "{{asset('University/images/icon_youjin@2x.png')}}";
-          this.vbelow.className = "vbelow";
-          this.vRoom.appendChild(this.vbelow);
-
-          //先添加音频按钮
-          this.vaudio = document.createElement("img");
-          this.vaudio.src = "{{asset('University/images/icon_yinpin@2x.png')}}";
-          this.vaudio.className = "vaudio";
-          this.vRoom.appendChild(this.vaudio);
-
-          //先添加收藏按钮
-            this.vcollect1 = document.createElement("img");
-            this.vcollect1.src = "{{asset('University/images/icon_yishoucang@2x.png')}}";
-            this.vcollect1.className = "vcollect1";
-            this.vRoom.appendChild(this.vcollect1);
-
-            this.vcollect = document.createElement("img");
-            this.vcollect.src = "{{asset('University/images/icon_vshoucang.png')}}";
-            this.vcollect.className = "vcollect";
-            this.vRoom.appendChild(this.vcollect);
-            if (status != 1) {
-              this.vcollect1.style.display = "none";
-            }else{
-              this.vcollect.style.display = "none";
-            }
-        
-         
-          //先添加播放按钮
-          this.vimg = document.createElement("img");
-          this.vimg.src = "{{asset('University/images/play2.png')}}";
-          this.vimg.className = "vplay";
-          this.vRoom.appendChild(this.vimg);
-
-          //添加控制条
-          this.vC = document.createElement("div");
-          this.vC.classList.add("controls");
-          this.vC.innerHTML =
-            '<div><div class="progressBar"><span id="cricle"></span><div class="timeBar"></div></div></div><div><span class="current">00:00</span><span class="duration">00:00</span></div><div><img class="fill" src="' +
-            "{{asset('University/images/icon_quanping@2x.png')}}" +
-            '" alt=""></div>';
-          this.vRoom.appendChild(this.vC);
-
-        };
-
-        pro.initEvent = function() {
-          var that = this;
-
-          var isScroll = false;
-          var nowPage = "small";
-
-          //切换音频
-          this.vaudio.addEventListener("touchend", function() {
-
-            location.href = document.getElementById('audioUrl').value;
-          });
-
-          //收藏按钮
-            this.vcollect1.addEventListener('touchend',function(){
-              $.ajax({
-                  url:"{{url('university/course/collect')}}",
-                  data:{_token:"{{csrf_token()}}",cid:"{{$course->id}}",status:0},
-                  type:'POST',
-                  dataType:'json',
-                  success:function(d){
-                    if (d.code == '002') {
-                        that.vcollect1.style.display = 'none';
-                        that.vcollect.style.display = 'block';
-                        document.getElementById('status').value = '0';
-                    }else{
-                      console.log(2)
-                    }
-                  }
-                })
-            })
-            this.vcollect.addEventListener('touchend',function(){
-              var is_login = document.getElementById('is_login');
-              if (is_login.value == 1) {
-                $.ajax({
-                  url:"{{url('university/course/collect')}}",
-                  data:{_token:"{{csrf_token()}}",cid:"{{$course->id}}",status:1},
-                  type:'POST',
-                  dataType:'json',
-                  success:function(d){
-                    if (d.code == '002') {
-                        that.vcollect.style.display = 'none';
-                        that.vcollect1.style.display = 'block';
-                        document.getElementById('status').value = '1';
-                    }else{
-                      console.log(2)
-                    }
-                  }
-                })
-              }else{
-                var loginUrl = document.getElementsByName('loginUrl');
-                window.location.href=loginUrl[0].value;
-              }
-            })  
-          
-          
-          
-          
-
-          //上一个
-          this.vtop.addEventListener('touchend',function(){
-            console.log('上一个')
-          })
-          //下一个
-          this.vbelow.addEventListener('touchend',function(){
-            console.log('下一个')
-          })
-          //给播放按钮图片添加事件
-          this.vimg.addEventListener("tap", function() {
-            isScroll = false;
-            that.video.play();
-          });
-
-
-          //获取到元数据
-          this.video.addEventListener("loadedmetadata", function() {
-            that.vDuration = this.duration;
-            that.vC.querySelector(".duration").innerHTML = stom(that.vDuration);
-            window.localStorage.setItem('total_time',stom(that.vDuration));
-          });
-         
-          var allEvents = {};
-          //视频播放事件
-          this.video.addEventListener("play", function() {
-            if (!isScroll) {
-              that.vimg.style.display = "none";
-              that.simg.style.display = "block";
-              setTimeout(function() {
-                that.simg.style.display = "none";
-                that.vtop.style.display = "none";
-                that.vbelow.style.display = "none";
-                that.vaudio.style.display = "none";
-                that.vcollect.style.display = "none";
-                that.vC.classList.add("vhidden");
-                that.vC.style.visibility = "hidden";
-              });
-            }
-
-            var isThat = this;
-            if (nowPage == "small") {
-              // 拖动开始的X轴距离
-              var startX = 0;
-              // 距离左边的距离
-              var leftAll = 0;
-              // 进度条元素总长度
-              var allW = parseFloat(
-                getComputedStyle(that.vC.querySelector(".progressBar"), null)["width"]
-              );
-              var btnLeft = 0;
-
-              function smallStart(e) {
-                allEvents.touchstart = 1;
-                isThat.pause();
-                startX = e.touches[0].clientX;
-                btnLeft = getComputedStyle(that.vC.querySelector("#cricle"), null)[
-                  "left"
-                ];
-              }
-
-              function smallEnd(e) {
-                allEvents.touchend = 1;
-                var overTime = stom((leftAll / allW) * isThat.duration);
-                that.vC.querySelector(".current").innerHTML = overTime;
-                var nowTime =
-                  Math.round((leftAll / allW) * isThat.duration) - isThat.currentTime;
-                that.setCurrentTime(nowTime);
-                that.vimg.style.display = "none";
-                that.simg.style.display = "block";
-                isScroll = true;
-                that.video.play();
-              }
-
-              function smallMove(e) {
-                allEvents.touchmove = 1;
-                var endFlo = e.touches[0].clientX - startX + parseFloat(btnLeft);
-                if (endFlo > allW) {
-                  endFlo = allW;
-                } else if (endFlo < 0) {
-                  endFlo = 0;
-                }
-                leftAll = endFlo;
-                that.vC.querySelector(".timeBar").style.width = endFlo + "px";
-                that.vC.querySelector("#cricle").style.left = endFlo + "px";
-              }
-
-              // 滚动条圆点拖动开始
-              that.vC
-                .querySelector("#cricle")
-                .addEventListener("touchstart", smallStart, false);
-              // 滚动条圆点拖动时
-              that.vC
-                .querySelector("#cricle")
-                .addEventListener("touchmove", smallMove, false);
-              // 滚动条圆点拖动结束
-              that.vC
-                .querySelector("#cricle")
-                .addEventListener("touchend", smallEnd, false);
-            } else {
-              // 拖动开始的X轴距离
-              var startY = 0;
-              // 距离左边的距离
-              var leftAll = 0;
-              // 进度条元素总长度
-              var allW = parseFloat(
-                getComputedStyle(that.vC.querySelector(".progressBar"), null)["width"]
-              );
-              var btnLeft = 0;
-
-              // 滚动条圆点拖动开始
-              that.vC
-                .querySelector("#cricle")
-                .addEventListener("touchstart", function(e) {
-                  isThat.pause();
-                  startY = e.touches[0].clientY;
-                  btnLeft = getComputedStyle(that.vC.querySelector("#cricle"), null)[
-                    "left"
-                  ];
-                });
-              // 滚动条圆点拖动时
-              that.vC
-                .querySelector("#cricle")
-                .addEventListener("touchmove", function(e) {
-                  var endFlo = e.touches[0].clientY - startY + parseFloat(btnLeft);
-                  if (endFlo > allW) {
-                    endFlo = allW;
-                  } else if (endFlo < 0) {
-                    endFlo = 0;
-                  }
-                  leftAll = endFlo;
-                  that.vC.querySelector(".timeBar").style.width = endFlo + "px";
-                  that.vC.querySelector("#cricle").style.left = endFlo + "px";
-                });
-              // 滚动条圆点拖动结束
-              that.vC
-                .querySelector("#cricle")
-                .addEventListener("touchend", function(e) {
-                  var overTime = stom((leftAll / allW) * isThat.duration);
-                  that.vC.querySelector(".current").innerHTML = overTime;
-                  var nowTime =
-                    Math.round((leftAll / allW) * isThat.duration) -
-                    isThat.currentTime;
-                  that.setCurrentTime(nowTime);
-                  that.vimg.style.display = "none";
-                  that.simg.style.display = "block";
-                  isScroll = true;
-                  that.video.play();
-                });
-            }
-          });
-
-          //视频播放中事件
-          this.video.addEventListener("timeupdate", function() {
-            var currentPos = this.currentTime; //获取当前播放的位置
-            //更新进度条
-            var percentage = (100 * currentPos) / that.vDuration;
-            that.vC.querySelector("#cricle").style.left = percentage + "%";
-            that.vC.querySelector(".timeBar").style.width = percentage + "%";
-
-            //更新当前播放时间
-            that.vC.querySelector(".current").innerHTML = stom(currentPos);
-            // console.log(stom(currentPos));
-            var total_time = window.localStorage.getItem('total_time'); 
-              if (stom(currentPos) == total_time) {
-                  console.log('结束')
-                  getVideoTime(1);
-              }
-              window.localStorage.setItem('now_time',stom(currentPos));
-          });
-          
-          //视频点击暂停或播放事件
-          this.video.addEventListener("tap", function() {
-            if (this.paused || this.ended) {
-              //暂停时点击就播放
-              if (this.ended) {
-                //如果播放完毕，就重头开始播放
-                this.currentTime = 0;
-              }
-              isScroll = false;
-              this.play();
-            } else {
-              //播放时点击就暂停
-              // this.pause();
-              var olthat = this;
-              that.simg.addEventListener("tap", function() {
-                that.vimg.style.display = "block";
-                that.simg.style.display = "none";
-                olthat.pause();
-              });
-              if (that.vtop.style.display == "none") {
-                that.simg.style.display = "block";
-                that.vtop.style.display = "block";
-                that.vbelow.style.display = "block";
-                that.vaudio.style.display = "block";
-                that.vcollect.style.display = "block";
-                that.vC.classList.remove("vhidden");
-                that.vC.style.visibility = "visible";
-              } else {
-                that.simg.style.display = "none";
-                that.vtop.style.display = "none";
-                that.vbelow.style.display = "none";
-                that.vaudio.style.display = "none";
-                that.vcollect.style.display = "none";
-                that.vC.classList.add("vhidden");
-                that.vC.style.visibility = "hidden";
-              }
-            }
-            
-            console.log(stom(this.currentTime));
-          });
-
-          //暂停or停止
-          this.video.addEventListener("pause", function() {
-            that.simg.style.display = "none";
-            that.vimg.style.display = "block";
-            that.vtop.style.display = "block";
-            that.vbelow.style.display = "block";
-            that.vaudio.style.display = "block";
-            that.vcollect.style.display = "block";
-            that.vC.classList.remove("vhidden");
-            that.vC.style.visibility = "visible";
-            that.vCt && clearTimeout(that.vCt);
-          });
-
-          //转换音频
-          this.vaudio.click(function() {
-            
-          });
-
-          //视频手势右滑动事件
-          this.eve("swiperight", function() {
-            if (that.isMax) {
-              return that.setVolume(0.2);
-            }
-            that.setCurrentTime(10);
-          });
-
-          //视频手势左滑动事件
-          this.eve("swipeleft", function() {
-            if (that.isMax) {
-              return that.setVolume(-0.2);
-            }
-            that.setCurrentTime(-10);
-          });
-
-          //视频手势上滑动事件
-          this.eve("swipeup", function() {
-            if (that.isMax) {
-              return that.setCurrentTime(-5);
-            }
-            that.setVolume(0.2);
-          });
-
-          //视频手势下滑动事件
-          this.eve("swipedown", function() {
-            if (that.isMax) {
-              return that.setCurrentTime(5);
-            }
-            that.setVolume(-0.2);
-          });
-
-          this.vC.querySelector(".fill").addEventListener("tap", function() {
-            //that.nativeMax();
-            that.switch();
-            if (nowPage == "small") {
-              nowPage = "lage";
-            } else {
-              nowPage = "small";
-            }
-          });
-        };
-
-        //全屏 mini 两种模式切换
-        pro.switch = function() {
-          var vR = this.vRoom;
-          //获取需要转换的样式信息
-          var info = this.isMax ? this.miniInfo : this.maxInfo;
-          for (var i in info) {
-            vR.style[i] = info[i];
-          }
-          this.isMax = !this.isMax;
-        };
-
-        //使用原生支持的方式播放
-        pro.nativeMax = function() {
-          if (!window.plus) {
-            //非html5+环境
-            return;
-          }
-          if ($.os.ios) {
-            console.log("ios");
-            this.video.removeAttribute("webkit-playsinline");
-          } else if ($.os.android) {
-            console.log("android");
-            var url = this.video.querySelector("source").src;
-            var Intent = plus.android.importClass("android.content.Intent");
-            var Uri = plus.android.importClass("android.net.Uri");
-            var main = plus.android.runtimeMainActivity();
-            var intent = new Intent(Intent.ACTION_VIEW);
-            var uri = Uri.parse(url);
-            intent.setDataAndType(uri, "video/*");
-            main.startActivity(intent);
-          }
-        };
-
-        //跳转视频进度 单位 秒
-        pro.setCurrentTime = function(t) {
-          this.video.currentTime += t;
-        };
-        //设置音量大小 单位 百分比 如 0.1
-        pro.setVolume = function(v) {
-          this.video.volume += v;
-        };
-        //切换播放地址
-        pro.setUrl = function(nUrl) {
-          var v = this.video;
-          var source = v.querySelector("source");
-          source.src = v.src = nUrl;
-          source.type = "video/" + nUrl.split(".").pop();
-          isScroll = false;
-          v.play();
-        };
-
-        var events = {};
-
-        //增加 或者删除事件    isBack 是否返回  这次添加事件时 被删除 的上一个 事件
-        pro.eve = function(ename, callback, isBack) {
-          var fn;
-          if (callback && typeof callback == "function") {
-            isBack && (fn = arguments.callee(ename));
-            events[ename] = callback;
-            this.video.addEventListener(ename, events[ename]);
-            console.log("添加事件：" + ename);
-          } else {
-            fn = events[ename];
-            fn && this.video.removeEventListener(ename, fn);
-            console.log("删除事件：" + ename);
-          }
-
-          return fn;
-        };
-
-        function stom(t) {
-          var m = Math.floor(t / 60);
-          m < 10 && (m = "0" + m);
-          return m + ":" + ((t % 60) / 100).toFixed(2).slice(-2);
-        }
-
-        var nv = null;
-        $.bvd = function(dom) {
-          return nv || (nv = new bvd(dom));
-        };
-
-
-      })(mui);
-    </script>
+      //切换文本
+      $('.con_content').text(contentList[k])
+      
+      //切换当前播放记录
+      $('[name=ls_id').val(learIdList[curr]);
+      $('[name=ls_time').val(learTimeList[curr]);
+      $('#kid').val(curr);
+      
+      video.src = vList[k];
+      video.load();
+      video.currentTime=time
+      video.play();
+      curr++;
+      if(curr >= vLen){
+          curr = 0; //重新循环播放
+      }
+    }
+  </script>
+  @endif
+  <div class="webhint"></div>
     <script>
-        var v = mui.bvd();
-        // v.test();
-    </script>
-    @endif
-    <script>
-      $(document).ready(function () {
-        
+      $(document).ready(function () {  
+        var is_login = $('#is_login').val();
+        var loginUrl = $('[name=loginUrl]').val();      
         //课程详情
         $('.class_list').each(function(index) {
           $('.class_list').eq(index).find(".list_img").click(function() {
@@ -756,25 +320,26 @@
             $(this).next().toggle()
           })
         })
+        //目录切换
         $('.get_video').click(function(){
-          $('.video_player').attr('src',$(this).attr('video'))
-
-          $('.simg').css('display','block');
-          $('.vtop').css('display','block');
-          $('.vbelow').css('display','block');
-          $('.vaudio').css('display','block');
-          $('.vcollect').css('display','block');
-          $('.vplay').css('display','block');
-          $('.controls').remove('vhidden');
-          $('.controls').css('visibility','visible');
-          
-          $('.con_content').text($(this).attr('content'))
-          $('[name=ls_id]').val($(this).attr('ls_id'))     
-          console.log($(this).attr('video'));
+          curr = $(this).attr('kid')
+          //切换记录ID与下标值
+          $('[name=ls_id]').val(learIdList[curr]) 
+          $('#kid').val(curr)
+          play(curr);
+          // console.log($(this).attr('video'));
         })
         //答案详情
         $('.topicbox').each(function(index) {
+          var v = false;
           $('.topicbox').eq(index).find(".ri").click(function() {
+            if( v ) {    //如果为真的时候，我这里就显示关注
+              $( this ).html( "显示解析" );
+              v = false; //由于文字已更改，所以我们要改变变量的值
+            } else {
+              $( this ).html( "收起解析" );
+              v = true;
+            }
             $(this).parent().next().toggle()
           })
         })
@@ -804,30 +369,77 @@
           });
         });
 
+         //按钮切换 
+        $(".wengaotab img").click(function(){ 
+          // console.log(this.src.search("{{asset('University/images/icon_wengao@3x.png')}}")!=-1)
+          if(this.src.search("{{asset('University/images/icon_wengao@3x.png')}}")!=-1){ 
+            $('.cli').toggle();
+          }else{ 
+            this.src="{{asset('University/images/icon_wengao@3x.png')}}";
+            $("#centera").show();
+            $('.wengaobox').hide(); 
+          } 
+        })
+        //收藏
+       /* $('.collect').click(function(){
+          if (is_login ==1) {
+            var imgObj = $(this);
+            var status = $(this).attr('status') == 1 ? 0 : 1;
+            $.ajax({
+              url:"{{url('university/course/collect')}}",
+              data:{_token:"{{csrf_token()}}",cid:"{{$course->id}}",status:status},
+              type:'POST',
+              dataType:'json',
+              success:function(d){
+                console.log(d)
+                if (d.code == '002') {
+                  if (status==1) {
+                    imgObj.attr('status',1);
+                    imgObj.find('img').attr('src',"{{asset('University/images/icon_shoucangdian@2x.png')}}")
+                  }else{
+                    imgObj.attr('status',0)
+                    imgObj.find('img').attr('src',"{{asset('University/images/icon_shoucang@3x.png')}}")
+                  }
+                }else{
+                  console.log(d)
+                }
+              }
+            })
+          }else{
+            alert('尚未登陆');
+            window.location.href = loginUrl;
+          }
+        })*/
         //切换文稿
-        $(".denlu img").click(function(){ 
-           
-            if(this.src.search("University/images/icon_wengao@2x.png")!=-1){ 
-                this.src="{{asset('University/images/icon_guanbi@2x.png')}}"; 
-                $("#centera").hide();
-                $('.wengaobox').show();
-            }else{ 
-                this.src="{{asset('University/images/icon_wengao@2x.png')}}";
-                $("#centera").show();
-                $('.wengaobox').hide(); 
-            } 
+        $(".draft img").click(function(){
+          if($(".wengaotab img").attr("src","{{asset('University/images/icon_wengao@3x.png')}}")){ 
+            $(".wengaotab img").attr("src","{{asset('University/images/icon_guanbi@2x.png')}}"); 
+            $("#centera").hide();
+            $('.wengaobox').show();
+            $('.cli').hide();
+          }
+        })
+        //文稿未购买
+        $('.notBy').click(function(){
+          $(".cover1").css("display","block");
+            setTimeout(function(){//定时器 
+              $(".cover1").css("display","none");
+            },3000);
         })
 
-       /* $(".vaudio").click(function(){
-          location.href ="audio.html"
-        })*/
+        //切换页面
+        $(".yp").click(function(){
+          var kid = $('#kid').val();
+          var audiUrl = "{{url('university/course/audio/'.$course->id)}}"+'/'+kid;
+          location.href = audiUrl;
+        })
         //登陆
         $('.onlogin').click(function(){
-          var href = $('[name=loginUrl]').val();
+          // var href = $('[name=loginUrl]').val();
           alert('尚未登陆！')
-          window.location.href=href
-          
+          window.location.href=loginUrl
         })
+        //购买页面
         $('.onBuy').click(function(){
           // window.location.href="{{url('university/course/buy/id/'.$course->id)}}"
           $.ajax({
@@ -835,6 +447,7 @@
             type:'GET',
             dataType:'json',
             success:function(d){
+                console.log(d);
               if (d.code == '002') {
                 function onBridgeReady(){
                    WeixinJSBridge.invoke(
@@ -847,12 +460,12 @@
                          "paySign":d.data.paySign //微信签名 
                       },
                       function(res){
-                        alert('支付成功！');
+                        
                         location.reload();
                       if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                      // 使用以上方式判断前端返回,微信团队郑重提示：
-                            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-
+                        // 使用以上方式判断前端返回,微信团队郑重提示：
+                        //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                        alert('支付成功！');
                       } 
                    }); 
                 }
@@ -866,6 +479,8 @@
                 }else{
                    onBridgeReady();
                 }
+              }else if (d.code == '003') {
+                window.location.href = $('[name=getInfoUrl]').val();
               }else{
                 console.log(d)
               }
@@ -874,10 +489,27 @@
         })
       })
 
+
+      var flag = true;
       //测试题点击
         $('.class_list').each(function(index) {
           $('.class_list').eq(index).find(".lis").click(function() {
-            $(this).next().toggle()
+            // $(this).next().toggle()
+            // $(this).find('.lis_tit2').addClass('blue').siblings().removeClass('blue');
+            if(flag){
+              $(this).find('.lis_tit2').addClass('blue');
+              $(this).find('.cons').addClass('blue');
+              $(this).find('.con').addClass('blue');
+              $(this).next().css("display","block");
+              flag = false;
+              console.log(flag)
+            }else{
+              $(this).find('.lis_tit2').removeClass('blue');
+              $(this).find('.cons').removeClass('blue');
+              $(this).find('.con').removeClass('blue');
+              $(this).next().css("display","none");
+              flag = true;
+            }
           })
         })
 
@@ -898,6 +530,12 @@
                         analysis.each(function(index){         
                           analysis.eq(index).css('display','block');
                         })
+                    }else if (d.code == '004') {
+                        $('.webhint').text(d.msg);
+                        $(".webhint").css("display","block");
+                        setTimeout(function(){//定时器 
+                          $(".webhint").css("display","none");
+                        },3000);
                     }
                     console.log(d);
                 },
@@ -910,15 +548,13 @@
         // return '确认关闭';
      }
 
-     
       function getVideoTime(state){
         var _token = "{{csrf_token()}}"
         var now_time = window.localStorage.getItem('now_time');
-        var ls_id = $('[name=ls_id]').val();
         var is_login = $('#is_login').val();
-        console.log(ls_id)
+        console.log(now_time)
         if (is_login == 1) {
-
+          var ls_id = $('[name=ls_id]').val();
           $.ajax({
               url:"{{url('university/course/learningPut')}}",
               data:{_token:_token,ls_id:ls_id,now_time:now_time,state:state},
@@ -933,33 +569,6 @@
         }
       }
 
-      /*function getCourseCollect(status){
-        var ls_id = $('[name=ls_id').val();
-        if (ls_id != 0) {
-          var cid = "{{$course->id}}";
-          var _token = "{{csrf_token()}}";
-          var res = 0;
-          $.ajax({
-            url:"{{url('university/course/collect')}}",
-            data:{_token:_token,cid:cid,status:status},
-            type:'POST',
-            dataType:'json',
-            success:function(d){
-              if (d.code == '002') {
-                console.log(res)
-                res += 1;
-                console.log(res)
-              }else{
-
-                console.log(2)
-                res += 2;
-              }
-            }
-          })
-        }else{
-          console.log('未登录')
-        }
-        return res;
-      }*/
+     
     </script>
 @stop

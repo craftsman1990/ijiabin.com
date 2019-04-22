@@ -13,7 +13,7 @@
       <p class="lis" onclick="window.location.href='{{url("university/serviceAgreement")}}'">
       	<span>服务协议</span><span><img src="{{asset('University/images/icon_dakai@2x.png')}}" alt=""></span>
       </p>
-      <p class="lis" onclick="window.location.href='{{url("university/serviceAgreement")}}'">
+      <p class="lis" onclick="window.location.href='{{url("university/privacyPolicy")}}'">
       	<span>隐私政策</span><span><img src="{{asset('University/images/icon_dakai@2x.png')}}" alt=""></span>
       </p>
       <p class="jbcm">深圳嘉宾传媒有限公司版权所有</p>

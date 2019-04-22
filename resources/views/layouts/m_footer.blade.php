@@ -7,7 +7,7 @@
           </ul>
       </div>
       <div class="bot">
-      © 2018 深圳嘉宾传媒有限公司 | 粤ICP备：16086053号 | 广播电视 节目制作经营许可证：（粤）字第02345号
+      © 2018 深圳嘉宾传媒有限公司 | <a href="http://www.miitbeian.gov.cn" target="_Blank" style="cursor:pointer;color: #999999;font-size: .1rem;">粤ICP备：16086053号</a> | 广播电视 节目制作经营许可证：（粤）字第02345号
       </div>
     </div>
   </div> 

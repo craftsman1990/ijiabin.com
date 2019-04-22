@@ -36,11 +36,11 @@
                     </div>
                     @include('layouts.admin_error')    
 
-                    @foreach($list as $quiz)
+                    @foreach($list as $k=>$quiz)
                     <div class="faq-item">
                         <div class="row">
                             <div class="col-md-7">
-                                <a data-toggle="collapse" href="faq.html#faq{{$quiz->id}}" class="">{{$quiz->title}}</a>
+                                <a data-toggle="collapse" href="faq.html#faq{{$quiz->id}}" class="">{{$k + 1}}.{{$quiz->title}}</a>
                             </div>
                             <div class="col-md-2 text-right">
                                 <!-- <a class="small font-bold addAnswer" qid="{{$quiz->id}}" data-toggle="modal" data-target="#myModalAddAnswer">添加/修改答案 </a> -->
@@ -108,6 +108,7 @@
                         <label class="col-sm-3 control-label">正确答案：</label>
                         <div class="col-sm-8">
                             <input  name="answer" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
+                            <span class="help-block m-b-none "><i class="fa fa-info-circle"></i> 这里填写大写字母ABCD,多选用英文逗号隔开</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -175,6 +176,7 @@
                         <label class="col-sm-3 control-label">正确答案：</label>
                         <div class="col-sm-8">
                             <input id="answerMod" name="answer" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
+                            <span class="help-block m-b-none "><i class="fa fa-info-circle"></i> 这里填写大写字母ABCD,多选用英文逗号隔开</span>
                         </div>
                     </div>
                     <div class="form-group">

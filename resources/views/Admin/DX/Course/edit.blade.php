@@ -32,21 +32,21 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">课程名称：</label>
                                 <div class="col-sm-8">
-                                    <input  name="name" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" value="{{$course->name}}">
+                                    <input  name="name" class="form-control" type="text" maxlength="30" value="{{$course->name}}">
                                 </div>
                             </div>
                             <!-- 密码： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">授课老师：</label>
                                 <div class="col-sm-8">
-                                    <input name="teacher" class="form-control" type="text" value="{{$course->teacher}}">
+                                    <input name="teacher" class="form-control" type="text" maxlength="30" value="{{$course->teacher}}">
                                 </div>
                             </div>
                             <!-- 确认密码： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">老师职称：</label>
                                 <div class="col-sm-8">
-                                    <input name="professional" class="form-control" type="text" value="{{$course->professional}}">
+                                    <input name="professional" class="form-control" type="text" maxlength="30" value="{{$course->professional}}">
                                 </div>
                             </div>
                             <!-- 电话： -->

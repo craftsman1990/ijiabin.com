@@ -70,11 +70,7 @@ body{
   color:rgba(51,51,51,1);
   line-height:.18rem;
   margin-top:.06rem;
-  overflow : hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  word-wrap: break-word;
 }
 .detailTit{
   width:100%;
@@ -87,6 +83,7 @@ body{
   font-size:.12rem;
   font-family:PingFang-SC-Medium;
   color:rgba(48,92,186,1);
+  line-height: .14rem;
 }
 .t_con{
   display: flex;
@@ -101,10 +98,8 @@ body{
 }
 .detailsBot{
   width:100%;
-}
-.detailsBot{
-  width:100%;
   padding:.15rem;
+  padding-bottom: .4rem;
 }
 .detailsBot>dl{
   width:100%;
@@ -151,11 +146,7 @@ body{
   color:rgba(51,51,51,1);
   line-height:.18rem;
   margin-top:.06rem;
-  overflow : hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  word-wrap: break-word;
 }
 
 footer{
@@ -173,7 +164,7 @@ footer{
   padding: 0 .15rem;
 }
 .input{
-  width: 60%;
+  width: 70%;
   padding-right:.13rem;
 }
 .input>input{
@@ -184,6 +175,7 @@ footer{
   border-radius:5px;
   padding-left:.06rem;
 }
+input{ -webkit-appearance: none; }
 input::-webkit-input-placeholder {
   font-size:.12rem;
   font-family:PingFang-SC-Regular;
@@ -191,7 +183,7 @@ input::-webkit-input-placeholder {
   opacity:0.6;
 }
 .fun{
-  width:40%;
+  width:30%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -200,11 +192,17 @@ input::-webkit-input-placeholder {
 .fun .Imgbox {
   text-align:center;
   height: 100%;
-  width: 33.333%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size:.11rem;
+  font-family:PingFang-SC-Medium;
+  color:rgba(102,102,102,1);
+  line-height:22px;
+}
+.dianzan em{
   font-size:.11rem;
   font-family:PingFang-SC-Medium;
   color:rgba(102,102,102,1);
@@ -284,4 +282,38 @@ input::-webkit-input-placeholder {
   font-size:.12rem;
   font-family:PingFang-SC-Medium;
   color:rgba(0,0,0,1);
+}
+.nor{
+  border:1px solid #305CBA;
+  color:#305CBA;
+}
+
+.funr{
+  position: absolute;
+  right: 0;
+  top: .11rem;
+}
+.funr a{
+  font-size:.11rem;
+  font-family:PingFang-SC-Medium;
+  color:rgba(102, 102, 102, 1);
+  position: relative;
+  padding-left:.18rem;
+  margin-left: .07rem;
+}
+.collectClick em{
+  font-size:.11rem;
+  font-family:PingFang-SC-Medium;
+  color:rgba(102, 102, 102, 1);
+}
+.funr img{
+  position: absolute;
+  width: .15rem;
+  height: .14rem;
+  left:0;
+  top: -.01rem;
+}
+.delcli img{
+  width: .14rem;
+  height: .14rem;
 }

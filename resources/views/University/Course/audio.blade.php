@@ -1,14 +1,33 @@
 @extends('layouts.university')
-@section('title','课程')
+@section('title',$course->name)
 @section('content')
   <link rel="stylesheet" href="{{asset('University/css/audio.css')}}">
   <link rel="stylesheet" href="{{asset('University/css/reset.css')}}">
-  <link rel="stylesheet" href="{{asset('University/css/video.css')}}">
   <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <style type="text/css">
+    .cover1{
+      width:70%;
+      background: rgba(0,0,0,.4);
+      height:.4rem;
+      line-height:.4rem;
+      text-align: center;
+      position: fixed;
+      top:50%;
+      left:15%;
+      color: #fff;
+      border-radius:.06rem;
+      font-size:.12rem;
+      display:none;
+    }
+  </style>
   <div class="wrapper">
     <div class="audio-wrapper">
         <audio size="#4.50MB" duration="#01:57" filename="#Launch_Kan R. Gao.mp3">
-            <source id="autoPlay" class="autoPlay" src="{{$course->oneAudio}}" type="audio/mp3">
+          @if($course->oneType ==0 || Auth::guard('university')->check() && $course->isBuy==1)
+            <source class="autoPlay" src="{{$course->oneAudio}}" type="audio/mp3">
+          @else    
+            <source class="autoPlay" src="" type="audio/mp3">
+          @endif
         </audio>
         <div class="audio-left">
             <img id="audioPlayer" src="{{asset('University/images/play.png')}}">
@@ -23,25 +42,13 @@
             </div>
             <div class="audio-time">
                 <span class="audio-length-current" id="audioCurTime">00:00</span>
+                @if($course->oneType ==0 || Auth::guard('university')->check() && $course->isBuy==1)
                 <span class="audio-length-total">{{substr($course->oneTime,3,5)}}</span>
+                @else
+                <span class="audio-length-total">00:00</span>
+                @endif
             </div>
         </div>
-        <div class="audio-right2">
-            <img class="avideo" src="{{asset('University/images/icon_shipin@2x.png')}}">
-        </div>
-         @if(Auth::guard('university')->check())
-        <div class="audio-right3 collect" status="{{$course->coll_status}}">
-          @if($course->coll_status)
-          <img src="{{asset('University/images/icon_yishoucang@2x.png')}}">
-          @else
-          <img src="{{asset('University/images/icon_shoucang.png')}}">
-          @endif
-        </div>
-        @else
-        <div class="audio-right3 onlogin">
-          <img src="{{asset('University/images/icon_shoucang.png')}}">
-        </div>  
-        @endif
     </div>
     <div id="centera">
       <div class="orangerb">
@@ -66,20 +73,21 @@
             <div class="tab-content">
                {{--课程内容--}}
               <div class="box2">
-                @foreach($contents as $content)
+                @foreach($contents as $k=>$content)
                   @if($content->type == 0 || Auth::guard('university')->check() && $course->isBuy == 1)
-                  @if(Auth::guard('university')->check())
-                  <div class="class_list get_video" video="{{$content->video}}" content="{{$content->content}}" ls_id="{{$content->learning->id}}" audio="{{$content->audio}}" time="{{substr($content->time,3,5)}}">
-                  @else  
-                  <div class="class_list get_video" video="{{$content->video}}" content="{{$content->content}}" ls_id="0" audio="{{$content->audio}}" time="{{substr($content->time,3,5)}}">
-                  @endif  
-                    <p class="list_name">
+                  <div class="class_list " >
+                    @if(Auth::guard('university')->check())
+                    <p class="list_name get_video" content="{{$content->content}}" audio="{{$content->audio}}" kid="{{$k}}" ls_id="{{$content->learning->id}}" ls_time="{{$content->learning->learning_time}}">
+                    @else  
+                    <p class="list_name get_video" content="{{$content->content}}" ls_id="0" audio="{{$content->audio}}" kid="{{$k}}">
+                    @endif  
                       <span class="col">{{$content->chapter}} {{$content->title}}</span>
-                      <span><img class="bianj" src="{{asset('University/images/icon_bianji@2x2.png')}}" alt=""></span>
+                      <!-- <span><img class="bianj" src="{{asset('University/images/icon_bianji@2x2.png')}}" alt=""></span> -->
                     </p>
                     {{--学习状态--}}
                     <p class="list_time">
-                      <span class="notice">{{$content->type==1? '正课' : '预告'}}</span>{{substr($content->time,3,5)}}
+                      <span class="notice">{{$content->type==1? '正课' : '预告'}}</span>
+                      {{$content->time}}
                       @if(Auth::guard('university')->check())
                       <span class="acc">{{$content->learning->state ==1 ? '已完成' : '学习中'}}</span>
                       @else
@@ -90,13 +98,12 @@
                     <div class="lisImgBox">{{$content->intro}}</div>
                   </div>
                   @else
-                   
                     <div class="class_list">
                       <p class="list_name">
                         <span>{{$content->chapter}} {{$content->title}}</span>
                         <span><img src="{{asset('University/images/icon_suo@2x.png')}}" alt=""></span>
                       </p>
-                      <p class="list_time">{{substr($content->time,3,5)}}</p>
+                      <p class="list_time">{{$content->time}}</p>
                       <p class="list_img"><img src="{{asset('University/images/icon_zhankai@2x.png')}}" alt=""></p>
                     </div> 
                     
@@ -113,12 +120,12 @@
                     <p class="biaoqian"><img src="{{asset('University/images/icon_biaoqianlan@2x.png')}}" alt=""></p>
                     <div class="lis">
                       @if(Auth::guard('university')->check())
-                      <p class="cons blue">({{$content->learning->quiz_state}}/{{$content->quizCount}}）</p>
+                      <p class="cons bla">({{$content->learning->quiz_state}}/{{$content->quizCount}}）</p>
                       @else
-                      <p class="cons blue">(0/{{$content->quizCount}}）</p>
+                      <p class="cons bla">(0/{{$content->quizCount}}）</p>
                       @endif
-                      <p class="con blue">{{$content->chapter}}</p>
-                      <p class="lis_tit blue">{{$content->title}}</p>
+                      <p class="con bla">{{$content->chapter}}</p>
+                      <p class="lis_tit2">{{$content->title}}</p>
                     </div>
                     <div class="testBox">
                       <form id="form_{{$content->id}}">
@@ -129,7 +136,7 @@
                       {{--题目循环--}}
                       @foreach($content->quizs as $k=>$quiz)
                       <div class="topicbox">
-                        <p class="t_tit"><span>({{$quiz->type==1 ? '多选' : '单选'}}）</span>{{$k}}. {{$quiz->title}}</p>
+                        <p class="t_tit"><span>({{$quiz->type==1 ? '多选' : '单选'}}）</span>{{$k+1}}. {{$quiz->title}}</p>
                         {{--答案循环--}}
                         @foreach($quiz->answers as $ak=>$answer)
                         <div>
@@ -171,7 +178,6 @@
                     </div>
                   </div>
                   @else
-                   
                     <div class="class_list">
                       <p class="biaoqian"><img src="{{asset('University/images/icon_biaoqianlan@2x.png')}}" alt=""></p>
                       <div class="lis">
@@ -194,82 +200,141 @@
       {{--判断是否收费课 并且 判断是否购买--}}
       @if($course->is_pay == 1)
         @if($course->isBuy != 1)
-        <button class="btn onBuy">开通课程 | ￥99</button>
+        <button class="btn onBuy">开通课程 | ￥{{$course->price}}</button>
         @endif
       @endif
     @else
-        <button class="btn onlogin">开通课程 | ￥99</button>
+        <button class="btn onlogin">开通课程 | ￥{{$course->price}}</button>
     @endif
     <div class="hint">购买后才能继续学习</div>
-    @if($course->oneType == 0 || Auth::guard('university')->check() && $course->isBuy == 1)
-    <div class="wengaotab denlu"><img src="{{asset('University/images/icon_wengao@2x.png')}}" alt=""></div>
-    <div class="wengaobox con_content">{{$course->oneContent}}</div>
-    @else
-    <div class="wengaotab onlogin"><img src="{{asset('University/images/icon_wengao@2x.png')}}" alt=""></div>
-    @endif
+    <div class="wengaotab"><img src="{{asset('University/images/icon_wengao@3x.png')}}" alt=""></div>
+    <div class="wengaobox con_content"></div>
   </div>
   {{-- 登陆地址 --}}
-  <input type="hidden" name="loginUrl" value="{{url('university/login?source=5&yid='.$course->id)}}">
-  <input type="hidden" id="videoUrl" value="{{url('university/course/show/id/'.$course->id)}}">
+  <input type="hidden" name="loginUrl" value="{{url('university/quickLogin?source=5&yid='.$course->id)}}">
+  {{--当前视频Key--}}
+  <input type="hidden" id="kid" value="{{$course->kid}}">
   @if(Auth::guard('university')->check())
-  <input type="hidden" name="ls_id" value="{{$course->oneId}}">
+  <div class="cli">
+    <!-- <p class="sc collect" status="{{$course->coll_status}}">
+      @if($course->coll_status)
+      <img src="{{asset('University/images/icon_shoucangdian@2x.png')}}">
+      @else
+      <img src="{{asset('University/images/icon_shoucang@3x.png')}}">
+      @endif
+    </p> -->
+    @if($course->oneType == 0 || $course->isBuy == 1)
+    <p class="wb draft"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @else
+    <p class="wb notBy"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @endif
+    <p class="yp"><img src="{{asset('University/images/icon_shipin@2x.png')}}"></p>
+  </div>
+  {{--当前小节学习记录ID及时间--}}
+  <input type="hidden" name="ls_id" value="{{$course->learindgId}}">
+  <input type="hidden" name="ls_time" value="{{$course->learindgTime}}">
+  {{--当前课程收藏状态--}}
   <input type="hidden" name="status" value="{{$course->coll_status}}" id="status">
+  {{--当前登陆状态--}}
   <input type="hidden" value="1" id="is_login">
   @else
-  <input type="hidden" name="ls_id" value="0">
+  <div class="cli">
+    <!-- <p class="sc onlogin"><img src="{{asset('University/images/icon_shoucang@3x.png')}}"></p> -->
+    @if($course->oneType == 0)
+    <p class="wb draft"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @else
+    <p class="wb onlogin"><img src="{{asset('University/images/icon_wengao@2x.png')}}"></p>
+    @endif
+    <p class="yp"><img src="{{asset('University/images/icon_shipin@2x.png')}}"></p>
+  </div>
   <input type="hidden" name="status" value="0" id="status">
   <input type="hidden" value="0" id="is_login">
   @endif
-    <!-- <script src="University/js/jquery.min.js"></script> -->
-    <!-- <script type="text/javascript" src="University/js/audio.js"></script> -->
-    <script>
-      var is_login = $('#is_login').val();
-      var loginUrl = $('[name=loginUrl]').val();
-      $(document).ready(function () {
-       
-        $('.get_video').click(function () {
-          var indexMius = $(this).attr('audio');
-          audioPlay(indexMius);
-        })
-      })
+  <div class="cover1"></div>
+  <script>
+        var is_login = $('#is_login').val();
+        var loginUrl = $('[name=loginUrl]').val();
+        var audioList = new Array();     //音频地址列表     
+        var contentList = new Array();     //文稿地址列表   
+        var learIdList = new Array();       //学习记录ID
+        var learTimeList = new Array();     //学习时间
+        var audioOBJ = $('.get_video');
+        for (var i = 0; i <= audioOBJ.length - 1; i++) {
+          audioList[i] = audioOBJ[i].getAttribute('audio')
+          contentList[i] = audioOBJ[i].getAttribute('content')
+          learIdList[i] = audioOBJ[i].getAttribute('ls_id')
+          learTimeList[i] = audioOBJ[i].getAttribute('ls_time')
+        }
+        var curr = $('#kid').val();
+        var vLen = audioList.length;
+        console.log(learIdList)
+        //页面初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            // 设置音频文件名显示宽度
+            var element = document.querySelector('.audio-right');
+            var maxWidth = window.getComputedStyle(element, null).width;
+            // 初始化音频控制事件
+            initAudioEvent();
+            // console.log(audioList[curr])
+            if (audioList[curr] == undefined) {
+              $('.cover1').text('请先购买该课程');
+              $(".cover1").css("display","block");
+              setTimeout(function(){//定时器 
+                  $(".cover1").css("display","none");
+              },5000);
+            }else{
+              audioPlay(curr,$('[name=ls_time]').val());
+            }
+        }, false);
 
-      //播放
-      function audioPlay(src){
-         initAudioEvent(); 
-          $("audio").prop("src",src)
+        //点击目录切换
+        $('.get_video').click(function () {
+
+          curr = $(this).attr('kid')
+          $('#kid').val(curr)
+          $('[name=ls_id]').val(learIdList[curr])
+          audioPlay(curr)
+
+        })
+      
+        //播放
+        function audioPlay(k,time=0){
+          //切换当前列表颜色
+          $('.get_video').eq(k).parent().siblings().find('.col').removeClass('coled');  
+          $('.get_video').eq(k).find('.col').addClass('coled');
+          
+          $('.lis').eq(k).siblings().removeClass('coled');
+          $('.lis').eq(k).addClass('coled');
+          $('.con_content').text(contentList[k]); //切换当前文本内容
+          $('#kid').val(k);
+          $('[name=ls_id]').val(learIdList[k]);
+          $("audio").prop("src",audioList[k]);  //切换当前音频地址 
           var audio = document.getElementsByTagName('audio')[0];
           audio.load();
+          audio.currentTime = time;
           audio.oncanplay = function () {
-               var audioPlayer = document.getElementById('audioPlayer');
-               audioPlayer.click()
-               updateProgress(audio)
+            var audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.click()
+            updateProgress(audio)
           }
-      }
-      document.addEventListener('DOMContentLoaded', function () {
-          // 设置音频文件名显示宽度
-          var element = document.querySelector('.audio-right');
-          var maxWidth = window.getComputedStyle(element, null).width;
-          // 初始化音频控制事件
-          var indexMius = $('#autoPlay').attr('src');
-          audioPlay(indexMius);
-      }, false);
+          curr++;
+          if(curr >= vLen){
+              curr = 0; //重新循环播放
+          }
+        }
 
-      function initAudioEvent( audioPlayer = document.getElementById('audioPlayer') ) {
+        function initAudioEvent( audioPlayer = document.getElementById('audioPlayer') ) {
           var audio = document.getElementsByTagName('audio')[0];
           // var audioPlayer = document.getElementById('audioPlayer');
-          // console.log(audioPlayer);
+          // console.log(audio);
           // 点击播放/暂停图片时，控制音乐的播放与暂停  
           audioPlayer.addEventListener('click', function () {
-
               // 监听音频播放时间并更新进度条
               audio.addEventListener('timeupdate', function () {
                   updateProgress(audio);
               }, false);
               // 监听播放完成事件
-              audio.addEventListener('ended', function () {
-                  audioEnded();
-              }, false);
-
+              // audio.addEventListener('ended',audioEnded, false);
               // 改变播放/暂停图片
               if (audio.paused) {
                   // 开始播放当前点击的音频
@@ -279,9 +344,11 @@
                   audio.pause();
                   audioPlayer.src = '{{asset("University/images/play.png")}}';
               }
-
+            }, false);
+           // 监听播放完成事件
+          audio.addEventListener('ended',function(){
+            audioEnded();
           }, false);
-
           // 点击进度条跳到指定点播放
           // PS：此处不要用click，否则下面的拖动进度点事件有可能在此处触发，此时e.offsetX的值非常小，会导致进度条弹回开始处（简直不能忍！！）
           var progressBarBg = document.getElementById('progressBarBg');
@@ -294,18 +361,15 @@
                   updateProgress(audio);
               }
           }, false);
-
           // 拖动进度点调节进度
           dragProgressDotEvent(audio);
-      }
-
+        }
       /**
        * 鼠标拖动进度点时可以调节进度
        * @param {*} audio
        */
       function dragProgressDotEvent(audio) {
           var dot = document.getElementById('progressDot');
-
           var position = {
               oriOffestLeft: 0, // 移动开始时进度条的点距离进度条的偏移值
               oriX: 0, // 移动开始时的x坐标
@@ -313,35 +377,28 @@
               maxRight: 0 // 向右最大可拖动距离
           };
           var flag = false; // 标记是否拖动开始
-
           // 鼠标按下时
           dot.addEventListener('mousedown', down, false);
           dot.addEventListener('touchstart', down, false);
-
           // 开始拖动
           document.addEventListener('mousemove', move, false);
           document.addEventListener('touchmove', move, false);
-
           // 拖动结束
           document.addEventListener('mouseup', end, false);
           document.addEventListener('touchend', end, false);
-
           function down(event) {
               if (!audio.paused || audio.currentTime != 0) { // 只有音乐开始播放后才可以调节，已经播放过但暂停了的也可以
                   flag = true;
-
                   position.oriOffestLeft = dot.offsetLeft;
                   position.oriX = event.touches ? event.touches[0].clientX : event.clientX; // 要同时适配mousedown和touchstart事件
                   position.maxLeft = position.oriOffestLeft; // 向左最大可拖动距离
                   position.maxRight = document.getElementById('progressBarBg').offsetWidth - position.oriOffestLeft; // 向右最大可拖动距离
-
                   // 禁止默认事件（避免鼠标拖拽进度点的时候选中文字）
                   if (event && event.preventDefault) {
                       event.preventDefault();
                   } else {
                       event.returnValue = false;
                   }
-
                   // 禁止事件冒泡
                   if (event && event.stopPropagation) {
                       event.stopPropagation();
@@ -350,7 +407,6 @@
                   }
               }
           }
-
           function move(event) {
               if (flag) {
                   var clientX = event.touches ? event.touches[0].clientX : event.clientX; // 要同时适配mousemove和touchmove事件
@@ -367,12 +423,10 @@
                   updateProgress(audio);
               }
           }
-
           function end() {
               flag = false;
           }
       }
-
       /**
        * 更新进度条与当前播放时间
        * @param {object} audio - audio对象
@@ -380,13 +434,12 @@
       function updateProgress(audio) {
           // console.log(audio.currentTime,'进度',audio.duration)
           var value = audio.currentTime / audio.duration;
-
           document.getElementById('progressBar').style.width = value * 100 + '%';
           document.getElementById('progressDot').style.left = value * 100 + '%';
           document.getElementById('audioCurTime').innerText = transTime(audio.currentTime);
           $('.audio-length-total').text(transTime(audio.duration))
+          window.localStorage.setItem('now_time',Math.floor(audio.currentTime))
       }
-
       /**
        * 播放完成时把进度调回开始的位置
        */
@@ -395,8 +448,9 @@
           document.getElementById('progressDot').style.left = 0;
           document.getElementById('audioCurTime').innerText = transTime(0);
           document.getElementById('audioPlayer').src = '{{asset("University/images/play.png")}}';
+          getVideoTime(1);
+          audioPlay(curr);
       }
-
       /**
        * 音频播放时间换算
        * @param {number} value - 音频当前播放时间，单位秒
@@ -412,10 +466,8 @@
           } else {
               time = formatTime(m + ":" + s);
           }
-
           return time;
       }
-
       /**
        * 格式化时间显示，补零对齐
        * eg：2:4  -->  02:04
@@ -430,10 +482,8 @@
               time += ":";
           }
           time += s[i].length == 1 ? ("0" + s[i]) : s[i];
-
           return time;
       }
-
       //课程详情
       $('.class_list').each(function(index) {
         $('.class_list').eq(index).find(".list_img").click(function() {
@@ -441,14 +491,17 @@
           $(this).next().toggle()
         })
       })
-
       //答案详情
       $('.topicbox').each(function(index) {
         $('.topicbox').eq(index).find(".ri").click(function() {
           $(this).parent().next().toggle()
+          if ($(this).html() == '显示解析') {
+            $(this).html("收起解析");
+          }else{
+            $(this).html("显示解析");
+          }
         })
       })
-
       //tab1
       $(".tablea").find(".box:first").show();    //为每个BOX的第一个元素显示   
       $("#oranger li").on("mouseover",function(){ //给a标签添加事件  
@@ -456,7 +509,6 @@
         $(this).parent().parent().next().find(".box").hide().eq(index).show(); //返回上一层，在下面查找css名为box隐藏，然后选中的显示  
         $(this).addClass("hover").siblings().removeClass("hover"); //a标签显示，同辈元素隐藏  
       })
-
       //tab2
       var currentIndex=0;
       $(document).ready(function(){
@@ -473,31 +525,34 @@
          
         });
       });
-
-      //切换文稿
-      $(".denlu img").click(function(){ 
-         
-          if(this.src.search("University/images/icon_wengao@2x.png")!=-1){ 
-              this.src="{{asset('University/images/icon_guanbi@2x.png')}}"; 
-              $("#centera").hide();
-              $('.wengaobox').show();
-          }else{ 
-              this.src="{{asset('University/images/icon_wengao@2x.png')}}";
-              $("#centera").show();
-              $('.wengaobox').hide(); 
-          } 
+      // 文稿
+      $(".draft img").click(function(){
+        if($(".wengaotab img").attr("src","{{asset('University/images/icon_wengao@3x.png')}}")){ 
+          $(".wengaotab img").attr("src","{{asset('University/images/icon_guanbi@2x.png')}}"); 
+          $("#centera").hide();
+          $('.wengaobox').show();
+          $('.cli').hide();
+        }
+      })
+      //文稿未购买
+      $('.notBy').click(function(){
+        $('.cover1').text('请先购买该课程');
+        $(".cover1").css("display","block");
+          setTimeout(function(){//定时器 
+            $(".cover1").css("display","none");
+          },3000);
       })
       //切换页面
-      $(".avideo").click(function(){
-        location.href = $('#videoUrl').val();
+      $(".yp").click(function(){
+        var kid = $('#kid').val();
+        var videoUrl = "{{url('university/course/video/'.$course->id)}}"+'/'+kid+'/1';
+        location.href = videoUrl;
       })
-
       //登陆
       $('.onlogin').click(function(){
         alert('尚未登陆！')
         window.location.href=loginUrl
       })
-
       //购买页面
       $('.onBuy').click(function(){
          $.ajax({
@@ -542,14 +597,27 @@
             }
           })
       })
-
+      var flag = true;
       //测试题点击
       $('.class_list').each(function(index) {
         $('.class_list').eq(index).find(".lis").click(function() {
-          $(this).next().toggle()
+          $(this).next().toggle();
+          if(flag){
+              $(this).find('.lis_tit2').addClass('blue');
+              $(this).find('.cons').addClass('blue');
+              $(this).find('.con').addClass('blue');
+              $(this).next().css("display","block");
+              flag = false;
+              console.log(flag)
+            }else{
+              $(this).find('.lis_tit2').removeClass('blue');
+              $(this).find('.cons').removeClass('blue');
+              $(this).find('.con').removeClass('blue');
+              $(this).next().css("display","none");
+              flag = true;
+            }
         })
       })
-
       //提交测试题
       $('.submit').click(function(){
         var analysis = $(this).parent().find('.analysis');
@@ -567,28 +635,28 @@
                         analysis.each(function(index){         
                           analysis.eq(index).css('display','block');
                         })
+                    }else if (d.code == '004') {
+                        $('.cover1').text(d.msg);
+                        $(".cover1").css("display","block");
+                        setTimeout(function(){//定时器 
+                          $(".cover1").css("display","none");
+                        },3000);
                     }
                     console.log(d);
                 },
             });
-
       })
-
      window.onbeforeunload= function(){
         getVideoTime(0);
         return '确认关闭';
      }
-
-      //获取播放时间
+      //存储播放时间
       function getVideoTime(state){
-        var _token = "{{csrf_token()}}"
-        var now_time = $('#audioCurTime').text();
-        var ls_id = $('[name=ls_id]').val();
         var is_login = $('#is_login').val();
-        console.log(ls_id)
-        console.log(now_time)
         if (is_login == 1) {
-
+          var _token = "{{csrf_token()}}";
+          var now_time = window.localStorage.getItem('now_time');
+          var ls_id = $('[name=ls_id]').val();
           $.ajax({
               url:"{{url('university/course/learningPut')}}",
               data:{_token:_token,ls_id:ls_id,now_time:now_time,state:state},
@@ -602,25 +670,25 @@
           console.log('未登录')
         }
       }
-
       //收藏
-      $('.collect').click(function(){
+      /*$('.collect').click(function(){
         if (is_login ==1) {
           var imgObj = $(this);
           var status = $(this).attr('status') == 1 ? 0 : 1;
           $.ajax({
             url:"{{url('university/course/collect')}}",
-            data:{_token:"{{csrf_token()}}",cid:"{{$course->id}}",status:0},
+            data:{_token:"{{csrf_token()}}",cid:"{{$course->id}}",status:status},
             type:'POST',
             dataType:'json',
             success:function(d){
+              console.log(d)
               if (d.code == '002') {
                 if (status==1) {
                   imgObj.attr('status',1);
-                  imgObj.find('img').attr('src',"{{asset('University/images/icon_yishoucang@2x.png')}}")
+                  imgObj.find('img').attr('src',"{{asset('University/images/icon_shoucangdian@2x.png')}}")
                 }else{
                   imgObj.attr('status',0)
-                  imgObj.find('img').attr('src',"{{asset('University/images/icon_shoucang.png')}}")
+                  imgObj.find('img').attr('src',"{{asset('University/images/icon_shoucang@3x.png')}}")
                 }
               }else{
                 console.log(d)
@@ -631,12 +699,17 @@
           alert('尚未登陆');
           window.location.href = loginUrl;
         }
+      })*/
+      //按钮切换 
+      $(".wengaotab img").click(function(){ 
+        if(this.src.search("{{asset('University/images/icon_wengao@3x.png')}}")!=-1){ 
+          $('.cli').toggle();
+        }else{ 
+          this.src="{{asset('University/images/icon_wengao@3x.png')}}";
+          $("#centera").show();
+          $('.wengaobox').hide(); 
+        } 
       })
-
-  /*$('.get_video').click(function(){
-    initAudioEvent()
- })*/
-
-
+     
     </script>
 @stop

@@ -12,8 +12,7 @@
         <p class="funr">
           <a href="{{url('university/discussion/discussionPoster/did/'.$discussion->id)}}" class="Imgbox">
             <img src="{{asset('University/images/icon_haibao.png')}}" />海报</a>
-          <a href="#" class="Imgbox">
-            <img src="{{asset('University/images/icon_fenxiang2@2x.png')}}" />分享</a>
+          <!-- <a href="#" class="Imgbox"><img src="{{asset('University/images/icon_fenxiang2@2x.png')}}" />分享</a> -->
         </p>
       </div>
       <div class="dis_con">{!!$discussion->content!!}</div>
@@ -35,6 +34,7 @@
           <dt>
             <p class="dt_namet">{{$com->user_name}}<span>{{$com->time}}</span></p>
             <p class="dt_con" onclick="window.location.href='{{url("university/discussion/commentDetail/id/".$com->id)}}'">{{$com->content}}</p>
+            @if($com->count !=0)
             <div class="reply">
               @foreach($com->reply as $reply)
                 @if(Auth::guard('university')->check())
@@ -52,23 +52,24 @@
               
               <p class="look"><a href="{{url('university/discussion/commentDetail/id/'.$com->id)}}">查看{{$com->count}}条评论</a></p>
             </div>
+            @endif
             @if(Auth::guard('university')->check())
             <p class="com_fun">
               <a href="javascript:;" class="Imgbox shoucang" cid="{{$com->id}}" status="{{$com->coll_status}}">
                 @if($com->coll_status)
-                <img src="{{asset('University/images/icon_yishoucang@2x.png')}}" />收藏
+                <img src="{{asset('University/images/icon_yishoucang@2x.png')}}" /><em>已收藏</em>
                 @else
-                <img src="{{asset('University/images/icon_shoucang@2x.png')}}" />收藏
+                <img src="{{asset('University/images/icon_shoucang@2x.png')}}" /><em>收藏</em>
                 @endif
               </a>
               <a href="{{url('university/discussion/reply/cid/'.$com->id.'/type/0')}}" class="Imgbox">
-                <img src="{{asset('University/images/icon_pinglun@2x.png')}}" />评论
+                <img src="{{asset('University/images/icon_pinglun@2x.png')}}" />{{$com->count > 0 ? $com->count : '评论'}}
               </a>
               <a href="javascript:;" class="Imgbox zantong" cid="{{$com->id}}" status="{{$com->prai_status}}">
                 @if($com->prai_status)
-                <img src="{{asset('University/images/icon_dianzan@2x.png')}}" />赞同
+                <img src="{{asset('University/images/icon_dianzan@2x.png')}}" /><em>{{$com->praise}}</em>
                 @else
-                <img src="{{asset('University/images/icon_dianzan1@2x.png')}}" />赞同
+                <img src="{{asset('University/images/icon_dianzan1@2x.png')}}" /><em>赞同</em>
                 @endif
               </a>
               <a href="{{url('university/discussion/commentPoster/cid/'.$com->id)}}" class="Imgbox">
@@ -77,14 +78,14 @@
             </p>
             @else
             <p class="com_fun">
-              <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/login?source=2&yid=".$discussion->id)}}'">
+              <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/quickLogin?source=2&yid=".$discussion->id)}}'">
                 <img src="{{asset('University/images/icon_shoucang@2x.png')}}" />收藏
               </a>
               <!-- <a href="{{url('university/discussion/reply/cid/'.$com->id.'/id/'.$discussion->id.'/source/2/type/0')}}" class="Imgbox"> -->
-              <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/login?source=2&yid=".$discussion->id)}}'">
-                <img src="{{asset('University/images/icon_pinglun@2x.png')}}" />评论
+              <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/quickLogin?source=2&yid=".$discussion->id)}}'">
+                <img src="{{asset('University/images/icon_pinglun@2x.png')}}" />{{$com->count > 0 ? $com->count : '评论'}}
               </a>
-              <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/login?source=2&yid=".$discussion->id)}}'">
+              <a href="javascript:;" class="Imgbox" onclick="alert('尚未登陆！');window.location.href='{{url("university/quickLogin?source=2&yid=".$discussion->id)}}'">
                 <img src="{{asset('University/images/icon_dianzan1@2x.png')}}" />赞同
               </a>
               <a href="{{url('university/discussion/commentPoster/cid/'.$com->id)}}" class="Imgbox">
@@ -109,16 +110,18 @@
           var csrf = "{{csrf_token()}}";
           var cid = $(this).attr('cid');
           var status = $(this).attr('status') == 1 ? 0 : 1;
-           var thisOBJ = $(this).find("img");
+           var thisOBJ = $(this);
           $.ajax({
             url:"{{url('university/discussion/collect')}}",
             data:{_token:csrf,cid:cid,status:status},
             type:'POST',
+            async:false,
             dataType:'json',
             success:function(d){
               console.log(d)
               if (d.code == '002') {
-                thisOBJ.attr("src") == "{{asset('University/images/icon_shoucang@2x.png')}}"  ?  thisOBJ.attr("src","{{asset('University/images/icon_yishoucang@2x.png')}}") : thisOBJ.attr("src","{{asset('University/images/icon_shoucang@2x.png')}}")
+                thisOBJ.find('em').text() == '收藏' ? thisOBJ.find('em').text('已收藏') : thisOBJ.find('em').text('收藏');
+                thisOBJ.find("img").attr("src") == "{{asset('University/images/icon_shoucang@2x.png')}}"  ?  thisOBJ.find("img").attr("src","{{asset('University/images/icon_yishoucang@2x.png')}}") : thisOBJ.find("img").attr("src","{{asset('University/images/icon_shoucang@2x.png')}}")
               }
             }
           })
@@ -135,11 +138,13 @@
             url:"{{url('university/discussion/praise')}}",
             data:{_token:csrf,cid:cid,status:status},
             type:'POST',
+            async:false,
             dataType:'json',
             success:function(d){
               console.log(d)
               if (d.code == '002') {
                thisOBJ.attr('status',d.status)
+               thisOBJ.find('em').text() == '赞同' ? thisOBJ.find('em').text(d.praise) : thisOBJ.find('em').text('赞同');
                thisOBJ.find("img").attr("src") == "{{asset('University/images/icon_dianzan1@2x.png')}}"  ?  thisOBJ.find("img").attr("src","{{asset('University/images/icon_dianzan@2x.png')}}") : thisOBJ.find("img").attr("src","{{asset('University/images/icon_dianzan1@2x.png')}}")
              }
             }

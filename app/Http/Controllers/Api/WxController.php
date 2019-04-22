@@ -67,7 +67,12 @@ class WxController extends Controller
         $appid = config('hint.appId');;
         $red_uri = urlencode($request->uri);
         $scope = 'snsapi_userinfo';
-        $state = 'canshu123';
+        if ($request->state){
+            $state = $request->state;
+        }else{
+            $state = 'canshu123';
+        }
+//        dd($red_uri);
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$red_uri.'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect ';
         return redirect($url);
     }
@@ -127,4 +132,29 @@ class WxController extends Controller
         curl_close($ch);
         return $str;
     }
+
+    //
+    /*public function getOpenId(){
+        $appid = config('hint.appId');;
+        $red_uri = urlencode('https://www.ijiabin.com/api/weixin/callBack');
+        $scope = 'snsapi_base';
+        $state = 'canshu123';
+        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$red_uri.'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect ';
+        return redirect($url);
+    }*/
+
+    /*public function callBack(Request $request){
+        $appid = config('hint.appId');
+        $appsecret = config('hint.appSecret');
+        $code = $_GET['code'];
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
+        $acctok = $this->request($url);
+        $res = json_decode($acctok,true);
+        return $res;
+    }*/
+
+    /*public function test(){
+        $res = $this->getOpenId();
+        dd($res);
+    }*/
 }

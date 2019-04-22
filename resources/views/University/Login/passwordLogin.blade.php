@@ -15,8 +15,8 @@
       <p class="tit"><img src="{{asset('University/images/jbdx.png')}}" alt="">密码登陆</p>
 	  <form action="" method="post">
 		  <div class="form">
-		        <input type="text" name="mobile" placeholder="手机号" value="{{old('mobile')}}">
-		        <input type="text" name="password" placeholder="输入密码" value="{{old('password')}}">
+		        <input type="tel" name="mobile" placeholder="手机号" value="{{old('mobile')}}">
+		        <input type="password" name="password" placeholder="输入密码" value="{{old('password')}}">
 		        <input type="hidden" name="source" value="{{$parameter['source']}}">
 		        <input type="hidden" name="yid" value="{{$parameter['yid']}}">
 		        <div class="sub">
@@ -25,7 +25,7 @@
 		        {{ csrf_field() }}
 		  </div>
 	   </form>
-      <p class="ttt">登录即表示同意嘉宾大学<a href="{{url('university/serviceAgreement')}}">服务协议</a>和<a href="{{url('university/serviceAgreement')}}">隐私政策</a></p>
+      <p class="ttt">登录即表示同意嘉宾大学<a href="{{url('university/serviceAgreement')}}">服务协议</a>和<a href="{{url('university/privacyPolicy')}}">隐私政策</a></p>
     </div>
   </div>
       @include('layouts.u_hint')

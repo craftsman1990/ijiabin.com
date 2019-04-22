@@ -1,8 +1,11 @@
+.wrapper{
+  margin-bottom:.55rem;
+}
 .logo{
   width: 100%;
-  height: 2.85rem;
+  height: 2.3rem;
   text-align: center;
-  padding-top: .9rem;
+  padding-top: .5rem;
 }
 .rel{
   width:100%;

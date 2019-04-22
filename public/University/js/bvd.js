@@ -54,37 +54,37 @@
   pro.initEm = function() {
     //先添加上一个按钮
     this.vtop = document.createElement("img");
-    this.vtop.src = "../images/icon_zuojin@2x.png";
+    this.vtop.src = "{{asset('University/images/icon_zuojin@2x.png')}}";
     this.vtop.className = "vtop";
     this.vRoom.appendChild(this.vtop);
 
     // 暂停中间按钮
     this.simg = document.createElement("img");
-    this.simg.src = "../images/pause.png";
+    this.simg.src = "{{asset('University/images/pause.png')}}";
     this.simg.className = "pause";
     this.vRoom.appendChild(this.simg);
 
     //先添加下一个按钮
     this.vbelow = document.createElement("img");
-    this.vbelow.src = "../images/icon_youjin@2x.png";
+    this.vbelow.src = "{{asset('University/images/icon_youjin@2x.png')}}";
     this.vbelow.className = "vbelow";
     this.vRoom.appendChild(this.vbelow);
 
     //先添加音频按钮
     this.vaudio = document.createElement("img");
-    this.vaudio.src = "../images/icon_yinpin@2x.png";
+    this.vaudio.src = "{{asset('University/images/icon_yinpin@2x.png')}}";
     this.vaudio.className = "vaudio";
     this.vRoom.appendChild(this.vaudio);
 
     //先添加收藏按钮
     this.vcollect = document.createElement("img");
-    this.vcollect.src = "../images/icon_vshoucang.png";
+    this.vcollect.src = "{{asset('University/images/icon_vshoucang.png')}}";
     this.vcollect.className = "vcollect";
     this.vRoom.appendChild(this.vcollect);
 
     //先添加播放按钮
     this.vimg = document.createElement("img");
-    this.vimg.src = "../images/play2.png";
+    this.vimg.src = "{{asset('University/images/play2.png')}}";
     this.vimg.className = "vplay";
     this.vRoom.appendChild(this.vimg);
 
@@ -93,7 +93,7 @@
     this.vC.classList.add("controls");
     this.vC.innerHTML =
       '<div><div class="progressBar"><span id="cricle"></span><div class="timeBar"></div></div></div><div><span class="current">00:00</span><span class="duration">00:00</span></div><div><img class="fill" src="' +
-      "../images/icon_quanping@2x.png" +
+      "University/images/icon_quanping@2x.png" +
       '" alt=""></div>';
     this.vRoom.appendChild(this.vC);
 

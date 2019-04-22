@@ -146,6 +146,7 @@
             type:'GET',
             data:{navid:navid,page:page},
             dataType:'json',
+            async: false,
             success:function(d){
               thisObj.find('button').attr('page',parseInt(page)+parseInt(show_num));
               var html = '';

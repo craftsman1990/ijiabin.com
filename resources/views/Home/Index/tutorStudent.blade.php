@@ -3,6 +3,11 @@
 @section('content')
 <link rel="stylesheet" href="{{asset('Home/css/program.css')}}">
 <link rel="stylesheet" href="{{asset('Home/css/study.css')}}">
+<style type="text/css">
+    .footer{
+        margin-top: 30px!important;
+    }
+</style>
 <div class="wrapper">
          @include('layouts._header')
     <div class="main1 clearfix">
@@ -70,6 +75,7 @@
                 type:'GET',
                 data:{type:type},
                 dataType:'json',
+                async: false,
                 success:function(d){
                     console.log(d);
                     thisObj.attr('dj',1);
@@ -109,6 +115,7 @@
                 type:'GET',
                 data:{type:type,page:page},
                 dataType:'json',
+                async: false,
                 success:function(d){
                     console.log(d);
                     $('#tutor_'+typeid).attr('page',parseInt(page)+parseInt(show_num));

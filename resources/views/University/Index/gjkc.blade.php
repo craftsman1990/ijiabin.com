@@ -7,7 +7,7 @@
   <div class="img">
     <img src="{{asset('University/images/international.jpeg')}}" alt="">
   </div>
-  <button class="apply">立即报名</button>
+  <!-- <button class="apply">立即报名</button> -->
   <script>
     $(document).ready(function () {
       

@@ -1,5 +1,5 @@
 @extends('layouts.university')
-@section('title','评论')
+@section('title','回复')
 @section('content')
   <link rel="stylesheet" href="{{asset('University/css/swiper.min.css')}}">
   <link rel="stylesheet" href="{{asset('University/css/reset.css')}}">
@@ -15,7 +15,7 @@
       <p class="boximg"><img src="{{asset('University/images/icon_yifabu@2x.png')}}" alt=""></p>
       <p class="boxtit">已回复</p>
       <div class="btns">
-        <p class="yes" onclick="javascript:history.go(-1)">关闭</p>
+        <p class="yes" onclick="window.location.href='{{url("university/discussion/commentDetail/id/".$comment['id'])}}'">关闭</p>
       </div>
     </div>
   </div>
@@ -31,29 +31,29 @@
   </div>
   <script type="text/javascript">
       function content(){
-          var text=document.getElementById("textarea");
-          //文本框可以接收的长度
-          var i=500;
-          //获取输入的文字的长度
-          var textLength=text.value.length;
-          // console.log(i-textLength)
-          if(i-textLength>=0){
-              var divcontent=document.getElementById("num").innerText;
-              document.getElementById("num").innerText="("+(i-textLength)+"/500)";
-              $(".btn").attr("disabled",false);
-              $('.btn').addClass('btn1')
-          }
-          if(i-textLength==500){
-            // console.log(1)
-            $(".btn").attr("disabled",true);
-            $('.btn').removeClass('btn1')
-          }
+        var text=document.getElementById("textarea");
+        //文本框可以接收的长度
+        var i=500;
+        //获取输入的文字的长度
+        var textLength=text.value.length;
+        // console.log(i-textLength)
+        if(i-textLength>=0){
+            var divcontent=document.getElementById("num").innerText;
+            document.getElementById("num").innerText="("+(i-textLength)+"/500)";
+            $(".btn").attr("disabled",false);
+            $('.btn').addClass('btn1')
         }
+        if(i-textLength==500){
+          // console.log(1)
+          $(".btn").attr("disabled",true);
+          $('.btn').removeClass('btn1')
+        }
+      }
         $('.btn').click(function(){
           var content = $('#textarea').val(),
               r_type = "{{$type}}",
               uid = "{{$user->id}}",
-              cid = "{{$comment['id']}}",
+              cid = "{{$cid}}",
               csrf = "{{csrf_token()}}";
           $.ajax({
             url:"{{url('university/discussion/putReply')}}",

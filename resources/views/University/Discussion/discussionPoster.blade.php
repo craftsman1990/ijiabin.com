@@ -9,16 +9,30 @@
   .wrapper{
     height:100%;
     width:100%;
-    background: url("{{asset($data['discussion']->cover)}}") no-repeat;
-    background-size:100% 100%;
-    position: relative;
+    /* background: url("{{asset($data['discussion']->cover)}}") no-repeat; */
+    /* background-size:100% 100%; */
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
-
+  .wrapper::-webkit-scrollbar {
+    display: none;
+  }
 </style>
   <div class="wrapper">
+    <div class="backImg">
+      <img src="{{asset($data['discussion']->cover)}}" alt="">
+    </div>
     <div class="btn">
-      <p class="left">保存本地</p>
+      <a class="left" href="{{asset($data['discussion']->cover)}}" download="{{$data['download']}}">保存本地</a>
       @if($data['web'] ==1)
+      <div class="box2">
+        <p class="boxtit">长按图片可保存本地！</p>
+        <div class="btns">
+          <p class="nor">关闭</p>
+        </div>
+      </div>
         <p class="right">分享</p>
         <script type="text/javascript">
             wx.config({
@@ -54,14 +68,19 @@
                 wx.onMenuShareQQ(share_config.share);//分享给手机QQ
             });
         </script>
+        <script>
+          $('.nor').click(function(){
+            $('.box2').hide();
+          })
+        </script>
       @endif
     </div>
-  </div>
-  <div class="know" onclick="this.style.display = 'none'">
-    <img src="{{asset('University/images/hint.png')}}" alt="">
-  </div>
-  <script>
+
     
-  </script>
+  </div>
+  <!-- <div class="know" onclick="this.style.display = 'none'">
+    <img src="{{asset('University/images/hint.png')}}" alt="">
+  </div> -->
+  
   
 @stop

@@ -54,6 +54,7 @@
 }
 .num>input{
   width:100%;
+  border: none;
 }
 input::-webkit-input-placeholder {
   font-size:.11rem;
@@ -61,17 +62,19 @@ input::-webkit-input-placeholder {
   color:rgba(153,153,153,1);
 }
 .btn{
-  width:93%;
+  width: 93%;
   margin: 0 3.5%;
-  height:.44rem;
-  position: fixed;
-  bottom:.1rem;
-  border-radius:.04rem;
-  font-size:.14rem;
-  font-family:PingFang-SC-Medium;
-  color:rgba(255,255,255,1);
+  margin-top: 1.3rem;
+  height: .44rem;
+  border-radius: .04rem;
+  font-size: .14rem;
+  font-family: PingFang-SC-Medium;
+  color: rgba(255,255,255,1);
   border: 1px solid rgba(222,222,222,1);
 }
 .btn1{
   background:rgba(48,92,186,1);
+}
+button:disabled {
+  background-color: #DEDEDE!important;
 }
