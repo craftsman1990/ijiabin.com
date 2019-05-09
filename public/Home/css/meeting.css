@@ -4,9 +4,9 @@
 }
 .header{
   width:100%;
-  height:70px;
-  line-height:70px;
-  background:#0F0F0F;
+  height:50px;
+  line-height:50px;
+  background:rgba(0,0,0,.36);
   position: fixed;
   top:0;
   left:0;
@@ -21,24 +21,29 @@
   min-width: 1021px;
 }
 .h_rig>li{
+  height:50px;
   float: left;
   color:#fff;
-  padding:0  20px;
+  padding:0  14px;
   font-size:16px;
 }
 .h_rig>li:hover{
   cursor: pointer;
-  color: #BA2D26;
+  background: #3399ff;
+  border-bottom:3px solid #282D48;
+}
+.ser{
+  background: #3399ff;
+  border-bottom:3px solid #282D48;
 }
 .centera{
-  width: 84%;
+  /* width: 84%;
   max-width: 1050px;
-  margin: 0 auto;
+  margin: 0 auto; */
   overflow: hidden;
 }
 .banner{
   width:100%;
-  padding-top:70px;
 }
 .banner>img{
   width:100%;
@@ -286,4 +291,233 @@
   width:80px;
   height:80px;
 }
+.tit{
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding-top: 90px;
+  text-align: center;
+}
+.tit1{
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding-top: 50px;
+  text-align: center;
+}
+.tit2{
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  text-align: center;
+  margin-left: -22%;
+}
+.tit1 img{
+  width: 100%;
+}
+.box1{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.box1 ul{
+  padding-top: 50px;
+  height: 550px;
+}
+.box1 li{
+  float: left;
+  width: 20%;
+  text-align: center;
+  margin-bottom: 20px;
+  transition:all 2s;/*图片放大过程的时间*/
+  position: relative;
+}
+.box1 li img{
+  width: 90%;
+  padding: 0 5%;
+}
+.box1 li img:hover,.box2 li img:hover,.box3 li img:hover,.box4 li img:hover,.box5 li img:hover{
+  cursor: crosshair;
+  transform: scale(1.05);  /*以y轴为中心旋转*/
+}
+.box2{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+  margin-top: 50px;
+}
+.box2 ul{
+  width: 100%;
+  padding: 0 5%;
+  padding-top: 50px;
+  height:980px;
+}
+.box2 li{
+  float: left;
+  width: 25%;
+  text-align: center;
+  margin-bottom: 20px;
+  transition:all 2s;/*图片放大过程的时间*/
+  position: relative;
+}
+.box2 li img{
+  width: 90%;
+  padding: 0 5%;
+}
+.box3{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.box3 ul{
+  width: 100%;
+  padding: 0 5%;
+  padding-top: 50px;
+  height:350px;
+}
+.box3 li{
+  float: left;
+  width: 25%;
+  text-align: center;
+  margin-bottom: 20px;
+  transition:all 2s;/*图片放大过程的时间*/
+  position: relative;
+}
+.box3 li img{
+  width: 90%;
+  padding: 0 5%;
+}
 
+.box4{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.box4 ul{
+  width: 100%;
+  padding: 0 14%;
+  padding-top: 50px;
+  height:350px;
+}
+.box4 li{
+  float: left;
+  width: 33.3%;
+  text-align: center;
+  margin-bottom: 20px;
+  transition:all 2s;/*图片放大过程的时间*/
+  position: relative;
+}
+.box4 li img{
+  width: 90%;
+  padding: 0 5%;
+}
+.box5{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.box5 ul{
+  width: 100%;
+  padding: 0 14%;
+  padding-top: 50px;
+  height:350px;
+}
+.box5 li{
+  float: left;
+  width: 33.3%;
+  text-align: center;
+  margin-bottom: 20px;
+  transition:all 2s;/*图片放大过程的时间*/
+  position: relative;
+}
+.box5 li img{
+  width: 90%;
+  padding: 0 5%;
+}
+.list1{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.list1 ul{
+  width: 100%;
+  padding:0 20%;
+  padding-top: 50px;
+  height:90px;
+}
+.list1 li{
+  width: 100%;
+  text-align: center;
+}
+.list2{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.list2 ul{
+  width: 100%;
+  padding:0 30%;
+  padding-top: 50px;
+  height:90px;
+}
+.list2 li{
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+.list3{
+  width: 84%;
+  margin: 0 auto;
+  max-width: 1180px;
+}
+.list3 ul{
+  width: 100%;
+  padding:0 10%;
+  padding-top: 50px;
+  height:90px;
+}
+.list3 li{
+  width: 20%;
+  float: left;
+  text-align: center;
+  margin-bottom: 11px;
+}
+.list3 li a img{
+  width: 90%;
+  padding: 0 5%;
+}
+.logo_box:last-child{
+  width: 36%;
+}
+.logo_box{
+  width: 27%;
+  float: left;
+  height:182px;
+  margin-right: 3.3%;
+}
+.logo_box img{
+  width: 100%;
+}
+.logo_box p{
+  font-size:15px;
+  font-family:HYQiHei-DZS;
+  font-weight:normal;
+  color:rgba(255,255,255,1);
+  line-height:70px;
+  text-align: center;
+}
+.logo_box li:first-child{
+  padding-left:0px; 
+  font-size:17px;
+  font-family:HYQiHei-HZW;
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  line-height:34px;
+}
+.logo_box li{
+  padding-left:10px; 
+  font-size:15px;
+  font-family:HYQiHei-HZW;
+  color:rgba(255,255,255,1);
+  line-height:34px;
+}

@@ -12,7 +12,8 @@
         </h4>
       @elseif($nav['id']==6)
       <h4 class="pagetit">
-      <a class="{{$nav['id']==$data['oneId'] ? 'selected' : ''}}" href="{{url('mobile/transmit/oneId/'.$nav['id'].'/secId/'.$nav['nodes'][0]['id'])}}">
+      <!-- <a class="{{$nav['id']==$data['oneId'] ? 'selected' : ''}}" href="{{url('mobile/transmit/oneId/'.$nav['id'].'/secId/'.$nav['nodes'][0]['id'])}}"> -->
+      <a class="{{$nav['id']==$data['oneId'] ? 'selected' : ''}}" href="{{url('mobile/page/meeting_2018')}}">
             <img src="{{asset('Mobile/images/jbfh.png')}}" alt="">
           </a>
         </h4>

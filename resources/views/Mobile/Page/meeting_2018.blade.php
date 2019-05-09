@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>POWER2018新时代新经济嘉宾峰会</title>
+  <title>2019年度「科创榜·POWER100」评选</title>
+  <link rel="icon" type="image/x-icon" href="{{asset('Home/images/kcb.ico')}}" />
   <link rel="stylesheet" href="{{asset('Mobile/fonts/iconfont.css')}}">  
   <link rel="stylesheet" href="{{asset('Mobile/css/reset.css')}}">
   <link rel="stylesheet" href="{{asset('Mobile/css/meeting.css')}}">
 </head>
-<script src={{asset("Home/js/jquery.min.js")}}></script>
+<script src="{{asset('Home/js/jquery.min.js')}}"></script>
   <script>
 		var wid = $(window).width();
 		if(wid>750){
@@ -25,265 +26,105 @@
 	</script>
 <style>
 .centera{
-  background:url("{{asset('Mobile/images/imgMeeting/bg.png')}}") no-repeat;
+  background:#fff;
   background-size:cover;
 }
 </style>
 <body>
     <div data-role="page" id="pageone">
-      <div data-role="panel" id="myPanel"> 
-          <p class="nav_top"><img src="{{asset('Mobile/images/imgMeeting/nav_icon.png')}}" alt=""></p>
-          <h4 id="home" class="list1">峰会简介</h4>
-          <h4 class="list2">商业盛典</h4>
-          <h4 class="list3">新时代商业案例榜单</h4>
-          <h4 class="list4">互动展区</h4>
-          <h4 class="list5">合作伙伴</h4>
-          <h4 class="list6">相关问题</h4>
-          <h4 class="list6">地点</h4>
-          <h4 class="list7">联系我们</h4>
-          </ul>
-      </div> 
       <div  data-role="header"  class="header">
-        <a><img src="{{asset('Mobile/images/imgMeeting/h_logo.png')}}" alt=""></a>
-        <a href="javascript:;" id="pagehide"><i class="icon iconfont icon-mulu"></i></a>
+        <a><img src="{{asset('Mobile/images/imgMeeting/logo.png')}}" alt=""></a>
       </div>
       <div class="centera">
         <div class="banner">
-          <img src="{{asset('Mobile/images/imgMeeting/ban.png')}}" alt="">
+          <img src="{{asset('Mobile/images/imgMeeting/banner.png')}}" alt="">
         </div>
-        <p class="all_synopsis">
-            “改革 破界 共生 · POWER2018 新时代新经济嘉宾峰会”是嘉宾大学、「我有嘉宾」联手改革破局地——深圳，为世界呈现的2018高峰会议，聚集国内外千余位政商产学研界顶级领袖与行业先锋、并力邀国内外多地市长齐聚，全天候高浓度洞见、探讨、分析、预测中国未来商业新趋势，更与FT（英国金融时报）中文网等专业媒体联合发布重量级榜单。
-        </p>
         <div class="figure">
-          <img src="{{asset('Mobile/images/imgMeeting/figure.png')}}" alt="">
+          <img src="{{asset('Mobile/images/imgMeeting/cxyq.png')}}" alt="">
+        </div>
+        <div class="figure">
+          <img src="{{asset('Mobile/images/imgMeeting/qxwd.png')}}" alt="">
+        </div>
+        <div class="figure">
+          <img src="{{asset('Mobile/images/imgMeeting/pxlc.png')}}" alt="">
+        </div>
+        <div class="figure">
+          <img src="{{asset('Mobile/images/imgMeeting/pxjx.png')}}" alt="">
+        </div>
+        <div class="figure">
+          <img src="{{asset('Mobile/images/imgMeeting/jb.png')}}" alt="">
         </div>
         <div class="boxs">
           <div class="new">
-            <div class="list_titer">
-              <img src="{{asset('Mobile/images/imgMeeting/list-titer1.png')}}" alt="">
+            <div class="box1">
+              <p class="tit"><img src="{{asset('Mobile/images/imgMeeting/zbf.png')}}" alt=""></p>
+              <ul>
+                <li><a href="#"><img src="{{asset('Mobile/images/imgMeeting/zlogo.png')}}" alt=""></a></li>
+              </ul>
             </div>
-            <p class="list_synopsis">
-                峰会将以三个篇章-“改革”、“破界”、“共生”探讨中国以及全球商业在政策、技术、产业、科学的推动下，带来的变革、跨界、迭代与融合；在开放思想与创新思维的激发下，带来的新可能性与新规则，以及对中国未来商业趋势的预测。
-            </p>
-            <div class="guests">
-              <img src="{{asset('Mobile/images/imgMeeting/guests1.png')}}" alt="">
-              <img src="{{asset('Mobile/images/imgMeeting/guests2.png')}}" alt="">
-              <img src="{{asset('Mobile/images/imgMeeting/guests3.png')}}" alt="">
+            <div class="box2">
+              <p class="tit"><img src="{{asset('Mobile/images/imgMeeting/hzzz.png')}}" alt=""></p>
+              <ul>
+                <li><a href="#"/><img src="{{asset('Mobile/images/imgMeeting/zgts.png')}}" alt=""></a></li>
+                <li><a href="#"/><img src="{{asset('Mobile/images/imgMeeting/germany@2x.png')}}" alt=""></a></li>
+              </ul>
             </div>
-          </div>
-          <div class="2018">
-            <div class="list2_titer">
-              <img src="{{asset('Mobile/images/imgMeeting/2018.png')}}" alt="">
-            </div>
-            <p class="list_synopsis">
-                新时代商业盛典将发布新时代商业案例榜单、举办颁奖典礼，并同期举办商界歌王争霸赛。
-            </p>
-            <div class="img_2018">
-              <img src="{{asset('Mobile/images/imgMeeting/2018_img.png')}}" alt="">
-            </div>
-          </div>
-          <div class="china_power">
-            <div class="list2_titer">
-              <img src="{{asset('Mobile/images/imgMeeting/china_power.png')}}" alt="">
-            </div>
-            <p class="logos">
-              <img class="logos" src="{{asset('Mobile/images/imgMeeting/logos.png')}}" alt="">
-            </p>
-            <p class="times">
-              <img class="time" src="{{asset('Mobile/images/imgMeeting/time.png')}}" alt="">
-            </p>
-            <p class="list_synopsis">
-                每一个敢于用创新的力量去引领时代、改变世界的人都值得荣耀。嘉宾传媒联合FT中文网，挖掘七大行业的100家中国企业，发布「中国力量」POWER100商业案例榜单，致敬具有创造精神、冒险精神的时代先锋。
-            </p>    
-            <div class="top">
-              <!-- {{url('page/pageTop40')}} -->
-              <a href="{{url('page/pageTop40')}}"><img src="{{asset('Mobile/images/imgMeeting/top40.png')}}" alt=""></a>
-            </div>
-          </div>  
-          <div class="interact">
-            <div class="list2_titer">
-              <img src="{{asset('Mobile/images/imgMeeting/interact.png')}}" alt="">
-            </div>
-            <p class="list_synopsis">
-                新商业下，人们的物质基础服务与精神教育服务 都随之改变，融入新的科技产品、新的娱乐内容、 新的体验模式等，搭建未来体验展区，同时将新 商业下的成果及未来可能性展示在大众面前。
-            </p>
-            <div class="interact_con">
-              <img src="{{asset('Mobile/images/imgMeeting/interact_img.png')}}" alt="">
-            </div>
-          </div>
-          <div class="teamwork_box">
-            <h4>合作伙伴</h4>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>主办单位</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wyjb.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/jbdx.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>协办单位</span></p>
-              <div class="tw_list_con">
-                <p>深圳市南山区企业发展服务中心</p>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>战略合作伙伴</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/kdxf.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>首席战略合作伙伴</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zww.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>官方指定用车平台</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sqyc.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>品牌合作伙伴</span></p>
-              <div class="tw_list_con tw_lists">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sqyc.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/xzdz.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lmm.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lw.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/cj.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>合作媒体</span></p>
-              <div class="tw_list_con tw_lists">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/tx.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/xl.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zaker.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wlcj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/jm.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/xlkj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hs.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/donews.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ly.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/cyj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zqsb.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/nbd.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/zc.png')}}" alt=""></a>   
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/lusa.png')}}" alt=""></a> 
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/36kr.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/flf.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/gfcj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wyxw.png')}}" alt=""></a> 
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sz.png')}}" alt=""></a>                
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>官方独家票务合作伙伴</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hdx.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>官方独家图片直播平台</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ps.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>官方独家共享充电合作伙伴</span></p>
-              <div class="tw_list_con">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/ld.png')}}" alt=""></a>
-              </div>
-            </div>
-            <div class="tw_list">
-              <p class="tw_list_tit"><span>官方视频直播平台</span></p>
-              <div class="tw_list_con tw_lists">
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/fhxw.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/wh.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/sy.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/dy.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/hj.png')}}" alt=""></a>
-                <a href="javascript:;"><img src="{{asset('Mobile/images/imgMeeting/yxzb.png')}}" alt=""></a>
-              </div>
-            </div>
-          </div>
-          <div class="issue_box">
-            <h4>相关问题</h4>
-            <div class="issue_list">
-              <p class="topic"><img src="{{asset('Mobile/images/imgMeeting/icon.png')}}" alt="">如何报名，何时截止报名？</p>
-              <p class="iss_con">请点击“立即购票”，选择票种；或在活动行PC端、手机端APP搜索“POWER 2018 新时代新经济嘉宾峰会”，点击页面进行购票
-                峰会购票截止日期为 2018 年 10月 16 日 22:00</p>
-            </div>
-            <div class="issue_list">
-              <p class="topic"><img src="{{asset('Mobile/images/imgMeeting/icon.png')}}" alt="">购票付款成功后，有凭证吗？如何签到？</p>
-              <p class="iss_con">活动行购票成功后，会收到确认短信通知。在活动当天凭活动行发给您短信中的参会二维码，到深Reborn755签到处找工作人员签到，工作人员会扫取二维码并发放入场手环。</p>
-            </div>
-            <div class="issue_list">
-              <p class="topic"><img src="{{asset('Mobile/images/imgMeeting/icon.png')}}" alt="">是否有座位图？会议现场是否需要对号入座？中途离开，座位是否可以保留？</p>
-              <p class="iss_con">购票时，请选择票种，不同票种对应不同区域，暂没有指定座位号码，购票用户可根据现场指引，在指定区域就坐，如您中途离开会场，不能确保继续有座位</p>
-            </div>
-            <div class="issue_list">
-              <p class="topic"><img src="{{asset('Mobile/images/imgMeeting/icon.png')}}" alt="">大会现场有同声传译服务吗？如何领取同传设备？</p>
-              <p class="iss_con">现场有同传设备及服务支持，活动当天可凭本人身份证，到会场入场处换取同传设备，活动结束后，您需归还同传设备并取回身份证。</p>
-            </div>
-            <div class="issue_list">
-              <p class="topic"><img src="{{asset('Mobile/images/imgMeeting/icon.png')}}" alt="">有活动相关照片及视频吗？</p>
-              <p class="iss_con">我们会有专门的摄影团队在活动现场进行照片拍摄及上传，现场设置了照片传输通道，可扫描二维码获取，您也可以加会刊上的活动小助手微信，进入活动现场微信群，在第一时间获取活动照片。</p>
-            </div>
-          </div>
-          <div class="map_box">
-            <h4>地图</h4>
-            <div class="map_con">
-              <p class="mcon_list">
-                <img src="{{asset('Mobile/images/imgMeeting/mcon_list1.png')}}" alt="">百度地图、高德地图搜索：Reborn755即可
-              </p>
-              <p class="mcon_list">
-                <img src="{{asset('Mobile/images/imgMeeting/mcon_list2.png')}}" alt="">建议选取途经海上世界路线，场馆距离海上世界商圈 仅10分钟路程）
-              </p>
-              <p class="mcon_list">
-                <img src="{{asset('Mobile/images/imgMeeting/mcon_list3.png')}}" alt="">赤湾地铁站（距离场馆直线距离2KM，约15分钟）， 可使用共享单车至会场
-              </p>
-              <p class="mcon_list">
-                <img src="{{asset('Mobile/images/imgMeeting/mcon_list4.png')}}" alt="">226路左炮台站、226路油码头站
-              </p>
-            </div>
-            <div id="map">
-              <img src="{{asset('Mobile/images/imgMeeting/map.jpg')}}" alt="">
-            </div>
-          </div>
-          <div class="relation_box">
-            <h4>联系我们</h4>
-            <div class="relation_con">
-              <div class="rcon">
-                <div class="left">
-                  <p class="rel_img"><img src="{{asset('Mobile/images/imgMeeting/sw.png')}}" alt=""></p>
-                  <p class="who">屈先生</p>
-                  <p class="contact">W: 376717612</p>
-                  <p class="contact">E: qugy@wetalktv.cn</p>
-                </div>
-                <div class="right">
-                  <img src="{{asset('Mobile/images/imgMeeting/sw_code.png')}}" alt="">
-                </div>
-              </div>
-              <div class="rcon">
-                <div class="left">
-                  <p class="rel_img"><img src="{{asset('Mobile/images/imgMeeting/mt.png')}}" alt=""></p>
-                  <p class="who">梁女士</p>
-                  <p class="contact">W: island1126</p>
-                  <p class="contact">E: lh@wetalktv.cn</p>
-                </div>
-                <div class="right">
-                  <img src="{{asset('Mobile/images/imgMeeting/mt_code.png')}}" alt="">
-                </div>
-              </div>
+            <div class="box3">
+              <p class="tit"><img src="{{asset('Mobile/images/imgMeeting/hzjg.png')}}" alt=""></p>
+              <ul>
+                <li><a href="http://www.newone.com.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/zs.png')}}" alt=""></a></li>
+                <li><a href="http://www.gyzq.com.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/gy.png')}}" alt=""></a></li>
+                <li><a href="http://www.gf.com.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/gf.png')}}" alt=""></a></li>
+                <li><a href="https://www.foundersc.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/fz.png')}}" alt=""></a></li>
+                <li><a href="http://www.szvc.com.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/capital@2x.png')}}" alt=""></a></li>
+                <li><a href="http://www.saifpartners.com.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/saif@2x.png')}}" alt=""></a></li>
+                <li><a href="#"><img src="{{asset('Mobile/images/imgMeeting/yo.png')}}" alt=""></a></li>
+                <li><a href="http://www.addorcapital.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/addor@2x.png')}}" alt=""></a></li>
+                <li><a href="http://www.newmargin.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/lc.png')}}" alt=""></a></li>
+                <li><a href="http://www.apluscap.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/ht.png')}}" alt=""></a></li>
+                <li><a href="http://www.huagaicapital.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/hg.png')}}" alt=""></a></li>
+                <li><a href="http://stonevc.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/js.png')}}" alt=""></a></li>
+                <li><a href="http://www.vstonecapital.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/ks.png')}}" alt=""></a></li>
+                <li><a href="http://www.axpfund.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/fs.png')}}" alt=""></a></li>
+                <li><a href="http://www.zhenchengcap.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/zc.png')}}" alt=""></a></li>
+                <li><a href="https://www2.deloitte.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/qd.png')}}" alt=""></a></li>
+                <li><a href="https://www.pwccn.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/ph.png')}}" alt=""></a></li>
+                <li><a href="http://www.zhonglun.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/zl.png')}}" alt=""></a></li>
+                <li><a href="https://www.kwm.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/jd.png')}}" alt=""></a></li>
+                <li><a href="http://www.jingtian.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/jt.png')}}" alt=""></a></li>
+                <li><a href="https://www.rolandberger.com" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/berger@2x.png')}}" alt=""></a></li>  
+                <li><a href="http://www.ceibs.edu" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/zo.png')}}" alt=""></a></li>       
+                <li><a href="http://www.sem.tsinghua.edu.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/qh.png')}}" alt=""></a></li>     
+                <li><a href="www.gsm.pku.edu.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/gh.png')}}" alt=""></a></li>       
+                <li><a href="https://www.tongji.edu.cn" target="_Blank"><img src="{{asset('Mobile/images/imgMeeting/tj.png')}}" alt=""></a></li>      
+              </ul>
             </div>
           </div>
         </div>
-        <div class="touch" onclick="window.location.href='http://t.cn/RFmd6vb'">
-          <img src="{{asset('Mobile/images/imgMeeting/touch.png')}}" alt="">
-        </div>
+        
       </div>
+      <div class="foot">
+          <p class="tit"><img src="{{asset('Mobile/images/imgMeeting/lxfs.png')}}" alt=""></p>
+          <div class="topBox">
+            <div class="logo_box">
+              <img src="{{asset('Mobile/images/imgMeeting/kcb.png')}}" alt="">
+              <p>企业报名通道</p>
+            </div>
+            <div class="logo_box">
+              <img src="{{asset('Mobile/images/imgMeeting/bm.png')}}" alt="">
+              <p>科创榜公众账号</p>
+            </div>
+          </div>
+          <ul class="list_box">
+            <li>「科创榜·POWER100」组委会</li>
+            <li>组委会联系人:徐先生</li>
+            <li>联系电话：150 1158 6867</li>
+            <li>邮箱：xh@wetalktv.cn</li>
+            <li>组委会联系人:梁先生</li>
+            <li>联系电话：176 0026 0562</li>
+            <li>邮箱：liangxianpeng@wetalktv.cn</li>
+          </ul>
+        </div>
     </div>
   <input type="hidden" name="url" value="{{asset('mobile/page/meeting_2018_map')}}">
   <!-- <script src="{{asset('Mobile/js/jquery-1.10.1.min.js')}}"></script> -->
@@ -348,9 +189,9 @@
 
         window.share_config = {
              "share": {
-                "imgUrl": "https://www.ijiabin.com/Mobile/images/nhfx.jpg",//分享图，默认当相对路径处理，所以使用绝对路径的的话，“http://”协议前缀必须在。
-                "desc" : "10.18 深圳·南山",//摘要,如果分享到朋友圈的话，不显示摘要。
-                "title" : '改革·破界·共生 POWER2018新时代新经济嘉宾峰会',//分享卡片标题
+                "imgUrl": "https://www.ijiabin.com/Mobile/images/nhfx.png",//分享图，默认当相对路径处理，所以使用绝对路径的的话，“http://”协议前缀必须在。
+                "desc" : "2019「科创榜·POWER 100」评选",//摘要,如果分享到朋友圈的话，不显示摘要。
+                "title" : '科技定义未来 寻找时代变革者',//分享卡片标题
                 "link": window.location.href,//分享出去后的链接，这里可以将链接设置为另一个页面。
                 "success":function(){
                     //分享成功后的回调函数

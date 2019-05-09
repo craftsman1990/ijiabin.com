@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>POWER2018新时代新经济嘉宾峰会</title>
-    <link rel="icon" type="image/x-icon" href="{{asset('Home/images/meeting.ico')}}" />
+    <title>2019年度「科创榜·POWER100」评选</title>
+    <link rel="icon" type="image/x-icon" href="{{asset('Home/images/kcb.ico')}}" />
     <link rel="stylesheet" href="{{asset('Home/css/all.css')}}">
     <link rel="stylesheet" href="{{asset('Home/css/meeting.css')}}">
 </head>
@@ -24,439 +24,207 @@
 		});
 	</script>
 <style>
-  .meeting_box{
-    background:#000;
-    background:url({{asset('Home/images/imgPc/bg.png')}}) no-repeat !important;
+  .issue_box{
+    background:url({{asset('Home/images/imgPc/bot.png')}}) no-repeat !important;
     background-size:cover !important;
+    width:100%;
+    height:3450px;
+  }
+  .relation_box{
+    background:background:rgba(255,255,255,1);
+    width:100%;
+    height:1100px;
+  }
+  .foot{
+    position:relative;
+    background:#050a2a;
+    width:100%;
+    height:508px;
+    padding-top:160px;
+    padding-left:22%;
+    padding-right:22%;
   }
 </style>
 <body>
   <div class="meeting_box">
     <div class="header">
       <div class="header_ul">
-        <p><img src="{{asset('Home/images/imgPc/h_logo.png')}}" alt=""></p>
+        <p><img src="{{asset('Home/images/imgPc/logo.png')}}" alt=""></p>
         <ul class="h_rig">
-          <li>峰会简介</li>
-          <li>商业盛典</li>
-          <li>新时代商业案例榜单</li>
-          <li>互动展区</li>
-          <li>合作伙伴</li>
-          <li>相关问题</li>
-          <li>地点</li>
-          <li>联系我们</li>
+          <li>评选亮点</li>
+          <li>参选企业要求</li>
+          <li>评选维度</li>
+          <li>评选流程</li>
+          <li>评选奖项</li>
+          <li>评选嘉宾</li>
+          <li>合作支持</li>
         </ul>
       </div>
     </div>
     <div class="centera">
-      <div class="banner">
-        <img src="{{asset('Home/images/imgPc/ban.png')}}" alt="">
-      </div>
-      <p class="all_synopsis">
-        “改革 破界 共生 · POWER2018 新时代新经济嘉宾峰会”是嘉宾大学、「我有嘉宾」联手改革破局地——深圳，为世界呈现的2018高峰会议，聚集国内外千余位政商产学研界顶级领袖与行业先锋、并力邀国内外多地市长齐聚，全天候高浓度洞见、探讨、分析、预测中国未来商业新趋势，更与FT（英国金融时报）中文网等专业媒体联合发布重量级榜单。
-      </p>
-      <div class="figure">
-        <img src="{{asset('Home/images/imgPc/figure.png')}}" alt="">
-      </div>
+      <!-- <div class="banner">
+        <img src="{{asset('Home/images/imgPc/lightspot.png')}}" alt="">
+      </div> -->
       <div class="boxs">
         <div class="new">
-          <div class="list_titer">
-            <img src="{{asset('Home/images/imgPc/list-titer1.png')}}" alt="">
-          </div>
-          <p class="list_synopsis">
-              峰会将以三个篇章-“改革”、“破界”、“共生”探讨中国以及全球商业在政策、技术、产业、科学的推动下，带来的变革、跨界、迭代与融合；在开放思想与创新思维的激发下，带来的新可能性与新规则，以及对中国未来商业趋势的预测。
-          </p>
-          <div class="guests">
-            <div class="guest1">
-              <p><img src="{{asset('Home/images/imgPc/guest1/guest1_top.png')}}" alt=""></p>
-              <p class="person person1">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/1.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/1_1.png')}}" alt="">
-              </p>
-              <p class="person person2">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/2.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/2_1.png')}}" alt="">
-              </p>
-              <p class="person person3">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/3.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/3_1.png')}}" alt="">
-              </p>
-              <p class="person person4">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/5.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/5_1.png')}}" alt="">
-              </p>
-              <p class="person person5">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/6.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/6_1.png')}}" alt="">
-              </p>
-              <p class="person person6">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/7.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/7_1.png')}}" alt="">
-              </p>
-              <p class="person person7">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/8.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/8_1.png')}}" alt="">
-              </p>
-              <p class="person person8">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest1/9.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest1/9_1.png')}}" alt="">
-              </p>
-            </div>
-            <div class="guest1">
-              <p><img src="{{asset('Home/images/imgPc/guest2/guest1_top.png')}}" alt=""></p>
-              <p class="person person10">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/1.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/1_1.png')}}" alt="">
-              </p>
-              <p class="person person11">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/2.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/2_1.png')}}" alt="">
-              </p>
-              <p class="person person12">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/3.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/3_1.png')}}" alt="">
-              </p>
-              <p class="person person13">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/4.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/4_1.png')}}" alt="">
-              </p>
-              <p class="person person14">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/5.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/5_1.png')}}" alt="">
-              </p>
-              <p class="person person15">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/6.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/6_1.png')}}" alt="">
-              </p>
-              <p class="person person16">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/7.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/7_1.png')}}" alt="">
-              </p>
-              <p class="person person17">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/8.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/8_1.png')}}" alt="">
-              </p>
-              <p class="person person18">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/9.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/9_1.png')}}" alt="">
-              </p>
-              <p class="person person19">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/10.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/10_1.png')}}" alt="">
-              </p>
-              <p class="person person20">
-                <img class="shows" src="{{asset('Home/images/imgPc/guest2/11.png')}}" alt="">
-                <img class="hides" src="{{asset('Home/images/imgPc/guest2/11_1.png')}}" alt="">
-              </p>
-            </div>
-            <div class="guest1">
-                <p><img src="{{asset('Home/images/imgPc/guest3/guest1_top.png')}}" alt=""></p>
-                <p class="person person21">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/1.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/1_1.png')}}" alt="">
-                </p>
-                <p class="person person22">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/2.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/2_1.png')}}" alt="">
-                </p>
-                <p class="person person23">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/4.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/4_1.png')}}" alt="">
-                </p>
-                <p class="person person24">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/5.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/5_1.png')}}" alt="">
-                </p>
-                <p class="person person25">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/6.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/6_1.png')}}" alt="">
-                </p>
-                <p class="person person26">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/7.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/7_1.png')}}" alt="">
-                </p>
-                <p class="person person27">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/8.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/8_1.png')}}" alt="">
-                </p>
-                <p class="person person28">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/9.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/9_1.png')}}" alt="">
-                </p>
-                <p class="person person29">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/10.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/10_1.png')}}" alt="">
-                </p>
-                <p class="person person30">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/13.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/13_1.png')}}" alt="">
-                </p>
-                <p class="person person31">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/3.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/3_1.png')}}" alt="">
-                </p>
-                <p class="person person32">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/14.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/14_1.png')}}" alt="">
-                </p>
-                <p class="person person33">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/15.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/15_1.png')}}" alt="">
-                </p>
-                <p class="person person34">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/16.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/16_1.png')}}" alt="">
-                </p>
-                <p class="person person35">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/11.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/11_1.png')}}" alt="">
-                </p>
-                <p class="person person36">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/12.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/12_1.png')}}" alt="">
-                </p>
-                <p class="person person37">
-                  <img class="shows" src="{{asset('Home/images/imgPc/guest3/17.png')}}" alt="">
-                  <img class="hides" src="{{asset('Home/images/imgPc/guest3/17_1.png')}}" alt="">
-                </p>
-              </div>
+          <div class="banner">
+            <img src="{{asset('Home/images/imgPc/lightspot.png')}}" alt="">
           </div>
         </div>
         <div class="2018">
-          <div class="list2_titer">
-            <img src="{{asset('Home/images/imgPc/2018.png')}}" alt="">
-          </div>
-          <p class="list_synopsis">
-              新时代商业盛典将发布新时代商业案例榜单、举办颁奖典礼，并同期举办商界歌王争霸赛。
-          </p>
-          <div class="img_2018">
-            <img src="{{asset('Home/images/imgPc/2018_img.png')}}" alt="">
+          <div class="banner">
+            <img src="{{asset('Home/images/imgPc/require.png')}}" alt="">
           </div>
         </div>
         <div class="china_power">
-          <div class="list2_titer">
-            <img src="{{asset('Home/images/imgPc/china_power.png')}}" alt="">
-          </div>
-          <div class="china_logo">
-            <img src="{{asset('Home/images/imgPc/china_logo.png')}}" alt="">
-          </div>
-          <p class="list_synopsis">
-              每一个敢于用创新的力量去引领时代、改变世界的人都值得荣耀。嘉宾传媒联合FT中文网，挖掘七大行业的100家中国企业，发布「中国力量」POWER100商业案例榜单，致敬具有创造精神、冒险精神的时代先锋。
-          </p>    
-          <div class="top">
-            <a href="{{url('page/pageTop40')}}"><img src="{{asset('Home/images/imgPc/top40.png')}}" target="_blank"></a>
-            <a href="JavaScript:;"><img src="{{asset('Home/images/imgPc/top60.png')}}" alt=""></a>
+          <div class="banner">
+            <img src="{{asset('Home/images/imgPc/appraise.png')}}" alt="">
           </div>
         </div>  
         <div class="interact">
-          <div class="list2_titer">
-            <img src="{{asset('Home/images/imgPc/interact.png')}}" alt="">
-          </div>
-          <p class="list_synopsis">
-              新商业下，人们的物质基础服务与精神教育服务 都随之改变，融入新的科技产品、新的娱乐内容、 新的体验模式等，搭建未来体验展区，同时将新 商业下的成果及未来可能性展示在大众面前。
-          </p>
-          <div class="interact_con">
-            <img src="{{asset('Home/images/imgPc/interact_img.png')}}" alt="">
+          <div class="banner">
+            <img src="{{asset('Home/images/imgPc/flow.png')}}" alt="">
           </div>
         </div>
         <div class="teamwork_box">
-          <h4>合作伙伴</h4>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>主办单位</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wyjb.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/jbdx.png')}}" alt=""></a>
-            </div>
+          <div class="banner">
+            <img src="{{asset('Home/images/imgPc/awards.png')}}" alt="">
           </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>协办单位</span></p>
-            <div class="tw_list_con">
-              <p>深圳市南山区企业发展服务中心</p>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>首席战略合作伙伴</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/kdxf.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>战略合作媒体</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zww.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>官方指定用车平台</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sqyc.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>品牌合作伙伴</span></p>
-            <div class="tw_list_con tw_lists">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sqyc.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/xzdz.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lmm.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/szss.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lw.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/cj.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>合作媒体</span></p>
-            <div class="tw_list_con tw_lists">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/tx.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/xl.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zaker.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wlcj.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/jm.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/xlkj.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hs.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/donews.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ly.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/cyj.png')}}" alt=""></a> 
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zqsb.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/nbd.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/zc.png')}}" alt=""></a> 
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/lusa.png')}}" alt=""></a>  
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/36kr.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/flf.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/gfcj.png')}}" alt=""></a> 
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wyxw.png')}}" alt=""></a>  
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sz.png')}}" alt=""></a>          
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>官方独家票务合作伙伴</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hdx.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>官方独家图片直播平台</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ps.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>官方独家共享充电合作伙伴</span></p>
-            <div class="tw_list_con">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/ld.png')}}" alt=""></a>
-            </div>
-          </div>
-          <div class="tw_list">
-            <p class="tw_list_tit"><span>官方视频直播平台</span></p>
-            <div class="tw_list_con tw_lists">
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/fhxw.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/wh.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/sy.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/dy.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/hj.png')}}" alt=""></a>
-              <a href="javascript:;"><img src="{{asset('Home/images/imgPc/yxzb.png')}}" alt=""></a>
-            </div>
-          </div>
-          
         </div>
         <div class="issue_box">
-          <h4>相关问题</h4>
-          <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">如何报名，何时截止报名？</p>
-            <p class="iss_con">请点击“立即购票”，选择票种；或在活动行PC端、手机端APP搜索“POWER 2018 新时代新经济嘉宾峰会”，点击页面进行购票
-              峰会购票截止日期为 2018 年 10月 16 日 22:00</p>
+          <p class="tit"><img src="{{asset('Home/images/imgPc/tit.png')}}" alt=""></p>
+          <div class="box1">
+            <p class="tit1"><img src="{{asset('Home/images/imgPc/xs.png')}}" alt=""></p>
+            <ul>
+              <li><img src="{{asset('Home/images/imgPc/cm.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/cwr.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ly.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/tlh.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/wj.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/wt.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/wyf.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zwx.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zhq.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/MichaelSchumann.png')}}" alt=""></li>
+            </ul>
           </div>
-          <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">购票付款成功后，有凭证吗？如何签到？</p>
-            <p class="iss_con">活动行购票成功后，会收到确认短信通知。在活动当天凭活动行发给您短信中的参会二维码，到深Reborn755签到处找工作人员签到，工作人员会扫取二维码并发放入场手环。</p>
+          <div class="box2">
+            <p class="tit1"><img src="{{asset('Home/images/imgPc/vp.png')}}" alt=""></p>
+            <ul>
+              <li><img src="{{asset('Home/images/imgPc/hyz.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/nzw.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ljw.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/sxt.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/xxl.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ygd.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ytc.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ysb.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/yy.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/yxy.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ywl.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zw.png')}}" alt=""></li>                        
+            </ul>
           </div>
-          <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">是否有座位图？会议现场是否需要对号入座？中途离开，座位是否可以保留？</p>
-            <p class="iss_con">购票时，请选择票种，不同票种对应不同区域，暂没有指定座位号码，购票用户可根据现场指引，在指定区域就坐，如您中途离开会场，不能确保继续有座位</p>
+          <div class="box3">
+            <p class="tit1"><img src="{{asset('Home/images/imgPc/qw.png')}}" alt=""></p>
+            <ul>
+              <li><img src="{{asset('Home/images/imgPc/wc.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/wx.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/ym.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/yrw.png')}}" alt=""></li>                       
+            </ul>
           </div>
-          <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">大会现场有同声传译服务吗？如何领取同传设备？</p>
-            <p class="iss_con">现场有同传设备及服务支持，活动当天可凭本人身份证，到会场入场处换取同传设备，活动结束后，您需归还同传设备并取回身份证。</p>
+          <div class="box4">
+            <p class="tit1"><img src="{{asset('Home/images/imgPc/kj.png')}}" alt=""></p>
+            <ul>
+              <li><img src="{{asset('Home/images/imgPc/lwh.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zxy.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zwr.png')}}" alt=""></li>                     
+            </ul>
           </div>
-          <div class="issue_list">
-            <p class="topic"><img src="{{asset('Home/images/imgPc/icons.png')}}" alt="">有活动相关照片及视频吗？</p>
-            <p class="iss_con">我们会有专门的摄影团队在活动现场进行照片拍摄及上传，现场设置了照片传输通道，可扫描二维码获取，您也可以加会刊上的活动小助手微信，进入活动现场微信群，在第一时间获取活动照片。</p>
-          </div>
-        </div>
-        <div class="map_box">
-          <h4>地图</h4>
-          <div class="map_con">
-            <p class="mcon_list">
-              <img src="{{asset('Home/images/imgPc/mcon_list1.png')}}" alt="">百度地图、高德地图搜索：Reborn755即可
-            </p>
-            <p class="mcon_list">
-              <img src="{{asset('Home/images/imgPc/mcon_list2.png')}}" alt="">建议选取途经海上世界路线，场馆距离海上世界商圈 仅10分钟路程）
-            </p>
-            <p class="mcon_list">
-              <img src="{{asset('Home/images/imgPc/mcon_list3.png')}}" alt="">赤湾地铁站（距离场馆直线距离2KM，约15分钟）， 可使用共享单车至会场
-            </p>
-            <p class="mcon_list">
-              <img src="{{asset('Home/images/imgPc/mcon_list4.png')}}" alt="">226路左炮台站、226路油码头站
-            </p>
-          </div>
-          <div id="map">
-            <img src="{{asset('Home/images/imgPc/map.jpg')}}" alt="">
+          <div class="box5">
+            <p class="tit1"><img src="{{asset('Home/images/imgPc/ls.png')}}" alt=""></p>
+            <ul>
+              <li><img src="{{asset('Home/images/imgPc/tzj.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zr.png')}}" alt=""></li>
+              <li><img src="{{asset('Home/images/imgPc/zx.png')}}" alt=""></li>                      
+            </ul>
           </div>
         </div>
         <div class="relation_box">
-          <h4>联系我们</h4>
-          <div class="relation_con">
-            <div class="rcon">
-              <div class="left">
-                <p class="rel_img"><img src="{{asset('Home/images/imgPc/sw.png')}}" alt=""></p>
-                <p class="who">屈先生</p>
-                <p class="contact">W: 376717612</p>
-                <p class="contact">E: qugy@wetalktv.cn</p>
-              </div>
-              <div class="right">
-                <img src="{{asset('Home/images/imgPc/sw_code.png')}}" alt="">
-              </div>
-            </div>
-            <div class="rcon">
-              <div class="left">
-                <p class="rel_img"><img src="{{asset('Home/images/imgPc/mt.png')}}" alt=""></p>
-                <p class="who">梁女士</p>
-                <p class="contact">W: island1126</p>
-                <p class="contact">E: lh@wetalktv.cn</p>
-              </div>
-              <div class="right">
-                <img src="{{asset('Home/images/imgPc/mt_code.png')}}" alt="">
-              </div>
-            </div>
+          <div class="list1">
+            <p class="tit"><img src="{{asset('Home/images/imgPc/zbf.png')}}" alt=""></p>
+            <ul>
+              <li><a href="#"><img src="{{asset('Home/images/imgPc/logo/slzn.png')}}" alt=""></a></li>
+            </ul>
           </div>
+          <div class="list2">
+            <p class="tit"><img src="{{asset('Home/images/imgPc/hzzz.png')}}" alt=""></p>
+            <ul>
+              <li><a href="#"><img src="{{asset('Home/images/imgPc/logo/ts.png')}}" alt=""></a></li>
+              <li><a href="#"><img src="{{asset('Home/images/imgPc/logo/germany.png')}}" alt=""></a></li>
+            </ul>
+          </div>
+          <div class="list3">
+            <p class="tit"><img src="{{asset('Home/images/imgPc/hzjg.png')}}" alt=""></p>
+            <ul>
+              <li><a href="http://www.newone.com.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/zs.png')}}" alt=""></a></li>
+              <li><a href="http://www.gyzq.com.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/gyzq.png')}}" alt=""></a></li>
+              <li><a href="http://www.gf.com.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/gfzq.png')}}" alt=""></a></li>
+              <li><a href="https://www.foundersc.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/fzzq.png')}}" alt=""></a></li>
+              <li><a href="http://www.szvc.com.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/cx.png')}}" alt=""></a></li>
+              <li><a href="http://www.saifpartners.com.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/saif.png')}}" alt=""></a></li>
+              <li><a href="#"><img src="{{asset('Home/images/imgPc/logo/yo.png')}}" alt=""></a></li>
+              <li><a href="http://www.addorcapital.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/addor.png')}}" alt=""></a></li>
+              <li><a href="http://www.newmargin.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/lc.png')}}" alt=""></a></li>
+              <li><a href="http://www.apluscap.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/htjj.png')}}" alt=""></a></li>
+              <li><a href="http://www.huagaicapital.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/hgzb.png')}}" alt=""></a></li>
+              <li><a href="http://stonevc.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/hszb.png')}}" alt=""></a></li>
+              <li><a href="http://www.vstonecapital.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/kszb.png')}}" alt=""></a></li>
+              <li><a href="http://www.axpfund.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/fdzb.png')}}" alt=""></a></li>
+              <li><a href="http://www.zhenchengcap.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/zc.png')}}" alt=""></a></li>
+              <li><a href="https://www2.deloitte.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/dq.png')}}" alt=""></a></li>
+              <li><a href="https://www.pwccn.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/ph.png')}}" alt=""></a></li>
+              <li><a href="http://www.zhonglun.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/zl.png')}}" alt=""></a></li>
+              <li><a href="https://www.kwm.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/jd.png')}}" alt=""></a></li>
+              <li><a href="http://www.jingtian.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/jt.png')}}" alt=""></a></li>
+              <li><a href="https://www.rolandberger.com" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/berger.png')}}" alt=""></a></li>
+              <li><a href="http://www.ceibs.edu" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/zo.png')}}" alt=""></a></li>
+              <li><a href="http://www.sem.tsinghua.edu.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/qhjg.png')}}" alt=""></a></li>
+              <li><a href="www.gsm.pku.edu.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/gh.png')}}" alt=""></a></li>
+              <li><a href="https://www.tongji.edu.cn" target="_Blank"><img src="{{asset('Home/images/imgPc/logo/tj.png')}}" alt=""></a></li>
+            </ul>
+          </div>
+          
         </div>
-      </div>
-      <div class="touch" onclick="window.open('http://t.cn/RFmd6vb')">
-        <img src="{{asset('Home/images/imgPc/touch.png')}}" alt="">
+        <div class="foot">
+          <p class="tit2"><img src="{{asset('Home/images/imgPc/lxfs.png')}}" alt=""></p>
+          <div class="logo_box">
+            <img src="{{asset('Home/images/imgPc/code1.png')}}" alt="">
+            <p>企业报名通道</p>
+          </div>
+          <div class="logo_box">
+            <img src="{{asset('Home/images/imgPc/code2.png')}}" alt="">
+            <p>科创榜公众账号</p>
+          </div>
+          <ul class="logo_box">
+            <li>「科创榜·POWER100」组委会</li>
+            <li>组委会联系人:徐先生</li>
+            <li>联系电话：150 1158 6867</li>
+            <li>邮箱：xh@wetalktv.cn</li>
+            <li>组委会联系人:梁先生</li>
+            <li>联系电话：176 0026 0562</li>
+            <li>邮箱：liangxianpeng@wetalktv.cn</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 <input type="hidden" name="url" value="{{asset('page/meeting_2018_map')}}">
+
   <script src="{{asset('Home/js/jquery.min.js')}}"></script>
   <script>
     $(function(){
-      /* 交互效果 */
-      for (var i = 1 ; i < 38 ; i ++) {
-        (function(i){
-          $('.person' + i).mouseover(function () {
-            $('.person' + i ).find('.shows').hide();
-            $('.person' + i ).find('.hides').show();  
-          }).mouseout(function () {
-            $('.person' + i ).find('.shows').show();
-            $('.person' + i ).find('.hides').hide();  
-          })
-        })(i)
-      }
-      //地图
-      $("#map").click(function(){
-        var url = $('[name=url]').val();
-        // location.href = url;
-        window.open(url);
-      })
-
 
       /* 楼层 */
       // $('.h_rig li').click(function(){
@@ -469,12 +237,12 @@
       //   }
       // });
       $('.h_rig li').click(function(){
-        $(this).css("color","#AC2E24").siblings().css("color","#fff");
-        if($(this).index() == $('.h_rig li').length-1){
+        $(this).addClass('ser').siblings().removeClass('ser');
+        if($(this).index() == $('.h_rig li').length){
             $(document).scrollTop(0);
         }else {
             var scollTop = $('.boxs').children('div').eq($(this).index()).offset().top;
-            $(document).scrollTop(scollTop-200);
+            $(document).scrollTop(scollTop);
         }
       });
       // $(window).scroll(function () {
