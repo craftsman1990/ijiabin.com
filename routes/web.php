@@ -186,7 +186,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::post('dologin','Admin\LoginController@store')->name('admin.dologin');			//执行登陆
    	Route::get('loginout','Admin\LoginController@logout');	//退出
 
-//    Route::resource('index','Admin\IndexController');           //管理员
+   // Route::resource('index','Admin\IndexController');           //管理员
 
     Route::resource('admin','Admin\AdminController');           //管理员
     Route::resource('category','Admin\CategoryController');     //分类
@@ -209,6 +209,10 @@ Route::group(['prefix'=>'admin'],function(){
     Route::group(['prefix'=>'jbdx'],function (){
         Route::resource('course','Admin\DX\CourseController');         //课程列表
         Route::resource('content','Admin\DX\ContentController');       //课程内容
+        Route::resource('comment','Admin\DX\CommentController');       //评论列表
+        Route::resource('content/bulletScreen','Admin\DX\BulletScreenController');       //弹幕列表
+        Route::get('content/bulletScreen/create/content_id/{content_id}','Admin\DX\BulletScreenController@create');       //课程内容添加
+       // Route::get('content/bulletScreen/{ldid}','Admin\MettingController@list');      //年会中奖名单
         Route::get('content/create/course_id/{course_id}','Admin\DX\ContentController@create');       //课程内容添加
         Route::resource('quiz','Admin\DX\QuizController');                 //自测题
         Route::resource('answer','Admin\DX\AnswerController');             //自测题答案

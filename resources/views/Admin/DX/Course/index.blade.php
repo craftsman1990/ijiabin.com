@@ -62,6 +62,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a class="font-bold cgedit" href="{{url('admin/jbdx/course/'.$v->id.'/edit')}}">修改</a></li>
                                                 <li><a href="{{url('admin/jbdx/course/'.$v->id)}}" class="demo4">内容列表</a></li>
+                                                <li><a href="{{url('admin/jbdx/comment/'.$v->id.'?type=2')}}" class="demo4">评论列表</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/course/'.$v->id)}}">删除</a>
                                                 </li>

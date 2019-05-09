@@ -26,28 +26,30 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        
+
                         @include('layouts.admin_error')
-                         <table class="table table-hover">
+                        <table class="table table-hover">
                             <thead>
-                                <tr>
-                                    <th >ID</th>
-                                    <th>评论人</th>
-                                    <th>评论时间</th>
-                                    <th>评论内容</th>
-                                    <th>点赞数</th>
-                                    <th>状态</th>
-                                    <th>操作</th>
-                                </tr>
+                            <tr>
+                                <th >ID</th>
+                                <th>评论人</th>
+                                <th>评论时间</th>
+                                <th>评论内容</th>
+                                <th>点赞数</th>
+                                <th>评分</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
                             </thead>
                             <tbody>
-                               @foreach($list as $v)
+                            @foreach($list as $v)
                                 <tr class="gradeC">
                                     <td class="center">{{$v->id}}</td>
                                     <td class="center">{{$v->user_name}}</td>
                                     <td class="center">{{$v->created_at}}</td>
                                     <td class="center">{{$v->content}}</td>
                                     <td class="center">{{$v->praise}}</td>
+                                    <td class="center">{{$v->grade}}</td>
                                     <td class="center">
                                         @if($v->status==1)
                                             <span class="label label-info">正常</span>
@@ -60,16 +62,23 @@
                                             <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <!-- <li><a class="font-bold cgedit" href="{{url('admin/jbdx/discussion/'.$v->id.'/edit')}}">修改</a></li> -->
-                                                <li><a href="#" class="demo4">暂不提供操作</a></li>
-                                                <li class="divider"></li>
-                                                <!-- <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/discussion/'.$v->id)}}">删除</a> -->
+                                                <li>
+                                                    @if($v->status == 1)
+                                                        <a href="javascript:;" id ="{{$v->id}}" class="demo4 update_status" url="{{url('admin/jbdx/comment/'.$v->id)}}" data_status = "{{$v->status}}">禁用</a>
+                                                    @else
+                                                        <a href="javascript:;" id ="{{$v->id}}" class="demo4 update_status" url="{{url('admin/jbdx/comment/'.$v->id)}}" data_status = "{{$v->status}}">解除禁用</a>
+                                                    @endif
+                                                </li>
+                                            <!-- <li><a class="font-bold cgedit" href="{{url('admin/jbdx/discussion/'.$v->id.'/edit')}}">修改</a></li> -->
+{{--                                                <li><a href="#" class="demo4">暂不提供操作</a></li>--}}
+{{--                                                <li class="divider"></li>--}}
+                                            <!-- <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/discussion/'.$v->id)}}">删除</a> -->
                                                 </li>
                                             </ul>
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -77,13 +86,14 @@
             </div>
         </div>
     </div>
-    
-     @include('layouts.admin_js')
+
+    @include('layouts.admin_js')
     <script src="{{asset('Admin/js/plugins/footable/footable.all.min.js')}}"></script>
     <script src="{{asset('Admin/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script>
         $(document).ready(function(){$(".footable").footable();$(".footable2").footable()});
     </script>
     @include('layouts.admin_delete')
-     
+    @include('layouts.admin_update_status')
+
 @stop

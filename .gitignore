@@ -1,5 +1,6 @@
 #######################忽略规则#############################
 /node_modules
+/public/upload
 /public/hot
 /public/storage
 /storage/*.key

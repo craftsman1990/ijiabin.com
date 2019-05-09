@@ -18,20 +18,21 @@ class DiscussionController extends Controller
         return view('Admin.DX.Discussion.index',compact('list'));
     }
 
-    public function show($id){
-        $list = Comment::where('discussion_id',$id)->paginate(20);
-        foreach ($list as $v){
-            $user = User::find($v->user_id);
-//            dd($user);
-            if ($user){
-                $v->user_name = $user->nickname;
-            }else{
-                $v->user_name = '该用户已经注销';
-            }
-        }
-//        dd($list);
-        return view('Admin.DX.Discussion.show',compact('list'));
-    }
+    //修改议题的评论列表跳转路径为CommentController.php中show方法
+//    public function show($id){
+//        $list = Comment::where('discussion_id',$id)->paginate(20);
+//        foreach ($list as $v){
+//            $user = User::find($v->user_id);
+////            dd($user);
+//            if ($user){
+//                $v->user_name = $user->nickname;
+//            }else{
+//                $v->user_name = '该用户已经注销';
+//            }
+//        }
+////        dd($list);
+//        return view('Admin.DX.Discussion.show',compact('list'));
+//    }
 
     public function create(){
         return view('Admin.DX.Discussion.create');
