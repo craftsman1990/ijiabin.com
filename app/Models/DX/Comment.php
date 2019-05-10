@@ -12,35 +12,35 @@ class Comment extends Model
     protected $fillable = ['discussion_id', 'content','user_id','praise','status','type','grade'];
 
     /**
-     * ÓÃ»§ÆÀÂÛ
+     * ç”¨æˆ·è¯„è®º
      * @param  [type] $request
      * $request {
-     *     discussion_id£ºÆÀÂÛµÄÄÚÈİid 
-     *     content£ºÆÀÂÛÄÚÈİ
-     *     user_id£ºÓÃ»§id
-     *     type: 1.ÒéÌâÆÀÂÛ	2.¿Î³ÌÆÀÂÛ	3.¿Î³ÌÄÚÈİÆÀÂÛ
+     *     discussion_idï¼šè¯„è®ºçš„å†…å®¹id 
+     *     contentï¼šè¯„è®ºå†…å®¹
+     *     user_idï¼šç”¨æˆ·id
+     *     type: 1.è®®é¢˜è¯„è®º 2.è¯¾ç¨‹è¯„è®º  3.è¯¾ç¨‹å†…å®¹è¯„è®º
      * @return array
      */
     public static function userComment($request)
     {
-    	//ĞèÒªµ÷ÓÃÌÚÑ¶µÄÃô¸Ğ´Ê¹ıÂË
-    	$commentObj = new Comment();
-    	$commentObj->discussion_id = $request->discussion_id;
-    	$commentObj->content = $request->content;
-    	$commentObj->user_id = $request->user_id;
-    	$commentObj->praise = 0;
-    	$commentObj->type = $request->type;
+        //éœ€è¦è°ƒç”¨è…¾è®¯çš„æ•æ„Ÿè¯è¿‡æ»¤
+        $commentObj = new Comment();
+        $commentObj->discussion_id = $request->discussion_id;
+        $commentObj->content = $request->content;
+        $commentObj->user_id = $request->user_id;
+        $commentObj->praise = 0;
+        $commentObj->type = $request->type;
         $commentObj->grade = $request->grade;
-    	$commentObj->status = 1;
-    	if ($commentObj->save()) {
-    		return ['status'=>1,'msg'=>'ÆÀÂÛ³É¹¦'];
-    	}else{
-    		return ['status'=>999,'msg'=>'ÆÀÂÛÊ§°Ü'];
-    	}
+        $commentObj->status = 1;
+        if ($commentObj->save()) {
+            return ['status'=>1,'msg'=>'è¯„è®ºæˆåŠŸ'];
+        }else{
+            return ['status'=>999,'msg'=>'è¯„è®ºå¤±è´¥'];
+        }
     }
 
     /**
-     * ¸ù¾İ¿Î³Ìid»ñÈ¡ÆÀÂÛĞÅÏ¢
+     * æ ¹æ®è¯¾ç¨‹idè·å–è¯„è®ºä¿¡æ¯
      * @param  [type] $request [description]
      * @return [type]          [description]
      */

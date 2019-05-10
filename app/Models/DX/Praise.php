@@ -12,37 +12,37 @@ class Praise extends Model
     protected $fillable = ['by_praise_id', 'type','user_id','status'];
 
     /**
-     * ÓÃ»§µãÔŞ/È¡ÏûµãÔŞ
+     * ç”¨æˆ·ç‚¹èµ/å–æ¶ˆç‚¹èµ
      * @param  [obj] $request
-     * user_id:ÓÃ»§id£¬by_praise_id£º±»µãÔŞµÄID£¬type£º1ÒéÌâÆÀÂÛ£¬2£º¿Î³ÌÆÀÂÛ
+     * user_id:ç”¨æˆ·idï¼Œby_praise_idï¼šè¢«ç‚¹èµçš„IDï¼Œtypeï¼š1è®®é¢˜è¯„è®ºï¼Œ2ï¼šè¯¾ç¨‹è¯„è®º
      * @return   array
      */
     public static function userPraise($request)
     {
-        //ÑéÖ¤ÓÃ»§ÊÇ·ñµãÔŞ¹ı
-        $praise = Praise::where(['user_id'=>$request->user_id,'type'=>$request->type,'by_praise_id'=>$request->by_praise_id])->first();
-        if (empty($praise)) {
-           $praises = new Praise();
-           $praises->user_id = $request->user_id;
-           $praises->by_praise_id = $request->by_praise_id;
-           $praises->type = $request->type;
-           $praises->status = 1;
-           if ($praises->save()) {
-                return ['status'=>1,'msg'=>'µãÔŞ³É¹¦'];
-           }
-        }else{
-            if ($praise->status==0) {
-                $praise->status = 1;
-            }else{
-                $praise->status = 0;
-            }
-            if ($praise->save()) {
-                return ['status'=>1,'msg'=>'²Ù×÷³É¹¦'];
-            }
-        }
+    	//éªŒè¯ç”¨æˆ·æ˜¯å¦ç‚¹èµè¿‡
+    	$praise = Praise::where(['user_id'=>$request->user_id,'type'=>$request->type,'by_praise_id'=>$request->by_praise_id])->first();
+    	if (empty($praise)) {
+    	   $praises = new Praise();
+    	   $praises->user_id = $request->user_id;
+    	   $praises->by_praise_id = $request->by_praise_id;
+    	   $praises->type = $request->type;
+    	   $praises->status = 1;
+    	   if ($praises->save()) {
+    	   		return ['status'=>1,'msg'=>'ç‚¹èµæˆåŠŸ'];
+    	   }
+    	}else{
+    		if ($praise->status==0) {
+    			$praise->status = 1;
+    		}else{
+    			$praise->status = 0;
+    		}
+    		if ($praise->save()) {
+    			return ['status'=>1,'msg'=>'æ“ä½œæˆåŠŸ'];
+    		}
+    	}
     }
     /**
-     * »ñÈ¡µãÔŞÊıÁ¿
+     * è·å–ç‚¹èµæ•°é‡
      * @param  [type] $request [by_praise_id type]
      * @return [type]          [description]
      */

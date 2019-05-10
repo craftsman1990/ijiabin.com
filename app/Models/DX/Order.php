@@ -12,27 +12,27 @@ class Order extends Model
     protected $fillable = ['title', 'user_id','course_id','price','status','pay_time','order_num','payment_method','payment_no'];
 
     /**
-     * 获取用户订单列表
-     * @param  [type] $user_id 用户id
+     * 鑾峰彇鐢ㄦ埛璁㈠崟鍒楄〃
+     * @param  [type] $user_id 鐢ㄦ埛id
      * @return [array]
      */
     public static function myOrderList($request)
     {
-    	$data = DB::table('dx_order')->where(['user_id'=>$request->user_id,'status'=>1])->get()->toArray();
-    	if (empty($data)) {
-    		return ['status'=>1,'msg'=>'暂无订单信息'];
-    	}
-    	foreach ($data as $key => $v) {
-    		$result[] = DB::table('dx_course')
-    		->where(['id'=>$v->course_id])
-    		->first();
-    	}
-    	return $result;
+        $data = DB::table('dx_order')->where(['user_id'=>$request->user_id,'status'=>1])->get()->toArray();
+        if (empty($data)) {
+            return ['status'=>1,'msg'=>'鏆傛棤璁㈠崟淇℃伅'];
+        }
+        foreach ($data as $key => $v) {
+            $result[] = DB::table('dx_course')
+            ->where(['id'=>$v->course_id])
+            ->first();
+        }
+        return $result;
     }
 
     /**
-     * 判断用户是否下单购买（查询购买状态）
-     * @param  [type]  $request user_id&id商品id
+     * 鍒ゆ柇鐢ㄦ埛鏄惁涓嬪崟璐拱锛堟煡璇㈣喘涔扮姸鎬侊級
+     * @param  [type]  $request user_id&id鍟嗗搧id
      * @return result          
      */
     public static function isOrder($request)

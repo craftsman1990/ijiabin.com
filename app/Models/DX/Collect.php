@@ -11,61 +11,61 @@ class Collect extends Model
 
     protected $fillable = ['by_collect_id', 'type','user_id','status'];
     /**
-     * ÓÃ»§ÊÕ²Ø
+     * ç”¨æˆ·æ”¶è—
      * @param [type] $request obj
      */
     public static function UserCollect($request)
     {
-    	//ÑéÖ¤ÓÃ»§ÊÇ·ñÊÕ²Ø¹ı
-    	$collect = Collect::where(['user_id'=>$request->user_id,'type'=>$request->type,'by_collect_id'=>$request->by_collect_id])->first();
-    	if (empty($collect)) {
-    	   $collects = new Collect();
-    	   $collects->user_id = $request->user_id;
-    	   $collects->by_collect_id = $request->by_collect_id;
-    	   $collects->type = $request->type;
-    	   $collects->status = 1;
-    	   if ($collects->save()) {
-    	   		return ['status'=>1,'msg'=>'ÊÕ²Ø³É¹¦'];
-    	   }
-    	}else{
-    		if ($collect->status==0) {
-    			$collect->status = 1;
-    		}else{
-    			$collect->status = 0;
-    		}
-    		if ($collect->save()) {
-    			return ['status'=>1,'msg'=>'²Ù×÷³É¹¦'];
-    		}
-    	}
+      //éªŒè¯ç”¨æˆ·æ˜¯å¦æ”¶è—è¿‡
+      $collect = Collect::where(['user_id'=>$request->user_id,'type'=>$request->type,'by_collect_id'=>$request->by_collect_id])->first();
+      if (empty($collect)) {
+         $collects = new Collect();
+         $collects->user_id = $request->user_id;
+         $collects->by_collect_id = $request->by_collect_id;
+         $collects->type = $request->type;
+         $collects->status = 1;
+         if ($collects->save()) {
+            return ['status'=>1,'msg'=>'æ”¶è—æˆåŠŸ'];
+         }
+      }else{
+        if ($collect->status==0) {
+          $collect->status = 1;
+        }else{
+          $collect->status = 0;
+        }
+        if ($collect->save()) {
+          return ['status'=>1,'msg'=>'æ“ä½œæˆåŠŸ'];
+        }
+      }
     }
-    //ÎÒÊÕ²ØµÄ¿Î³Ì
+    //æˆ‘æ”¶è—çš„è¯¾ç¨‹
     public static function getCollectList($request)
     {
-    	$data = Collect::where(['user_id'=>$request->user_id,'type'=>1])->get()->toArray();
-    	if (empty($data)) {
-    		return ['status'=>1,'msg'=>'ÔİÎŞÊÕ²Ø'];
-    	}
-    	foreach ($data as $key => $v) {
-    		$result[] = DB::table('dx_course')
-    		->where(['id'=>$v['by_collect_id']])
-    		->first();
-    	}
-  		$re['status'] = 1;
-  		$re['data'] = $result;
-    	return $re;
+      $data = Collect::where(['user_id'=>$request->user_id,'type'=>1])->get()->toArray();
+      if (empty($data)) {
+        return ['status'=>1,'msg'=>'æš‚æ— æ”¶è—'];
+      }
+      foreach ($data as $key => $v) {
+        $result[] = DB::table('dx_course')
+        ->where(['id'=>$v['by_collect_id']])
+        ->first();
+      }
+      $re['status'] = 1;
+      $re['data'] = $result;
+      return $re;
     }
-    //ÅúÁ¿É¾³ıÊÕ²Ø¿Î³Ì
+    //æ‰¹é‡åˆ é™¤æ”¶è—è¯¾ç¨‹
     public static function delCollect($request)
     {
-    	$ids = explode(',', $request->ids);
-    	foreach ($ids as $v) {
-    		DB::table('dx_collect')->where(['id'=>$v])->delete();
-    	}
-    	return ['status'=>1,'msg'=>'²Ù×÷³É¹¦'];
+      $ids = explode(',', $request->ids);
+      foreach ($ids as $v) {
+        DB::table('dx_collect')->where(['id'=>$v])->delete();
+      }
+      return ['status'=>1,'msg'=>'æ“ä½œæˆåŠŸ'];
     }
     /**
-     * ÅĞ¶ÏÓÃ»§ÊÇ·ñÊÕ²Ø
-     * @param  [type]  $request user_id&Ğ¡½Úid
+     * åˆ¤æ–­ç”¨æˆ·æ˜¯å¦æ”¶è—
+     * @param  [type]  $request user_id&å°èŠ‚id
      * @return array
      */
     public static function isCollect($user_id,$by_collect_id)

@@ -20,20 +20,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    //¸ù“şÓÃ‘ôid«@È¡ÓÃ‘ôĞÅÏ¢
+    //æ ¹æ“šç”¨æˆ¶idç²å–ç”¨æˆ¶ä¿¡æ¯
     public static function getUserDetails($user_id)
     {
-    	$user = DB::table('users')
+        $user = DB::table('users')
         ->select('id','username','nickname','truename','head_pic','mobile','email','address')
         ->where('id',$user_id)
         ->get();
-    	return $user;
+        return $user;
     }
-    //ĞŞ¸ÄÓÃ»§×ÊÁÏ
+    //ä¿®æ”¹ç”¨æˆ·èµ„æ–™
     public static function upUser($result)
     {
-    	$users = User::find($result['user_id']);
-    	//´ËÌÓĞĞŞ¸ÄÃÜ´a
+        $users = User::find($result['user_id']);
+        //æ­¤è™•æœ‰ä¿®æ”¹å¯†ç¢¼
         $users->password = $result['password'];
         $users->nickname = $result['nickname'];
         $users->username = $result['username'];
@@ -41,15 +41,15 @@ class User extends Authenticatable
         $users->mobile = $result['mobile'];
         $users->email = $result['email'];
         $users->address = $result['address'];
-    	$users->truename = $result['truename'];
-    	if ($users->save()) {
-    		return ['status'=>1,'msg'=>'ĞŞ¸Ä³É¹¦£¡'];
-    	}else{
-    		return ['status'=>999,'msg'=>'ĞŞ¸ÄÊ§°Ü£¡'];
-    	}
+        $users->truename = $result['truename'];
+        if ($users->save()) {
+            return ['status'=>1,'msg'=>'ä¿®æ”¹æˆåŠŸï¼'];
+        }else{
+            return ['status'=>999,'msg'=>'ä¿®æ”¹å¤±è´¥ï¼'];
+        }
     }
      /**
-     * ¸üĞÂtoken
+     * æ›´æ–°token
      * @return mixed|string
      */
     public static function generateToken($user_id) {
@@ -60,13 +60,13 @@ class User extends Authenticatable
         return $users->remember_token;
     }
     /**
-     * ÑéÖ¤tokenÊÇ·ñÓĞĞ§
-     * @param  [type]  $token tokenÖµ
-     * @return ³É¹¦·µ»ØÓÃ»§ĞÅÏ¢£¬Ê§°ÜÔòÌáĞÑÓÃ»§µÇÂ¼
+     * éªŒè¯tokenæ˜¯å¦æœ‰æ•ˆ
+     * @param  [type]  $token tokenå€¼
+     * @return æˆåŠŸè¿”å›ç”¨æˆ·ä¿¡æ¯ï¼Œå¤±è´¥åˆ™æé†’ç”¨æˆ·ç™»å½•
      */
     public static function isToken($token)
     {
-        //Ê×ÏÈÑéÖ¤tokenÊÇ·ñ´æÔÚ
+        //é¦–å…ˆéªŒè¯tokenæ˜¯å¦å­˜åœ¨
         if ($token) {
             $user = DB::table('users')
             ->where('remember_token',$token)->first();

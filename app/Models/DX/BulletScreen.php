@@ -8,7 +8,7 @@ class BulletScreen extends Model
 {
     protected $table = 'dx_bullet_screen';
     protected $fillable = ['user_id', 'content_id','text'];
-    public $timestamps = false;//屏蔽自动添加时间
+    //public $timestamps = false;//屏蔽自动添加时间
     /**
      * 用户发送弹幕
      * @param  [type] $request 

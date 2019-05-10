@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\DX\Order;
 use App\Models\DX\Collect;
+use App\Services\Helper;
 
 class Course extends Model
 {
