@@ -26,16 +26,17 @@ class LoginController extends Controller
     		return response()->json(['status'=>999,'msg'=>'手机号不能为空']);
     	}
     	if (!empty($request->code)) {//判断是否验证码登录
-            $yzm = Session::get('yzm');
-            $mobile = Session::get('mobile');
-            if ($request->mobile!=$mobile || $request->code!=$yzm) {
+      		$users = User::where('mobile',$request->mobile)->get();
+      		$user_obj = $users[0];
+            if ($request->mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
             	return response()->json(['status'=>999,'msg'=>'验证码错误！']);
             }
-            $users = User::where('mobile',$mobile)->get();
+            $user_obj->code = null;
+            $user_obj->save();
 	        if (!$users->toArray()){
 	            $name = 'JIA_U'.dechex(date('YmdHis',time()));
 	            $info['mobile'] = $mobile;
-	            $info['username'] = $mobile;
+	            // $info['username'] = $mobile;
 	            $info['nickname'] = $name;
 	            $info['truename'] = $name;
 	            $info['head_pic'] = asset('University/images/default_head_pic.png');
@@ -48,12 +49,19 @@ class LoginController extends Controller
 	            $userinfo['username'] = $user->username;
 	            $userinfo['head_pic'] = $user->head_pic;
 	            $userinfo['token'] = $api_token;
+	            //首次登陆
+	            $userinfo['is_first'] = 1;
 	            return response()->json(['status'=>1,'msg'=>'登录成功','data'=>$userinfo]);
 	        }else{
 	            $user = $users[0];
+	            if ($user['username']) {
+	            	$userinfo['username'] = $user->username;
+	            }else{
+	            	$userinfo['username'] = $user->username;
+	            	$userinfo['is_first'] = 1;
+	            }
 	            $api_token = User::generateToken($user->id);//登录成功生成token
 	            $userinfo['user_id'] = $user->id;
-	            $userinfo['username'] = $user->username;
 	            $userinfo['head_pic'] = $user->head_pic;
 	            $userinfo['token'] = $api_token;
 	            return response()->json(['status'=>1,'msg'=>'登录成功','data'=>$userinfo]);

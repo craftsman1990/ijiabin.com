@@ -46,12 +46,52 @@ class Comment extends Model
      */
     public static function getCommentLit($request)
     {
+         //根据课程评论
         $source = DB::table('dx_comment')
-        ->join('users','dx_comment.user_id','=','users.id')
         ->where(['discussion_id'=>$request->discussion_id,'status'=>1,'type'=>2])
-        ->select('content','praise','dx_comment.id as comment_id','nickname','email','head_pic','grade')
+        ->select('content','praise','id','grade','user_id','created_at')
         ->get()
         ->toArray();
-       return $source;
+        //根据课程id查询小节信息
+        $course = DB::table('dx_course_content')
+        ->where(['course_id'=>$request->discussion_id])
+        ->select(['id'])
+        ->get()
+        ->toArray();
+        // print_r($course);die;
+        //根据小节id获取小节下面的评论信息
+        
+        if ($course) {
+           foreach ($course as $k => $v) {
+              $course_source[] = DB::table('dx_comment')
+            ->where(['discussion_id'=>$v->id,'status'=>1,'type'=>3])
+            ->select('content','praise','id','grade','user_id','created_at')
+            ->get()
+            ->toArray();
+           }
+           $arr = array_filter($course_source);
+         foreach ($arr as $key => $val) {
+            foreach ($val as $ks => $vs) {
+                array_push($source,$vs);
+            }
+        }
+        $id = array_column($source,'id');
+        array_multisort($id,SORT_DESC,$source);
+        }
+        foreach ($source as $keys => $vals) {
+           $user = DB::table('users')
+           ->where(['id'=>$vals->user_id])
+           ->select('nickname','authentication','head_pic')
+           ->first();
+            $result[$keys]['id'] = $vals->id;
+            $result[$keys]['content'] = $vals->content;
+            $result[$keys]['praise'] = $vals->praise;
+            $result[$keys]['grade'] = $vals->grade;
+            $result[$keys]['created_at'] = $vals->created_at;
+            $result[$keys]['nickname'] = $user->nickname;
+            $result[$keys]['authentication'] = $user->authentication;
+            $result[$keys]['head_pic'] = $user->head_pic;
+        }
+       return $result;
     }
 }

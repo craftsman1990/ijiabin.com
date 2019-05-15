@@ -18,7 +18,7 @@ class UserController extends Controller
 	 */
     public function getUser(Request $request)
     {  
-        if (!$user = User::isToken($request->token)) {
+        if (!$user = User::isToken($request->header('token'))) {
             return  response()->json(['status'=>999,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;
@@ -41,7 +41,7 @@ class UserController extends Controller
      */
     public function upUser(Request $request)
     {
-        if (!$user = User::isToken($request->token)) {
+        if (!$user = User::isToken($request->header('token'))) {
             return  response()->json(['status'=>999,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;   
@@ -54,7 +54,7 @@ class UserController extends Controller
            }
         }else{
             //没有上传就获取old头像地址
-            $source['head_pic'] = "/upload/Api/4fa38f30c947ca57c547719fded06546.jpg";
+            $source['head_pic'] = '';
         }
         if ($request->new_pass) {
             //验证两次密码是否一致
@@ -63,13 +63,15 @@ class UserController extends Controller
             }else{
                 return response()->json(['status'=>1,'msg'=>'两次密码输入不一致！']);
             }
+        }else{
+             $source['password'] = '';
         }
         $source['user_id'] = $request->user_id;
         $source['username'] = $request->username;
         $source['nickname'] = $request->nickname;
         $source['truename'] = $request->truename;
         $source['mobile'] = $request->mobile;
-        $source['email'] = $request->email;
+        $source['authentication'] = $request->authentication;
         $source['address'] = $request->address;
     	$result = User::upUser($source);
         return response()->json($result);
@@ -86,15 +88,30 @@ class UserController extends Controller
             return response()->json(['status'=>999,'msg'=>'手机号有误，请重新填写！']);
         }
         $yzm = rand(1000,9999);
-        Session::put('mobile',$request->mobile,'180');
-        Session::put('yzm',$yzm,'180');
         $res = Sms::send($request->mobile,'SMS_152880235',$yzm);
         if($res->Code != 'OK'){
             return response()->json(['status'=>999,'msg'=>'发送失败，请重试！']);
         }
-        $data['mobile'] = $request->mobile;
-        $data['yzm'] = $yzm;
-        $data['res'] = $res; 
-        return response()->json(['status'=>1,'msg'=>'验证码发送成功！','data'=>$data]);
-    }
+        $users = User::where('mobile',$request->mobile)->get();
+        if (!$users->toArray()){
+            $name = 'JIA_U'.dechex(date('YmdHis',time()));
+            $info['mobile'] = $request->mobile;
+            // $info['username'] = $request->mobile;
+            $info['nickname'] = $name;
+            $info['truename'] = $name;
+            $info['head_pic'] = asset('University/images/default_head_pic.png');
+            $info['code'] = $yzm;
+            $user= User::create($info);
+            if (!$user){
+                return response()->json(['status'=>999,'msg'=>'注册失败！']);
+            }
+            return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
+        }else{
+            $user = $users[0];
+            $user->code = $yzm;
+            if ($user->save()) {
+                return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
+          }
+      }
+   }
 }

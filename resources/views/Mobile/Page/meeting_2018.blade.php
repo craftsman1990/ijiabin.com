@@ -117,9 +117,6 @@
           </div>
           <ul class="list_box">
             <li>「科创榜·POWER100」组委会</li>
-            <li>组委会联系人:徐先生</li>
-            <li>联系电话：150 1158 6867</li>
-            <li>邮箱：xh@wetalktv.cn</li>
             <li>组委会联系人:梁先生</li>
             <li>联系电话：176 0026 0562</li>
             <li>邮箱：liangxianpeng@wetalktv.cn</li>

@@ -28,7 +28,7 @@
                     <div class="ibox-content">
                         <div class="">
                             <!-- <button class="btn btn-primary J_menuItem" data-toggle="modal" data-target="#myModalAdd">添加课程</button> -->
-                            <a class="btn btn-primary J_menuItem" href="{{url('admin/jbdx/content/bulletScreen/create/content_id/'.$content->id)}}">添加弹幕</a>
+                            <a class="btn btn-primary J_menuItem" href="{{url('admin/jbdx/content/bulletScreen/create/content_id/'.$content->id.'/time/'.$content->time)}}">添加弹幕</a>
                             <a class="btn btn-outline btn-default" href="{{url('admin/jbdx/course/'.$content->course_id)}}">返回内容</a>
                         </div>
                         @include('layouts.admin_error')
@@ -39,6 +39,7 @@
                                 <th>用户名</th>
 {{--                                <th>内容ID</th>--}}
                                 <th>弹幕内容</th>
+                                <th>弹幕时长</th>
                                 <th>发表时间</th>
                                 <th>操作</th>
                             </tr>
@@ -50,6 +51,7 @@
                                     <td>{{$v->userDetail->nickname}}</td>
 {{--                                    <td>{{$v->content_id}}</td>--}}
                                     <td>{{$v->text}}</td>
+                                    <td>{{$v->pace}}</td>
                                     <td class="center">{{$v->created_at}}</td>
                                     <td class="center">
                                         <div class="btn-group">

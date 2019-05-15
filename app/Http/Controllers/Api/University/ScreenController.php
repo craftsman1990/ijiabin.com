@@ -18,7 +18,7 @@ class ScreenController extends Controller
 	 */
     public function sendScreen(Request $request)
     {
-        if (!$user = User::isToken($request->token)) {
+        if (!$user = User::isToken($request->header('token'))) {
             return  response()->json(['status'=>999,'msg'=>'请先登录！']);
         }
     	if (empty($request->content_id) || empty($request->text)) {
@@ -37,7 +37,7 @@ class ScreenController extends Controller
      */
     public function getScreen(Request $request)
     {
-        if ($user = User::isToken($request->token)) {
+        if ($user = User::isToken($request->header('token'))) {
             $request->user_id = $user->id;
         }
         $result = BulletScreen::getBulletScreen($request);

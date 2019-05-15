@@ -9,6 +9,13 @@
                     <div class="ibox-content">
                         <form action="{{url('admin/jbdx/content/bulletScreen/'.$bulletScreen->id)}}" class="form-horizontal m-t" method="POST" enctype="multipart/form-data">
                         @include('layouts.admin_error')
+                        <!-- 弹幕时长 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">播放时长：</label>
+                                <div class="col-sm-8">
+                                    <input name="pace" class="form-control" type="number"  max="{{$content->time}}" min="0" value="{{old('pace')}}">
+                                </div>
+                            </div>
                             <!-- 章节内容 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">弹幕内容：</label>
@@ -21,6 +28,7 @@
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="content_id" value="{{$bulletScreen->content_id}}"/>
+                                    <input type="hidden" name="time" value="{{$content->time}}"/>
                                     <input type="hidden" name="user_id" value="{{$bulletScreen->user_id}}"/>
                                     <input type="hidden" name="_method" value="put"/>
                                 </div>

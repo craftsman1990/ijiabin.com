@@ -23,7 +23,7 @@ class LearningState extends Model
     	//验证用户是否播放过
     	$learning = LearningState::where(['user_id'=>$request->user_id,'content_id'=>$request->content_id])->first();
     	if (empty($learning)) {
-    	   $learnings = new Collect();
+    	   $learnings = new LearningState();
     	   $learnings->user_id = $request->user_id;
     	   $learnings->content_id = $request->content_id;
     	   $learnings->state = 0;

@@ -63,4 +63,5 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::post('playStates','Api\University\PlayController@playStates');//记录用户播放进度
 	Route::post('playNum','Api\University\PlayController@playNum');//记录播放量
 	Route::get('getScreen','Api\University\ScreenController@getScreen');//获取弹幕列表
+	Route::get('aboutUs','Api\University\ContentController@aboutUs');//获取合作媒体
 });

@@ -15,7 +15,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $fillable = ['username', 'password','nickname','truename','head_pic','mobile','email','address','remember_token','open_id'];
+    protected $fillable = ['username', 'password','nickname','truename','head_pic','mobile','email','address','remember_token','open_id','code','authentication'];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -34,14 +34,25 @@ class User extends Authenticatable
     {
         $users = User::find($result['user_id']);
         //此處有修改密碼
-        $users->password = $result['password'];
-        $users->nickname = $result['nickname'];
-        $users->username = $result['username'];
-        $users->head_pic = $result['head_pic'];
-        $users->mobile = $result['mobile'];
-        $users->email = $result['email'];
-        $users->address = $result['address'];
-        $users->truename = $result['truename'];
+        if ($result['password']) {
+            $users->password = $result['password'];
+        }elseif ($result['nickname']) {
+            $users->nickname = $result['nickname'];
+        }elseif ($result['username']) {
+            $users->username = $result['username'];
+        }elseif ($result['head_pic']) {
+            $users->head_pic = $result['head_pic'];
+        }elseif ($result['mobile']) {
+            $users->mobile = $result['mobile'];
+        }elseif ($result['authentication']) {
+            $users->authentication = $result['authentication'];
+        }elseif ($result['address']) {
+            $users->address = $result['address'];
+        }elseif ($result['truename']) {
+            $users->truename = $result['truename'];
+        }else{
+            return ['status'=>999,'msg'=>'最少修改个信息！'];
+        }
         if ($users->save()) {
             return ['status'=>1,'msg'=>'修改成功！'];
         }else{

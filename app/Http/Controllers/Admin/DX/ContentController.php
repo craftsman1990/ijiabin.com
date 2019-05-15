@@ -37,12 +37,12 @@ class ContentController extends Controller
             'chapter'=>'required|numeric|min:1',
             'type'=>'required|numeric',
             'title'=>'required|max:30',
-            'label'=>'required|max:30',
+            'label'=>'max:30',
             'intro'=>'required|max:255',
             'video'=>'required|max:255',
             'audio'=>'required|max:255',
-            'time'=>'required|max:10',
-            'try_time'=>'required|max:10',
+            'time'=>'required|numeric|min:1',
+           // 'try_time'=>'max:'.$request->time,
             'content'=>'required',
             'course_id'=>'required|numeric',
             'cover'=>'required'
@@ -55,7 +55,6 @@ class ContentController extends Controller
             'type.numeric' => '属性 必须是数字',
             'title.required' => '章节标题 不能为空',
             'title.max' => '章节标题 不能超过30个字符',
-            'label.required' => '章节标签 不能为空',
             'label.max' => '章节标签 不能超过30个字符',
             'intro.required' => '章节简介 不能为空',
             'intro.max' => '章节简介 不能超过255个字符',
@@ -64,12 +63,19 @@ class ContentController extends Controller
             'audio.required' => '音频地址 不能为空',
             'audio.max' => '音频地址 不能超过255个字符',
             'time.required' => '章节时长 不能为空',
-            'time.max' => '章节时长 不能超过10个字符',
-            'try_time.max' => '章节试看时长 不能超过10个字符',
+//            'time.max' => '章节时长 不能超过10个字符',
+          //  'try_time.max' => '章节试看时长 不能超过'.$request->time,
             'content.required' => '章节内容 不能为空',
             'course_id.required' => '课程ID 不能为空',
             'cover.required'=>'封面图 不能为空',
         ];
+        if ($request->try_time !== null){
+            $verif['try_time'] = 'numeric|max:'.$request->time;
+            $message['try_time.numeric'] = '章节试看时长 必须是数字';
+            $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
+            // dd($verif);
+            // dd($message);
+        }
         $credentials = $this->validate($request,$verif,$message);
 //        dd($credentials);
 
@@ -105,19 +111,18 @@ class ContentController extends Controller
 
     //执行修改
     public function update(Request $request,$id){
+
         $verif = [
             'chapter'=>'required|numeric|min:1',
             'type'=>'required|numeric',
             'title'=>'required|max:30',
-            'label'=>'required|max:30',
+            'label'=>'max:30',
             'intro'=>'required|max:255',
             'video'=>'required|max:255',
             'audio'=>'required|max:255',
-            'time'=>'required|max:10',
-            'try_time'=>'required|max:10',
+            'time'=>'required|numeric|min:1',
             'content'=>'required',
             'course_id'=>'required|numeric',
-            'cover'=>'required'
         ];
         $message =[
             'chapter.required' => '章节编号 不能为空',
@@ -127,7 +132,6 @@ class ContentController extends Controller
             'type.numeric' => '属性 必须是数字',
             'title.required' => '章节标题 不能为空',
             'title.max' => '章节标题 不能超过30个字符',
-            'label.required' => '章节标签 不能为空',
             'label.max' => '章节标签 不能超过30个字符',
             'intro.required' => '章节简介 不能为空',
             'intro.max' => '章节简介 不能超过255个字符',
@@ -136,14 +140,21 @@ class ContentController extends Controller
             'audio.required' => '音频地址 不能为空',
             'audio.max' => '音频地址 不能超过255个字符',
             'time.required' => '章节时长 不能为空',
-            'time.max' => '章节时长 不能超过10个字符',
-            'try_time.max' => '章节试看时长 不能超过10个字符',
+            'time.min' => '章节时长 不能小于1',
+//            'time.max' => '章节时长 不能超过10个字符',
             'content.required' => '章节内容 不能为空',
             'course_id.required' => '课程ID 不能为空',
-            'cover.required'=>'封面图 不能为空',
         ];
+        if ($request->try_time !== null){
+            $verif['try_time'] = 'numeric|max:'.$request->time;
+            $message['try_time.numeric'] = '章节试看时长 必须是数字';
+            $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
+           // dd($verif);
+           // dd($message);
+        }
+
         $credentials = $this->validate($request,$verif,$message);
-//        dd($credentials);
+
         //横图
         if ($request->cover){
             $cor_size = $request->cover->getSize() / 1024;
@@ -174,7 +185,7 @@ class ContentController extends Controller
                 return back() -> with('hint','没有原图，也没有图片上传');
             }
         }
-        //        dd($credentials);
+       // dd($credentials);
         unset($credentials['old_cover']);
 
         if (Content::find($id)->update($credentials)){

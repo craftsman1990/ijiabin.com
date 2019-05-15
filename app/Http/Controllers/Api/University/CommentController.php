@@ -24,7 +24,7 @@ class CommentController extends Controller
         if (empty($request->discussion_id) || empty($request->content) || empty($request->type) ||empty($request->grade)) {
             return response()->json(['status'=>999,'msg'=>'参数错误']);
         }
-        if (!$user = User::isToken($request->token)) {
+        if (!$user = User::isToken($request->header('token'))) {
             return  response()->json(['status'=>999,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;
@@ -72,14 +72,25 @@ class CommentController extends Controller
     	if (empty($request->discussion_id)) {
     		return response()->json(['status'=>999,'msg'=>'参数错误']);
     	}
+        if ($user = User::isToken($request->header('token'))) {
+            $user_id = $user->id;
+        }else{
+            $user_id = null;
+        }
     	$commentList = Comment::getCommentLit($request);
         if (empty($commentList)) {
             return  response()->json(['status'=>1,'msg'=>'暂无评论信息！']);
         }
         foreach ($commentList as $key => $v) {
             //获取点赞数量
-            $praise_num = Praise::getPraiseNum($v->comment_id);
-            $commentList[$key]->praise = $praise_num;
+            $praise_num = Praise::getPraiseNum($v['id']);
+            $praise_status = Praise::getPraiseStat($user_id,$v['id']);
+            if ($praise_status) {
+                $commentList[$key]['praise_status'] = $praise_status->status;
+            }else{
+                $commentList[$key]['praise_status'] = 0;
+            }
+            $commentList[$key]['praise'] = $praise_num;
         }
         $result['status'] = 1;
         $result['data'] = $commentList;

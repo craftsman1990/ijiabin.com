@@ -43,12 +43,17 @@ class ContentController extends Controller
         if (empty($request->course_id)) {
             return response()->json(['status'=>999,'msg'=>'参数错误！']);
         }
-        if (!$user = User::isToken($request->token)) {
+        if (!$user = User::isToken($request->header('token'))) {
             $request->user_id = '';
         }else{  
             $request->user_id = $user->id;  
         }
         $result = Course::getCourseDetail($request);
         return response()->json(['status'=>1,'msg'=>'获取成功','data'=>$result]);
+    }
+     //获取网站底部的合作媒体
+    public function aboutUs()
+    {
+        return response()->json(['status'=>1,'msg'=>'获取成功','data'=>config('hint.hzjg')]);
     }
 }

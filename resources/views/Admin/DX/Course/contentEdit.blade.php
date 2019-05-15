@@ -3,7 +3,7 @@
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>章节修改</h5>
@@ -115,13 +115,27 @@
                                 </div>
                             </div>
                              <!-- 章节内容 -->
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">章节内容：</label>
-                                <div class="col-sm-8">
-                                    <textarea id="content" style="width: 100%;height: 300px;resize: none;" name="content">{{$content->content}}</textarea>
-                                    <p><span id="text-content">1000</span>/1000</p>
-                                </div>
-                            </div>
+{{--                            <div class="form-group">--}}
+{{--                                <label class="col-sm-3 control-label">章节内容：</label>--}}
+{{--                                <div class="col-sm-8">--}}
+{{--                                    <textarea id="content" style="width: 100%;height: 300px;resize: none;" name="content">{{$content->content}}</textarea>--}}
+{{--                                    <p><span id="text-content">1000</span>/1000</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                            <!-- 内容 -->
+                             <div class="form-group">
+                                 <label class="col-sm-3 control-label">内容：</label>
+                                 <div class="col-sm-8">
+                                        <!-- 加载编辑器内容 -->
+                                    <!-- <script id="editor" type="text/pslain" style="height:600px;" name="content">{!!old('content')!!}</script> -->
+                                        <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
+                                     <div id="div1" style="border: 1px solid #ccc;"></div>
+                                     <div id="editor" style="width: 100%;border: 1px solid #ccc;height: 800px;">
+                                            {!!$content->content!!}
+                                      </div>
+                                      <textarea name="content" id="text1" style="display: none;">{!!$content->content!!}</textarea>
+                                 </div>
+                              </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
@@ -145,6 +159,23 @@
         </div>
     </div>
     @include('layouts.admin_js')
+    <!-- 编辑器 -->
+    <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#div1','#editor')
+        editor.customConfig.uploadImgServer = '/api/upload'  // 上传图片到服务器
+        // editor.customConfig.debug=true;                // 开启调试
+
+        var $text1 = $('#text1')
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $text1.val(html)
+        }
+        editor.create()
+        // 初始化 textarea 的值
+        $text1.val(editor.txt.html())
+    </script>
     <script type="text/javascript">
 
         //普通图片上传

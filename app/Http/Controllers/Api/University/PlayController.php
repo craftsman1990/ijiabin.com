@@ -23,7 +23,7 @@ class PlayController extends Controller
     	if (empty($request->content_id) || empty($request->learning_time)) {
             return response()->json(['status'=>999,'msg'=>'参数错误']);
         }
-        if (!$user = User::isToken($request->token)) {
+        if (!$user = User::isToken($request->header('token'))) {
             return  response()->json(['status'=>999,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;

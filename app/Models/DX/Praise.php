@@ -48,7 +48,13 @@ class Praise extends Model
      */
     public static function getPraiseNum($by_praise_id)
     {
-        $praise = Praise::where(['type'=>2,'by_praise_id'=>$by_praise_id,'status'=>1])->count();
+        $praise = Praise::where(['by_praise_id'=>$by_praise_id,'status'=>1])->count();
+        return $praise;
+    }
+        //获取点赞状态
+    public static function getPraiseStat($user_id,$by_praise_id)
+    {
+        $praise = Praise::where(['user_id'=>$user_id,'by_praise_id'=>$by_praise_id])->first();
         return $praise;
     }
 }

@@ -23,6 +23,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <!-- 弹幕时长 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">播放时长：</label>
+                                <div class="col-sm-8">
+                                    <input name="pace" class="form-control" type="number"  max="{{$data['time']}}" min="0" value="{{old('pace')}}">
+                                </div>
+                            </div>
 
                             <!-- 章节内容 -->
                             <div class="form-group">
@@ -36,6 +43,7 @@
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="content_id" value="{{$data['content_id']}}"/>
+                                    <input type="hidden" name="time" value="{{$data['time']}}"/>
                                 </div>
                             </div>
 
