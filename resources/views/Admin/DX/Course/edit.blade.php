@@ -86,6 +86,14 @@
                                     <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
                                 </div>
                             </div>
+                             <!-- 观看次数： -->
+                             <div class="form-group">
+                                 <label class="col-sm-3 control-label">课程内容总节数：</label>
+                                 <div class="col-sm-3">
+                                     <input name="content_nums" class="form-control" type="number" value="{{$course->content_nums}}" readonly="readonly">
+                                        <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
+                                  </div>
+                             </div>
                             <!-- 横向封面图： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">横向封面图：</label>

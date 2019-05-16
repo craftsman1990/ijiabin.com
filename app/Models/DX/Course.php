@@ -13,7 +13,7 @@ class Course extends Model
 {
     protected $table = 'dx_course';
 
-    protected $fillable = ['name', 'crosswise_cover','lengthways_cover','teacher','professional','intro','ify','is_pay','looks','price','play_num'];
+    protected $fillable = ['name', 'crosswise_cover','lengthways_cover','teacher','professional','intro','ify','is_pay','looks','price','play_num','content_nums'];
 
     //分类获取课程
     public static function getIfy($ify,$num){
@@ -32,6 +32,7 @@ class Course extends Model
     	$source = DB::table('dx_course')
     	->select('id','name','crosswise_cover','lengthways_cover','ify','content_nums','content_updates','is_end','looks','teacher','professional')
         ->where('ify','=',$ify)
+        ->orderBy('created_at','desc')
     	->offset($offset)
     	->limit($pageSize)
     	->get()
@@ -41,9 +42,14 @@ class Course extends Model
     	//根据课程查询课程下的小结
     	foreach ($source as $key => $v) {
     		$list = DB::table('dx_course_content')
-    		->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','play_num')
+    		->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','play_num','cover')
     		->where('course_id','=',$v->id)
     		->get()->toArray();
+            //获取上架小节数
+            $content_nums = DB::table('dx_course_content')->where(['status'=>1,'course_id'=>$v->id])->count();
+            if (empty($content_nums)) {
+               $content_nums = '';
+            }
             $num = array_sum(array_column($list,'play_num'));
             $play_num = $num + $v->looks;
             //转换展示播放量
@@ -60,7 +66,11 @@ class Course extends Model
             }
             $crosswise_cover = $http_type.$_SERVER['SERVER_NAME'].$v->crosswise_cover;
             $lengthways_cover = $http_type.$_SERVER['SERVER_NAME'].$v->lengthways_cover;
+            foreach ($list as $k => $val) {
+                $list[$k]->cover = $http_type.$_SERVER['SERVER_NAME'].$val->cover;
+            }
             $source[$key]->play_num = $play;
+            $source[$key]->content_updates = $content_nums;
             $source[$key]->crosswise_cover = $crosswise_cover;
             $source[$key]->lengthways_cover = $lengthways_cover;
     		$source[$key]->course_content = $list;
@@ -81,10 +91,12 @@ class Course extends Model
         ->where('id','=',$request->course_id)
         ->get()
         ->toArray();//课程
+         //判断当前请求方式
+        $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
         //根据课程查询课程下的小结
         foreach ($source as $key => $v) {
             $list = DB::table('dx_course_content')
-            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type')
+            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover')
             ->where('course_id','=',$v->id)
             ->get()->toArray();
             foreach ($list as $k => $val) {
@@ -109,6 +121,7 @@ class Course extends Model
                 }
                 $list[$k]->is_collect = $is_collect;
                 $list[$k]->play_state = $play_state;
+                $list[$k]->cover = $http_type.$_SERVER['SERVER_NAME'].$val->cover;
             }
             //根据课程id验证是否已经购买
             if (empty($request->user_id)) {
@@ -121,6 +134,8 @@ class Course extends Model
                     $is_pay = 1;
                 }
             }
+            $source[$key]->crosswise_cover = $http_type.$_SERVER['SERVER_NAME'].$v->crosswise_cover;
+            $source[$key]->lengthways_cover = $http_type.$_SERVER['SERVER_NAME'].$v->lengthways_cover;
             $source[$key]->is_pay = $is_pay;
             $source[$key]->course_content = $list;
         }

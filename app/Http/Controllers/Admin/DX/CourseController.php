@@ -3,10 +3,12 @@
  use App\Models\DX\Content;	
 use App\Models\DX\Course;	
 use App\Models\CourseSite;	
-use App\Services\Upload;	
-use Illuminate\Http\Request;	
+use App\Services\Upload;
+ use Doctrine\DBAL\Driver\IBMDB2\DB2Driver;
+ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;	
-use App\Services\Compress;	
+use App\Services\Compress;
+
  class CourseController extends Controller	
 {	
      public function __construct()	
@@ -39,7 +41,8 @@ use App\Services\Compress;
             'ify'=>'required|numeric',	
             'is_pay'=>'required|numeric',	
             'looks'=>'required|numeric',	
-            'price'=>'required|numeric',	
+            'content_nums'=>'required|numeric',
+            'price'=>'required|numeric',
             'crosswise_cover'=>'required',	
             'lengthways_cover'=>'required'	
         ];	
@@ -56,8 +59,10 @@ use App\Services\Compress;
             'is_pay.required'=>'付费课 未选择',	
             'is_pay.numeric'=>'付费课 类型错误',	
             'looks.required'=>'观看次数 不能为空',	
-            'looks.numeric'=>'观看次数 只能是数值',	
-            'price.required'=>'价格 不能为空',	
+            'content_nums.required'=>'课程内容总节数 不能为空',
+            'looks.numeric'=>'观看次数 只能是数值',
+            'content_nums.numeric'=>'课程内容总节数  只能是数值',
+            'price.required'=>'价格 不能为空',
             'price.numeric'=>'价格 只能是数值',	
             'crosswise_cover.required'=>'横向封面图 不能为空',	
             'lengthways_cover.required'=>'纵向封面图 不能为空',	
@@ -95,9 +100,14 @@ use App\Services\Compress;
             $Compress->compressImg(public_path(thumbnail($credentials['lengthways_cover'])));	
         }else{	
             return back() -> with('hint',config('hint.upload_failure'));	
-        }	
-        if (Course::create($credentials)){	
-            return redirect('admin/jbdx/course')->with('success', config('hint.add_success'));	
+        }
+
+        $credentials['created_at'] = $credentials['updated_at'] = date('Y-m-d H:i:s',time());
+
+        $course_id = Course::insertGetId($credentials);
+
+        if ($course_id){
+            return redirect('admin/jbdx/course/'.$course_id)->with('success', config('hint.add_success'));
         }else{	
             return back()->with('hint',config('hint.add_failure'));	
         }	

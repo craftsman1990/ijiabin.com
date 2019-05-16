@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\University;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\DX\Code;
 use App\Services\Upload;
 use Illuminate\Support\Facades\Session;
 use App\Models\Sms;
@@ -56,21 +57,46 @@ class UserController extends Controller
             //没有上传就获取old头像地址
             $source['head_pic'] = '';
         }
-        if ($request->new_pass) {
+        if ($request->mobile) {
+            $users = User::where('mobile',$request->mobile)->get();
+            if (empty($users)) {
+               return response()->json(['status'=>999,'msg'=>'请输入正确的手机号']);
+            }
+            $codes = Code::where('mobile',$request->mobile)->get();
+            $user_obj = $codes[0];
+             if ($request->mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
+                return response()->json(['status'=>999,'msg'=>'验证码错误！']);
+            }
+        }
+        if ($request->new_password) {
             //验证两次密码是否一致
-            if ($request->password==$request->new_pass) {
-                $source['password'] = bcrypt($request->new_pass);
+            if ($request->password==$request->new_password) {
+                $source['password'] = bcrypt($request->new_password);
             }else{
                 return response()->json(['status'=>1,'msg'=>'两次密码输入不一致！']);
             }
         }else{
              $source['password'] = '';
         }
+        //用户修改手机号
+        if ($request->new_mobile) {
+            $codes = Code::where('mobile',$request->new_mobile)->get();
+            if (!$codes->toArray()) {
+               return response()->json(['status'=>999,'msg'=>'验证码错误！']);
+            }
+            $user_obj = $codes[0];
+             if ($request->new_mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
+                return response()->json(['status'=>999,'msg'=>'验证码错误！']);
+            }
+            $source['mobile'] = $request->new_mobile;
+        }else{
+            $source['mobile'] = '';
+        }
         $source['user_id'] = $request->user_id;
         $source['username'] = $request->username;
         $source['nickname'] = $request->nickname;
         $source['truename'] = $request->truename;
-        $source['mobile'] = $request->mobile;
+        // $source['mobile'] = $request->mobile;
         $source['authentication'] = $request->authentication;
         $source['address'] = $request->address;
     	$result = User::upUser($source);
@@ -92,26 +118,20 @@ class UserController extends Controller
         if($res->Code != 'OK'){
             return response()->json(['status'=>999,'msg'=>'发送失败，请重试！']);
         }
-        $users = User::where('mobile',$request->mobile)->get();
-        if (!$users->toArray()){
-            $name = 'JIA_U'.dechex(date('YmdHis',time()));
-            $info['mobile'] = $request->mobile;
-            // $info['username'] = $request->mobile;
-            $info['nickname'] = $name;
-            $info['truename'] = $name;
-            $info['head_pic'] = asset('University/images/default_head_pic.png');
-            $info['code'] = $yzm;
-            $user= User::create($info);
-            if (!$user){
-                return response()->json(['status'=>999,'msg'=>'注册失败！']);
-            }
-            return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
-        }else{
-            $user = $users[0];
-            $user->code = $yzm;
-            if ($user->save()) {
-                return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
-          }
+        $codes = Code::where('mobile',$request->mobile)->get();
+        if (!$codes->toArray()){
+        $info['mobile'] = $request->mobile;
+        $info['code'] = $yzm;
+        $code= Code::create($info);
+        return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
+    }else{
+        $code = $codes[0];
+        $code->code = $yzm;
+        if ($code->save()) {
+            $data['mobile'] = $request->mobile;
+            $data['yzm'] = $yzm;
+            return response()->json(['status'=>1,'msg'=>'验证码发送成功！','data'=>$data]);
       }
-   }
+    }
+  }
 }

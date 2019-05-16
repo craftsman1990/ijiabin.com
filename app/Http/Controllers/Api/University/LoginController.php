@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\University;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\DX\Code;
 use Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -26,8 +27,9 @@ class LoginController extends Controller
     		return response()->json(['status'=>999,'msg'=>'手机号不能为空']);
     	}
     	if (!empty($request->code)) {//判断是否验证码登录
-      		$users = User::where('mobile',$request->mobile)->get();
-      		$user_obj = $users[0];
+      		$codes = Code::where('mobile',$request->mobile)->get();
+      		$users = User::where('mobile',$request->mobile)->get();     		
+      		$user_obj = $codes[0];
             if ($request->mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
             	return response()->json(['status'=>999,'msg'=>'验证码错误！']);
             }

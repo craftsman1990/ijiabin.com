@@ -45,6 +45,21 @@
                                     </select>
                                 </div>
                             </div>
+                                <!-- 更新上架： -->
+                                <div class="form-group" >
+                                    <label class="col-sm-3 control-label">更新上架：</label>
+                                    <div class="col-sm-3">
+
+                                        <select class="form-control" name="status">
+                                            @if($content->status == 0)
+                                                 <option value="0" {{$content->status==0 ? 'selected' : ''}}>否</option>
+                                                 <option value="1" {{$content->status==1 ? 'selected' : ''}}>是</option>
+                                            @else
+                                                <option value="1" {{$content->status==1 ? 'selected' : ''}}>是</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
                             <!-- 章节标题： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标题：</label>
@@ -114,28 +129,18 @@
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的试看时长</span>
                                 </div>
                             </div>
-                             <!-- 章节内容 -->
-{{--                            <div class="form-group">--}}
-{{--                                <label class="col-sm-3 control-label">章节内容：</label>--}}
-{{--                                <div class="col-sm-8">--}}
-{{--                                    <textarea id="content" style="width: 100%;height: 300px;resize: none;" name="content">{{$content->content}}</textarea>--}}
-{{--                                    <p><span id="text-content">1000</span>/1000</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-                            <!-- 内容 -->
-                             <div class="form-group">
-                                 <label class="col-sm-3 control-label">内容：</label>
-                                 <div class="col-sm-8">
-                                        <!-- 加载编辑器内容 -->
-                                    <!-- <script id="editor" type="text/pslain" style="height:600px;" name="content">{!!old('content')!!}</script> -->
-                                        <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
-                                     <div id="div1" style="border: 1px solid #ccc;"></div>
-                                     <div id="editor" style="width: 100%;border: 1px solid #ccc;height: 800px;">
+                           <!-- 章节内容： -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">内容：</label>
+                                <div class="col-sm-8">
+                                    <div id="div1" style="border: 1px solid #ccc;"></div>
+                                    <div id="editor" style="width: 100%;border: 1px solid #ccc;">
                                             {!!$content->content!!}
-                                      </div>
-                                      <textarea name="content" id="text1" style="display: none;">{!!$content->content!!}</textarea>
-                                 </div>
-                              </div>
+                                    </div>
+                                    <textarea name="content" id="text1" style="display: none;">{!!$content->content!!}}</textarea>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
@@ -145,7 +150,7 @@
                                     <input type="hidden" name="_method" value="put"/>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <button class="btn btn-primary" type="submit">提交</button>
@@ -188,7 +193,7 @@
             $('#cover').attr('src',imgurl);
         });
 
-           var intro = $('[name=intro').val();
+           var intro = $('[name=intro]').val();
             $("#text-intro").text(255-intro.length);
             $('#intro').on('input propertychange',function(){
                 var $this = $(this),
@@ -198,10 +203,10 @@
                     $this.val(_val.substring(0, 255));
                 }
                 count = 255 - $this.val().length;
-                $("#text-intro").text(count);   
+                $("#text-intro").text(count);
             });
             //内容
-            var content = $('[name=content').val();
+            var content = $('[name=content]').val();
             $("#text-content").text(1000-content.length);
             $('#content').on('input propertychange',function(){
                 var $this = $(this),
@@ -211,7 +216,7 @@
                     $this.val(_val.substring(0, 1000));
                 }
                 count = 1000 - $this.val().length;
-                $("#text-content").text(count);   
+                $("#text-content").text(count);
             });
 
         //图片预览

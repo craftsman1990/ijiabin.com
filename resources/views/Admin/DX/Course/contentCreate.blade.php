@@ -45,6 +45,16 @@
                                     </select>
                                 </div>
                             </div>
+                                <!-- 更新上架： -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">更新上架：</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="status">
+                                        <option value="0">否</option>
+                                        <option value="1">是</option>
+                                    </select>
+                                </div>
+                            </div>
                             <!-- 章节标题： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标题：</label>

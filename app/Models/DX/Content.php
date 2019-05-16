@@ -8,7 +8,7 @@ class Content extends Model
 {
     protected $table = 'dx_course_content';
 
-    protected $fillable = ['title', 'intro','label','time','try_time','video','audio','content','type','course_id','chapter','cover'];
+    protected $fillable = ['title','status', 'intro','label','time','try_time','video','audio','content','type','course_id','chapter','cover'];
     /**
      * 记录播放量
      * @param [type] $request [description]

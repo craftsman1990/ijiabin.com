@@ -23,8 +23,8 @@ class User extends Authenticatable
     //根據用戶id獲取用戶信息
     public static function getUserDetails($user_id)
     {
-        $user = DB::table('users')
-        ->select('id','username','nickname','truename','head_pic','mobile','email','address')
+    	$user = DB::table('users')
+        ->select('id','username','nickname','truename','head_pic','mobile','address','authentication')
         ->where('id',$user_id)
         ->get();
         return $user;
@@ -36,6 +36,7 @@ class User extends Authenticatable
         //此處有修改密碼
         if ($result['password']) {
             $users->password = $result['password'];
+            $users->remember_token = '';
         }elseif ($result['nickname']) {
             $users->nickname = $result['nickname'];
         }elseif ($result['username']) {
@@ -44,6 +45,7 @@ class User extends Authenticatable
             $users->head_pic = $result['head_pic'];
         }elseif ($result['mobile']) {
             $users->mobile = $result['mobile'];
+            $users->remember_token = '';
         }elseif ($result['authentication']) {
             $users->authentication = $result['authentication'];
         }elseif ($result['address']) {
