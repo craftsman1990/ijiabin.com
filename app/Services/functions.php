@@ -7,7 +7,9 @@
  */
 
 include_once 'aliyuncs/aliyun-php-sdk-core/Config.php';
+require_once 'aliyuncs/aliyun-oss-php-sdk/autoload.php';
 use Green\Request\V20180509 as Green;
+use Green\Request\Extension\ClientUploader;
 
 //获取缩列图
 function thumbnail($img){
@@ -63,3 +65,32 @@ function detection($content){
         print_r($e);
     }
 }
+/**
+ * 阿里检测图片是否合法
+ * @param  [type] $img [description]
+ * @return [type]      [description]
+ */
+function imageVerification($img){
+        $iClientProfile = DefaultProfile::getProfile("cn-shanghai", "LTAIkIlM92Ed7aOD", "c8lFj8B8ge8budcZPU2PEg76HnHZAT");
+        DefaultProfile::addEndpoint("cn-shanghai", "cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
+        $client = new DefaultAcsClient($iClientProfile);
+        $request = new Green\ImageSyncScanRequest();
+        $request->setMethod("POST");
+        $request->setAcceptFormat("JSON");
+        //本地文件先进行上传，然后进行检测
+        $uploader = ClientUploader::getImageClientUploader($client);
+        $url = $uploader->uploadFile($img);
+        $task1 = array('dataId' =>  uniqid(),
+            'url' => $url
+        );
+        $request->setContent(json_encode(array("tasks" => array($task1),
+            "scenes" => array("porn","terrorism",'ad','qrcode','live','logo'))));
+    try {
+        $response = $client->getAcsResponse($request);
+        return $response;
+    } catch (Exception $e) {
+        // echo 7777;die;
+        print_r($e);
+    }
+}
+

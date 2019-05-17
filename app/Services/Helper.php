@@ -158,7 +158,13 @@ class Helper
         if($ip == '') $ip = null;
         return($ip);
     }
+    //获取当前请求方式
+    public static function getResponse()
+    {
+        //判断当前请求方式
+        $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
+        return $http_type.$_SERVER['SERVER_NAME'];
+    }
 }
-
 ?>
 

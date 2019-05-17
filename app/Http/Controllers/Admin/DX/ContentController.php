@@ -34,85 +34,77 @@ class ContentController extends Controller
     //执行添加
     public function store(Request $request){
         //判断是否上架
-        if ($request->status == 1){
-            $verif = [
-                'chapter'=>'required|numeric|min:1',
-                'type'=>'required|numeric',
-                'title'=>'required|max:30',
-                'label'=>'max:30',
-                'intro'=>'required|max:255',
-                'video'=>'required|max:255',
-                'audio'=>'required|max:255',
-                'time'=>'required|numeric|min:1',
-                // 'try_time'=>'max:'.$request->time,
-                'content'=>'required',
-                'status'=>'required',
-                'course_id'=>'required|numeric',
-                'cover'=>'required'
-            ];
-            $message =[
-                'chapter.required' => '章节编号 不能为空',
-                'chapter.numeric' => '章节编号 必须是数字',
-                'chapter.min' => '章节编号 必须大于或等于1',
-                'type.required' => '属性 不能为空',
-                'type.numeric' => '属性 必须是数字',
-                'title.required' => '章节标题 不能为空',
-                'title.max' => '章节标题 不能超过30个字符',
-                'label.max' => '章节标签 不能超过30个字符',
-                'intro.required' => '章节简介 不能为空',
-                'intro.max' => '章节简介 不能超过255个字符',
-                'video.required' => '视频地址 不能为空',
-                'video.max' => '视频地址 不能超过255个字符',
-                'audio.required' => '音频地址 不能为空',
-                'audio.max' => '音频地址 不能超过255个字符',
-                'time.required' => '章节时长 不能为空',
-//            'time.max' => '章节时长 不能超过10个字符',
-                //  'try_time.max' => '章节试看时长 不能超过'.$request->time,
-                'content.required' => '章节内容 不能为空',
-                'status.required' => '是否上架  不能为空',
-                'course_id.required' => '课程ID 不能为空',
-                'cover.required'=>'封面图 不能为空',
-            ];
+        $verif = [
+            'chapter'=>'required|numeric|min:1',
+            'type'=>'required|numeric',
+            'title'=>'required|max:30',
+            'intro'=>'required|max:255',
+            'status'=>'required',
+            'course_id'=>'required|numeric',
+            'cover'=>'required'
+        ];
+        $message =[
+            'chapter.required' => '章节编号 不能为空',
+            'chapter.numeric' => '章节编号 必须是数字',
+            'chapter.min' => '章节编号 必须大于或等于1',
+            'type.required' => '属性 不能为空',
+            'type.numeric' => '属性 必须是数字',
+            'title.required' => '章节标题 不能为空',
+            'title.max' => '章节标题 不能超过30个字符',
+            'intro.required' => '章节简介 不能为空',
+            'intro.max' => '章节简介 不能超过255个字符',
+            'status.required' => '是否上架  不能为空',
+            'course_id.required' => '课程ID 不能为空',
+            'cover.required'=>'封面图 不能为空',
+        ];
 
+        $diff_v = [
+            "label" => "max:30",
+            "video" => "required|max:255",
+            "audio" => "required|max:255",
+            "time" => "required|numeric|min:1",
+            "content" => "required"
+        ];
+        $diff_m = [
+            "label.max" => "章节标签 不能超过30个字符",
+            "video.required" => "视频地址 不能为空",
+            "video.max" => "视频地址 不能超过255个字符",
+            "audio.required" => "音频地址 不能为空",
+            "audio.max" => "音频地址 不能超过255个字符",
+            "time.required" => "章节时长 不能为空",
+            "content.required" => "章节内容 不能为空"
+        ];
+
+        $diff_c = [
+            "label" => $request->label,
+            "video" => $request->video,
+            "audio" => $request->audio,
+            "time" => $request->time,
+            "content" => $request->content
+        ];
+
+        //判断是否上架
+        if ($request->status == 1){
+            $verif = array_merge($verif,$diff_v);
+            $message = array_merge($message,$diff_m);
             if ($request->try_time !== null){
                 $verif['try_time'] = 'numeric|max:'.$request->time;
                 $message['try_time.numeric'] = '章节试看时长 必须是数字';
                 $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
             }
-        }else{
-            $verif = [
-                'chapter'=>'required|numeric|min:1',
-                'type'=>'required|numeric',
-                'title'=>'required|max:30',
-                'intro'=>'required|max:255',
-                'status'=>'required',
-                'course_id'=>'required|numeric',
-                'cover'=>'required'
-            ];
-            $message =[
-                'chapter.required' => '章节编号 不能为空',
-                'chapter.numeric' => '章节编号 必须是数字',
-                'chapter.min' => '章节编号 必须大于或等于1',
-                'type.required' => '属性 不能为空',
-                'type.numeric' => '属性 必须是数字',
-                'title.required' => '章节标题 不能为空',
-                'title.max' => '章节标题 不能超过30个字符',
-                'intro.required' => '章节简介 不能为空',
-                'intro.max' => '章节简介 不能超过255个字符',
-                'status.required' => '是否上架  不能为空',
-                'course_id.required' => '课程ID 不能为空',
-                'cover.required'=>'封面图 不能为空',
-            ];
         }
-
 
         $credentials = $this->validate($request,$verif,$message);
 
         if ($request->try_time == null){
             $credentials['try_time'] = '0';
         }
-//        dd($credentials);
 
+        if ($request->status == 0) {
+            $credentials = array_merge($credentials, $diff_c);
+        }
+
+//        dd($credentials);
         //横图
         $cor_size = $credentials['cover']->getSize() / 1024;
         if ($cor_size < 100){
@@ -148,80 +140,77 @@ class ContentController extends Controller
     //执行修改
     public function update(Request $request,$id){
         //判断是否上架
-        if ($request->status == 1){
-            $verif = [
-                'chapter'=>'required|numeric|min:1',
-                'type'=>'required|numeric',
-                'title'=>'required|max:30',
-                'label'=>'max:30',
-                'intro'=>'required|max:255',
-                'video'=>'required|max:255',
-                'audio'=>'required|max:255',
-                'time'=>'required|numeric|min:1',
-                // 'try_time'=>'max:'.$request->time,
-                'content'=>'required',
-                'status'=>'required',
-                'course_id'=>'required|numeric'
-            ];
-            $message =[
-                'chapter.required' => '章节编号 不能为空',
-                'chapter.numeric' => '章节编号 必须是数字',
-                'chapter.min' => '章节编号 必须大于或等于1',
-                'type.required' => '属性 不能为空',
-                'type.numeric' => '属性 必须是数字',
-                'title.required' => '章节标题 不能为空',
-                'title.max' => '章节标题 不能超过30个字符',
-                'label.max' => '章节标签 不能超过30个字符',
-                'intro.required' => '章节简介 不能为空',
-                'intro.max' => '章节简介 不能超过255个字符',
-                'video.required' => '视频地址 不能为空',
-                'video.max' => '视频地址 不能超过255个字符',
-                'audio.required' => '音频地址 不能为空',
-                'audio.max' => '音频地址 不能超过255个字符',
-                'time.required' => '章节时长 不能为空',
-//            'time.max' => '章节时长 不能超过10个字符',
-                //  'try_time.max' => '章节试看时长 不能超过'.$request->time,
-                'content.required' => '章节内容 不能为空',
-                'status.required' => '是否上架  不能为空',
-                'course_id.required' => '课程ID 不能为空'
-            ];
+        $verif = [
+            'chapter'=>'required|numeric|min:1',
+            'type'=>'required|numeric',
+            'title'=>'required|max:30',
+            'intro'=>'required|max:255',
+            'status'=>'required',
+            'course_id'=>'required|numeric',
+        ];
+        $message =[
+            'chapter.required' => '章节编号 不能为空',
+            'chapter.numeric' => '章节编号 必须是数字',
+            'chapter.min' => '章节编号 必须大于或等于1',
+            'type.required' => '属性 不能为空',
+            'type.numeric' => '属性 必须是数字',
+            'title.required' => '章节标题 不能为空',
+            'title.max' => '章节标题 不能超过30个字符',
+            'intro.required' => '章节简介 不能为空',
+            'intro.max' => '章节简介 不能超过255个字符',
+            'status.required' => '是否上架  不能为空',
+            'course_id.required' => '课程ID 不能为空',
+        ];
 
+        $diff_v = [
+            "label" => "max:30",
+            "video" => "required|max:255",
+            "audio" => "required|max:255",
+            "time" => "required|numeric|min:1",
+            "content" => "required"
+        ];
+        $diff_m = [
+            "label.max" => "章节标签 不能超过30个字符",
+            "video.required" => "视频地址 不能为空",
+            "video.max" => "视频地址 不能超过255个字符",
+            "audio.required" => "音频地址 不能为空",
+            "audio.max" => "音频地址 不能超过255个字符",
+            "time.required" => "章节时长 不能为空",
+            "content.required" => "章节内容 不能为空"
+        ];
+
+        $diff_c = [
+            "label" => $request->label,
+            "video" => $request->video,
+            "audio" => $request->audio,
+            "time" => $request->time,
+            "content" => $request->content,
+            "cover" => $request->cover
+        ];
+
+        //判断是否上架
+        if ($request->status == 1){
+            $verif = array_merge($verif,$diff_v);
+            $message = array_merge($message,$diff_m);
             if ($request->try_time !== null){
                 $verif['try_time'] = 'numeric|max:'.$request->time;
                 $message['try_time.numeric'] = '章节试看时长 必须是数字';
                 $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
             }
-        }else{
-            $verif = [
-                'chapter'=>'required|numeric|min:1',
-                'type'=>'required|numeric',
-                'title'=>'required|max:30',
-                'intro'=>'required|max:255',
-                'status'=>'required',
-                'course_id'=>'required|numeric'
-            ];
-            $message =[
-                'chapter.required' => '章节编号 不能为空',
-                'chapter.numeric' => '章节编号 必须是数字',
-                'chapter.min' => '章节编号 必须大于或等于1',
-                'type.required' => '属性 不能为空',
-                'type.numeric' => '属性 必须是数字',
-                'title.required' => '章节标题 不能为空',
-                'title.max' => '章节标题 不能超过30个字符',
-                'intro.required' => '章节简介 不能为空',
-                'intro.max' => '章节简介 不能超过255个字符',
-                'status.required' => '是否上架  不能为空',
-                'course_id.required' => '课程ID 不能为空'
-            ];
         }
 
         $credentials = $this->validate($request,$verif,$message);
 
         if ($request->try_time == null){
-            $credentials['try_time'] = 0;
+            $credentials['try_time'] = '0';
         }
 
-      // dd($credentials);
+        if ($request->status == 0){
+            $credentials = array_merge($credentials,$diff_c);
+        }
+
+//        dd($credentials);
+        
         //横图
         if ($request->cover){
             $cor_size = $request->cover->getSize() / 1024;

@@ -11,171 +11,183 @@ use Illuminate\Support\Facades\Cache;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//查询网站状态
+$website = DB::table('website')->select('status')->where('keywords','=', 'jbdx')->first();
+//开启
+if ($website->status){
 
 //前端
-Route::get('/','Home\IndexController@index');
-Route::get('transmit/oneId/{oneId}/secId/{secId}','Home\IndexController@transmit');
-Route::get('brand/oneId/{oneId}/secId/{secId}','Home\IndexController@brand');
-Route::get('university/oneId/{oneId}/secId/{secId}','Home\IndexController@university');
-Route::get('summit/oneId/{oneId}','Home\IndexController@summit');
-Route::get('tutorStudent/oneId/{oneId}/secId/{secId}','Home\IndexController@tutorStudent');
-Route::get('aboutUs/oneId/{oneId}/secId/{secId}','Home\IndexController@aboutUs');
-Route::get('threeList/pid/{pid}/id/{id}','Home\IndexController@threeList');
-Route::get('article/id/{id}','Home\IndexController@article');
-Route::get('video/id/{id}','Home\IndexController@video');
-Route::get('tutorStudent/detail/id/{id}','Home\IndexController@tsDetail');
-Route::get('search','Home\IndexController@search');
-Route::get('doSearch','Home\IndexController@doSearch');
+    Route::get('/','Home\IndexController@index');
+    Route::get('transmit/oneId/{oneId}/secId/{secId}','Home\IndexController@transmit');
+    Route::get('brand/oneId/{oneId}/secId/{secId}','Home\IndexController@brand');
+    Route::get('university/oneId/{oneId}/secId/{secId}','Home\IndexController@university');
+    Route::get('summit/oneId/{oneId}','Home\IndexController@summit');
+    Route::get('tutorStudent/oneId/{oneId}/secId/{secId}','Home\IndexController@tutorStudent');
+    Route::get('aboutUs/oneId/{oneId}/secId/{secId}','Home\IndexController@aboutUs');
+    Route::get('threeList/pid/{pid}/id/{id}','Home\IndexController@threeList');
+    Route::get('article/id/{id}','Home\IndexController@article');
+    Route::get('video/id/{id}','Home\IndexController@video');
+    Route::get('tutorStudent/detail/id/{id}','Home\IndexController@tsDetail');
+    Route::get('search','Home\IndexController@search');
+    Route::get('doSearch','Home\IndexController@doSearch');
 
 //API
-Route::get('getCategoryPage','Home\IndexController@getCategoryPage');       //首页数据获取
-Route::get('getIndexCate','Home\ApiController@getIndexCate');       //首页分类数据获取
-Route::get('getPeopleMessge','Home\ApiController@getPeopleMessge');       //导师学员分页数据获取
-Route::get('getThereMessge','Home\ApiController@getThereMessge');       //三级列表数据获取
+    Route::get('getCategoryPage','Home\IndexController@getCategoryPage');       //首页数据获取
+    Route::get('getIndexCate','Home\ApiController@getIndexCate');       //首页分类数据获取
+    Route::get('getPeopleMessge','Home\ApiController@getPeopleMessge');       //导师学员分页数据获取
+    Route::get('getThereMessge','Home\ApiController@getThereMessge');       //三级列表数据获取
 //公共链接PC
-Route::get('getHref/id/{id}','Home\IndexController@getHref');
-Route::group(['prefix'=>'page'],function (){
-    Route::get('pageTop40','Home\PageController@pageTop40');
-    Route::get('meeting_2018','Home\PageController@meeting_2018');
-    Route::get('meeting_2018_map','Home\PageController@meeting_2018_map');
-});
+    Route::get('getHref/id/{id}','Home\IndexController@getHref');
+    Route::group(['prefix'=>'page'],function (){
+        Route::get('pageTop40','Home\PageController@pageTop40');
+        Route::get('meeting_2018','Home\PageController@meeting_2018');
+        Route::get('meeting_2018_map','Home\PageController@meeting_2018_map');
+    });
 
 //移动端
-Route::group(['prefix'=>'mobile'],function (){
-    Route::get('index','Mobile\IndexController@index');
-    Route::get('transmit/oneId/{oneId}/secId/{secId}','Mobile\IndexController@transmit');
-    Route::get('brand/oneId/{oneId}/secId/{secId}','Mobile\IndexController@brand');
-    Route::get('university/oneId/{oneId}/secId/{secId}','Mobile\IndexController@university');
-    Route::get('summit/oneId/{oneId}/secId/{secId}','Mobile\IndexController@summit');
-    Route::get('tutorStudent/oneId/{oneId}/secId/{secId}','Mobile\IndexController@tutorStudent');
-    Route::get('aboutUs/oneId/{oneId}/secId/{secId}','Mobile\IndexController@aboutUs');
+    Route::group(['prefix'=>'mobile'],function (){
+        Route::get('index','Mobile\IndexController@index');
+        Route::get('transmit/oneId/{oneId}/secId/{secId}','Mobile\IndexController@transmit');
+        Route::get('brand/oneId/{oneId}/secId/{secId}','Mobile\IndexController@brand');
+        Route::get('university/oneId/{oneId}/secId/{secId}','Mobile\IndexController@university');
+        Route::get('summit/oneId/{oneId}/secId/{secId}','Mobile\IndexController@summit');
+        Route::get('tutorStudent/oneId/{oneId}/secId/{secId}','Mobile\IndexController@tutorStudent');
+        Route::get('aboutUs/oneId/{oneId}/secId/{secId}','Mobile\IndexController@aboutUs');
 
-    Route::get('search','Mobile\IndexController@search');
-    Route::get('doSearch','Mobile\IndexController@doSearch');
+        Route::get('search','Mobile\IndexController@search');
+        Route::get('doSearch','Mobile\IndexController@doSearch');
 
-    Route::get('tsDetail/id/{id}','Mobile\IndexController@tsDetail');
-    Route::get('article/id/{id}','Mobile\IndexController@article');
-    Route::get('video/id/{id}','Mobile\IndexController@video');
-    //API
-    Route::get('getIndexMessge','Mobile\ApiController@getIndexMessge');         //首页数据获取
-    Route::get('getBrandMessge','Mobile\ApiController@getBrandMessge');         //品牌页数据获取
-    Route::get('getPeopleMessge','Mobile\ApiController@getPeopleMessge');       //导师学员分页数据获取
+        Route::get('tsDetail/id/{id}','Mobile\IndexController@tsDetail');
+        Route::get('article/id/{id}','Mobile\IndexController@article');
+        Route::get('video/id/{id}','Mobile\IndexController@video');
+        //API
+        Route::get('getIndexMessge','Mobile\ApiController@getIndexMessge');         //首页数据获取
+        Route::get('getBrandMessge','Mobile\ApiController@getBrandMessge');         //品牌页数据获取
+        Route::get('getPeopleMessge','Mobile\ApiController@getPeopleMessge');       //导师学员分页数据获取
 
-    //公共链接M
-    Route::group(['prefix'=>'page'],function (){
-        Route::get('meeting_2018','Mobile\PageController@meeting_2018');
-        Route::get('meeting_2018_map','Mobile\PageController@meeting_2018_map');
-        Route::get('test','Mobile\PageController@test');
-    });
-    //年会
-    Route::group(['prefix'=>'metting'],function (){
-        Route::get('luckyDraw','Mobile\MettingController@luckyDraw');
-        Route::get('register','Mobile\MettingController@register');
-        Route::post('doRegister','Mobile\MettingController@doRegister');
-        Route::get('myAward/uid/{uid}','Mobile\MettingController@myAward');
-        Route::post('clickOne','Mobile\MettingController@clickOne');
-        Route::get('wxLogin','Mobile\MettingController@wxLogin');
-        Route::get('getInfo','Mobile\MettingController@getInfo');
+        //公共链接M
+        Route::group(['prefix'=>'page'],function (){
+            Route::get('meeting_2018','Mobile\PageController@meeting_2018');
+            Route::get('meeting_2018_map','Mobile\PageController@meeting_2018_map');
+            Route::get('test','Mobile\PageController@test');
+        });
+        //年会
+        Route::group(['prefix'=>'metting'],function (){
+            Route::get('luckyDraw','Mobile\MettingController@luckyDraw');
+            Route::get('register','Mobile\MettingController@register');
+            Route::post('doRegister','Mobile\MettingController@doRegister');
+            Route::get('myAward/uid/{uid}','Mobile\MettingController@myAward');
+            Route::post('clickOne','Mobile\MettingController@clickOne');
+            Route::get('wxLogin','Mobile\MettingController@wxLogin');
+            Route::get('getInfo','Mobile\MettingController@getInfo');
 
-        Route::get('control','Mobile\MettingController@control');   //控制活动开始页
-        Route::get('doControl/status/{status}/ldid/{ldid}','Mobile\MettingController@doControl');   //控制
-    });
-});
-
-//嘉宾大学
-Route::group(['prefix'=>'university'],function(){
-    Route::get('index','University\IndexController@index');
-    Route::get('jbp','University\IndexController@jbp');
-    Route::any('jbp_apply','University\IndexController@jbp_apply');
-    Route::get('jbp_success','University\IndexController@jbp_success');
-    Route::get('gjkc','University\IndexController@gjkc');
-    Route::any('gjkc_apply','University\IndexController@gjkc_apply');
-    Route::get('gjkc_success','University\IndexController@gjkc_success');
-
-    Route::get('courseCategory/cgid/{cgid}','University\IndexController@courseCategory');
-
-    //课程部分
-    Route::group(['prefix'=>'course'],function (){
-        Route::get('video/{id}/{cid?}/{audio?}','University\CourseController@show')->name('video');
-        Route::get('audio/{id}/{cid?}','University\CourseController@audio')->name('audio');
-        Route::get('test','University\CourseController@test')->name('test');
-        Route::get('buy/id/{id}','University\CourseController@buy');
-        Route::post('quizForm','University\CourseController@quizForm');
-        Route::post('learningPut','University\CourseController@learningPut');
-        Route::post('collect','University\CourseController@collect');
+            Route::get('control','Mobile\MettingController@control');   //控制活动开始页
+            Route::get('doControl/status/{status}/ldid/{ldid}','Mobile\MettingController@doControl');   //控制
+        });
     });
 
-    //议题部分
-    Route::group(['prefix'=>'discussion'],function (){
-        Route::get('index','University\DiscussionController@index');    //议题列表
-        Route::get('content/id/{id}/source/{source}','University\DiscussionController@content');//评论议题
-        Route::post('putContent','University\DiscussionController@putContent');     //添加评论
-        Route::get('detail/id/{id}','University\DiscussionController@detail');      //议题详情
-        Route::get('reply/cid/{cid}/type/{type}','University\DiscussionController@reply');      //回复评论
-        Route::get('discussionPoster/did/{did}','University\DiscussionController@discussionPoster');      //议题海报
-        Route::get('commentPoster/cid/{cid}','University\DiscussionController@commentPoster');      //评论海报
-        Route::post('putReply','University\DiscussionController@putReply');     //添加回复
-        Route::delete('delReply','University\DiscussionController@delReply');     //删除回复
-        Route::delete('delComment','University\DiscussionController@delComment');     //删除评论
-        Route::get('commentDetail/id/{id}','University\DiscussionController@commentDetail'); //评论详情
+    //嘉宾大学
+    Route::group(['prefix'=>'university'],function(){
+        Route::get('index','University\IndexController@index');
+        Route::get('jbp','University\IndexController@jbp');
+        Route::any('jbp_apply','University\IndexController@jbp_apply');
+        Route::get('jbp_success','University\IndexController@jbp_success');
+        Route::get('gjkc','University\IndexController@gjkc');
+        Route::any('gjkc_apply','University\IndexController@gjkc_apply');
+        Route::get('gjkc_success','University\IndexController@gjkc_success');
 
-        Route::post('collect','University\DiscussionController@collect');     //添加收藏
-        Route::post('praise','University\DiscussionController@praise');     //点赞
+        Route::get('courseCategory/cgid/{cgid}','University\IndexController@courseCategory');
 
-    });
+        //课程部分
+        Route::group(['prefix'=>'course'],function (){
+            Route::get('video/{id}/{cid?}/{audio?}','University\CourseController@show')->name('video');
+            Route::get('audio/{id}/{cid?}','University\CourseController@audio')->name('audio');
+            Route::get('test','University\CourseController@test')->name('test');
+            Route::get('buy/id/{id}','University\CourseController@buy');
+            Route::post('quizForm','University\CourseController@quizForm');
+            Route::post('learningPut','University\CourseController@learningPut');
+            Route::post('collect','University\CourseController@collect');
+        });
 
-    //我的
-    Route::group(['prefix'=>'my'],function(){
-        Route::get('index','University\MyController@index');
-        Route::get('guesteScore','University\MyController@guesteScore');
-        Route::get('aboutGuesteScore','University\MyController@aboutGuesteScore');
-        Route::get('comment','University\MyController@comment');
-        Route::get('order','University\MyController@order');
-        Route::get('collect','University\MyController@collect');
-        Route::post('cancelCollect','University\MyController@cancelCollect');
-        Route::any('feedback','University\MyController@feedback');
-        Route::get('setting','University\MyController@setting');
-        Route::get('accountManagement','University\MyController@accountManagement');
-        Route::any('editMobile','University\MyController@editMobile');
-        Route::any('editPassWord','University\MyController@editPassWord');
-        Route::get('aboutUs','University\MyController@aboutUs');
-        Route::get('replenish','University\MyController@replenish');
-        Route::get('doReplenish','University\MyController@doReplenish');
-        Route::any('fillInfo','University\MyController@fillInfo');
-        Route::get('getOpenId','University\MyController@getOpenId');
-    });
+        //议题部分
+        Route::group(['prefix'=>'discussion'],function (){
+            Route::get('index','University\DiscussionController@index');    //议题列表
+            Route::get('content/id/{id}/source/{source}','University\DiscussionController@content');//评论议题
+            Route::post('putContent','University\DiscussionController@putContent');     //添加评论
+            Route::get('detail/id/{id}','University\DiscussionController@detail');      //议题详情
+            Route::get('reply/cid/{cid}/type/{type}','University\DiscussionController@reply');      //回复评论
+            Route::get('discussionPoster/did/{did}','University\DiscussionController@discussionPoster');      //议题海报
+            Route::get('commentPoster/cid/{cid}','University\DiscussionController@commentPoster');      //评论海报
+            Route::post('putReply','University\DiscussionController@putReply');     //添加回复
+            Route::delete('delReply','University\DiscussionController@delReply');     //删除回复
+            Route::delete('delComment','University\DiscussionController@delComment');     //删除评论
+            Route::get('commentDetail/id/{id}','University\DiscussionController@commentDetail'); //评论详情
 
-    //登陆
-    Route::get('login','University\LoginController@passwordLogin');
-    Route::post('login','University\LoginController@doPasswordLogin');
-    Route::get('quickLogin','University\LoginController@quickLogin');
-    Route::post('quickLogin','University\LoginController@doQuickLogin');
-    Route::get('loginOut','University\LoginController@loginOut');
+            Route::post('collect','University\DiscussionController@collect');     //添加收藏
+            Route::post('praise','University\DiscussionController@praise');     //点赞
 
-    Route::get('serviceAgreement','University\LoginController@serviceAgreement');
-    Route::get('privacyPolicy','University\LoginController@privacyPolicy');
+        });
 
-    Route::get('getCode','University\LoginController@getCode');
-    Route::get('register','University\LoginController@register');
+        //我的
+        Route::group(['prefix'=>'my'],function(){
+            Route::get('index','University\MyController@index');
+            Route::get('guesteScore','University\MyController@guesteScore');
+            Route::get('aboutGuesteScore','University\MyController@aboutGuesteScore');
+            Route::get('comment','University\MyController@comment');
+            Route::get('order','University\MyController@order');
+            Route::get('collect','University\MyController@collect');
+            Route::post('cancelCollect','University\MyController@cancelCollect');
+            Route::any('feedback','University\MyController@feedback');
+            Route::get('setting','University\MyController@setting');
+            Route::get('accountManagement','University\MyController@accountManagement');
+            Route::any('editMobile','University\MyController@editMobile');
+            Route::any('editPassWord','University\MyController@editPassWord');
+            Route::get('aboutUs','University\MyController@aboutUs');
+            Route::get('replenish','University\MyController@replenish');
+            Route::get('doReplenish','University\MyController@doReplenish');
+            Route::any('fillInfo','University\MyController@fillInfo');
+            Route::get('getOpenId','University\MyController@getOpenId');
+        });
 
-    //支付
+        //登陆
+        Route::get('login','University\LoginController@passwordLogin');
+        Route::post('login','University\LoginController@doPasswordLogin');
+        Route::get('quickLogin','University\LoginController@quickLogin');
+        Route::post('quickLogin','University\LoginController@doQuickLogin');
+        Route::get('loginOut','University\LoginController@loginOut');
+
+        Route::get('serviceAgreement','University\LoginController@serviceAgreement');
+        Route::get('privacyPolicy','University\LoginController@privacyPolicy');
+
+        Route::get('getCode','University\LoginController@getCode');
+        Route::get('register','University\LoginController@register');
+
+        //支付
 //    Route::
 
-});
+    });
 
 
 //Route::get('upload','Home\IndexController@getCategoryPage');
 //微信支付
-Route::get('payment/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
-Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
+    Route::get('payment/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
+    Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
 //测试
-Route::get('/test', function () {
+    Route::get('/test', function () {
 //   $abc = \App\Models\Admin::where('email','>','?')->toSql();
 //   dd(asset('123'));
 //   dd($abc);
-    $ip = $_SERVER['REMOTE_ADDR'];
-    dd($ip);
-});
+        $ip = $_SERVER['REMOTE_ADDR'];
+        dd($ip);
+    });
+}else{
+    //关闭
+    Route::get('/', function () {
+        return view('waiting');
+    });
+}
+
+
 
 //后台
 Route::group(['prefix'=>'admin'],function(){

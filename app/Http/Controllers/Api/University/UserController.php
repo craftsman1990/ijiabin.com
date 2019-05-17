@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\DX\Code;
 use App\Services\Upload;
+use App\Services\Helper;
 use Illuminate\Support\Facades\Session;
 use App\Models\Sms;
 
@@ -47,11 +48,34 @@ class UserController extends Controller
         }
         $request->user_id = $user->id;   
         if ($request->file) {//判断是否有图片上传
+           //处理敏感图片
+           $response = imageVerification($request->file);
+           if(200 == $response->code){
+            $taskResults = $response->data;
+            foreach ($taskResults as $taskResult) {
+                if(200 == $taskResult->code){
+                    $sceneResults = $taskResult->results;
+                    foreach ($sceneResults as $sceneResult) {
+                        $scene = $sceneResult->scene;
+                        $suggestion = $sceneResult->suggestion;
+                        if ($suggestion!='pass') {
+                            return response()->json(['code' => '999','msg' => "图片违规请重新上传！"]);
+                        }
+                    }
+                }else{
+                    return response()->json(['code' => '999','msg' => "task process fail:" . $response->code]);
+                }
+            }
+        }else{
+            return response()->json(['code' => '999','msg' => "detect not success. code:" . $response->code]);
+        }
            $user_pic = Upload::uploadOne('Api',$request->file);
            if (!$user_pic) {//判断上传是否成功
                return response()->json(['status'=>1,'msg'=>'更换头像失败！']);
            }else{
-              $source['head_pic'] = $user_pic;
+             //获取当前请求域名
+              $host_name = Helper::getResponse();
+              $source['head_pic'] = $host_name.$user_pic;
            }
         }else{
             //没有上传就获取old头像地址
@@ -130,7 +154,7 @@ class UserController extends Controller
         if ($code->save()) {
             $data['mobile'] = $request->mobile;
             $data['yzm'] = $yzm;
-            return response()->json(['status'=>1,'msg'=>'验证码发送成功！','data'=>$data]);
+            return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
       }
     }
   }
