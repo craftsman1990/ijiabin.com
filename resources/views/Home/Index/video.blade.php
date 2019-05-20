@@ -21,7 +21,7 @@
                     <div class="article">
                       <h3  class="art_title">{{$data['video']->title}}</h3>
                       <p class="art-time"><span>{{$data['video']->nav_name}}</span>·{{$data['video']->cg_name}}·{{$data['video']->push}}</p>
-                      <video class="videoFrame" controls poster="{{$data['video']->cover}}">
+                      <video class="videoFrame" controls="true" controlslist="nodownload" poster="{{$data['video']->cover}}">
                           <source src="{{$data['video']->address}}" type="video/mp4">
                           <source src="movie.ogg" type="video/ogg">
                       </video>
@@ -99,5 +99,9 @@
       foreground : "#000000",        //二维码的前景色
       src: src             //二维码中间的图片
     }); 
+
+  $('.videoFrame').bind('contextmenu',function() { 
+      return false; 
+  });
 </script>
 @stop

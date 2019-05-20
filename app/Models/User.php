@@ -15,7 +15,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $fillable = ['username', 'password','nickname','truename','head_pic','mobile','email','address','remember_token','open_id','code','authentication'];
+    protected $fillable = ['username', 'password','nickname','truename','head_pic','mobile','email','address','remember_token','open_id','code','authentication','company','position'];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -52,6 +52,10 @@ class User extends Authenticatable
             $users->address = $result['address'];
         }elseif ($result['truename']) {
             $users->truename = $result['truename'];
+        }elseif ($result['position']) {
+            $users->position = $result['position'];
+        }elseif ($result['company']) {
+            $users->company = $result['company'];
         }else{
             return ['status'=>999,'msg'=>'最少修改个信息！'];
         }

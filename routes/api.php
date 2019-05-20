@@ -56,6 +56,7 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::post('upUser','Api\University\UserController@upUser');//用戶信息修改
 	Route::post('sendScreen','Api\University\ScreenController@sendScreen');//发弹幕
 	Route::get('getContentList','Api\University\ContentController@getContentList');//內容列表
+	Route::get('getWapContent','Api\University\ContentController@getWapContent');//wap內容列表
 	Route::get('getContentDetails','Api\University\ContentController@getContentDetails');//內容詳情
 	Route::post('sendCode','Api\University\UserController@sendCode');//发送手机验证码
 	Route::post('login','Api\University\LoginController@login');//用户登录验证码或者密码登录

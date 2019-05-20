@@ -64,7 +64,9 @@ class Collect extends Model
         $result[$key]['id'] = $v['id'];
         $result[$key]['name'] = $re->title;
         $result[$key]['chapter'] = $re->chapter;
-        $result[$key]['lengthways_cover'] = $http_type.$_SERVER['SERVER_NAME'].$course->lengthways_cover;
+        $result[$key]['lengthways_cover'] = $http_type.$_SERVER['SERVER_NAME'].$re->cover;
+        $result[$key]['course_content_id'] = $v['by_collect_id'];//小节id
+        $result[$key]['course_id'] = $course->id;//课程id
         $result[$key]['course_name'] = $course->name;
         $result[$key]['content_updates'] = $content_nums;
     	}

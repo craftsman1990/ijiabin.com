@@ -73,6 +73,9 @@ class LoginController extends Controller
     		if (!$users->toArray()) {
     			return response()->json(['status'=>999,'msg'=>'请先注册再进行密码登录！']);
     		}
+    		if (empty($request->password)) {
+    			return response()->json(['status'=>999,'msg'=>'请输入密码！']);
+    		}
     		$message = [
 	            'mobile.required'=>'请输入手机号',
 	            'mobile.exists'=>'账号未注册，试试快速登录',

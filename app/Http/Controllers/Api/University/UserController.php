@@ -122,6 +122,8 @@ class UserController extends Controller
         $source['truename'] = $request->truename;
         // $source['mobile'] = $request->mobile;
         $source['authentication'] = $request->authentication;
+        $source['position'] = $request->position;
+        $source['company'] = $request->company;
         $source['address'] = $request->address;
     	$result = User::upUser($source);
         return response()->json($result);

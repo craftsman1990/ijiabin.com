@@ -127,7 +127,7 @@ class ClientUploader
 
         try {
             $response = $this->client->getAcsResponse($uploadCredentialsRequest);
-            print_r($response);
+            // print_r($response);
             if (200 == $response->code) {
                 $data = $response->data;
                 return new UploadCredentials($data->accessKeyId,

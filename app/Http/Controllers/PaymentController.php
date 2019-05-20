@@ -25,7 +25,7 @@ class PaymentController extends Controller
             throw new InvalidRequestException('订单状态不正确');
         }*/
         // scan 方法为拉起微信扫码支付
-        return app('wechat_pay')->mp([
+        return app('wechat_pay')->scan([
             'out_trade_no' => $order['out_trade_no'],  // 商户订单流水号，与支付宝 out_trade_no 一样
             'total_fee' => $order['total_fee'], // 与支付宝不同，微信支付的金额单位是分。
             'body'      => '支付 Laravel Shop 的订单：'.$order['out_trade_no'], // 订单描述
