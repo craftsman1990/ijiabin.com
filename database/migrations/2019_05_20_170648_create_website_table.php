@@ -8,7 +8,7 @@ class CreateWebsiteTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *6
      * @return void
      */
     public function up()
