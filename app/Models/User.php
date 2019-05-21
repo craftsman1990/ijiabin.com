@@ -105,4 +105,27 @@ class User extends Authenticatable
             ->where('mobile',$mobile)->first();
         return $user;
     }
+    //判断用户是否关注公众号
+    public static function checkSubscribe($user_id)
+    {
+        //查询用户
+        $user = DB::table('users')
+            ->where('id',$user_id)->first();
+        if (empty($user->open_id)) {
+            return null;
+        }
+        $appid = config('hint.appId');
+        $appsecret = config('hint.appSecret');
+        $url_get = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$appsecret;
+        $json = json_decode(request_curl($url_get),true);
+        if (empty($json['access_token'])) {
+           return null;
+        }
+        $subscribe_msg = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$json['access_token'].'&openid='.$user->open_id;
+        $subscribe = json_decode(request_curl($subscribe_msg),true);
+        if ($subscribe['subscribe']) {
+            return $subscribe['subscribe'];
+        }
+        return null;
+    }
 }

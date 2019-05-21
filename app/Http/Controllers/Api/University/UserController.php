@@ -25,6 +25,14 @@ class UserController extends Controller
         }
         $request->user_id = $user->id;
     	$data = User::getUserDetails($request->user_id);
+        //获取用户是否关注公众号
+        $user = User::checkSubscribe($request->user_id);
+        if (empty($user)) {
+            $subscribe = 0;
+        }else{
+            $subscribe = 1;
+        }
+        $data[0]->subscribe = $subscribe;
         $result['status'] = 1;
         $result['data'] = $data;
         return response()->json($result);
