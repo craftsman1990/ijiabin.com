@@ -77,20 +77,26 @@ class Comment extends Model
         }
         $id = array_column($source,'id');
         array_multisort($id,SORT_DESC,$source);
-        }
-        foreach ($source as $keys => $vals) {
-           $user = DB::table('users')
-           ->where(['id'=>$vals->user_id])
-           ->select('nickname','authentication','head_pic')
-           ->first();
-            $result[$keys]['id'] = $vals->id;
-            $result[$keys]['content'] = $vals->content;
-            $result[$keys]['praise'] = $vals->praise;
-            $result[$keys]['grade'] = $vals->grade;
-            $result[$keys]['created_at'] = $vals->created_at;
-            $result[$keys]['nickname'] = $user->nickname;
-            $result[$keys]['authentication'] = $user->authentication;
-            $result[$keys]['head_pic'] = $user->head_pic;
+        if ($source) {
+                  foreach ($source as $keys => $vals) {
+                   $user = DB::table('users')
+                   ->where(['id'=>$vals->user_id])
+                   ->select('nickname','email','head_pic')
+                   ->first();
+                    $result[$keys]['id'] = $vals->id;
+                    $result[$keys]['content'] = $vals->content;
+                    $result[$keys]['praise'] = $vals->praise;
+                    $result[$keys]['grade'] = $vals->grade;
+                    $result[$keys]['created_at'] = $vals->created_at;
+                    $result[$keys]['nickname'] = $user->nickname;
+                    $result[$keys]['email'] = $user->email;
+                    $result[$keys]['head_pic'] = $user->head_pic;
+                }
+            }else{
+                $result = [];
+            }
+        }else{
+            $result = [];
         }
        return $result;
     }

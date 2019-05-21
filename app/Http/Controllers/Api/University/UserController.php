@@ -70,6 +70,12 @@ class UserController extends Controller
             return response()->json(['code' => '999','msg' => "detect not success. code:" . $response->code]);
         }
            $user_pic = Upload::uploadOne('Api',$request->file);
+           if ($user_pic==2) {
+               return response()->json(['status'=>999,'msg'=>'图片格式错误！']);
+           }
+           if ($user_pic==3) {
+               return response()->json(['status'=>999,'msg'=>'图片过大请重新上传！']);
+           }
            if (!$user_pic) {//判断上传是否成功
                return response()->json(['status'=>1,'msg'=>'更换头像失败！']);
            }else{
@@ -99,6 +105,10 @@ class UserController extends Controller
             }else{
                 return response()->json(['status'=>1,'msg'=>'两次密码输入不一致！']);
             }
+            //验证手机是否和注册手机相同
+            if ($request->mobile!=$user->mobile) {
+              return response()->json(['status'=>999,'msg'=>'请使用注册手机号修改密码！']);
+            }
         }else{
              $source['password'] = '';
         }
@@ -111,6 +121,11 @@ class UserController extends Controller
             $user_obj = $codes[0];
              if ($request->new_mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
                 return response()->json(['status'=>999,'msg'=>'验证码错误！']);
+            }
+            //验证手机是否存在
+            $checkMobile = User::checkMobile($request->new_mobile);
+            if ($checkMobile) {
+               return response()->json(['status'=>999,'msg'=>'手机号已存在！']);
             }
             $source['mobile'] = $request->new_mobile;
         }else{
@@ -159,5 +174,51 @@ class UserController extends Controller
             return response()->json(['status'=>1,'msg'=>'验证码发送成功！']);
       }
     }
+  }
+  /**
+   * 微信授权用户信息
+   * @param  Request $request [description]
+   * @return [type]           [description]
+   */
+  public function getWxUser(Request $request)
+  {
+        if (empty($request->access_token) || empty($request->openid) || empty($request->token)) {
+          return response()->json(['status'=>999,'msg'=>'参数错误！']);
+        }
+        $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$request->access_token.'&openid='.$request->openid.'&lang=zh_CN';
+        $newtok = json_decode(request_curl($accUrl),true);
+        $user = User::where('remember_token',$request->token)->get();
+        $users = $user[0];
+        $users->username = $newtok['nickname'];
+        $users->nickname = $newtok['nickname'];
+        $users->truename = $newtok['nickname'];
+        $users->head_pic = $newtok['headimgurl'];
+        $users->open_id = $newtok['openid'];
+        if ($users->save($userInfo)){
+            return response()->json(['status'=>1,'msg'=>'授权成功！']);
+        }else{
+            return response()->json(['status'=>999,'msg'=>'授权失败！']);
+        }
+
+  }
+
+  /**
+   * \(^o^)/~问题反馈
+   * @param  Request $request [description]
+   * @param  string question  反馈问题内容
+   * @param  string contact   联系方式
+   * @return [type]           [description]
+   */
+  public function feedBack(Request $request)
+  {
+    if (empty($request->question)) {
+      return response()->json(['status'=>999,'msg'=>'参数错误']);
+    }
+    if (!$user = User::isToken($request->token)) {
+            return  response()->json(['status'=>999,'msg'=>'请先登录！']);
+    }
+    $request->user_id = $user->id;
+    $result = Feedback::addFeedBack($request);
+    return response()->json($result);
   }
 }

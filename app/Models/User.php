@@ -24,7 +24,7 @@ class User extends Authenticatable
     public static function getUserDetails($user_id)
     {
     	$user = DB::table('users')
-        ->select('id','username','nickname','truename','head_pic','mobile','address','authentication')
+        ->select('id','username','nickname','truename','head_pic','mobile','address','authentication','company','position')
         ->where('id',$user_id)
         ->get();
         return $user;
@@ -94,5 +94,15 @@ class User extends Authenticatable
         }else{
             return [];
         }
+    }
+    /**
+     * 验证手机号是否存在
+     * @param string $value [description]
+     */
+    public static function checkMobile($mobile)
+    {
+        $user = DB::table('users')
+            ->where('mobile',$mobile)->first();
+        return $user;
     }
 }

@@ -37,7 +37,7 @@ class LoginController extends Controller
             $user_obj->save();
 	        if (!$users->toArray()){
 	            $name = 'JIA_U'.dechex(date('YmdHis',time()));
-	            $info['mobile'] = $mobile;
+	            $info['mobile'] = $request->mobile;
 	            // $info['username'] = $mobile;
 	            $info['nickname'] = $name;
 	            $info['truename'] = $name;

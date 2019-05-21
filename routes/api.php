@@ -65,4 +65,7 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::post('playNum','Api\University\PlayController@playNum');//记录播放量
 	Route::get('getScreen','Api\University\ScreenController@getScreen');//获取弹幕列表
 	Route::get('aboutUs','Api\University\ContentController@aboutUs');//获取合作媒体
+	Route::post('getWxUser','Api\University\UserController@getWxUser');//微信授权用户信息
+	Route::post('feedBack','Api\University\UserController@feedBack');//用户反馈
+	Route::post('wxPay','Api\University\PayController@wxPay');//微信支付
 });
