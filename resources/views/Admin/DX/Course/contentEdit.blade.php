@@ -117,7 +117,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节时长：</label>
                                 <div class="col-sm-3">
-                                    <input name="time" class="form-control" type="text" value="{{$content->time}}">
+                                    <input name="time" class="form-control" type="text" value="{{$content->time == 0 ? '': $content->time}}">
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的时长</span>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节试看时长：</label>
                                 <div class="col-sm-3">
-                                    <input name="try_time" class="form-control" type="text" value="{{$content->try_time}}">
+                                    <input name="try_time" class="form-control" type="text"  value="{{$content->try_time == 0 ? '':$content->try_time }}">
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的试看时长</span>
                                 </div>
                             </div>

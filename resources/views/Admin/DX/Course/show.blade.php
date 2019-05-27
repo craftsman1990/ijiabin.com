@@ -49,8 +49,8 @@
                                 <tr class="gradeC">
                                     <td>{{$v->chapter}}</td>
                                     <td>{{$v->title}}</td>
-                                    <td class="center">{{$v->time}}</td>
-                                    <td class="center">{{$v->try_time}}</td>
+                                    <td class="center">{{$v->time == 0 ? '':$v->time}}</td>
+                                    <td class="center">{{$v->try_time == 0 ? '': $v->try_time}}</td>
                                     <td class="center">
                                             <span class="label label-info">{{$v->label}}</span>
                                     </td>

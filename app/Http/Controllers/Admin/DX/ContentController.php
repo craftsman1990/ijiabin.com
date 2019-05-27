@@ -9,20 +9,24 @@ use Illuminate\Http\Request;
 use App\Services\Upload;
 use App\Http\Controllers\Controller;
 use App\Services\Compress;
+use App\Models\DX\Course;
+
 
 class ContentController extends Controller
 {
+
     public function index(){
 
     }
 
     public function show($id){
+
         $content = Content::find($id);
         $list = Quiz::where('content_id',$id)->get();
         foreach ($list as $quiz){
             $quiz->allAnswer = QuizAnswer::where('quiz_id',$quiz->id)->get();
         }
-//        dd($list);
+
         return view('Admin.DX.Course.contentShow',compact('list','content'));
     }
 
@@ -72,15 +76,9 @@ class ContentController extends Controller
             "audio.required" => "音频地址 不能为空",
             "audio.max" => "音频地址 不能超过255个字符",
             "time.required" => "章节时长 不能为空",
+            "time.numeric" => "章节时长 必须是数字",
+            "time.min" => "章节时长 最小值必须大于1s",
             "content.required" => "章节内容 不能为空"
-        ];
-
-        $diff_c = [
-            "label" => $request->label,
-            "video" => $request->video,
-            "audio" => $request->audio,
-            "time" => $request->time,
-            "content" => $request->content
         ];
 
         //判断是否上架
@@ -95,14 +93,6 @@ class ContentController extends Controller
         }
 
         $credentials = $this->validate($request,$verif,$message);
-
-        if ($request->try_time == null){
-            $credentials['try_time'] = null;
-        }
-
-        if ($request->status == 0) {
-            $credentials = array_merge($credentials, $diff_c);
-        }
 
 //        dd($credentials);
         //横图
@@ -122,8 +112,7 @@ class ContentController extends Controller
             return back() -> with('hint',config('hint.upload_failure'));
         }
 
-//        $Content_id = Content::insertGetId($credentials);
-
+//        dd($credentials);
         if (Content::create($credentials)){
             return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success', config('hint.add_success'));
         }else{
@@ -176,16 +165,9 @@ class ContentController extends Controller
             "audio.required" => "音频地址 不能为空",
             "audio.max" => "音频地址 不能超过255个字符",
             "time.required" => "章节时长 不能为空",
+            "time.numeric" => "章节时长 必须是数字",
+            "time.min" => "章节时长 最小值必须大于1s",
             "content.required" => "章节内容 不能为空"
-        ];
-
-        $diff_c = [
-            "label" => $request->label,
-            "video" => $request->video,
-            "audio" => $request->audio,
-            "time" => $request->time,
-            "content" => $request->content,
-            "cover" => $request->cover
         ];
 
         //判断是否上架
@@ -201,15 +183,6 @@ class ContentController extends Controller
 
         $credentials = $this->validate($request,$verif,$message);
 
-        if ($request->try_time == null){
-            $credentials['try_time'] = null;
-        }
-
-        if ($request->status == 0){
-            $credentials = array_merge($credentials,$diff_c);
-        }
-
-//        dd($credentials);
         
         //横图
         if ($request->cover){
@@ -241,7 +214,7 @@ class ContentController extends Controller
                 return back() -> with('hint','没有原图，也没有图片上传');
             }
         }
-       // dd($credentials);
+//        dd($credentials);
         unset($credentials['old_cover']);
 
         if (Content::find($id)->update($credentials)){
@@ -267,4 +240,5 @@ class ContentController extends Controller
             return back() -> with('hint',config('hint.del_failure'));
         }
     }
+
 }
