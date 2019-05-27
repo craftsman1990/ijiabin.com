@@ -97,7 +97,7 @@ class ContentController extends Controller
         $credentials = $this->validate($request,$verif,$message);
 
         if ($request->try_time == null){
-            $credentials['try_time'] = '0';
+            $credentials['try_time'] = null;
         }
 
         if ($request->status == 0) {
@@ -202,7 +202,7 @@ class ContentController extends Controller
         $credentials = $this->validate($request,$verif,$message);
 
         if ($request->try_time == null){
-            $credentials['try_time'] = '0';
+            $credentials['try_time'] = null;
         }
 
         if ($request->status == 0){

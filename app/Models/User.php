@@ -37,27 +37,34 @@ class User extends Authenticatable
         if ($result['password']) {
             $users->password = $result['password'];
             $users->remember_token = '';
-        }elseif ($result['nickname']) {
+        }
+        if ($result['nickname']) {
             $users->nickname = $result['nickname'];
-        }elseif ($result['username']) {
+        }
+        if ($result['username']) {
             $users->username = $result['username'];
-        }elseif ($result['head_pic']) {
+        }
+        if ($result['head_pic']) {
             $users->head_pic = $result['head_pic'];
-        }elseif ($result['mobile']) {
+        }
+        if ($result['mobile']) {
             $users->mobile = $result['mobile'];
             $users->remember_token = '';
-        }elseif ($result['authentication']) {
+        }
+        if ($result['authentication']) {
             $users->authentication = $result['authentication'];
-        }elseif ($result['address']) {
+        }
+        if ($result['address']) {
             $users->address = $result['address'];
-        }elseif ($result['truename']) {
+        }
+        if ($result['truename']) {
             $users->truename = $result['truename'];
-        }elseif ($result['position']) {
+        }
+        if ($result['position']) {
             $users->position = $result['position'];
-        }elseif ($result['company']) {
+        }
+        if ($result['company']) {
             $users->company = $result['company'];
-        }else{
-            return ['status'=>999,'msg'=>'最少修改个信息！'];
         }
         if ($users->save()) {
             return ['status'=>1,'msg'=>'修改成功！'];

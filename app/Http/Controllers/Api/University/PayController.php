@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DX\Course;
 use App\Models\DX\Order;
+use App\Models\User;
 
 class PayController extends Controller
 {
@@ -32,7 +33,7 @@ class PayController extends Controller
     		return  response()->json(['status'=>999,'msg'=>'参数错误！']);
     	}
     	if (!$user = User::isToken($request->header('token'))) {
-            return  response()->json(['status'=>999,'msg'=>'请先登录！']);
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
     	$course = Course::find($request->course_id);
         $order = Order::where('user_id',$user->id)->where('course_id',$course->id)->first();

@@ -21,7 +21,7 @@ class UserController extends Controller
     public function getUser(Request $request)
     {  
         if (!$user = User::isToken($request->header('token'))) {
-            return  response()->json(['status'=>999,'msg'=>'请先登录！']);
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;
     	$data = User::getUserDetails($request->user_id);
@@ -52,7 +52,7 @@ class UserController extends Controller
     public function upUser(Request $request)
     {
         if (!$user = User::isToken($request->header('token'))) {
-            return  response()->json(['status'=>999,'msg'=>'请先登录！']);
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;   
         if ($request->file) {//判断是否有图片上传
@@ -111,7 +111,7 @@ class UserController extends Controller
             if ($request->password==$request->new_password) {
                 $source['password'] = bcrypt($request->new_password);
             }else{
-                return response()->json(['status'=>1,'msg'=>'两次密码输入不一致！']);
+                return response()->json(['status'=>999,'msg'=>'两次密码输入不一致！']);
             }
             //验证手机是否和注册手机相同
             if ($request->mobile!=$user->mobile) {
@@ -190,24 +190,30 @@ class UserController extends Controller
    */
   public function getWxUser(Request $request)
   {
-        if (empty($request->access_token) || empty($request->openid) || empty($request->token)) {
+        if (empty($request->code)) {
           return response()->json(['status'=>999,'msg'=>'参数错误！']);
         }
-        $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$request->access_token.'&openid='.$request->openid.'&lang=zh_CN';
-        $newtok = json_decode(request_curl($accUrl),true);
-        $user = User::where('remember_token',$request->token)->get();
-        $users = $user[0];
-        $users->username = $newtok['nickname'];
-        $users->nickname = $newtok['nickname'];
-        $users->truename = $newtok['nickname'];
-        $users->head_pic = $newtok['headimgurl'];
-        $users->open_id = $newtok['openid'];
-        if ($users->save($userInfo)){
-            return response()->json(['status'=>1,'msg'=>'授权成功！']);
-        }else{
-            return response()->json(['status'=>999,'msg'=>'授权失败！']);
-        }
+        $appid = config('hint.appId');
+        $appsecret = config('hint.appSecret');
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$request->code.'&grant_type=authorization_code';
+        $acctok = request_curl($url);
+        $res = json_decode($acctok,true);
+         //判断是否第一次登陆
+        $user = User::where('open_id',$res['openid'])->get()->toArray();
+        if(!$user){
+                  $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
+                  $newtok = json_decode(request_curl($accUrl),true);
 
+                  $data['open_id'] = $newtok['openid'];
+                  $data['nickname'] = $newtok['nickname'];
+                  $data['head_pic'] = $newtok['headimgurl'];
+                  $data['username'] = $newtok['headimgurl'];
+                  $data['truename'] = $newtok['headimgurl'];
+                  $user = User::create($data);
+                  return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
+              }else{
+                  return response()->json(['status'=>1,'msg'=>'success','data'=>$res]);
+              }
   }
 
   /**
@@ -223,7 +229,7 @@ class UserController extends Controller
       return response()->json(['status'=>999,'msg'=>'参数错误']);
     }
     if (!$user = User::isToken($request->token)) {
-            return  response()->json(['status'=>999,'msg'=>'请先登录！']);
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
     }
     $request->user_id = $user->id;
     $result = Feedback::addFeedBack($request);

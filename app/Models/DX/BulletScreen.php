@@ -24,7 +24,8 @@ class BulletScreen extends Model
     	$screenObj = new BulletScreen();
     	$screenObj->user_id = $request->user_id;
     	$screenObj->content_id = $request->content_id;
-    	$screenObj->text = $request->text;
+        $screenObj->text = $request->text;
+    	$screenObj->pace = $request->pace;
     	if ($screenObj->save()) {
     		return ['status'=>1,'msg'=>'发送成功'];
     	}else{

@@ -80,10 +80,22 @@ class Course extends Model
                   $list[$k]->play_state = $play_state;
                 }
             }
+            //根据课程id验证是否已经购买
+            if (empty($request->user_id)) {
+                $is_pay = 0;
+            }else{
+                $Order = Order::isOrder($request);
+                if (empty($Order)) {
+                    $is_pay = 0;
+                }else{
+                    $is_pay = 1;
+                }
+            }
             $source[$key]->play_num = $play;
             $source[$key]->content_updates = $content_nums;
             $source[$key]->crosswise_cover = $crosswise_cover;
             $source[$key]->lengthways_cover = $lengthways_cover;
+            $source[$key]->is_pay = $is_pay;
     		$source[$key]->course_content = $list;
     	}
         return $source;
@@ -184,6 +196,9 @@ class Course extends Model
                     }else{
                         $play_state = 0;
                     }
+                }
+                if ($request->course_content_id==$val->id) {
+                    $list[$k]->current  = 1;
                 }
                 $list[$k]->is_collect = $is_collect;
                 $list[$k]->play_state = $play_state;

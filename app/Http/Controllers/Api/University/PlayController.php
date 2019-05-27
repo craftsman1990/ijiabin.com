@@ -24,7 +24,7 @@ class PlayController extends Controller
             return response()->json(['status'=>999,'msg'=>'参数错误']);
         }
         if (!$user = User::isToken($request->header('token'))) {
-            return  response()->json(['status'=>999,'msg'=>'请先登录！']);
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
         $request->user_id = $user->id;
         $result = LearningState::learningState($request);
