@@ -20,6 +20,7 @@ class AddLabelToDxCourseContent extends Migration
             $table->integer('try_time')->comment('试看时间')->default(0);
             $table->string('cover',255)->comment('封面图');
             $table->integer('play_num')->comment('播放量')->default(0);
+            $table->tinyInteger('status')->comment('是否更新上架：0：否，1：是')->default(0);
         });
     }
 
@@ -37,6 +38,7 @@ class AddLabelToDxCourseContent extends Migration
             $table->dropColumn('try_time');
             $table->dropColumn('cover');
             $table->dropColumn('play_num');
+            $table->dropColumn('status');
         });
     }
 }

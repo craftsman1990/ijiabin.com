@@ -49,7 +49,7 @@ class Comment extends Model
          //根据课程评论
         $source = DB::table('dx_comment')
         ->where(['discussion_id'=>$request->discussion_id,'status'=>1,'type'=>2])
-        ->select('content','praise','id','grade','user_id','created_at')
+        ->select('content','praise','id','grade','user_id','created_at','type')
         ->get()
         ->toArray();
         //根据课程id查询小节信息
@@ -65,7 +65,7 @@ class Comment extends Model
            foreach ($course as $k => $v) {
               $course_source[] = DB::table('dx_comment')
             ->where(['discussion_id'=>$v->id,'status'=>1,'type'=>3])
-            ->select('content','praise','id','grade','user_id','created_at')
+            ->select('content','praise','id','grade','user_id','created_at','type')
             ->get()
             ->toArray();
            }
