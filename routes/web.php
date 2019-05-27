@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Cache;
 */
 //查询网站状态
 // $website = DB::table('website')->select('status')->where('keywords','=', 'jbdx')->first();
-//开启
 if (1){
-
 //前端
     Route::get('/','Home\IndexController@index');
     Route::get('transmit/oneId/{oneId}/secId/{secId}','Home\IndexController@transmit');
