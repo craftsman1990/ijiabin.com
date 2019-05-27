@@ -8,7 +8,7 @@ class AddStatusToUsersTalbe extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *2
      * @return void
      */
     public function up()
