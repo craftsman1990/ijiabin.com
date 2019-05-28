@@ -71,4 +71,21 @@ class PayController extends Controller
         }
         return response(['status'=>1,'msg'=>'请求成功','data'=>$wechat_pay]);
     }
+    /**
+     * 查询订单是否支付成功
+     * @param Request $request [description]
+     */
+    public function PayOrder(Request $request)
+    {
+        if (empty($request->order_num)) {
+            return  response()->json(['status'=>999,'msg'=>'参数错误！']);
+        }
+        $order = Order::where('order_num',$request->order_num)->first();
+        if (empty($order)) {
+           return response(['status'=>999,'msg'=>'订单不存在']);
+        }
+        // $data['order_num'] = $order->order_num;
+        $data['is_pay'] = $order->status;
+        return response(['status'=>1,'msg'=>'请求成功','data'=>$data]);
+    }
 }
