@@ -60,7 +60,7 @@ class ContentController extends Controller
      //获取网站底部的合作媒体
     public function aboutUs()
     {
-        return response()->json(['status'=>1,'msg'=>'获取成功','data'=>config('hint.hzjg')]);
+        return response()->json(['status'=>1,'msg'=>'获取成功','data'=>config('jbdx.yqlj')]);
     }
 
     /**
