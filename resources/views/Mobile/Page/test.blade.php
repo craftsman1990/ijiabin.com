@@ -7,7 +7,9 @@
      <script src="{{asset('Mobile/js/jquery-1.10.1.min.js')}}"></script>
 </head>
 <body>
-    <div style="width:100%;height: 300px;background: #ff0;"></div>
+    <div style="width:100%;height: 300px;background: #ff0;">
+      <a href="https://www.ijiabin.com/api/jbcm/wxPay?course_id=1&price=0.01&type=3">微信支付测试</a>
+    </div>
 
 <input type="hidden" id="url" value="{{asset('')}}">
 <input type="text" id="signature" value="{{$signPackage['signature']}}">
@@ -54,3 +56,4 @@
 </script>
 </body>
 </html>
+

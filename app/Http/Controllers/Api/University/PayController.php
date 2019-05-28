@@ -41,9 +41,6 @@ class PayController extends Controller
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
     	$course = Course::find($request->course_id);
-        if (empty($course)) {
-            return  response()->json(['status'=>999,'msg'=>'课程不存在']);
-        }
         // $order = Order::where('user_id',$user->id)->where('course_id',$course->id)->first();
         // if (!$order){
             $data = [
@@ -86,7 +83,6 @@ class PayController extends Controller
         }elseif ($request->type==6) {//APP支付
         	$wechat_pay = app('wechat_pay')->app($wx_order);
         }
-        print_r($wechat_pay);die;
         return response(['status'=>1,'msg'=>'请求成功','data'=>$wechat_pay]);
     }
     /**
