@@ -88,8 +88,8 @@ class UserController extends Controller
                return response()->json(['status'=>1,'msg'=>'更换头像失败！']);
            }else{
              //获取当前请求域名
-              $host_name = Helper::getResponse();
-              $source['head_pic'] = $host_name.$user_pic;
+              // $host_name = Helper::getResponse();
+              $source['head_pic'] = url($user_pic);
            }
         }else{
             //没有上传就获取old头像地址
