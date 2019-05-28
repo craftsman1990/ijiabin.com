@@ -14,11 +14,17 @@ return [
 					  2 => '企业案例课',
 					 // 3 => '商业案例课'
                       3 => '主题案例课'
-					]
+					],
 
 
-
-
+'yqlj' => [
+        ['img' => PHP_SAPI === 'cli' ? false : asset('Home/logo/kdxf.png'),'link' => 'http://www.iflytek.com'],
+        ['img' => PHP_SAPI === 'cli' ? false : asset('Home/logo/byd.png'),'link' => 'http://www.bydauto.com.cn'],
+        ['img' => PHP_SAPI === 'cli' ? false : asset('Home/logo/fzcm.png'),'link' => 'https://www.focusmedia.cn'],
+        ['img' => PHP_SAPI === 'cli' ? false : asset('Home/logo/cjsxy.png'),'link' => 'http://www.ckgsb.edu.cn'],
+        ['img' => PHP_SAPI === 'cli' ? false : asset('Home/logo/zgcmdx.png'),'link' => 'http://www.cuc.edu.cn'],
+        ['img' => PHP_SAPI === 'cli' ? false : asset('Home/logo/zogjgsxy.png'),'link' => 'http://cn.ceibs.edu'],
+]
 
 ];
 ?>
