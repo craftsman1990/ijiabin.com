@@ -41,8 +41,6 @@ class Collect extends Model
     //我收藏的课程
     public static function getCollectList($request)
     {
-        //判断当前请求方式
-        $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
     	$data = Collect::where(['user_id'=>$request->user_id,'type'=>1])->get()->toArray();
     	if (empty($data)) {
     		return ['status'=>1,'msg'=>'暂无收藏'];
@@ -64,7 +62,7 @@ class Collect extends Model
         $result[$key]['id'] = $v['id'];
         $result[$key]['name'] = $re->title;
         $result[$key]['chapter'] = $re->chapter;
-        $result[$key]['lengthways_cover'] = $http_type.$_SERVER['SERVER_NAME'].$re->cover;
+        $result[$key]['lengthways_cover'] = url($re->cover);
         $result[$key]['course_content_id'] = $v['by_collect_id'];//小节id
         $result[$key]['course_id'] = $course->id;//课程id
         $result[$key]['course_name'] = $course->name;

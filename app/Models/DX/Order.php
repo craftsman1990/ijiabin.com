@@ -19,7 +19,6 @@ class Order extends Model
     public static function myOrderList($request)
     {
         //判断当前请求方式
-        $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
     	$data = DB::table('dx_order')->where(['user_id'=>$request->user_id,'status'=>1])->get()->toArray();
     	if (empty($data)) {
     		return ['status'=>1,'msg'=>'暂无订单信息'];
@@ -51,7 +50,7 @@ class Order extends Model
             }
             $result[$key]['id'] = $re->id;
             $result[$key]['name'] = $re->name;
-            $result[$key]['lengthways_cover'] = $http_type.$_SERVER['SERVER_NAME'].$re->lengthways_cover;
+            $result[$key]['lengthways_cover'] = url($re->lengthways_cover);
             $result[$key]['content_updates'] = $content_nums;
             $result[$key]['play_num'] = $play_num;
             $play_num = 0;

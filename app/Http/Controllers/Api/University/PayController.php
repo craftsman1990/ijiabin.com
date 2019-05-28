@@ -64,6 +64,7 @@ class PayController extends Controller
         	$wechat_pay = app('wechat_pay')->wap($wx_order);
         }elseif ($request->type==4) {//扫码支付
         	$wechat_pay = app('wechat_pay')->scan($wx_order);
+            $wechat_pay['order'] = $wx_order['out_trade_no'];
         }elseif ($request->type==5) {//刷卡支付
         	$wechat_pay = app('wechat_pay')->pos($wx_order);
         }elseif ($request->type==6) {//APP支付
