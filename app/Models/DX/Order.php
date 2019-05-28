@@ -51,6 +51,7 @@ class Order extends Model
             $result[$key]['id'] = $re->id;
             $result[$key]['name'] = $re->name;
             $result[$key]['lengthways_cover'] = url($re->lengthways_cover);
+            $result[$key]['crosswise_cover'] = url($re->crosswise_cover);
             $result[$key]['content_updates'] = $content_nums;
             $result[$key]['play_num'] = $play_num;
             $play_num = 0;

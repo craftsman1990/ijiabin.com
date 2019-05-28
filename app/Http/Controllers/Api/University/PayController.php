@@ -32,6 +32,11 @@ class PayController extends Controller
     	if (empty($request->course_id) || empty($request->price) || empty($request->type)) {
     		return  response()->json(['status'=>999,'msg'=>'参数错误！']);
     	}
+        if ($request->type==1) {
+            if (empty($request->code)) {
+               return  response()->json(['status'=>999,'msg'=>'支付必填code！']);
+            }
+        }
     	if (!$user = User::isToken($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
@@ -55,9 +60,17 @@ class PayController extends Controller
             'body' => $order->title,
             'total_fee' => $order->price * 100,
         ];
+        $appid = config('hint.appId');
+        $appsecret = config('hint.appSecret');
         //发起微信支付
         if ($request->type==1) {//公众号支付
-        	$wechat_pay = app('wechat_pay')->mp($wx_order);
+        	$url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$request->code.'&grant_type=authorization_code';
+            $acctok = request_curl($url);
+            $res = json_decode($acctok,true);
+            $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
+            $newtok = json_decode(request_curl($accUrl),true);
+            $wx_order['openid'] = $newtok['openid'];
+            $wechat_pay = app('wechat_pay')->mp($wx_order);
         }elseif ($request->type==2) {//小程序支付
         	$wechat_pay = app('wechat_pay')->miniapp($wx_order);
         }elseif ($request->type==3) {//H5支付
