@@ -69,5 +69,5 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::post('feedBack','Api\University\UserController@feedBack');//用户反馈
 	Route::post('wxPay','Api\University\PayController@wxPay');//微信支付
 	Route::get('PayOrder','Api\University\PayController@PayOrder');//支付完成订单查询
-	Route::post('wapPay','Api\University\PayController@wapPay');//支付完成订单查询
+	Route::get('wapPay','Api\University\PayController@wapPay');//支付完成订单查询
 });
