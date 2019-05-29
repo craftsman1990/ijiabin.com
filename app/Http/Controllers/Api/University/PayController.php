@@ -102,4 +102,43 @@ class PayController extends Controller
         $data['is_pay'] = $order->status;
         return response(['status'=>1,'msg'=>'请求成功','data'=>$data]);
     }
+
+     /**
+     * wap支付
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function wapPay(Request $request)
+    {
+        if (empty($request->course_id) || empty($request->price)) {
+            return  response()->json(['status'=>999,'msg'=>'参数错误！']);
+        }
+        if (!$user = User::isToken($request->token)) {
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        $course = Course::find($request->course_id);
+        if (empty($course)) {
+            return  response()->json(['status'=>999,'msg'=>'课程不存在']);
+        }
+        $order = Order::where('user_id',$user->id)->where('course_id',$course->id)->first();
+        if (!$order){
+            $data = [
+                'order_num' => time(),
+                'title' => $course->name,
+                'user_id' => $user->id,
+                'course_id' => $course->id,
+                'price' => $course->price,
+                'status' => 0,
+            ];
+            if (!$order = Order::create($data)){
+                return response(['status'=>999,'msg'=>'未知错误，订单创建失败，请稍后再试！']);
+            }
+        }
+        $wx_order =[
+            'out_trade_no' => $order->order_num,
+            'body' => $order->title,
+            'total_fee' => $order->price * 100,
+        ];
+        return app('wechat_pay')->wap($wx_order);
+    }
 }
