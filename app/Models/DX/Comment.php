@@ -81,7 +81,7 @@ class Comment extends Model
                   foreach ($source as $keys => $vals) {
                    $user = DB::table('users')
                    ->where(['id'=>$vals->user_id])
-                   ->select('nickname','email','head_pic','authentication')
+                   ->select('nickname','email','head_pic','authentication','username')
                    ->first();
                     $result[$keys]['id'] = $vals->id;
                     $result[$keys]['content'] = $vals->content;
@@ -89,6 +89,7 @@ class Comment extends Model
                     $result[$keys]['grade'] = $vals->grade;
                     $result[$keys]['created_at'] = $vals->created_at;
                     $result[$keys]['nickname'] = $user->nickname;
+                    $result[$keys]['username'] = $user->username;
                     $result[$keys]['authentication'] = $user->authentication;
                     $result[$keys]['head_pic'] = $user->head_pic;
                 }
