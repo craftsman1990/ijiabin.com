@@ -41,7 +41,7 @@ class Collect extends Model
     //我收藏的课程
     public static function getCollectList($request)
     {
-    	$data = Collect::where(['user_id'=>$request->user_id,'type'=>1])->get()->toArray();
+    	$data = Collect::where(['user_id'=>$request->user_id,'type'=>1,'status'=>1])->get()->toArray();
     	if (empty($data)) {
     		return ['status'=>1,'msg'=>'暂无收藏'];
     	}
