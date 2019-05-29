@@ -78,6 +78,7 @@ class Course extends Model
                   $list[$k]->play_state = $play_state;
                 }
             }
+            $request->course_id = $v->id;
             //根据课程id验证是否已经购买
             if (empty($request->user_id)) {
                 $is_pay = 0;
