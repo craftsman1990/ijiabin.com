@@ -164,6 +164,10 @@ class ContentController extends Controller
 
         $credentials = $this->validate($request,$verif,$message);
 
+        if ($request->try_time == null){
+            $credentials['try_time'] =  0;
+        }
+        
         if ($request->status ==0){
             $credentials['content'] = $request->content;
         }
@@ -273,7 +277,12 @@ class ContentController extends Controller
             $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
         }
 
+
         $credentials = $this->validate($request,$verif,$message);
+
+        if ($request->try_time == null){
+            $credentials['try_time'] =  0;
+        }
 
         if ($request->status ==0){
             $credentials['content'] = $request->content;
