@@ -10,7 +10,7 @@ use App\Services\Upload;
 use App\Http\Controllers\Controller;
 use App\Services\Compress;
 use App\Models\DX\Course;
-
+use App\Models\DX\ContentNumsLog;
 
 class ContentController extends Controller
 {
@@ -41,8 +41,8 @@ class ContentController extends Controller
         $verif = [
             'chapter'=>'required|numeric|min:1',
             'type'=>'required|numeric',
-            'title'=>'required|max:30',
-            'intro'=>'required|max:255',
+            'title'=>'required|max:24',
+            'intro'=>'required|max:105',
             'status'=>'required',
             'course_id'=>'required|numeric',
             'cover'=>'required'
@@ -54,9 +54,9 @@ class ContentController extends Controller
             'type.required' => '属性 不能为空',
             'type.numeric' => '属性 必须是数字',
             'title.required' => '章节标题 不能为空',
-            'title.max' => '章节标题 不能超过30个字符',
+            'title.max' => '章节标题 不能超过24个字符',
             'intro.required' => '章节简介 不能为空',
-            'intro.max' => '章节简介 不能超过255个字符',
+            'intro.max' => '章节简介 不能超过105个字符',
             'status.required' => '是否上架  不能为空',
             'course_id.required' => '课程ID 不能为空',
             'cover.required'=>'封面图 不能为空',
@@ -132,8 +132,8 @@ class ContentController extends Controller
         $verif = [
             'chapter'=>'required|numeric|min:1',
             'type'=>'required|numeric',
-            'title'=>'required|max:30',
-            'intro'=>'required|max:255',
+            'title'=>'required|max:24',
+            'intro'=>'required|max:105',
             'status'=>'required',
             'course_id'=>'required|numeric',
         ];
@@ -144,9 +144,9 @@ class ContentController extends Controller
             'type.required' => '属性 不能为空',
             'type.numeric' => '属性 必须是数字',
             'title.required' => '章节标题 不能为空',
-            'title.max' => '章节标题 不能超过30个字符',
+            'title.max' => '章节标题 不能超过24个字符',
             'intro.required' => '章节简介 不能为空',
-            'intro.max' => '章节简介 不能超过255个字符',
+            'intro.max' => '章节简介 不能超过105个字符',
             'status.required' => '是否上架  不能为空',
             'course_id.required' => '课程ID 不能为空',
         ];
@@ -193,6 +193,7 @@ class ContentController extends Controller
                 $cor_per = 0.4;
             }
             $cro_path = Upload::uploadOne('Content',$request->cover);
+           // dd($cro_path);
             if ($cro_path){
                 $credentials['cover'] = $cro_path;
                 //创建缩略图
@@ -235,10 +236,16 @@ class ContentController extends Controller
             return back()->with('hint',config('hint.del_failure_exist'));
         }
         if (Content::destroy($id)){
+            //删除封面图片
+            if (is_file(public_path($Content->cover))){
+                unlink(public_path($Content->cover));
+            }
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));
         }
     }
+
+
 
 }

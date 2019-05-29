@@ -32,21 +32,21 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">课程名称：</label>
                                 <div class="col-sm-8">
-                                    <input  name="name" class="form-control" type="text"  value="{{old('name')}}" maxlength="30">
+                                    <input  name="name" class="form-control" type="text"  value="{{old('name')}}" maxlength="24">
                                 </div>
                             </div>
                             <!-- 授课老师： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">授课老师：</label>
                                 <div class="col-sm-8">
-                                    <input name="teacher" class="form-control" type="text" value="{{old('teacher')}}" maxlength="10">
+                                    <input name="teacher" class="form-control" type="text" value="{{old('teacher')}}" maxlength="20">
                                 </div>
                             </div>
                             <!-- 老师职称： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">老师职称：</label>
                                 <div class="col-sm-8">
-                                    <input name="professional" class="form-control" type="text" value="{{old('professional')}}" maxlength="20">
+                                    <input name="professional" class="form-control" type="text" value="{{old('professional')}}" maxlength="50">
                                 </div>
                             </div>
                             <!-- 类别： -->

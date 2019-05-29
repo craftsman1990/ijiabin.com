@@ -34,10 +34,10 @@ use App\Services\Compress;
      //执行添加	
     public function store(Request $request){	
         $verif = [	
-            'name'=>'required|max:30',	
-            'teacher'=>'required|max:10',	
-            'professional'=>'required|max:20',	
-            'intro'=>'required',	
+            'name'=>'required|max:24',
+            'teacher'=>'required|max:20',
+            'professional'=>'required|max:50',
+            'intro'=>'required',
             'ify'=>'required|numeric',	
             'is_pay'=>'required|numeric',	
             'looks'=>'required|numeric',	
@@ -48,13 +48,13 @@ use App\Services\Compress;
         ];	
         $message = [	
             'name.required'=>'课程名称 不能为空',	
-            'name.max'=>'课程名称 不能超过30个字符',	
+            'name.max'=>'课程名称 不能超过24个字符',
             'teacher.required'=>'授课老师 不能为空',	
-            'teacher.max'=>'授课老师 不能超过10个字符',	
+            'teacher.max'=>'授课老师 不能超过20个字符',
             'professional.required'=>'老师职称 不能为空',	
-            'professional.max'=>'老师职称 不能超过20个字符',	
-            'intro.required'=>'简介 不能为空',	
-            'ify.required'=>'类别 未选择',	
+            'professional.max'=>'老师职称 不能超过50个字符',
+            'intro.required'=>'简介 不能为空',
+            'ify.required'=>'类别 未选择',
             'ify.numeric'=>'类别 类型错误',	
             'is_pay.required'=>'付费课 未选择',	
             'is_pay.numeric'=>'付费课 类型错误',	
@@ -120,23 +120,23 @@ use App\Services\Compress;
      //执行修改	
     public function update(Request $request,$id){	
         $verif = [	
-            'name'=>'required|max:30',	
-            'teacher'=>'required|max:10',	
-            'professional'=>'required|max:20',	
-            'intro'=>'required',	
+            'name'=>'required|max:24',
+            'teacher'=>'required|max:20',
+            'professional'=>'required|max:50',
+            'intro'=>'required',
             'ify'=>'required|numeric',	
             'is_pay'=>'required|numeric',	
             'price'=>'required|numeric',	
             'looks'=>'required|numeric'];	
         $message = [	
             'name.required'=>'课程名称 不能为空',	
-            'name.max'=>'课程名称 不能超过30个字符',	
+            'name.max'=>'课程名称 不能超过24个字符',
             'teacher.required'=>'授课老师 不能为空',	
-            'teacher.max'=>'授课老师 不能超过10个字符',	
+            'teacher.max'=>'授课老师 不能超过20个字符',
             'professional.required'=>'老师职称 不能为空',	
-            'professional.max'=>'老师职称 不能超过20个字符',	
-            'intro.required'=>'简介 不能为空',	
-            'ify.required'=>'类别 未选择',	
+            'professional.max'=>'老师职称 不能超过50个字符',
+            'intro.required'=>'简介 不能为空',
+            'ify.required'=>'类别 未选择',
             'ify.numeric'=>'类别 类型错误',	
             'is_pay.required'=>'付费课 未选择',	
             'is_pay.numeric'=>'付费课 类型错误',	
@@ -218,21 +218,30 @@ use App\Services\Compress;
     }	
      //删除	
     public function destroy($id){	
-        $Course = Course::find($id);	
+        $Course = Course::find($id);
         if (!$Course){	
             return back() -> with('hint',config('hint.data_exist'));	
         }	
-        $content = Content::where('course_id',$Course->id)->get()->toArray();	
-        if ($content){	
+        $content = Content::where('course_id',$Course->id)->get()->toArray();
+
+        if ($content){
             return back()->with('hint',config('hint.del_failure_exist'));	
-        }else{	
-            if (Course::destroy($id)){	
-                if (is_file(public_path($Course->cover))){	
-                    unlink(public_path($Course->cover));	
-                }	
-                if (is_file(public_path(thumbnail($Course->cover)))){	
-                    unlink(public_path(thumbnail($Course->cover)));	
-                }	
+        }else{
+            if (Course::destroy($id)){
+//                if (is_file(public_path($Course->cover))){
+//                    unlink(public_path($Course->cover));
+//                }
+//                if (is_file(public_path(thumbnail($Course->cover)))){
+//                    unlink(public_path(thumbnail($Course->cover)));
+//                }
+                //删除横向封面图片
+                if (is_file(public_path($Course->crosswise_cover))){
+                    unlink(public_path($Course->crosswise_cover));
+                }
+                //删除横纵向封面图片
+                if (is_file(public_path(thumbnail($Course->lengthways_cover)))){
+                    unlink(public_path(thumbnail($Course->lengthways_cover)));
+                }
                 return back() -> with('success',config('hint.del_success'));	
             }else{	
                 return back() -> with('hint',config('hint.del_failure'));	

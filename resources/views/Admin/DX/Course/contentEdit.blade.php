@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标题：</label>
                                 <div class="col-sm-8">
-                                    <input name="title" class="form-control" type="text" value="{{$content->title}}" maxlength="30">
+                                    <input name="title" class="form-control" type="text" value="{{$content->title}}" maxlength="24">
                                 </div>
                             </div>
                             <!-- 章节标签： -->
@@ -79,7 +79,7 @@
                                 <label class="col-sm-3 control-label">章节简介：</label>
                                 <div class="col-sm-8">
                                     <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="intro">{{$content->intro}}</textarea>
-                                    <p><span id="text-intro">255</span>/255</p>
+                                    <p><span id="text-intro">105</span>/105</p>
                                 </div>
                             </div>
                             <!-- 横向封面图： -->
@@ -117,16 +117,16 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节时长：</label>
                                 <div class="col-sm-3">
-                                    <input name="time" class="form-control" type="text" value="{{$content->time == 0 ? '': $content->time}}">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的时长</span>
+                                    <input name="time" class="form-control" type="number" min="0" value="{{$content->time == 0 ? '': $content->time}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的时长(以s秒为单位)</span>
                                 </div>
                             </div>
                             <!-- 章节试看时长： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节试看时长：</label>
                                 <div class="col-sm-3">
-                                    <input name="try_time" class="form-control" type="text"  value="{{$content->try_time == 0 ? '':$content->try_time }}">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的试看时长</span>
+                                    <input name="try_time" class="form-control" type="number" min="0"  value="{{$content->try_time == 0 ? '':$content->try_time }}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的试看时长(以s秒为单位)</span>
                                 </div>
                             </div>
                            <!-- 章节内容： -->
@@ -194,15 +194,15 @@
         });
 
            var intro = $('[name=intro]').val();
-            $("#text-intro").text(255-intro.length);
+            $("#text-intro").text(105-intro.length);
             $('#intro').on('input propertychange',function(){
                 var $this = $(this),
                     _val = $this.val(),
                     count = "";
-                if (_val.length > 255) {
-                    $this.val(_val.substring(0, 255));
+                if (_val.length > 105) {
+                    $this.val(_val.substring(0, 105));
                 }
-                count = 255 - $this.val().length;
+                count = 105 - $this.val().length;
                 $("#text-intro").text(count);
             });
             //内容
