@@ -59,14 +59,14 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标题：</label>
                                 <div class="col-sm-8">
-                                    <input name="title" class="form-control" type="text" value="{{old('title')}}" maxlength="30">
+                                    <input name="title" class="form-control" type="text" value="{{old('title')}}" maxlength="24">
                                 </div>
                             </div>
                             <!-- 章节标签： -->
                              <div class="form-group">
                                  <label class="col-sm-3 control-label">章节标签：</label>
                                  <div class="col-sm-8">
-                                     <input name="label" class="form-control" type="text" value="{{old('label')}}" maxlength="30">
+                                     <input name="label" class="form-control" type="text" value="{{old('label')}}" maxlength="20">
                                  </div>
                              </div>
                             <!-- 章节简介： -->
