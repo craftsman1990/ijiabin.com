@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\DX\Code;
+use App\Models\DX\Feedback;
 use App\Services\Upload;
 use App\Services\Helper;
 use Illuminate\Support\Facades\Session;
