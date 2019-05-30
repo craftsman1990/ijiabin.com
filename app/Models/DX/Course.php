@@ -117,8 +117,6 @@ class Course extends Model
        }else{
             $source = DB::table('dx_course')
             ->orderBy('created_at','desc')
-            ->offset($offset)
-            ->limit($pageSize)
             ->get()
             ->toArray();//课程 
        }
