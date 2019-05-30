@@ -92,6 +92,7 @@ class Comment extends Model
                     $result[$keys]['username'] = $user->username;
                     $result[$keys]['authentication'] = $user->authentication;
                     $result[$keys]['head_pic'] = $user->head_pic;
+                    $result[$keys]['type'] = $vals->type;
                 }
             }else{
                 $result = [];
