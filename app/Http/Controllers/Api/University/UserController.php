@@ -20,8 +20,11 @@ class UserController extends Controller
 	 */
     public function getUser(Request $request)
     {  
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $request->user_id = $user->id;
     	$data = User::getUserDetails($request->user_id);
@@ -51,8 +54,11 @@ class UserController extends Controller
      */
     public function upUser(Request $request)
     {
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $request->user_id = $user->id;   
         if ($request->file) {//判断是否有图片上传
@@ -207,8 +213,8 @@ class UserController extends Controller
                   $data['open_id'] = $newtok['openid'];
                   $data['nickname'] = $newtok['nickname'];
                   $data['head_pic'] = $newtok['headimgurl'];
-                  $data['username'] = $newtok['headimgurl'];
-                  $data['truename'] = $newtok['headimgurl'];
+                  $data['username'] = $newtok['nickname'];
+                  $data['truename'] = $newtok['nickname'];
                   $user = User::create($data);
                   return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
               }else{
@@ -228,8 +234,11 @@ class UserController extends Controller
     if (empty($request->question)) {
       return response()->json(['status'=>999,'msg'=>'参数错误']);
     }
-    if (!$user = User::isToken($request->token)) {
-            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+    if (empty($request->header('token'))) {
+        return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+    }
+    if (!$user = User::isToken($request->header('token'))) {
+        return  response()->json(['status'=>701,'msg'=>'token已过期！']);
     }
     $request->user_id = $user->id;
     $result = Feedback::addFeedBack($request);

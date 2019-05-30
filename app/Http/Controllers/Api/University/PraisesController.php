@@ -21,9 +21,12 @@ class PraisesController extends Controller
    		if (empty($request->by_praise_id) || empty($request->type)) {
    			return response()->json(['status'=>999,'msg'=>'参数错误']);
    		}
-      if (!$user = User::isToken($request->header('token'))) {
+         if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
-      }
+        }
+         if (!$user = User::isToken($request->header('token'))) {
+               return  response()->json(['status'=>701,'msg'=>'token已过期！']);
+         }
       $request->user_id = $user->id;
    		$result = Praise::userPraise($request);
    		return response()->json($result);

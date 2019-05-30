@@ -20,8 +20,11 @@ class CollectController extends Controller
         if (empty($request->by_collect_id) || empty($request->type)) {
             return response()->json(['status'=>999,'msg'=>'参数错误']);
         }
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $request->user_id = $user->id;
         $result = Collect::UserCollect($request);
@@ -47,8 +50,11 @@ class CollectController extends Controller
      */
     public function myCollect(Request $request)
     {
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $request->user_id = $user->id;
         $result = Collect::getCollectList($request);

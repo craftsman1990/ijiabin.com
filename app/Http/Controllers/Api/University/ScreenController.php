@@ -19,8 +19,11 @@ class ScreenController extends Controller
 	 */
     public function sendScreen(Request $request)
     {
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
     	if (empty($request->content_id) || empty($request->text) || empty($request->pace)) {
     		return response()->json(['status'=>999,'msg'=>'参数错误']);

@@ -24,8 +24,11 @@ class CommentController extends Controller
         if (empty($request->discussion_id) || empty($request->content) || empty($request->type) ||empty($request->grade)) {
             return response()->json(['status'=>999,'msg'=>'参数错误']);
         }
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $request->user_id = $user->id;
         //验证敏感字符处理

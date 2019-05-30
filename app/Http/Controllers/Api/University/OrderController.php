@@ -16,8 +16,11 @@ class OrderController extends Controller
 	 */
     public function myOrder(Request $request)
     {
-        if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $request->user_id = $user->id;
     	$result = Order::myOrderList($request);

@@ -37,8 +37,11 @@ class PayController extends Controller
                return  response()->json(['status'=>999,'msg'=>'支付必填code！']);
             }
         }
-    	if (!$user = User::isToken($request->header('token'))) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+    	if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
     	$course = Course::find($request->course_id);
         // $order = Order::where('user_id',$user->id)->where('course_id',$course->id)->first();
@@ -113,8 +116,11 @@ class PayController extends Controller
         if (empty($request->course_id) || empty($request->price)) {
             return  response()->json(['status'=>999,'msg'=>'参数错误！']);
         }
-        if (!$user = User::isToken($request->token)) {
+        if (empty($request->header('token'))) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$user = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $course = Course::find($request->course_id);
         if (empty($course)) {
