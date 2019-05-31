@@ -170,7 +170,7 @@ class UserController extends Controller
             return response()->json(['status'=>999,'msg'=>'手机号有误，请重新填写！']);
         }
         $yzm = rand(1000,9999);
-        $res = Sms::send($request->mobile,'SMS_152880235',$yzm);
+        $res = Sms::send($request->mobile,'SMS_166905179',$yzm);
         if($res->Code != 'OK'){
             return response()->json(['status'=>999,'msg'=>'发送失败，请重试！']);
         }
