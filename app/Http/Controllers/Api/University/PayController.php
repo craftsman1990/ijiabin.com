@@ -72,6 +72,7 @@ class PayController extends Controller
             $res = json_decode($acctok,true);
             $wx_order['openid'] = $res['openid'];
             $wechat_pay = app('wechat_pay')->mp($wx_order);
+            $wechat_pay['openid'] = $wx_order['openid'];
         }elseif ($request->type==2) {//小程序支付
         	$wechat_pay = app('wechat_pay')->miniapp($wx_order);
         }elseif ($request->type==3) {//H5支付

@@ -83,16 +83,20 @@ class Comment extends Model
                    ->where(['id'=>$vals->user_id])
                    ->select('nickname','email','head_pic','authentication','username')
                    ->first();
-                    $result[$keys]['id'] = $vals->id;
-                    $result[$keys]['content'] = $vals->content;
-                    $result[$keys]['praise'] = $vals->praise;
-                    $result[$keys]['grade'] = $vals->grade;
-                    $result[$keys]['created_at'] = $vals->created_at;
-                    $result[$keys]['nickname'] = $user->nickname;
-                    $result[$keys]['username'] = $user->username;
-                    $result[$keys]['authentication'] = $user->authentication;
-                    $result[$keys]['head_pic'] = $user->head_pic;
-                    $result[$keys]['type'] = $vals->type;
+                    if ($user) {
+                        $result[$keys]['id'] = $vals->id;
+                        $result[$keys]['content'] = $vals->content;
+                        $result[$keys]['praise'] = $vals->praise;
+                        $result[$keys]['grade'] = $vals->grade;
+                        $result[$keys]['created_at'] = $vals->created_at;
+                        $result[$keys]['nickname'] = $user->nickname;
+                        $result[$keys]['username'] = $user->username;
+                        $result[$keys]['authentication'] = $user->authentication;
+                        $result[$keys]['head_pic'] = $user->head_pic;
+                        $result[$keys]['type'] = $vals->type;
+                    }else{
+                        continue;
+                    }
                 }
             }else{
                 $result = [];
