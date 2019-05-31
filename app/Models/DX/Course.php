@@ -169,7 +169,7 @@ class Course extends Model
         //根据课程查询课程下的小结
         foreach ($source as $key => $v) {
             $list = DB::table('dx_course_content')
-            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover','status')
+            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover','status','content')
             ->where('course_id','=',$v->id)
             ->get()->toArray();
             foreach ($list as $k => $val) {

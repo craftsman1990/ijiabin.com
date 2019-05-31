@@ -70,9 +70,7 @@ class PayController extends Controller
         	$url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$request->code.'&grant_type=authorization_code';
             $acctok = request_curl($url);
             $res = json_decode($acctok,true);
-            $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
-            $newtok = json_decode(request_curl($accUrl),true);
-            $wx_order['openid'] = $newtok['openid'];
+            $wx_order['openid'] = $res['openid'];
             $wechat_pay = app('wechat_pay')->mp($wx_order);
         }elseif ($request->type==2) {//小程序支付
         	$wechat_pay = app('wechat_pay')->miniapp($wx_order);
