@@ -200,6 +200,12 @@ class UserController extends Controller
         if (empty($request->code)) {
           return response()->json(['status'=>999,'msg'=>'参数错误！']);
         }
+        if (empty($request->header('token'))) {
+            return  response()->json(['status'=>700,'msg'=>'请先登录！']);
+        }
+        if (!$users = User::isToken($request->header('token'))) {
+            return  response()->json(['status'=>701,'msg'=>'token已过期！']);
+        }
         $appid = config('hint.appId');
         $appsecret = config('hint.appSecret');
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$request->code.'&grant_type=authorization_code';
@@ -207,21 +213,23 @@ class UserController extends Controller
         $res = json_decode($acctok,true);
          //判断是否第一次登陆
         $user = User::where('open_id',$res['openid'])->get()->toArray();
-        $data['res'] = $res;
-        $data['user'] = $user;
-        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
-        if(!$user){
+        if ($user[0]['mobile']!=$users->mobile) {
+             return  response()->json(['status'=>999,'msg'=>'该微信号已被绑定！']);      
+        }
+        //根据用户token查询用户信息
+        if(empty($user[0]['open_id'])){
             $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
             $newtok = json_decode(request_curl($accUrl),true);
-
             $data['open_id'] = $newtok['openid'];
             $data['nickname'] = $newtok['nickname'];
             $data['head_pic'] = $newtok['headimgurl'];
             $data['username'] = $newtok['nickname'];
             $data['truename'] = $newtok['nickname'];
-            $user = User::create($data);
-            return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
+            $user = User::find($users->id)->update($data);
+            $userinfo = User::where('id',$user[0]['id'])->get()->toArray();
+            return response()->json(['status'=>1,'msg'=>'success','data'=>$userinfo]);
         }else{
+
             return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
         }
   }

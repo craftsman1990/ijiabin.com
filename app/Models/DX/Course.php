@@ -35,8 +35,8 @@ class Course extends Model
             ->select('id','name','crosswise_cover','lengthways_cover','ify','content_nums','content_updates','is_end','looks','teacher','professional','updated_at')
             ->where('ify','=',$request->ify)
             ->orderBy('created_at','desc')
-            ->offset($offset)
-            ->limit($request->pageSize)
+            // ->offset($offset)
+            // ->limit($request->pageSize)
             ->get()
             ->toArray();//课程
     	//根据课程查询课程下的小结

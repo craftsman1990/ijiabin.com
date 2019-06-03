@@ -110,7 +110,7 @@
                             </div>
                             <!-- 纵向封面图： -->
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">纵向封面图：</label>
+                                <label class="col-sm-3 control-label">课程海报：</label>
                                 <div class="col-sm-8">
                                     <button type="button" class="btn btn-primary choi-l"> 选择图片</button>
                                 </div>
