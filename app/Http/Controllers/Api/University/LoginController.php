@@ -39,7 +39,7 @@ class LoginController extends Controller
 	            $name = 'JIA_U'.dechex(date('YmdHis',time()));
 	            $info['mobile'] = $request->mobile;
 	            // $info['username'] = $mobile;
-	            $info['nickname'] = $name;
+	            // $info['nickname'] = $name;
 	            $info['truename'] = $name;
 	            $info['head_pic'] = asset('University/images/default_head_pic.png');
 	            $user= User::create($info);
@@ -48,7 +48,7 @@ class LoginController extends Controller
 	            }
 	            $api_token = User::generateToken($user->id);//登录成功生成token
 	            $userinfo['user_id'] = $user->id;
-	            $userinfo['username'] = $user->username;
+	            $userinfo['nickname'] = $user->nickname;
 	            $userinfo['head_pic'] = $user->head_pic;
 	            $userinfo['token'] = $api_token;
 	            //首次登陆
@@ -56,10 +56,10 @@ class LoginController extends Controller
 	            return response()->json(['status'=>1,'msg'=>'登录成功','data'=>$userinfo]);
 	        }else{
 	            $user = $users[0];
-	            if ($user['username']) {
-	            	$userinfo['username'] = $user->username;
+	            if ($user['nickname']) {
+	            	$userinfo['nickname'] = $user->nickname;
 	            }else{
-	            	$userinfo['username'] = $user->username;
+	            	$userinfo['nickname'] = $user->nickname;
 	            	$userinfo['is_first'] = 1;
 	            }
 	            $api_token = User::generateToken($user->id);//登录成功生成token
@@ -85,7 +85,7 @@ class LoginController extends Controller
     		if (Auth::guard('university')->attempt($credentials,true)) {
     			$api_token = User::generateToken($users[0]->id);//登录成功生成token
 	    	    $userinfo['user_id'] = $users[0]->id;
-	            $userinfo['username'] = $users[0]->username;
+	            $userinfo['nickname'] = $users[0]->nickname;
 	            $userinfo['head_pic'] = $users[0]->head_pic;
 	            $userinfo['token'] = $api_token;
 	            return response()->json(['status'=>1,'msg'=>'登录成功','data'=>$userinfo]);
