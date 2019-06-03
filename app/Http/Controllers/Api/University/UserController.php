@@ -207,21 +207,23 @@ class UserController extends Controller
         $res = json_decode($acctok,true);
          //判断是否第一次登陆
         $user = User::where('open_id',$res['openid'])->get()->toArray();
-        dd($res,$user);
+        $data['res'] = $res;
+        $data['user'] = $user;
+        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
         if(!$user){
-                  $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
-                  $newtok = json_decode(request_curl($accUrl),true);
+            $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
+            $newtok = json_decode(request_curl($accUrl),true);
 
-                  $data['open_id'] = $newtok['openid'];
-                  $data['nickname'] = $newtok['nickname'];
-                  $data['head_pic'] = $newtok['headimgurl'];
-                  $data['username'] = $newtok['nickname'];
-                  $data['truename'] = $newtok['nickname'];
-                  $user = User::create($data);
-                  return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
-              }else{
-                  return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
-              }
+            $data['open_id'] = $newtok['openid'];
+            $data['nickname'] = $newtok['nickname'];
+            $data['head_pic'] = $newtok['headimgurl'];
+            $data['username'] = $newtok['nickname'];
+            $data['truename'] = $newtok['nickname'];
+            $user = User::create($data);
+            return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
+        }else{
+            return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
+        }
   }
 
   /**
