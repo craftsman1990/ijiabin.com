@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Compress;
 use App\Models\DX\Course;
 use App\Models\DX\ContentNumsLog;
+use Illuminate\Support\Facades\DB;
 
 class ContentController extends Controller
 {
@@ -19,60 +20,7 @@ class ContentController extends Controller
 
     }
 
-    /**
-     *课程内容章节数更新
-     * @param int $content_nums 设置的课程总章节数
-     * @param int $id,课程ID
-     **/
-
-//    private function updateContentNums($id,$content_nums)
-//    {
-//        $keys = 'Course_id:'.$id.';content_nums:'.$content_nums;
-//
-//        $check_nums = ContentNumsLog::select('nums')->where('courseid_contentnums','=',$keys)->first();
-////        dd($check_nums['nums']);
-//        if ($check_nums){
-//            $old_nums = $check_nums['nums'];
-//          //  $new_nums = ContentNumsLog::select('nums')->where('courseid_contentnums','=',$keys)->first()->ToArray();
-//            if ( $old_nums== $content_nums){
-//               // dd($new_nums['nums'],$content_nums);
-//                $update = [
-//                    'is_end'=>( $old_nums == $content_nums)?1:0,
-//                    'content_updates'=> $old_nums,
-//                    'updated_at'=>date('Y-m-d H:i:s',time()),
-//                    'end_at'=>date('Y-m-d H:i:s',time())
-//                ];
-//
-//                Course::find($id)->update($update);
-////                dd('完结课程'.$old_nums);
-//                return true;
-//            }elseif ( $old_nums < $content_nums){
-//                ContentNumsLog::where('courseid_contentnums','=',$keys)->update(['nums'=>$old_nums+1]);
-////                dd('课程待更新，请执行添加'.$old_nums);
-//            }else{
-////                dd('课程已经完结，请不要再添加章节!'.$old_nums);
-//                return false;
-//            }
-//
-//        }else{
-//
-//            ContentNumsLog::create(['courseid_contentnums'=>$keys,'nums'=>1]);
-//            $new_nums = ContentNumsLog::select('nums')->where('courseid_contentnums','=',$keys)->first()->ToArray();
-//            $update = [
-//                'is_end'=>($new_nums['nums'] == $content_nums)?1:0,
-//                'content_updates'=>$new_nums['nums'],
-//                'updated_at'=>date('Y-m-d H:i:s',time()),
-//                'end_at'=>date('Y-m-d H:i:s',time())
-//            ];
-//            Course::find($id)->update($update);
-////            dd('执行添加'.$new_nums['nums']);
-//            return true;
-//        }
-//
-//    }
-
     public function show($id){
-
         $content = Content::find($id);
         $list = Quiz::where('content_id',$id)->get();
         foreach ($list as $quiz){
@@ -80,6 +28,86 @@ class ContentController extends Controller
         }
 
         return view('Admin.DX.Course.contentShow',compact('list','content'));
+    }
+
+    /**
+     *课程内容章节数更新
+     * @param object $course 需要更新的课程
+     * @param int $status  设置的课程小节是否上架 0：未上架，1；上架
+     * @param string $opation 操作动作
+     **/
+
+    private function updatedContentNumsLog(Course $course,$status,$opation = 'update')
+    {
+        $id = $course->id;
+
+        $content_nums = $course->content_nums;
+        $content_updates = $course->content_updates;
+
+        $keys =  'Course_id:'.$id.';content_nums:'.$content_nums;
+
+        $check_nums = ContentNumsLog::select('nums')->where('courseid_contentnums','=',$keys)->first();
+
+        $jubge = true; $jubge_log = true;
+
+//        $message = '';
+        if ($check_nums){
+
+            if ($opation == 'add'){
+                //更新日志表中的更新数
+                if ( $check_nums->nums == $content_nums && $jubge_log == true ){
+                    $jubge_log = false;
+//                  $message = '日志更新完成';
+                }elseif ( $check_nums->nums < $content_nums ){
+                    ContentNumsLog::where('courseid_contentnums','=',$keys)->update(['nums'=>$check_nums->nums+1]);
+//                  $message = '日志添加记录';
+                }else{
+                    $jubge_log = false;
+//                  $message = '超出了更新记录数，无法再更新！';
+                }
+            }
+
+
+            //更新课程表中小节更新数
+            if ( $status == 1 && $content_updates == $content_nums && $jubge == true){
+                $jubge = false;
+//                $message = '更新完毕';
+            }else if ($status == 1 && $content_updates < $content_nums && $jubge == true ){
+                $update = array(
+                    'is_end' => ($content_updates+1 == $content_nums)?1:0,
+                    'content_updates' =>$content_updates+1,
+                    'updated_at' => date('Y-m-d H:i:s',time()),
+                    'end_at' =>($content_updates+1 == $content_nums)?date('Y-m-d H:i:s',time()):$course->end_at
+                );
+                Course::find($id)->update($update);
+//                $message = 'Course表中content_updates自动加1;'.$content_updates;
+            }
+
+           // $message = '更新记录表中已经有记录了，执行更新';
+        }else {
+            if ($opation == 'add'){
+                ContentNumsLog::create(['courseid_contentnums'=>$keys,'nums'=>1]);
+            }
+
+            if ($status == 1){
+                $update = [
+                    'is_end'=>($content_updates == $content_nums-1)?1:0,
+                    'content_updates'=>1,
+                    'updated_at'=>date('Y-m-d H:i:s',time()),
+                    'end_at'=>($content_updates == $content_nums-1)?date('Y-m-d H:i:s',time()):$course->end_at
+                ];
+                Course::find($id)->update($update);
+                $jubge = ($content_updates == $content_nums-1)?false:true;
+            }
+//            $message = '没有记录需要添加数据记录!';
+        }
+
+        $res = array(
+            'is_add' => $jubge_log,
+            'is_update' =>$jubge,
+//            'message' =>$message
+        );
+        return  $res;
     }
 
     public function create(Request $request){
@@ -137,15 +165,18 @@ class ContentController extends Controller
             "label" => "max:20",
             "video" => "max:255",
             "audio" => "max:255",
-            "time" => "numeric|min:1"
         ];
         $diff_m_0 = [
             "label.max" => "章节标签 不能超过20个字符",
             "video.max" => "视频地址 不能超过255个字符",
             "audio.max" => "音频地址 不能超过255个字符",
-            "time.numeric" => "章节时长 必须是数字",
-            "time.min" => "章节时长 最小值必须大于1s",
         ];
+
+        if($request->time !== null){
+            $diff_v_0['time'] = 'numeric|min:1';
+            $diff_m_0['time.numeric'] = '章节时长 必须是数字';
+            $diff_m_0['time.numeric'] = '章节时长 最小值必须大于1s';
+        }
 
         //判断是否上架
         if ($request->status == 1){
@@ -159,7 +190,7 @@ class ContentController extends Controller
         if ($request->try_time !== null){
             $verif['try_time'] = 'numeric|max:'.$request->time;
             $message['try_time.numeric'] = '章节试看时长 必须是数字';
-            $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
+            $message['try_time.max'] =  '章节试看时长 不能超过章节时长'.$request->time;
         }
 
         $credentials = $this->validate($request,$verif,$message);
@@ -190,9 +221,22 @@ class ContentController extends Controller
             return back() -> with('hint',config('hint.upload_failure'));
         }
 
+        //开启事务
+        DB::beginTransaction();
 //        dd($credentials);
         if (Content::create($credentials)){
-            return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success', config('hint.add_success'));
+
+            //更新课节数日志
+            $Course = Course::find($request->course_id);
+            $add_res = $this->updatedContentNumsLog($Course,$request->status,'add');
+            if ($add_res['is_add'] == false) {
+                //回滚
+                return back()->with('hint', config('hint.add_contentNums_fail'));
+            }else{
+                //提交
+                DB::commit();
+                return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success', config('hint.add_success'));
+            }
         }else{
             return back()->with('hint',config('hint.add_failure'));
         }
@@ -252,15 +296,18 @@ class ContentController extends Controller
             "label" => "max:20",
             "video" => "max:255",
             "audio" => "max:255",
-            "time" => "numeric|min:1"
         ];
         $diff_m_0 = [
             "label.max" => "章节标签 不能超过20个字符",
             "video.max" => "视频地址 不能超过255个字符",
             "audio.max" => "音频地址 不能超过255个字符",
-            "time.numeric" => "章节时长 必须是数字",
-            "time.min" => "章节时长 最小值必须大于1s",
         ];
+
+        if($request->time !== null){
+            $diff_v_0['time'] = 'numeric|min:1';
+            $diff_m_0['time.numeric'] = '章节时长 必须是数字';
+            $diff_m_0['time.numeric'] = '章节时长 最小值必须大于1s';
+        }
 
         //判断是否上架
         if ($request->status == 1){
@@ -274,7 +321,7 @@ class ContentController extends Controller
         if ($request->try_time !== null){
             $verif['try_time'] = 'numeric|max:'.$request->time;
             $message['try_time.numeric'] = '章节试看时长 必须是数字';
-            $message['try_time.max'] =  '章节试看时长 不能超过'.$request->time;
+            $message['try_time.max'] =  '章节试看时长 不能超过章节时长:'.$request->time;
         }
 
 
@@ -321,8 +368,15 @@ class ContentController extends Controller
         }
        // dd($credentials);
         unset($credentials['old_cover']);
-
+        $Content = Content::find($id);
         if (Content::find($id)->update($credentials)){
+             //修改之前首先判断原先的数据是否已经上架，如果没有则添加到日志
+            if ($Content->status == 0){
+                //更新课节数日志
+                $Course = Course::find($request->course_id);
+                $this->updatedContentNumsLog($Course,$request->status);
+            }
+
             return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success',config('hint.mod_success'));
         }else{
             return back()->with('hint',config('hint.mod_failure'));
@@ -339,19 +393,19 @@ class ContentController extends Controller
         if ($quiz){
             return back()->with('hint',config('hint.del_failure_exist'));
         }
+        if ($Content->status == 1){
+            return back()->with('hint',config('hint.del_failure_updated'));
+        }
         if (Content::destroy($id)){
             //删除封面图片
             if (is_file(public_path($Content->cover))){
                 unlink(public_path($Content->cover));
             }
+            //删除课节数更新日志
             return back() -> with('success',config('hint.del_success'));
         }else{
             return back() -> with('hint',config('hint.del_failure'));
         }
     }
-
-
-
-
 
 }
