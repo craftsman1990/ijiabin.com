@@ -231,7 +231,7 @@ class ContentController extends Controller
             $add_res = $this->updatedContentNumsLog($Course,$request->status,'add');
             if ($add_res['is_add'] == false) {
                 //回滚
-                return back()->with('hint', config('hint.add_contentNums_fail'));
+                return back()->with('hint', config('jbdx.add_contentNums_fail'));
             }else{
                 //提交
                 DB::commit();
@@ -394,7 +394,7 @@ class ContentController extends Controller
             return back()->with('hint',config('hint.del_failure_exist'));
         }
         if ($Content->status == 1){
-            return back()->with('hint',config('hint.del_failure_updated'));
+            return back()->with('hint',config('jbdx.del_failure_updated'));
         }
         if (Content::destroy($id)){
             //删除封面图片

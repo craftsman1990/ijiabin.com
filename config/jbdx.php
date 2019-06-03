@@ -8,6 +8,8 @@ return [
 	'login_error' => '登陆失败，请稍后再试',
 	'update_success' => '修改成功！',
 	'update_error' => '修改失败，请稍后再试',
+    'add_contentNums_fail' => '添加失败，课程小节数已满！',
+    'del_failure_updated'   => '删除失败,该课程内容已上架！',
 
 	'course_ify' => [ 1 => '公开课',
 					 // 2 => '精品课',
