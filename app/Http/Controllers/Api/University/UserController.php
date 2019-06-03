@@ -219,7 +219,7 @@ class UserController extends Controller
                   $user = User::create($data);
                   return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
               }else{
-                  return response()->json(['status'=>1,'msg'=>'success','data'=>$res]);
+                  return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
               }
   }
 
