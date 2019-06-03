@@ -207,6 +207,7 @@ class UserController extends Controller
         $res = json_decode($acctok,true);
          //判断是否第一次登陆
         $user = User::where('open_id',$res['openid'])->get()->toArray();
+        dd($res,$user);
         if(!$user){
                   $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
                   $newtok = json_decode(request_curl($accUrl),true);
