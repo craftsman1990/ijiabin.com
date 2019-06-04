@@ -54,6 +54,10 @@ class Order extends Model
             $result[$key]['crosswise_cover'] = url($re->crosswise_cover);
             $result[$key]['content_updates'] = $content_nums;
             $result[$key]['play_num'] = $play_num;
+            $result[$key]['teacher'] = $re->teacher;
+            $result[$key]['professional'] = $re->professional;
+            $result[$key]['intro'] = $re->intro;
+            $result[$key]['ify'] = $re->ify;
             $play_num = 0;
     	}
     	return $result;
