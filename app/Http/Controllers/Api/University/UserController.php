@@ -200,10 +200,10 @@ class UserController extends Controller
         if (empty($request->code)) {
           return response()->json(['status'=>999,'msg'=>'参数错误！']);
         }
-        if (empty($request->header('token'))) {
+        if (empty($request->token)) {
             return  response()->json(['status'=>700,'msg'=>'请先登录！']);
         }
-        if (!$users = User::isToken($request->header('token'))) {
+        if (!$users = User::isToken($request->token)) {
             return  response()->json(['status'=>701,'msg'=>'token已过期！']);
         }
         $appid = config('hint.appId');
