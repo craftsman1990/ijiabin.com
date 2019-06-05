@@ -143,14 +143,14 @@ class ContentController extends Controller
         ];
 
         $diff_v = [
-            "label" => "max:30",
+            "label" => "max:3",
             "video" => "required|max:255",
             "audio" => "required|max:255",
             "time" => "required|numeric|min:1",
             "content" => "required"
         ];
         $diff_m = [
-            "label.max" => "章节标签 不能超过30个字符",
+            "label.max" => "章节标签 不能超过3个字符",
             "video.required" => "视频地址 不能为空",
             "video.max" => "视频地址 不能超过255个字符",
             "audio.required" => "音频地址 不能为空",
@@ -162,12 +162,12 @@ class ContentController extends Controller
         ];
 
         $diff_v_0 = [
-            "label" => "max:20",
+            "label" => "max:3",
             "video" => "max:255",
             "audio" => "max:255",
         ];
         $diff_m_0 = [
-            "label.max" => "章节标签 不能超过20个字符",
+            "label.max" => "章节标签 不能超过3个字符",
             "video.max" => "视频地址 不能超过255个字符",
             "audio.max" => "音频地址 不能超过255个字符",
         ];
@@ -274,14 +274,14 @@ class ContentController extends Controller
         ];
 
         $diff_v = [
-            "label" => "max:20",
+            "label" => "max:3",
             "video" => "required|max:255",
             "audio" => "required|max:255",
             "time" => "required|numeric|min:1",
             "content" => "required"
         ];
         $diff_m = [
-            "label.max" => "章节标签 不能超过20个字符",
+            "label.max" => "章节标签 不能超过3个字符",
             "video.required" => "视频地址 不能为空",
             "video.max" => "视频地址 不能超过255个字符",
             "audio.required" => "音频地址 不能为空",
@@ -293,12 +293,12 @@ class ContentController extends Controller
         ];
 
         $diff_v_0 = [
-            "label" => "max:20",
+            "label" => "max:3",
             "video" => "max:255",
             "audio" => "max:255",
         ];
         $diff_m_0 = [
-            "label.max" => "章节标签 不能超过20个字符",
+            "label.max" => "章节标签 不能超过3个字符",
             "video.max" => "视频地址 不能超过255个字符",
             "audio.max" => "音频地址 不能超过255个字符",
         ];

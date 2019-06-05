@@ -33,6 +33,7 @@
                                 <label class="col-sm-3 control-label">课程名称：</label>
                                 <div class="col-sm-8">
                                     <input  name="name" class="form-control" type="text" maxlength="24" value="{{$course->name}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 最多可输入24个字</span>
                                 </div>
                             </div>
                             <!-- 密码： -->
@@ -40,6 +41,7 @@
                                 <label class="col-sm-3 control-label">授课老师：</label>
                                 <div class="col-sm-8">
                                     <input name="teacher" class="form-control" type="text" maxlength="20" value="{{$course->teacher}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 最多可输入20个字</span>
                                 </div>
                             </div>
                             <!-- 确认密码： -->
@@ -47,6 +49,7 @@
                                 <label class="col-sm-3 control-label">老师职称：</label>
                                 <div class="col-sm-8">
                                     <input name="professional" class="form-control" type="text" maxlength="50" value="{{$course->professional}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 最多可输入50个字</span>
                                 </div>
                             </div>
                             <!-- 电话： -->

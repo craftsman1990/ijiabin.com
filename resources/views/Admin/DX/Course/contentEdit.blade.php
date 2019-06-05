@@ -65,13 +65,15 @@
                                 <label class="col-sm-3 control-label">章节标题：</label>
                                 <div class="col-sm-8">
                                     <input name="title" class="form-control" type="text" value="{{$content->title}}" maxlength="24">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 不能超过24个字符</span>
                                 </div>
                             </div>
                             <!-- 章节标签： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标签：</label>
                                 <div class="col-sm-8">
-                                    <input name="label" class="form-control" type="text" value="{{$content->label}}" maxlength="20">
+                                    <input name="label" class="form-control" type="text" value="{{$content->label}}" maxlength="3">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 不能超过3个字符</span>
                                 </div>
                             </div>
                             <!-- 章节简介： -->

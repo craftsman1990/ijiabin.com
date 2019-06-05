@@ -60,13 +60,15 @@
                                 <label class="col-sm-3 control-label">章节标题：</label>
                                 <div class="col-sm-8">
                                     <input name="title" class="form-control" type="text" value="{{old('title')}}" maxlength="24">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>最多可输入24个字</span>
                                 </div>
                             </div>
                             <!-- 章节标签： -->
                              <div class="form-group">
                                  <label class="col-sm-3 control-label">章节标签：</label>
                                  <div class="col-sm-8">
-                                     <input name="label" class="form-control" type="text" value="{{old('label')}}" maxlength="20">
+                                     <input name="label" class="form-control" type="text" value="{{old('label')}}" maxlength="3">
+                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 最多可输入3个字</span>
                                  </div>
                              </div>
                             <!-- 章节简介： -->
