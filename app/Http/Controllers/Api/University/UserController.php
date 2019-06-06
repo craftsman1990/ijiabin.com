@@ -213,11 +213,8 @@ class UserController extends Controller
         $res = json_decode($acctok,true);
          //判断是否第一次登陆
         $user = User::where('open_id',$res['openid'])->get()->toArray();
-        if ($user[0]['mobile']!=$users->mobile) {
-             return  response()->json(['status'=>999,'msg'=>'该微信号已被绑定！']);      
-        }
         //根据用户token查询用户信息
-        if(empty($user[0]['open_id'])){
+        if(empty($user)){
             $accUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$res['access_token'].'&openid='.$res['openid'].'&lang=zh_CN';
             $newtok = json_decode(request_curl($accUrl),true);
             $data['open_id'] = $newtok['openid'];
@@ -229,7 +226,9 @@ class UserController extends Controller
             $userinfo = User::where('id',$user[0]['id'])->get()->toArray();
             return response()->json(['status'=>1,'msg'=>'success','data'=>$userinfo]);
         }else{
-
+            if ($user[0]['mobile']!=$users->mobile) {
+                 return  response()->json(['status'=>999,'msg'=>'该微信号已被绑定！']);      
+            }
             return response()->json(['status'=>1,'msg'=>'success','data'=>$user]);
         }
   }

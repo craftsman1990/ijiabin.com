@@ -33,7 +33,7 @@ class Course extends Model
     	$offset = ($request->page-1)*$request->pageSize;
             $source = DB::table('dx_course')
             ->select('id','name','crosswise_cover','lengthways_cover','ify','content_nums','content_updates','is_end','looks','teacher','professional','updated_at')
-            ->where('ify','=',$request->ify)
+            ->where(['status'=>1,'ify'=>$request->ify])
             ->orderBy('created_at','desc')
             // ->offset($offset)
             // ->limit($request->pageSize)
@@ -108,7 +108,7 @@ class Course extends Model
        //分类存在根据分类查询
        if ($ify) {
              $source = DB::table('dx_course')
-            ->where('ify','=',$ify)
+            ->where(['status'=>1,'ify'=>$request->ify])
             ->orderBy('created_at','desc')
             ->offset($offset)
             ->limit($pageSize)
@@ -116,6 +116,7 @@ class Course extends Model
             ->toArray();//课程  
        }else{
             $source = DB::table('dx_course')
+            ->where(['status'=>1])
             ->orderBy('created_at','desc')
             ->get()
             ->toArray();//课程 
