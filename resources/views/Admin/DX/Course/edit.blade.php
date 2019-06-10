@@ -3,7 +3,7 @@
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>修改课程</h5>
@@ -126,12 +126,22 @@
                                 </div>
                             </div>
                              <!-- 简介 -->
+{{--                            <div class="form-group">--}}
+{{--                                <label class="col-sm-3 control-label">简介：</label>--}}
+{{--                                <div class="col-sm-8">--}}
+{{--                                    <textarea id="intro" style="width: 100%;height: 300px;resize: none;" name="intro">{{$course->intro}}</textarea>--}}
+{{--                                    <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->--}}
+{{--                                    <p><span id="text-intro">1000</span>/1000</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">简介：</label>
                                 <div class="col-sm-8">
-                                    <textarea id="intro" style="width: 100%;height: 300px;resize: none;" name="intro">{{$course->intro}}</textarea>
-                                    <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
-                                    <p><span id="text-intro">1000</span>/1000</p>
+                                    <div id="div1" style="border: 1px solid #ccc;"></div>
+                                    <div id="editor" style="width: 100%;border: 1px solid #ccc;">
+                                        {!!$course->intro!!}
+                                    </div>
+                                    <textarea name="intro" id="text1" style="display: none;">{!!$course->intro!!}}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -144,7 +154,7 @@
                                     <input type="hidden" name="old_len_cover" value="{{$course->lengthways_cover}}">
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <button class="btn btn-primary" type="submit">提交</button>
@@ -158,6 +168,25 @@
         </div>
     </div>
     @include('layouts.admin_js')
+    <!-- 编辑器 -->
+    <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#div1','#editor')
+        editor.customConfig.uploadImgServer = '/api/upload'  // 上传图片到服务器
+        // editor.customConfig.debug=true;                // 开启调试
+
+        var $text1 = $('#text1')
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $text1.val(html)
+        }
+        editor.create()
+        // 初始化 textarea 的值
+        $text1.val(editor.txt.html())
+    </script>
+    <!-- 编辑器 -->
+
     <script type="text/javascript">
         //横图
         $('.choi-c').click(function(){
@@ -181,18 +210,18 @@
         //图片预览
         function getObjectURL(file){
             var url = null;
-            if (window.createObjectURL!=undefined) {  
-              url = window.createObjectURL(file) ;  
-             } else if (window.URL!=undefined) { // mozilla(firefox)  
-              url = window.URL.createObjectURL(file) ;  
-             } else if (window.webkitURL!=undefined) { // webkit or chrome  
-              url = window.webkitURL.createObjectURL(file) ;  
-             }  
+            if (window.createObjectURL!=undefined) {
+              url = window.createObjectURL(file) ;
+             } else if (window.URL!=undefined) { // mozilla(firefox)
+              url = window.URL.createObjectURL(file) ;
+             } else if (window.webkitURL!=undefined) { // webkit or chrome
+              url = window.webkitURL.createObjectURL(file) ;
+             }
              return url ;
         }
 
         //简介
-        var intro = $('[name=intro').val();
+        var intro = $('[name=intro]').val();
         $("#text-intro").text(1000-intro.length);
         $('#intro').on('input propertychange',function(){
             var $this = $(this),
@@ -202,7 +231,7 @@
                 $this.val(_val.substring(0, 1000));
             }
             count = 1000 - $this.val().length;
-            $("#text-intro").text(count);   
+            $("#text-intro").text(count);
         });
     </script>
 @stop

@@ -10,6 +10,11 @@ return [
 	'update_error' => '修改失败，请稍后再试',
     'add_contentNums_fail' => '添加失败，课程小节数已满！',
     'del_failure_updated'   => '删除失败,该课程内容已上架！',
+    'add_wx_article'        => '获取数据失败！',
+    'check_article'         =>  '对不起，本类别已有一个完全相同的标题，请修改!',
+    'upper_lower_success'   => '上下架成功！',
+    'upper_lower_fail'   => '上下架失败！',
+
 
 	'course_ify' => [ 1 => '公开课',
 					 // 2 => '精品课',

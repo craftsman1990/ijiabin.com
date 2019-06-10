@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Cache;
 */
 //查询网站状态
 // $website = DB::table('website')->select('status')->where('keywords','=', 'jbdx')->first();
+//开启
 if (1){
+
 //前端
     Route::get('/','Home\IndexController@index');
     Route::get('transmit/oneId/{oneId}/secId/{secId}','Home\IndexController@transmit');
@@ -193,6 +195,8 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('index','Admin\IndexController@index');			//首页
     Route::get('home','Admin\IndexController@home');			//首页内容
     Route::get('login','Admin\LoginController@showLoginForm')->name('admin.login');	//登陆界面
+    Route::get('/article/add','Admin\ArticleController@add');//导入公众号
+    Route::any('/article/content','Admin\ArticleController@content');//数据处理
     Route::post('dologin','Admin\LoginController@store')->name('admin.dologin');			//执行登陆
    	Route::get('loginout','Admin\LoginController@logout');	//退出
 
@@ -222,6 +226,8 @@ Route::group(['prefix'=>'admin'],function(){
         Route::resource('comment','Admin\DX\CommentController');       //评论列表
         Route::resource('content/bulletScreen','Admin\DX\BulletScreenController');       //弹幕列表
         Route::get('content/bulletScreen/create/content_id/{content_id}/time/{time}','Admin\DX\BulletScreenController@create');       //课程内容添加
+        Route::any('course/updateStatus/id/{id}','Admin\DX\CourseController@updateStatus'); //修改课程状态
+        Route::any('content/updateStatus/id/{id}','Admin\DX\ContentController@updateStatus'); //修改课程状态
        // Route::get('content/bulletScreen/{ldid}','Admin\MettingController@list');      //年会中奖名单
         Route::get('content/create/course_id/{course_id}','Admin\DX\ContentController@create');       //课程内容添加
         Route::resource('quiz','Admin\DX\QuizController');                 //自测题

@@ -39,6 +39,7 @@
                                     <th>标题</th>
                                     <th>时长</th>
                                     <th>试看时间</th>
+                                    <th>状态</th>
                                     <th>标签</th>
                                     <th>属性</th>
                                     <th>操作</th>
@@ -51,6 +52,13 @@
                                     <td>{{$v->title}}</td>
                                     <td class="center">{{$v->time == 0 ? '':$v->time}}</td>
                                     <td class="center">{{$v->try_time == 0 ? '': $v->try_time}}</td>
+                                    <td class="center">
+                                        @if($v->status == 1)
+                                            <span class="label label-info">上架</span>
+                                        @else
+                                            <span class="label label-danger">已下架</span>
+                                        @endif
+                                    </td>
                                     <td class="center">
                                             <span class="label label-info">{{$v->label}}</span>
                                     </td>
@@ -65,7 +73,7 @@
                                                 <li><a href="{{url('admin/jbdx/content/bulletScreen/'.$v->id)}}" class="demo4">弹幕列表</a></li>
                                                 <li><a href="{{url('admin/jbdx/comment/'.$v->id.'?type=3')}}" class="demo4">评论列表</a></li>
                                                 <li class="divider"></li>
-                                                <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/content/'.$v->id)}}">删除</a>
+                                                <li><a id="{{$v->id}}" data_status ="{{$v->status}}" class="font-bold cgedit update_status" url="{{url('admin/jbdx/content/updateStatus/id/'.$v->id)}}" >{{$v->status == 1 ? '下架' : '上架'}}</a></li>
                                                 </li>
                                             </ul>
                                         </div>
@@ -86,6 +94,7 @@
     <script>
         $(document).ready(function(){$(".footable").footable();$(".footable2").footable()});
     </script>
-    @include('layouts.admin_delete')
+{{--    @include('layouts.admin_delete')--}}
+    @include('layouts.course_update_status')
      
 @stop

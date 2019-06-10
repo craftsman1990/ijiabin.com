@@ -31,6 +31,37 @@ class ContentController extends Controller
     }
 
     /**
+     *课程内容章节数删除，或者上下架
+     * @param object $course 需要更新的课程
+     * @param int $status  设置的课程小节是否上架 0：未上架，1；上架
+     * @param string $opation 操作动作
+     **/
+
+    public  function subContentNumsLog(Course $course,$status,$opation = 'update')
+    {
+        //首先检查是否已经存在了，更新数
+        $id = $course->id;
+
+        $content_nums = $course->content_nums;
+        $content_updates = $course->content_updates;
+
+        $keys =  'Course_id:'.$id.';content_nums:'.$content_nums;
+
+        $check_nums = ContentNumsLog::select('nums')->where('courseid_contentnums','=',$keys)->first();
+
+        $jubge = true; $jubge_log = true;
+
+        if ($check_nums){//如果是已经存在
+            //直接减去
+            if ($status == 0){
+
+            }
+        }else{//如果不存在则先添加
+
+        }
+    }
+
+    /**
      *课程内容章节数更新
      * @param object $course 需要更新的课程
      * @param int $status  设置的课程小节是否上架 0：未上架，1；上架
@@ -109,6 +140,7 @@ class ContentController extends Controller
         );
         return  $res;
     }
+
 
     public function create(Request $request){
 //        dd($request->course_id);
@@ -406,6 +438,23 @@ class ContentController extends Controller
         }else{
             return back() -> with('hint',config('hint.del_failure'));
         }
+    }
+
+    //修改状态，上架或下架
+    public function updateStatus(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+        // dd($status);
+        $status_new = $status == 1 ? 0:1;
+        //dd($status_new);
+
+        if (Content::find($id)->update(['status'=>$status_new])){
+            return back()->with('success',config('jbdx.upper_lower_success'));
+        }else{
+            return back()->with('hint',config('jbdx.upper_lower_fail'));
+        }
+
     }
 
 }

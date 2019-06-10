@@ -17,7 +17,7 @@ use App\Services\Compress;
     }	
      //首页	
     public function index(){	
-        $list = Course::paginate(20);	
+        $list = Course::paginate(20);
 //        dd($list);	
         return view('Admin.DX.Course.index',compact('list'));	
     }	
@@ -247,5 +247,23 @@ use App\Services\Compress;
                 return back() -> with('hint',config('hint.del_failure'));	
             }	
         }	
-    }	
+    }
+
+    //改变状态 ，上架或下架
+    public function updateStatus(Request $request)
+    {
+
+        $id = $request->id;
+        $status = $request->status;
+       // dd($status);
+        $status_new = $status == 1 ? 0:1;
+        //dd($status_new);
+
+        if (Course::find($id)->update(['status'=>$status_new])){
+            return back()->with('success',config('jbdx.upper_lower_success'));
+        }else{
+            return back()->with('hint',config('jbdx.upper_lower_fail'));
+        }
+
+    }
 }

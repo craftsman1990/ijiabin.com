@@ -37,6 +37,7 @@
                                     <th >ID</th>
                                     <th>名称</th>
                                     <th>老师</th>
+                                    <th>状态</th>
                                     <th>类别</th>
                                     <th>付费课</th>
                                     <th>价格</th>
@@ -50,9 +51,22 @@
                                     <td>{{$v->id}}</td>
                                     <td>{{$v->name}}</td>
                                     <td class="center">{{$v->teacher}}</td>
+                                    <td class="center">
+                                        @if($v->status == 1)
+                                            <span class="label label-info">上架</span>
+                                        @else
+                                            <span class="label label-danger">已下架</span>
+                                        @endif
+                                    </td>
                                     <!-- <td><img src="{{asset($v->cover)}}" height="50px"></td> -->
                                     <td class="center">{{config('jbdx.course_ify')[$v->ify]}}</td>
-                                    <td class="center">{{$v->is_pay ==1 ? '是' : '否'}}</td>
+                                    <td class="center">
+                                        @if($v->is_pay == 1)
+                                            <span class="label label-info">是</span>
+                                        @else
+                                            <span class="label label-danger">否</span>
+                                        @endif
+                                    </td>
                                     <td class="center">{{$v->price}}</td>
                                     <td class="center">{{$v->looks}}</td>
                                     <td class="center">
@@ -64,8 +78,9 @@
                                                 <li><a href="{{url('admin/jbdx/course/'.$v->id)}}" class="demo4">内容列表</a></li>
                                                 <li><a href="{{url('admin/jbdx/comment/'.$v->id.'?type=2')}}" class="demo4">评论列表</a></li>
                                                 <li class="divider"></li>
-                                                <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/course/'.$v->id)}}">删除</a>
-                                                </li>
+                                                <li><a id="{{$v->id}}" data_status ="{{$v->status}}" class="font-bold cgedit update_status" url="{{url('admin/jbdx/course/updateStatus/id/'.$v->id)}}" >{{$v->status == 1 ? '下架' : '上架'}}</a></li>
+{{--                                                <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/course/'.$v->id)}}">删除</a>--}}
+{{--                                                </li>--}}
                                             </ul>
                                         </div>
                                     </td>
@@ -85,6 +100,7 @@
     <script>
         $(document).ready(function(){$(".footable").footable();$(".footable2").footable()});
     </script>
-    @include('layouts.admin_delete')
+{{--    @include('layouts.admin_delete')--}}
+    @include('layouts.course_update_status')
      
 @stop
