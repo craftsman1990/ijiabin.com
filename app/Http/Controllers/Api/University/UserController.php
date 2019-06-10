@@ -112,6 +112,10 @@ class UserController extends Controller
              if ($request->mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
                 return response()->json(['status'=>999,'msg'=>'验证码错误！']);
             }
+            //验证手机是否和注册手机相同
+            if ($request->mobile!=$user->mobile) {
+              return response()->json(['status'=>999,'msg'=>'请使用注册手机号修改密码！']);
+            }
         }
         if ($request->new_password) {
             //验证两次密码是否一致
@@ -119,10 +123,6 @@ class UserController extends Controller
                 $source['password'] = bcrypt($request->new_password);
             }else{
                 return response()->json(['status'=>999,'msg'=>'两次密码输入不一致！']);
-            }
-            //验证手机是否和注册手机相同
-            if ($request->mobile!=$user->mobile) {
-              return response()->json(['status'=>999,'msg'=>'请使用注册手机号修改密码！']);
             }
         }else{
              $source['password'] = '';
