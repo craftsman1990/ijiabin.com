@@ -125,8 +125,8 @@ class PayController extends Controller
         if (empty($course)) {
             return  response()->json(['status'=>999,'msg'=>'课程不存在']);
         }
-        $order = Order::where('user_id',$user->id)->where('course_id',$course->id)->first();
-        if (!$order){
+        //$order = Order::where('user_id',$user->id)->where('course_id',$course->id)->first();
+        // if (!$order){
             $data = [
                 'order_num' => time(),
                 'title' => $course->name,
@@ -138,7 +138,7 @@ class PayController extends Controller
             if (!$order = Order::create($data)){
                 return response(['status'=>999,'msg'=>'未知错误，订单创建失败，请稍后再试！']);
             }
-        }
+        // }
         $wx_order =[
             'out_trade_no' => $order->order_num,
             'body' => $order->title,
