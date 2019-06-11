@@ -126,22 +126,22 @@
                                 </div>
                             </div>
                              <!-- 简介 -->
-{{--                            <div class="form-group">--}}
-{{--                                <label class="col-sm-3 control-label">简介：</label>--}}
-{{--                                <div class="col-sm-8">--}}
-{{--                                    <textarea id="intro" style="width: 100%;height: 300px;resize: none;" name="intro">{{$course->intro}}</textarea>--}}
-{{--                                    <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->--}}
-{{--                                    <p><span id="text-intro">1000</span>/1000</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">简介：</label>
                                 <div class="col-sm-8">
+                                    <textarea id="intro" style="width: 100%;height: 200px;resize: none;" name="intro">{{$course->intro}}</textarea>
+                                    <p><span id="text-intro">1000</span>/1000</p>
+                                </div>
+                            </div>
+                            <!-- 内容  -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">内容：</label>
+                                <div class="col-sm-8">
                                     <div id="div1" style="border: 1px solid #ccc;"></div>
-                                    <div id="editor" style="width: 100%;border: 1px solid #ccc;">
-                                        {!!$course->intro!!}
+                                    <div id="editor" style="width: 100%;height: 500px;border: 1px solid #ccc;">
+                                        {!!$course->content!!}
                                     </div>
-                                    <textarea name="intro" id="text1" style="display: none;">{!!$course->intro!!}}</textarea>
+                                    <textarea name="content" id="text1" style="display: none;">{!!$course->content!!}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">

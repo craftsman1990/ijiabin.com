@@ -45,8 +45,8 @@
                                     </select>
                                 </div>
                             </div>
-                                <!-- 更新上架： -->
-                                <div class="form-group" >
+                           <!-- 更新上架： -->
+                           <div class="form-group" >
                                     <label class="col-sm-3 control-label">更新上架：</label>
                                     <div class="col-sm-3">
 
@@ -132,16 +132,16 @@
                                 </div>
                             </div>
                            <!-- 章节内容： -->
-                            <div class="form-group">
+                           <div class="form-group">
                                 <label class="col-sm-3 control-label">内容：</label>
                                 <div class="col-sm-8">
                                     <div id="div1" style="border: 1px solid #ccc;"></div>
-                                    <div id="editor" style="width: 100%;border: 1px solid #ccc;">
+                                    <div id="editor" style="width: 100%;height: 500px;border: 1px solid #ccc;">
                                             {!!$content->content!!}
                                     </div>
                                     <textarea name="content" id="text1" style="display: none;">{!!$content->content!!}}</textarea>
                                 </div>
-                            </div>
+                           </div>
 
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
@@ -183,55 +183,56 @@
         // 初始化 textarea 的值
         $text1.val(editor.txt.html())
     </script>
-    <script type="text/javascript">
 
-        //普通图片上传
-        $('.choi-c').click(function(){
-            $('[name=cover]').trigger('click');
-        });
-        $('[name=cover]').change(function(){
-            var imgurl = getObjectURL(this.files[0]);
-            // console.log(imgurl);
-            $('#cover').attr('src',imgurl);
-        });
+{{--    <script type="text/javascript">--}}
 
-           var intro = $('[name=intro]').val();
-            $("#text-intro").text(105-intro.length);
-            $('#intro').on('input propertychange',function(){
-                var $this = $(this),
-                    _val = $this.val(),
-                    count = "";
-                if (_val.length > 105) {
-                    $this.val(_val.substring(0, 105));
-                }
-                count = 105 - $this.val().length;
-                $("#text-intro").text(count);
-            });
-            //内容
-            var content = $('[name=content]').val();
-            $("#text-content").text(1000-content.length);
-            $('#content').on('input propertychange',function(){
-                var $this = $(this),
-                    _val = $this.val(),
-                    count = "";
-                if (_val.length > 1000) {
-                    $this.val(_val.substring(0, 1000));
-                }
-                count = 1000 - $this.val().length;
-                $("#text-content").text(count);
-            });
+{{--        //普通图片上传--}}
+{{--        $('.choi-c').click(function(){--}}
+{{--            $('[name=cover]').trigger('click');--}}
+{{--        });--}}
+{{--        $('[name=cover]').change(function(){--}}
+{{--            var imgurl = getObjectURL(this.files[0]);--}}
+{{--            // console.log(imgurl);--}}
+{{--            $('#cover').attr('src',imgurl);--}}
+{{--        });--}}
 
-        //图片预览
-        function getObjectURL(file){
-            var url = null;
-            if (window.createObjectURL!=undefined) {
-                url = window.createObjectURL(file) ;
-            } else if (window.URL!=undefined) { // mozilla(firefox)
-                url = window.URL.createObjectURL(file) ;
-            } else if (window.webkitURL!=undefined) { // webkit or chrome
-                url = window.webkitURL.createObjectURL(file) ;
-            }
-            return url ;
-        }
-    </script>
+{{--           var intro = $('[name=intro]').val();--}}
+{{--            $("#text-intro").text(105-intro.length);--}}
+{{--            $('#intro').on('input propertychange',function(){--}}
+{{--                var $this = $(this),--}}
+{{--                    _val = $this.val(),--}}
+{{--                    count = "";--}}
+{{--                if (_val.length > 105) {--}}
+{{--                    $this.val(_val.substring(0, 105));--}}
+{{--                }--}}
+{{--                count = 105 - $this.val().length;--}}
+{{--                $("#text-intro").text(count);--}}
+{{--            });--}}
+{{--            //内容--}}
+{{--            var content = $('[name=content]').val();--}}
+{{--            $("#text-content").text(1000-content.length);--}}
+{{--            $('#content').on('input propertychange',function(){--}}
+{{--                var $this = $(this),--}}
+{{--                    _val = $this.val(),--}}
+{{--                    count = "";--}}
+{{--                if (_val.length > 1000) {--}}
+{{--                    $this.val(_val.substring(0, 1000));--}}
+{{--                }--}}
+{{--                count = 1000 - $this.val().length;--}}
+{{--                $("#text-content").text(count);--}}
+{{--            });--}}
+
+{{--        //图片预览--}}
+{{--        function getObjectURL(file){--}}
+{{--            var url = null;--}}
+{{--            if (window.createObjectURL!=undefined) {--}}
+{{--                url = window.createObjectURL(file) ;--}}
+{{--            } else if (window.URL!=undefined) { // mozilla(firefox)--}}
+{{--                url = window.URL.createObjectURL(file) ;--}}
+{{--            } else if (window.webkitURL!=undefined) { // webkit or chrome--}}
+{{--                url = window.webkitURL.createObjectURL(file) ;--}}
+{{--            }--}}
+{{--            return url ;--}}
+{{--        }--}}
+{{--    </script>--}}
 @stop

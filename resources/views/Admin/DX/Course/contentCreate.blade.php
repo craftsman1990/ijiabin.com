@@ -127,24 +127,13 @@
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的试看时长(以s秒为单位)</span>
                                 </div>
                             </div>
-                             <!-- 章节内容 -->
-{{--                            <div class="form-group">--}}
-{{--                                <label class="col-sm-3 control-label">章节内容：</label>--}}
-{{--                                <div class="col-sm-8">--}}
-{{--                                    <textarea id="content" style="width: 100%;height: 300px;resize: none;" name="content">{{old('content')}}</textarea>--}}
-{{--                                    <p><span id="text-content">1000</span>/1000</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-
-                                <!-- 内容 -->
+                            <!-- 内容 -->
                              <div class="form-group">
                                  <label class="col-sm-3 control-label">内容：</label>
                                     <div class="col-sm-8">
                                         <!-- 加载编辑器内容 -->
-                                    <!-- <script id="editor" type="text/pslain" style="height:600px;" name="content">{!!old('content')!!}</script> -->
-                                        <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
                                      <div id="div1" style="border: 1px solid #ccc;"></div>
-                                     <div id="editor" style="width: 100%;border: 1px solid #ccc;height: 800px;">
+                                     <div id="editor" style="width: 100%;border: 1px solid #ccc;height: 500px;">
                                             {!!old('content')!!}
                                      </div>
                                      <textarea name="content" id="text1" style="display: none;">{!!old('content')!!}</textarea>

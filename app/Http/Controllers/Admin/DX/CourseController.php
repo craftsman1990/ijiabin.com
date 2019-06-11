@@ -67,7 +67,8 @@ use App\Services\Compress;
             'crosswise_cover.required'=>'横向封面图 不能为空',	
             'lengthways_cover.required'=>'纵向封面图 不能为空',	
         ];	
-        $credentials = $this->validate($request,$verif,$message);	
+        $credentials = $this->validate($request,$verif,$message);
+        $credentials['content'] = $request->content;
 //        dd($credentials);	
         //横图	
         $cor_size = $credentials['crosswise_cover']->getSize() / 1024;	
@@ -145,7 +146,8 @@ use App\Services\Compress;
             'looks.required'=>'观看次数 不能为空',	
             'looks.numeric'=>'观看次数 只能是数值',	
         ];	
-        $credentials = $this->validate($request,$verif,$message);	
+        $credentials = $this->validate($request,$verif,$message);
+        $credentials['content'] = $request->content;
 //        dd($credentials);	
         //横图	
         if ($request->crosswise_cover){	

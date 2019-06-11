@@ -127,28 +127,27 @@
                                 </div>
                             </div>
                              <!-- 简介 -->
-{{--                            <div class="form-group">--}}
-{{--                                <label class="col-sm-3 control-label">简介：</label>--}}
-{{--                                <div class="col-sm-8">--}}
-{{--                                    <textarea id="intro" style="width: 100%;height: 300px;resize: none;" name="intro">{{old('intro')}}</textarea>--}}
-{{--                                    <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->--}}
-{{--                                    <p><span id="text-intro">1000</span>/1000</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">简介：</label>
                                 <div class="col-sm-8">
+                                    <textarea id="intro" style="width: 100%;height: 200px;resize: none;" name="intro"></textarea>
+                                    <p><span id="text-intro">1000</span>/1000</p>
+                                </div>
+                            </div>
+                            <!-- 内容  -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">内容：</label>
+                                <div class="col-sm-8">
                                     <div id="div1" style="border: 1px solid #ccc;"></div>
-                                    <div id="editor" style="width: 100%;border: 1px solid #ccc;">
-                                        {{old('intro')}}
+                                    <div id="editor" style="width: 100%;height: 500px;border: 1px solid #ccc;">
+                                        {!!old('content')!!}
                                     </div>
-                                    <textarea name="intro" id="text1" style="display: none;">{{old('intro')}}</textarea>
+                                    <textarea name="content" id="text1" style="display: none;">{!!old('content')!!}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                    <!-- <input type="hidden" name="crosswise_cover" value="{{old('crosswise_cover')}}"> -->
                                     <input type="file" name="crosswise_cover" style="display: none;" value="{{old('crosswise_cover')}}">
                                     <input type="file" name="lengthways_cover" style="display: none;" value="{{old('lengthways_cover')}}">
                                 </div>
@@ -167,7 +166,6 @@
         </div>
     </div>
     @include('layouts.admin_js')
-    <!-- @include('layouts.admin_picpro') -->
 
     <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
