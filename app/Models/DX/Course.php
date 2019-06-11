@@ -30,21 +30,21 @@ class Course extends Model
      */
     public static function getCourseList($request)
     {
-    	$offset = ($request->page-1)*$request->pageSize;
+        $offset = ($request->page-1)*$request->pageSize;
             $source = DB::table('dx_course')
-            ->select('id','name','crosswise_cover','lengthways_cover','ify','content_nums','content_updates','is_end','looks','teacher','professional','updated_at')
+            ->select('id','name','crosswise_cover','lengthways_cover','ify','content_nums','content_updates','is_end','looks','teacher','professional','updated_at','intro','content')
             ->where(['status'=>1,'ify'=>$request->ify])
             ->orderBy('created_at','desc')
             // ->offset($offset)
             // ->limit($request->pageSize)
             ->get()
             ->toArray();//课程
-    	//根据课程查询课程下的小结
-    	foreach ($source as $key => $v) {
-    		$list = DB::table('dx_course_content')
-    		->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','play_num','cover','status')
-    		->where('course_id','=',$v->id)
-    		->get()->toArray();
+        //根据课程查询课程下的小结
+        foreach ($source as $key => $v) {
+            $list = DB::table('dx_course_content')
+            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','play_num','cover','status')
+            ->where('course_id','=',$v->id)
+            ->get()->toArray();
             //获取上架小节数
             $content_nums = DB::table('dx_course_content')->where(['status'=>1,'course_id'=>$v->id])->count();
             if (empty($content_nums)) {
@@ -97,8 +97,8 @@ class Course extends Model
             $source[$key]->crosswise_cover = $crosswise_cover;
             $source[$key]->lengthways_cover = $lengthways_cover;
             $source[$key]->is_pay = $is_pay;
-    		$source[$key]->course_content = $list;
-    	}
+            $source[$key]->course_content = $list;
+        }
         return $source;
     }
     //获取wap站首页课程列表信息
@@ -151,6 +151,8 @@ class Course extends Model
             $source[$key]->content_updates = $content_nums;
             $source[$key]->crosswise_cover = $crosswise_cover;
             $source[$key]->lengthways_cover = $lengthways_cover;
+            $source[$key]->intro = $v->intro;
+            $source[$key]->content = $v->content;
         }
         return $source;
     }
