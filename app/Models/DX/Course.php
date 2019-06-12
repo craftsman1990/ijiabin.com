@@ -165,7 +165,7 @@ class Course extends Model
     public static function getCourseDetail($request)
     {
         $source = DB::table('dx_course')
-        ->select('id','name','crosswise_cover','lengthways_cover','ify','intro','price')
+        ->select('id','name','crosswise_cover','lengthways_cover','ify','intro','price','content')
         ->where('id','=',$request->course_id)
         ->get()
         ->toArray();//课程
