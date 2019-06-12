@@ -172,9 +172,23 @@ class Course extends Model
         //根据课程查询课程下的小结
         foreach ($source as $key => $v) {
             $list = DB::table('dx_course_content')
-            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover','status','content')
+            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover','status','content','play_num')
             ->where('course_id','=',$v->id)
             ->get()->toArray();
+            $num = array_sum(array_column($list,'play_num'));
+            $play_num = $num + $v->looks;
+            //转换展示播放量
+            if($play_num < 10000) {
+               $plays = (string)$play_num;
+            } else if ($play_num >= 10000) {
+               $str =substr($play_num,-3);
+               if ($str>=500) {
+                  $play_num = $play_num-$str +1000;
+               }else{
+                   $play_num = $play_num-$str;
+               }
+               $plays = ($play_num/10000).'w';
+            }
             foreach ($list as $k => $val) {
                 //验证用户是否收藏
                 if (empty($request->user_id)) {
@@ -216,6 +230,7 @@ class Course extends Model
             $source[$key]->crosswise_cover = url($v->crosswise_cover);
             $source[$key]->lengthways_cover = url($v->lengthways_cover);
             $source[$key]->is_pay = $is_pay;
+            $source[$key]->play_num = $plays;
             $source[$key]->course_content = $list;
         }
         return $source;
