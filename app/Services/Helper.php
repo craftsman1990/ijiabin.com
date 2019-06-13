@@ -142,6 +142,7 @@ class Helper
         //返回
         return $data;
     }
+
     //获取客户端ip地址
     public static function get_client_ip(){
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -158,6 +159,7 @@ class Helper
         if($ip == '') $ip = null;
         return($ip);
     }
+
     //获取当前请求方式
     public static function getResponse()
     {
