@@ -102,16 +102,16 @@ class Helper
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         //缓存内是否存在accessToken
-        $accessToken = Cache::remember('accessToken11',120,function () use ($appid,$secret){
+        // $accessToken = Cache::remember('accessToken11',120,function () use ($appid,$secret){
             //获取access_token的请求地址
             $accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
             //请求地址获取access_token
             $accessTokenJson = file_get_contents($accessTokenUrl);
             $accessTokenObj = json_decode($accessTokenJson);
             $accessToken = $accessTokenObj->access_token;
-            return $accessToken;
+            // return $accessToken;
 
-        });
+        // });
         
         //获取jsapi_ticket的请求地址
         $ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$accessToken&type=jsapi";
