@@ -112,7 +112,7 @@ class Helper
             return $accessToken;
 
         });
-
+        
         //获取jsapi_ticket的请求地址
         $ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$accessToken&type=jsapi";
         $jsapiTicketJson = file_get_contents($ticketUrl);
