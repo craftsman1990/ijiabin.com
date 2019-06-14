@@ -46,6 +46,9 @@ class Article extends Model
             ->limit($limit)
             ->get()
             ->toArray();
+            if (empty($data)) {
+                return [];
+            }
             //根据标签id获取标签集合
         foreach ($data as $key => $v) {
             $label_id = explode(',', $v->label_id);
@@ -242,7 +245,7 @@ class Article extends Model
         //根据推荐id获取推荐内容
         $arr = [];
         foreach ($recommend_ids as $k => $v) {
-            $article = Article::where(['id'=>$v->aid,'status'=>1,'type'=>$type])->select('id','title','duration','cover')->get()->toArray();;
+            $article = Article::where(['id'=>$v->aid,'status'=>1,'type'=>$type])->select('id','title','duration','cover','looks','intro')->get()->toArray();;
             $arr = array_merge_recursive($arr,$article);
         }
         return $arr;
