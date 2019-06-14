@@ -241,12 +241,27 @@ class Article extends Model
             ->limit(16)
              ->get()
             ->toArray();
-        // print_r($recommend_ids);die;
         //根据推荐id获取推荐内容
         $arr = [];
         foreach ($recommend_ids as $k => $v) {
-            $article = Article::where(['id'=>$v->aid,'status'=>1,'type'=>$type])->select('id','title','duration','cover','looks','intro')->get()->toArray();;
+            $article = Article::where(['id'=>$v->aid,'status'=>1,'type'=>$type])->select('id','title','duration','cover','looks','intro','label_id')->get()->toArray();
             $arr = array_merge_recursive($arr,$article);
+        }
+        $i = 0;
+        foreach ($arr as $key => $value) {
+            $label_id = explode(',',$value['label_id']);
+            foreach ($label_id as $ks => $vals) {
+                if ($i>5) {
+                    continue;
+                }
+                $labels[] = DB::table('labels')
+                ->select('id','name')
+                ->where('id','=',$vals)
+                ->first();
+                $i++;
+            }
+            $arr[$key]['labels'] = $labels;
+            $labels = [];
         }
         return $arr;
     }
