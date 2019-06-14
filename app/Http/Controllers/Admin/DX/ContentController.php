@@ -33,11 +33,11 @@ class ContentController extends Controller
     /**
      *课程内容章节数删除，或者上下架
      * @param object $course 需要更新的课程
-     * @param int $status  设置的课程小节是否上架 0：未上架，1；上架
+     * @param int $updated 设置的课程小节是否更新 0:否，1:是
      * @param string $opation 操作动作
      **/
 
-    public  function subContentNumsLog(Course $course,$status,$opation = 'update')
+    public  function subContentNumsLog(Course $course,$updated,$opation = 'update')
     {
         //首先检查是否已经存在了，更新数
         $id = $course->id;
@@ -49,26 +49,44 @@ class ContentController extends Controller
 
         $check_nums = ContentNumsLog::select('nums')->where('courseid_contentnums','=',$keys)->first();
 
-        $jubge = true; $jubge_log = true;
+
+
+        $symbol = '+';
+
 
         if ($check_nums){//如果是已经存在
             //直接减去
-            if ($status == 0){
+            dd('直接减去');
+
+            if ($opation == 'delete'){
 
             }
-        }else{//如果不存在则先添加
+            ContentNumsLog::where('courseid_contentnums','=',$keys)->update('nums',$check_nums-1);
 
+
+
+        }else{//如果不存在则先添加
+            $nums = Content::where('course_id',$course->id)->count();
+
+            $content_updates = Content::where([['course_id','=',$course->id],['updated','=',1]])->count();
+
+            ContentNumsLog::create(['courseid_contentnums'=>$keys,'nums'=>$nums-1]);
+
+            $update_arr = array(
+              'content_updates' => $content_updates - 1,
+            );
+            Course::find($course->id)->update($update_arr);
         }
     }
 
     /**
      *课程内容章节数更新
      * @param object $course 需要更新的课程
-     * @param int $status  设置的课程小节是否上架 0：未上架，1；上架
+     * @param int $update  设置的课程小节是否已更新 0：未，1；是
      * @param string $opation 操作动作
      **/
 
-    private function updatedContentNumsLog(Course $course,$status,$opation = 'update')
+    private function updatedContentNumsLog(Course $course,$updated,$opation = 'update')
     {
         $id = $course->id;
 
@@ -100,10 +118,10 @@ class ContentController extends Controller
 
 
             //更新课程表中小节更新数
-            if ( $status == 1 && $content_updates == $content_nums && $jubge == true){
+            if ( $updated == 1 && $content_updates == $content_nums && $jubge == true){
                 $jubge = false;
 //                $message = '更新完毕';
-            }else if ($status == 1 && $content_updates < $content_nums && $jubge == true ){
+            }else if ($updated == 1 && $content_updates < $content_nums && $jubge == true ){
                 $update = array(
                     'is_end' => ($content_updates+1 == $content_nums)?1:0,
                     'content_updates' =>$content_updates+1,
@@ -120,7 +138,7 @@ class ContentController extends Controller
                 ContentNumsLog::create(['courseid_contentnums'=>$keys,'nums'=>1]);
             }
 
-            if ($status == 1){
+            if ($updated == 1){
                 $update = [
                     'is_end'=>($content_updates == $content_nums-1)?1:0,
                     'content_updates'=>1,
@@ -156,6 +174,7 @@ class ContentController extends Controller
             'title'=>'required|max:24',
             'intro'=>'required|max:105',
             'status'=>'required',
+            'updated'=>'required',
             'course_id'=>'required|numeric',
             'cover'=>'required'
         ];
@@ -170,6 +189,7 @@ class ContentController extends Controller
             'intro.required' => '章节简介 不能为空',
             'intro.max' => '章节简介 不能超过105个字符',
             'status.required' => '是否上架  不能为空',
+            'updated.required' => '是否更新  不能为空',
             'course_id.required' => '课程ID 不能为空',
             'cover.required'=>'封面图 不能为空',
         ];
@@ -211,7 +231,7 @@ class ContentController extends Controller
         }
 
         //判断是否上架
-        if ($request->status == 1){
+        if ($request->updated == 1){
             $verif = array_merge($verif,$diff_v);
             $message = array_merge($message,$diff_m);
         }else{
@@ -231,7 +251,7 @@ class ContentController extends Controller
             $credentials['try_time'] =  0;
         }
         
-        if ($request->status ==0){
+        if ($request->updated ==0){
             $credentials['content'] = $request->content;
         }
 
@@ -260,7 +280,7 @@ class ContentController extends Controller
 
             //更新课节数日志
             $Course = Course::find($request->course_id);
-            $add_res = $this->updatedContentNumsLog($Course,$request->status,'add');
+            $add_res = $this->updatedContentNumsLog($Course,$request->updated,'add');
             if ($add_res['is_add'] == false) {
                 //回滚
                 return back()->with('hint', config('jbdx.add_contentNums_fail'));
@@ -289,6 +309,7 @@ class ContentController extends Controller
             'title'=>'required|max:24',
             'intro'=>'required|max:105',
             'status'=>'required',
+            'updated'=>'required',
             'course_id'=>'required|numeric',
         ];
         $message =[
@@ -302,6 +323,7 @@ class ContentController extends Controller
             'intro.required' => '章节简介 不能为空',
             'intro.max' => '章节简介 不能超过105个字符',
             'status.required' => '是否上架  不能为空',
+            'updated.required' => '是否上架  不能为空',
             'course_id.required' => '课程ID 不能为空',
         ];
 
@@ -342,7 +364,7 @@ class ContentController extends Controller
         }
 
         //判断是否上架
-        if ($request->status == 1){
+        if ($request->updated == 1){
             $verif = array_merge($verif,$diff_v);
             $message = array_merge($message,$diff_m);
         }else{
@@ -363,7 +385,7 @@ class ContentController extends Controller
             $credentials['try_time'] =  0;
         }
 
-        if ($request->status ==0){
+        if ($request->updated ==0){
             $credentials['content'] = $request->content;
         }
         
@@ -403,10 +425,10 @@ class ContentController extends Controller
         $Content = Content::find($id);
         if (Content::find($id)->update($credentials)){
              //修改之前首先判断原先的数据是否已经上架，如果没有则添加到日志
-            if ($Content->status == 0){
+            if ($Content->updated == 0){
                 //更新课节数日志
                 $Course = Course::find($request->course_id);
-                $this->updatedContentNumsLog($Course,$request->status);
+                $this->updatedContentNumsLog($Course,$request->updated);
             }
 
             return redirect('admin/jbdx/course/'.$credentials['course_id'])->with('success',config('hint.mod_success'));
@@ -425,7 +447,7 @@ class ContentController extends Controller
         if ($quiz){
             return back()->with('hint',config('hint.del_failure_exist'));
         }
-        if ($Content->status == 1){
+        if ($Content->updated == 1){
             return back()->with('hint',config('jbdx.del_failure_updated'));
         }
         if (Content::destroy($id)){

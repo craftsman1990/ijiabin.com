@@ -12,6 +12,9 @@ use App\Services\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Compress;
+use Illuminate\Support\Facades\DB;
+use App\Models\DX\Article as Articles;
+use App\Models\DX\ArticleBlade;
 
 class articleController extends Controller
 {
@@ -73,7 +76,6 @@ class articleController extends Controller
 
     //添加
     public function create(){
-        //echo phpinfo();die;
         $nav = Navigation::getAll();
         $nav_tree = Helper::_tree_json($nav);
         $data['nav'] = Helper::getBottomLayer($nav_tree);
@@ -146,7 +148,10 @@ class articleController extends Controller
         if ($request->author){
             $credentials['author'] = $request->author;
         }
+        //图片大小
+//        $size = strlen(file_get_contents($request->cover))/1024;
 
+//        dd($size);
         //图像上传
 //        if ($request->file('cover')){
         if ($request->cover){
@@ -198,5 +203,88 @@ class articleController extends Controller
         }else{
             return back() -> with('hint',config('hint.del_failure'));
         }
+    }
+
+        /**
+     * 文章导入（公众号）
+     * @param category 导入文章类别
+     * @param url 需要导入数据url（公总号地址）
+     */
+    public function add(Request $request)
+    {
+        //获取添加文章类别（默认是文字案例库）
+        if (empty($request->url)) {
+            $data['cate'] = Category::select('id','cg_name')->get()->toArray();
+            return view('Admin.Article.add',compact('data',$data));
+        }else{
+            $verif = array(
+                'url'=>'required',
+                'cg_id'=>'required|numeric'
+                );
+            $credentials = $this->validate($request,$verif);
+            //获取公众号地址请求神箭手抓取内容
+            $urls = urlencode($request->url);
+            $url = "https://api.shenjian.io/?appid=d8e907db3941eb14c5361030110a5a7e&url=".$urls;
+            //获取数据
+            $data = file_get_contents($url);
+            $result = json_decode($data,true);
+            if ($result['error_code']!=0) {
+               return back()->with('jbdx',config('jbdx.add_wx_article'));
+            }
+            if (empty($result['data']['article_title'])) {
+                return back()->with('jbdx',config('jbdx.add_wx_article'));
+            }
+            $result['data']['label'] = Label::select('id','name')->get()->toArray();
+            // print_r($result);die;
+            return view('Admin.Article.edits',compact('result',$result),compact('lables'));
+        }
+    }
+
+    /**
+     * 内容入库
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function content(Request $request)
+    {
+       $model = new Articles();
+       $model_body = new ArticleBlade();
+       //获取需要处理数据
+       $article['title'] = $request->title;//标题
+       $article['cg_id'] = $request->cg_id;//分类id
+       //根据分类检测是否有重复标题
+       if(!Articles::checkTitle($article['title'],$article['cg_id'])){
+            return back()->with('jbdx',config('jbdx.check_article'));
+       }
+       $model->title = $article['title'];
+       $model->cg_id = $article['cg_id'];
+       $model->type = 1;//1：文章；2：视频
+       $model->publish_time = $request->publish_time;//文章的发布时间
+       $model->author = $request->author;//文章作者
+       $model->intro = $request->intro;//文章介绍
+       $model->content = $request->content;//文章内容
+       $model->tag = isset($request->tag)? $request->tag : '';//关键字
+       //获取标签id
+       if ($request->labels) {
+           $model->label_id = implode(',',$request->labels);
+       }
+       $model->cover = isset($request->old_pic) ? $request->old_pic : '';//封面图
+       //事务开始
+       DB::beginTransaction();
+       if (!$model->save()) {
+           return back()->with('hint',config('hint.add_failure'));
+       }
+       $pic = array('cover'=>$model->cover);
+       //存储正文
+       $model_body->pic_info = json_encode($pic);
+       $model_body->aid = $model->id;
+       if(!$model_body->save()){
+            //回滚事物
+            DB::rollBack();
+            return back()->with('hint',config('hint.add_failure'));
+        }
+       //提交事务
+       DB::commit();
+       return redirect('admin/article')->with('success', config('hint.add_success'));
     }
 }

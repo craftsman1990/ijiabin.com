@@ -33,6 +33,7 @@
                         <div class="">
                             <a href="article/create" class="btn btn-primary J_menuItem">添加文章</a>
                             <a href="{{url('assist')}}" class="btn btn-primary J_menuItem" target="_blank">清除工具</a>
+                            <a href="article/add" class="btn btn-primary J_menuItem">导入微信公众号文章</a>
                         </div>
                         <form action="">
                             <div class="form-group">
@@ -97,7 +98,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{url('article/id/'.$v->id)}}" target="_blank">详情</a></li>
-                                                <li><a href={{url("admin/article/$v->id/edit")}} class="font-bold">修改</a></li>
+                                                <li><a href='{{url("admin/article/$v->id/edit")}}' class="font-bold">修改</a></li>
                                                 <li>
                                                     @if($v->cho != 0)
                                                     <a href="{{url('admin/choiceness/cancel/id/'.$v->cho)}}" >取消精选</a>

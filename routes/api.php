@@ -70,4 +70,12 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::post('wxPay','Api\University\PayController@wxPay');//微信支付
 	Route::get('PayOrder','Api\University\PayController@PayOrder');//支付完成订单查询
 	Route::get('wapPay','Api\University\PayController@wapPay');//支付完成订单查询
+	Route::get('getCourse','Api\University\ContentController@getCourse');//获取三大课程数据
+	Route::get('getCourseDetail','Api\University\ContentController@getCourseDetail');//获取课程详情
+	Route::get('addLooks','Api\University\ContentController@addLooks');//记录课程播放量
+	Route::get('search','Api\University\ContentController@search');//根据关键字搜索
+	Route::get('recommendAtions','Api\University\ContentController@recommendAtions');//相关推荐
+	Route::get('recommenDation','Api\University\ContentController@recommenDation');//精品推荐
+	Route::get('labelSearch','Api\University\LabelsController@labelSearch');//获取标签聚合页列表
+	Route::get('hotBot','Api\University\LabelsController@hotBot');//获取热搜词列表
 });

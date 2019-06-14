@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Video;
 use App\Models\User;
 use App\Models\DX\Course;
+use App\Models\DX\Article;
 
 class ContentController extends Controller
 {
@@ -81,5 +82,99 @@ class ContentController extends Controller
         $data['status'] = 1;
         $data['data'] = $result;
         return response()->json($data);
+    }
+
+    /**
+     * 获取三大课程数据 （案例课，公开课，案例库）
+     * @param type 课程类别
+     * @param page  页码数
+     * @param limit 分页条数
+     * @param Request $request [description]
+     */
+    public function getCourse(Request $request)
+    {
+        if (empty($request->type)) {
+            return response()->json(['status'=>999,'msg'=>'参数错误！']);
+        }
+        $page = isset($request->page) ? (int)$request->page : 1;
+        $limit = isset($request->limit) ? (int)$request->limit : 10;//默认10条
+        $data = Article::getCourseList($request->type,$page,$limit);
+        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
+    }
+
+    /**
+     * 课程详情
+     * @param  $aid 课程id
+     * @param  Request $request [description]
+     * @return json
+     */
+    public function getCourseDetail(Request $request)
+    {
+       if (empty($request->aid)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']);
+       }
+       $data = Article::getCourseDetail($request->aid);
+       return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
+    }
+
+    /**
+     * 关键字搜索
+     * @param  key  关键字
+     * @param page  页码数
+     * @param limit 分页条数
+     * @param type 类别：1：文章；2：视频
+     * @param 注意：type 默认为空（查询全部混合数据）
+     * @return json
+     */
+    public function search(Request $request)
+    {
+        if (empty($request->key)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']); 
+        }
+        $page = isset($request->page) ? (int)$request->page : 1;
+        $limit = isset($request->limit) ? (int)$request->limit : 10;//默认10条
+        $data = Article::keysSearch($request->key,$limit,$page,$request->type);
+        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
+    }
+
+    /**
+     * 相关推荐
+     * @param  aid  课程id
+     * @return json
+     */
+    public function recommendAtions(Request $request)
+    {
+        if (empty($request->aid)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']); 
+        }
+        $data = Article::recommendAtionsList($request->aid);
+        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
+    }
+
+    /**
+     * 记录课程播放量
+     * @param Request $request [description]
+     */
+    public function addLooks(Request $request)
+    {
+        if (empty($request->aid)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']); 
+        }
+        $data = Article::addLooks($request->aid);
+        return response()->json($data);
+    }
+
+    /**
+     * 精品推荐
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function recommenDation(Request $request)
+    {
+        if (empty($request->type)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']); 
+        }
+        $data = Article::recommenDation($request->type);
+        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
     }
 }

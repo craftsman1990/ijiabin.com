@@ -42,8 +42,8 @@ class Course extends Model
         //根据课程查询课程下的小结
         foreach ($source as $key => $v) {
             $list = DB::table('dx_course_content')
-            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','play_num','cover','status')
-            ->where('course_id','=',$v->id)
+            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','play_num','cover','status','updated')
+            ->where(['course_id'=>$v->id,'status'=>1])
             ->get()->toArray();
             //获取上架小节数
             $content_nums = DB::table('dx_course_content')->where(['status'=>1,'course_id'=>$v->id])->count();
@@ -124,7 +124,7 @@ class Course extends Model
         foreach ($source as $key => $v) {
             $list = DB::table('dx_course_content')
             ->select('id','play_num')
-            ->where('course_id','=',$v->id)
+            ->where(['status'=>1,'course_id'=>$v->id])
             ->get()->toArray();
             //获取上架小节数
             $content_nums = DB::table('dx_course_content')->where(['status'=>1,'course_id'=>$v->id])->count();
@@ -172,8 +172,8 @@ class Course extends Model
         //根据课程查询课程下的小结
         foreach ($source as $key => $v) {
             $list = DB::table('dx_course_content')
-            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover','status','content','play_num')
-            ->where('course_id','=',$v->id)
+            ->select('id','title','intro','time','video','type','chapter','label','try_time','course_id','type','cover','status','content','play_num','updated')
+            ->where(['status'=>1,'course_id'=>$v->id])
             ->get()->toArray();
             $num = array_sum(array_column($list,'play_num'));
             $play_num = $num + $v->looks;

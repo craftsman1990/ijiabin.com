@@ -206,6 +206,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::resource('category','Admin\CategoryController');     //分类
     Route::resource('navigation','Admin\NavigationController'); //导航
     Route::resource('label','Admin\LabelController');           //标签
+    Route::resource('recommend','Admin\RecommendController');   //推荐位
     Route::resource('user','Admin\UserController');             //用户
     Route::resource('tutorStudent','Admin\TutorStudentController');  //导师学员
     Route::resource('video','Admin\VideoController');           //视频
@@ -224,7 +225,8 @@ Route::group(['prefix'=>'admin'],function(){
         Route::resource('course','Admin\DX\CourseController');         //课程列表
         Route::resource('content','Admin\DX\ContentController');       //课程内容
         Route::resource('comment','Admin\DX\CommentController');       //评论列表
-        Route::resource('content/bulletScreen','Admin\DX\BulletScreenController');       //弹幕列表
+        Route::resource('content/bulletScreen','Admin\DX\BulletScreenController'); //弹幕列表
+        Route::resource('newArticle','Admin\DX\NewArticleController');   //新文章列表
         Route::get('content/bulletScreen/create/content_id/{content_id}/time/{time}','Admin\DX\BulletScreenController@create');       //课程内容添加
         Route::any('course/updateStatus/id/{id}','Admin\DX\CourseController@updateStatus'); //修改课程状态
         Route::any('content/updateStatus/id/{id}','Admin\DX\ContentController@updateStatus'); //修改课程状态

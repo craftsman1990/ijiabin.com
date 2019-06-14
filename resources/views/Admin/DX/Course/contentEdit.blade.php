@@ -45,21 +45,21 @@
                                     </select>
                                 </div>
                             </div>
-                           <!-- 更新上架： -->
+                           <!-- 是否上架： -->
                            <div class="form-group" >
-                                    <label class="col-sm-3 control-label">更新上架：</label>
-                                    <div class="col-sm-3">
-
-                                        <select class="form-control" name="status">
-                                            @if($content->status == 0)
-                                                 <option value="0" {{$content->status==0 ? 'selected' : ''}}>否</option>
-                                                 <option value="1" {{$content->status==1 ? 'selected' : ''}}>是</option>
-                                            @else
-                                                <option value="1" {{$content->status==1 ? 'selected' : ''}}>是</option>
-                                            @endif
-                                        </select>
-                                    </div>
-                                </div>
+                                <label class="col-sm-3 control-label">是否上架：</label>
+                               <div class="col-sm-3">
+                                   <select class="form-control" name="status">
+                                       @if($content->status == 0)
+                                           <option value="0" {{$content->status==0 ? 'selected' : ''}}>否</option>
+                                           <option value="1" {{$content->status==1 ? 'selected' : ''}}>是</option>
+                                       @else
+                                           <option value="0" {{$content->status==0 ? 'selected' : ''}}>否</option>
+                                           <option value="1" {{$content->status==1 ? 'selected' : ''}}>是</option>
+                                       @endif
+                                   </select>
+                               </div>
+                           </div>
                             <!-- 章节标题： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">章节标题：</label>
@@ -67,6 +67,21 @@
                                     <input name="title" class="form-control" type="text" value="{{$content->title}}" maxlength="24">
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 不能超过24个字符</span>
                                 </div>
+                            </div>
+                            <!-- 是否更新： -->
+                            <div class="form-group" >
+                                 <label class="col-sm-3 control-label">是否更新：</label>
+                                 <div class="col-sm-3">
+                                    <select class="form-control" name="updated">
+                                         @if($content->updated == 0)
+                                            <option value="0" {{$content->updated==0 ? 'selected' : ''}}>否</option>
+                                            <option value="1" {{$content->updated==1 ? 'selected' : ''}}>是</option>
+                                         @else
+                                            <option value="0" {{$content->updated==0 ? 'selected' : ''}}>否</option>
+                                            <option value="1" {{$content->updated==1 ? 'selected' : ''}}>是</option>
+                                         @endif
+                                     </select>
+                                  </div>
                             </div>
                             <!-- 章节标签： -->
                             <div class="form-group">
@@ -184,55 +199,55 @@
         $text1.val(editor.txt.html())
     </script>
 
-{{--    <script type="text/javascript">--}}
+    <script type="text/javascript">
 
-{{--        //普通图片上传--}}
-{{--        $('.choi-c').click(function(){--}}
-{{--            $('[name=cover]').trigger('click');--}}
-{{--        });--}}
-{{--        $('[name=cover]').change(function(){--}}
-{{--            var imgurl = getObjectURL(this.files[0]);--}}
-{{--            // console.log(imgurl);--}}
-{{--            $('#cover').attr('src',imgurl);--}}
-{{--        });--}}
+        //普通图片上传
+        $('.choi-c').click(function(){
+            $('[name=cover]').trigger('click');
+        });
+        $('[name=cover]').change(function(){
+            var imgurl = getObjectURL(this.files[0]);
+            // console.log(imgurl);
+            $('#cover').attr('src',imgurl);
+        });
 
-{{--           var intro = $('[name=intro]').val();--}}
-{{--            $("#text-intro").text(105-intro.length);--}}
-{{--            $('#intro').on('input propertychange',function(){--}}
-{{--                var $this = $(this),--}}
-{{--                    _val = $this.val(),--}}
-{{--                    count = "";--}}
-{{--                if (_val.length > 105) {--}}
-{{--                    $this.val(_val.substring(0, 105));--}}
-{{--                }--}}
-{{--                count = 105 - $this.val().length;--}}
-{{--                $("#text-intro").text(count);--}}
-{{--            });--}}
-{{--            //内容--}}
-{{--            var content = $('[name=content]').val();--}}
-{{--            $("#text-content").text(1000-content.length);--}}
-{{--            $('#content').on('input propertychange',function(){--}}
-{{--                var $this = $(this),--}}
-{{--                    _val = $this.val(),--}}
-{{--                    count = "";--}}
-{{--                if (_val.length > 1000) {--}}
-{{--                    $this.val(_val.substring(0, 1000));--}}
-{{--                }--}}
-{{--                count = 1000 - $this.val().length;--}}
-{{--                $("#text-content").text(count);--}}
-{{--            });--}}
+           var intro = $('[name=intro]').val();
+            $("#text-intro").text(105-intro.length);
+            $('#intro').on('input propertychange',function(){
+                var $this = $(this),
+                    _val = $this.val(),
+                    count = "";
+                if (_val.length > 105) {
+                    $this.val(_val.substring(0, 105));
+                }
+                count = 105 - $this.val().length;
+                $("#text-intro").text(count);
+            });
+            //内容
+            var content = $('[name=content]').val();
+            $("#text-content").text(1000-content.length);
+            $('#content').on('input propertychange',function(){
+                var $this = $(this),
+                    _val = $this.val(),
+                    count = "";
+                if (_val.length > 1000) {
+                    $this.val(_val.substring(0, 1000));
+                }
+                count = 1000 - $this.val().length;
+                $("#text-content").text(count);
+            });
 
-{{--        //图片预览--}}
-{{--        function getObjectURL(file){--}}
-{{--            var url = null;--}}
-{{--            if (window.createObjectURL!=undefined) {--}}
-{{--                url = window.createObjectURL(file) ;--}}
-{{--            } else if (window.URL!=undefined) { // mozilla(firefox)--}}
-{{--                url = window.URL.createObjectURL(file) ;--}}
-{{--            } else if (window.webkitURL!=undefined) { // webkit or chrome--}}
-{{--                url = window.webkitURL.createObjectURL(file) ;--}}
-{{--            }--}}
-{{--            return url ;--}}
-{{--        }--}}
-{{--    </script>--}}
+        //图片预览
+        function getObjectURL(file){
+            var url = null;
+            if (window.createObjectURL!=undefined) {
+                url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+        }
+    </script>
 @stop
