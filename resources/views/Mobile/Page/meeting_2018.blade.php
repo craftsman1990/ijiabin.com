@@ -104,24 +104,29 @@
         
       </div>
       <div class="foot">
-          <p class="tit"><img src="{{asset('Mobile/images/imgMeeting/lxfs.png')}}" alt=""></p>
-          <div class="topBox">
-            <div class="logo_box">
-              <img src="{{asset('Mobile/images/imgMeeting/kcb.png')}}" alt="">
-              <p>企业报名通道</p>
-            </div>
-            <div class="logo_box">
-              <img src="{{asset('Mobile/images/imgMeeting/bm.png')}}" alt="">
-              <p>科创榜公众账号</p>
-            </div>
+        <p class="tit"><img src="{{asset('Mobile/images/imgMeeting/lxfs.png')}}" alt=""></p>
+        <div class="topBox">
+          <div class="logo_box">
+            <img src="{{asset('Mobile/images/imgMeeting/kcb.png')}}" alt="">
+            <p>企业报名通道</p>
           </div>
-          <ul class="list_box">
-            <li>「科创榜·POWER100」组委会</li>
-            <li>组委会联系人:梁先生</li>
-            <li>联系电话：176 0026 0562</li>
-            <li>邮箱：liangxianpeng@wetalktv.cn</li>
-          </ul>
+          <div class="logo_box">
+            <img src="{{asset('Mobile/images/imgMeeting/bm.png')}}" alt="">
+            <p>科创榜公众账号</p>
+          </div>
         </div>
+        <ul class="list_box">
+          <li>「科创榜·POWER100」组委会</li>
+          <li>组委会联系人:梁先生</li>
+          <li>联系电话：176 0026 0562</li>
+          <li>邮箱：liangxianpeng@wetalktv.cn</li>
+        </ul>
+      </div>
+      <div class="touch">
+        <a href="https://jinshuju.net/f/85ziTX" target="view_window">
+          <img src="{{asset('Home/images/imgPc/touch.png')}}" alt="">
+        </a>
+      </div>
     </div>
   <input type="hidden" name="url" value="{{asset('mobile/page/meeting_2018_map')}}">
   <!-- <script src="{{asset('Mobile/js/jquery-1.10.1.min.js')}}"></script> -->

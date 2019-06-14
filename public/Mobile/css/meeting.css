@@ -333,16 +333,16 @@
   height:.6rem;
 }
 .touch{
-  width:.75rem;
-  height:.75rem;
+  width:.6rem;
+  height:.6rem;
   position: fixed;
   right:0;
-  top:68%;
+  top:80%;
   margin-top:-.32.5rem;
 }
-.touch>img{
-  width:.75rem;
-  height:.75rem;
+.touch>a>img{
+  width:.6rem;
+  height:.6rem;
 }
 .who{
   font-size: .14rem;

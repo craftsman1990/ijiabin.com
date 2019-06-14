@@ -215,6 +215,12 @@
           </ul>
         </div>
       </div>
+
+      <div class="touch">
+        <a href="https://jinshuju.net/f/85ziTX" target="view_window">
+          <img src="{{asset('Home/images/imgPc/touch.png')}}" alt="">
+        </a>
+      </div>
     </div>
   </div>
 <input type="hidden" name="url" value="{{asset('page/meeting_2018_map')}}">
@@ -222,7 +228,9 @@
   <script src="{{asset('Home/js/jquery.min.js')}}"></script>
   <script>
     $(function(){
+      $('.touch').click(function(){
 
+      })
       /* 楼层 */
       // $('.h_rig li').click(function(){
       //   $(this).css("color","#AC2E24").siblings().css("color","#fff");
