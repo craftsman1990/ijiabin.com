@@ -36,9 +36,10 @@
                                 <p class="text-company-profile"><b>公司简介</b></p>
                                 <div class="Company-profile">
                                     <p class="logo">
-                                        <img class="logo_img" src="{{asset('Home/images/logo.jpg')}}" alt="">
+                                        <img class="logo_img" src="{{asset('Home/images/jsjjtop.jpg')}}" alt="">
+                                        <img class="logo_img" src="{{asset('Home/images/jsjj.jpg')}}" alt="">
                                     </p>
-                                    <h4 class="jj_tit">
+                                    <!-- <h4 class="jj_tit">
                                         遍访天下公司、纪录时代商业。
                                     </h4>
                                     <div class="con">
@@ -207,15 +208,21 @@
                                         <p class="b_list">
                                             芜湖城市发展顾问
                                         </p>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                         
                         <div class="tab-pane fade {{$data['secId'] == 25 ? 'in active' : ''}}" id="ios1">
                             <div class="main-right">
-                                <p class="text-company-profile"><b>创始人吴婷</b></p>
                                 <div class="Company-profile">
+                                    <p class="logo">
+                                        <img class="logo_img" src="{{asset('Home/images/csr.jpg')}}" alt="">
+                                    </p>
+                                </div>
+                                    
+                                <!-- <p class="text-company-profile"><b>创始人吴婷</b></p> -->
+                                <!-- <div class="Company-profile">
                                     <dl class="wt">
                                         <dt class="img"><img src="{{asset('Home/images/wt.jpg')}}" alt=""></dt>
                                         <dd class="wu_name">
@@ -242,7 +249,7 @@
                                     </p>
                                     <p class="csr_titi_con">出品制作纪录片《黑蜂的群舞》，获“金熊猫”国际纪录片节评委特别奖、中国纪录片学院奖；</p>
                                     <p class="csr_titi_con">就职于安徽电视台，创办与主持《安徽年度经济人物》《帮女郎 帮你忙》《当红不让》等栏目，获得年度节目、安徽 新闻奖等。</p>                                    
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="tab-pane fade {{$data['secId'] == 26 ? 'in active' : ''}}" id="ios2">
@@ -270,7 +277,7 @@
                                     <div class="cooperation_top">
                                         <p class="coop_top_list">品牌/市场/媒体合作：<span>pr@wetalktv.cn</span></p>
                                         <p class="coop_top_list"> 电 话：<span>400-992-0420</span>（工作时间：周一至周五9:30-18:30）</p>
-                                        <p class="coop_top_list">地 址： <span>北京市朝阳区光华路SOHO2期A座6-7嘉宾传媒</span></p>
+                                        <p class="coop_top_list">地 址： <span>北京市朝阳区光华路SOHO2期A座6-7</span></p>
                                     </div>
                                     <div class="cooperation_bot">
                                         <p class="media_list">新浪微博：@我有嘉宾WETALK</p>
@@ -291,7 +298,7 @@
                                 <p class="text-company-profile"><b>加入我们</b></p>
                                 <div class="Company-profile">
                                     <div class="second_tit join_se">
-                                        你所不知道的嘉宾传媒
+                                        你所不知道的嘉宾大学
                                     </div>
                                     <ul class="poetry">
                                         <li class="li_first">我是如何俘获大咖的?</li>
@@ -323,7 +330,7 @@
                                         <li>灭绝型采访</li>
                                         <li>与其更好，不如不同</li>
                                     </ul>
-                                    <p class="poetry_bot">这样的嘉宾传媒你有神马理由拒绝！！！</p>
+                                    <p class="poetry_bot">这样的嘉宾大学你有神马理由拒绝！！！</p>
                                     <p class="poetry_bot">欢迎有想法、有创意、有追求的你带上简历、带上作品投递我们邮箱：hr@wetalktv.cn</p>
                                     <div class="second_tit">
                                         <span>招聘岗位</span>

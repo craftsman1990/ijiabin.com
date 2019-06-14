@@ -112,6 +112,9 @@
   text-align:center;
   height:auto;
 }
+.logo>img{
+  width: 100%;
+}
 .logolit>img{
   width: .4rem;
   height:.4rem;
