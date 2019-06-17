@@ -79,7 +79,7 @@ class Article extends Model
     {
        $data = DB::table('dx_article')
             ->join('dx_article_blade', 'dx_article.id', '=', 'dx_article_blade.aid')
-            ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','created_at','cg_id','intro')
+            ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','dx_article.created_at','cg_id','intro')
             ->where('dx_article.id','=',$aid)
             ->first();
             if (empty($data)) {
@@ -185,6 +185,9 @@ class Article extends Model
     {
         //根据课程id查询标签
         $ret = Article::where(['id'=>$aid,'status'=>1])->select('label_id','id','type')->first();
+        if (empty($ret)) {
+            return [];
+        }
         $label_id = explode(',',$ret->label_id);
         if (empty($label_id)) {
             return [];
