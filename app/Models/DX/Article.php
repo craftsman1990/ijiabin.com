@@ -99,7 +99,7 @@ class Article extends Model
         }
         //获取视频地址
         if (!empty($data->video_info)) {
-            $video_url = json_decode($data->video_info,true)[0]['address'];
+            $video_url = json_decode($data->video_info,true)['address'];
         }else{
             $video_url = '';
         }

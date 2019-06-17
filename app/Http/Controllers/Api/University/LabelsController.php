@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\University;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Hotbot;
+use App\Models\Label;
 use App\Models\DX\Course;
 use App\Models\DX\Article;
 
@@ -30,10 +31,17 @@ class LabelsController extends Controller
 		if (empty($request->label_id)) {
             return response()->json(['status'=>999,'msg'=>'参数错误！']);
         }
+        //获取标签名称
+        $name = Label::where('id','=',$request->label_id)->select('name')->get()->toArray();
+        if ($name) {
+        	$label_name = $name[0]['name'];
+        }else{
+        	$label_name = [];
+        }
         $page = isset($request->page) ? (int)$request->page : 1;
         $limit = isset($request->limit) ? (int)$request->limit : 10;//默认10条
         $data = Article::labelSearch($request->label_id,$page,$limit,$request->type);
-        return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
+        return response()->json(['status'=>1,'msg'=>'success','name'=>$label_name,'data'=>$data]);
 	}
 
 	/**
