@@ -63,6 +63,7 @@
                                     <th>标题</th>
                                     <th>分类</th>
                                     <th>状态</th>
+                                    <th>类别</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -80,6 +81,13 @@
                                             <span class="label label-danger">禁用</span>
                                         @endif
                                     </td>
+                                    <td class="center">
+                                        @if($v->type == 1)
+                                            <span class="label label-info">文章</span>
+                                        @else
+                                            <span class="label label-danger">视频</span>
+                                        @endif
+                                    </td>
                                     <td class="center">{{$v->publish_time}}</td>
                                     <td class="center">
                                         <div class="btn-group">
@@ -87,7 +95,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{url('article/id/'.$v->id)}}" target="_blank">详情</a></li>
-                                                <li><a href='{{url("admin/jbdx/article/$v->id/edit")}}' class="font-bold">修改</a></li>
+                                                <li><a href='{{url( $v->type == 1 ? "admin/jbdx/article/$v->id/edit" : "admin/jbdx/article/update/editVideo/$v->id")}}' class="font-bold">修改</a></li>
                                                 <li>
                                                     @if($v->cho != 0)
                                                     <a href="{{url('admin/choiceness/cancel/id/'.$v->cho)}}" >取消精选</a>

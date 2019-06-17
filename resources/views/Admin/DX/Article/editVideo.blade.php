@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form action={{url('admin/video/'.$data['video']['id'])}} class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
+                        <form action="{{url('admin/jbdx/article/update/updateVideo/'.$data['video']['id'])}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
                             @include('layouts.admin_error')
                             <!-- 标题： -->
                             <div class="form-group">
@@ -47,8 +47,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">视频时长：</label>
                                 <div class="col-sm-8">
-                                    <input name="duration" class="form-control" type="text" value="{{$data['video']['duration']}}">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 时长格式：时：分：秒，例 00:21:46</span>
+                                    <input name="duration" class="form-control" type="number" min="0" value="{{$data['video']['duration']}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的时长(以s秒为单位)</span>
                                 </div>
                             </div>
                             <!-- 分类 -->
@@ -66,7 +66,7 @@
                            <div class="form-group">
                                 <label class="col-sm-3 control-label">关键字：</label>
                                 <div class="col-sm-6">
-                                    <input name="tag" class="form-control" type="text" value="{{$data['article']->tag}}" maxlength="105">
+                                    <input name="tag" class="form-control" type="text" value="{{$data['video']->tag}}" maxlength="105">
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 关键字，多个用，隔开</span>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
                                     @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['name']}}" {{in_array($label['name'],$lables) ? 'checked' : ''}}> {{$label['name']}}
+                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}}> {{$label['name']}}: <input type="number" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
                                     @endforeach
                                 </div>
                             </div>
@@ -127,11 +127,11 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{implode(',',$lables)}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->
                                     <input type="hidden" name="old_cover" value="{{$data['video']['cover']}}">
-                                    <input type="hidden" name="old_labels" value="{{$data['video']['labels']}}">
                                     <input type="hidden" name="_method" value="put"/>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <button class="btn btn-primary" type="submit">提交</button>
-                                    <a class="btn btn-outline btn-default" href={{url("admin/video")}} >返回</a>
+                                    <a class="btn btn-outline btn-default" href={{url("admin/jbdx/article")}} >返回</a>
                                 </div>
                             </div>
                         </form>
@@ -156,6 +156,22 @@
 
     @include('layouts.admin_picpro')
     <script type="text/javascript">
+        //下拉选复选框单选事件
+        function oneChoice(){
+            var obj_l = $('[name="labels[]"]');
+            var obj_r = $('[name="ranks"]');
+            check_val = [];
+            for(k in obj_l){
+                if(obj_l[k].checked)
+                    check_val.push(obj_l[k].value+':'+obj_r[k].value)
+            }
+
+            $('#label_id').val(check_val);
+
+            var d = $('#label_id').val();
+            console.log(d);
+        }
+
     //截图上传
         var sgw = $('[name=scre_gm_width]').val(),
             sgh = $('[name=scre_gm_height]').val(),

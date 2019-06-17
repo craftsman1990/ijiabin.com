@@ -125,12 +125,12 @@
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" >
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <input type="text" id ="label_id" name="label_id" style="display: none" >
                                     <button class="btn btn-primary" type="submit">提交</button>
                                     <a class="btn btn-outline btn-default" href={{url("admin/article")}} >返回</a>
                                 </div>

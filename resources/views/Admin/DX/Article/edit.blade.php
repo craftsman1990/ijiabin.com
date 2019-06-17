@@ -121,12 +121,11 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{json_decode($data['article']->label_id)}}">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{implode(',',$lables)}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->
                                     <input type="hidden" name="old_cover" value="{{$data['article']->cover}}">
-                                    <input type="hidden" name="old_labels" value="{{$data['article']->labels}}">
                                     <input type="hidden" name="_method" value="put"/>
                                 </div>
                             </div>
@@ -162,7 +161,6 @@
      <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
-
         //下拉选复选框单选事件
         function oneChoice(){
             var obj_l = $('[name="labels[]"]');

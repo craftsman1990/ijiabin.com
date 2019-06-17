@@ -230,9 +230,9 @@ Route::group(['prefix'=>'admin'],function(){
         Route::resource('content/bulletScreen','Admin\DX\BulletScreenController'); //弹幕列表
         Route::resource('article','Admin\DX\ArticleController');   //新文章列表
         Route::get('article/create/createVideo','Admin\DX\ArticleController@createVideo');   //添加新文章视频
-        Route::get('article/update/updateVideo','Admin\DX\ArticleController@updateVideo');   //修改新文章视频
+        Route::get('article/update/editVideo/{id}','Admin\DX\ArticleController@editVideo');   //修改新文章视频
         Route::post('article/create/storeVideo','Admin\DX\ArticleController@storeVideo');   //执行添加新文章视频
-        Route::post('article/update/editVideo','Admin\DX\ArticleController@editVideo');   //执行修改新文章视频
+        Route::any('article/update/updateVideo/{id}','Admin\DX\ArticleController@updateVideo');   //执行修改新文章视频
         Route::get('content/bulletScreen/create/content_id/{content_id}/time/{time}','Admin\DX\BulletScreenController@create');       //课程内容添加
         Route::any('course/updateStatus/id/{id}','Admin\DX\CourseController@updateStatus'); //修改课程状态
         Route::any('content/updateStatus/id/{id}','Admin\DX\ContentController@updateStatus'); //修改课程状态

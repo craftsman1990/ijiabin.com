@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form action="{{url('admin/video')}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
+                        <form action="{{url('admin/jbdx/article/create/storeVideo')}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
                             @include('layouts.admin_error')
                             <!-- 标题： -->
                             <div class="form-group">
@@ -47,10 +47,11 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">视频时长：</label>
                                 <div class="col-sm-8">
-                                    <input name="duration" class="form-control" type="text" value="{{old('duration')}}">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 时长格式：时：分：秒，例 00:21:46</span>
+                                    <input name="duration" class="form-control" type="number"  min="0" value="{{old('duration')}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 音频和视频的时长(以s秒为单位)</span>
                                 </div>
                             </div>
+
                             <!-- 分类 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">分类：</label>
@@ -81,9 +82,9 @@
                             <!-- 标签 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标签：</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                     @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['name']}}" > {{$label['name']}}
+                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" onclick="oneChoice()" > {{$label['name']}}: <input type="number" min="0.0" max="1.0" value="0.0" name="ranks" step="0.1" onclick="oneChoice()"> &ensp;
                                     @endforeach
                                 </div>
                             </div>
@@ -135,6 +136,7 @@
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" >
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->
                                 </div>
                             </div>
@@ -158,6 +160,23 @@
     <!-- <script src={{asset("Admin/js/demo/form-advanced-demo.min.js")}}></script> -->
     @include('layouts.admin_picpro')
     <script type="text/javascript">
+
+        //下拉选复选框单选事件
+        function oneChoice(){
+            var obj_l = $('[name="labels[]"]');
+            var obj_r = $('[name="ranks"]');
+            check_val = [];
+            for(k in obj_l){
+                if(obj_l[k].checked)
+                    check_val.push(obj_l[k].value+':'+obj_r[k].value)
+            }
+
+            $('#label_id').val(check_val);
+
+            var d = $('#label_id').val();
+            console.log(d);
+        }
+
     //截图上传
         var sgw = $('[name=scre_gm_width]').val(),
             sgh = $('[name=scre_gm_height]').val(),

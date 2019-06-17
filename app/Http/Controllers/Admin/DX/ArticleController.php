@@ -15,6 +15,7 @@ use App\Services\Upload;
 use App\Models\DX\ArticleBlade;
 use App\Services\Compress;
 
+
 class ArticleController extends Controller
 {
     /**
@@ -88,12 +89,20 @@ class ArticleController extends Controller
      **/
     public function editVideo($id)
     {
-        $data['video'] = Article::find($id)->toArray();
+
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
-        $lables = explode(',',$data['video']['labels']);
-//        dd($data);
-        return view('Admin.DX.Article.editVideo',compact('data',$data),compact('lables',$lables));
+        $data['video'] = Article::find($id);
+        $data['video_info'] = ArticleBlade::where('aid',$id)->first()->toArray();
+
+        $data['video']->address = (json_decode($data['video_info']['video_info']))->address;
+
+
+
+        $lables = Helper::strToArr(implode(',',json_decode($data['video']->label_id)),',',':');
+
+
+        return view('Admin.DX.Article.editVideo',compact('data',$data),compact('lables'));
     }
 
     /**
@@ -104,26 +113,34 @@ class ArticleController extends Controller
         $verif = array(
             'title'=>'required',
             'address'=>'required',
-            'duration'=>'required',
+            'duration'=>'required|numeric|min:0',
             'cg_id'=>'required|numeric',
             'publish_time'=>'required',
             'content'=>'required',
-            'intro'=>'required');
+            'intro'=>'required',
+            'label_id'=> 'required'
+        );
         $credentials = $this->validate($request,$verif);
         $credentials['address'] = Helper::checkVideoLocal($credentials['address']);
-        if ($request->labels){
-            $credentials['labels'] = implode(',',$request->labels);
-        }else{
-            $credentials['labels'] = $request->old_labels;
-        }
+        $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
+        $credentials['type'] = 2;//标识（1：文章；2：视频）
+
+        $video_info['address'] = $credentials['address'];
+        $video_info['duration'] = $credentials['duration'];
+
+        $insert_arr['video_info'] = json_encode($video_info);
+
+        unset($credentials['address']);
+
+        $credentials['tag'] = $request->tag;
         if ($request->author){
             $credentials['author'] = $request->author;
         }
-//        dd($credentials);
+     //  dd($credentials);
         //图像上传
 //        if ($request->file('cover')){
         if ($request->cover){
-            $pic_path = Upload::baseUpload($request->cover,'upload/Video');
+            $pic_path = Upload::baseUpload($request->cover,'upload/DX/Article');
 //            $pic_path = Upload::uploadOne   ('Video',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
@@ -147,8 +164,17 @@ class ArticleController extends Controller
                 $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
             }
         }
+        //(Article::find($id)->update($credentials));
+
+        //开启事务
+       // DB::beginTransaction();
+
         if(Article::find($id)->update($credentials)){
-            return redirect('admin/video')->with('success', config('hint.mod_success'));
+
+            ArticleBlade::where('aid',$id)->update($insert_arr);
+                //提交
+            return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
+
         }else{
             return back()->with('hint',config('hint.mod_failure'));
         }
@@ -165,20 +191,32 @@ class ArticleController extends Controller
         $verif = array(
             'title'=>'required',
             'address'=>'required',
-            'duration'=>'required',
+            'duration'=>'required|numeric|min:0',
             'cg_id'=>'required|numeric',
             'publish_time'=>'required',
             'cover'=>'required',
             'content'=>'required',
-            'intro'=>'required');
+            'intro'=>'required',
+            'label_id'=>'required'
+        );
         $credentials = $this->validate($request,$verif);
         $credentials['address'] = Helper::checkVideoLocal($credentials['address']);
-        $credentials['labels'] = implode(',',$credentials['labels']);
+        $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
+        $credentials['type'] = 2;//标识（1：文章；2：视频）
+        //dd($credentials);
+        $video_info['address'] = $credentials['address'];
+        $video_info['duration'] = $credentials['duration'];
+
+        $insert_arr['video_info'] = json_encode($video_info);
+
+        unset($credentials['address']);
+
+        $credentials['tag'] = $request->tag;
         if ($request->author){
             $credentials['author'] = $request->author;
         }
         //上传图片
-        $pic_path = Upload::baseUpload($credentials['cover'],'upload/Video');
+        $pic_path = Upload::baseUpload($credentials['cover'],'upload/DX/Article');
 //        $pic_path = Upload::uploadOne('Video',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
@@ -188,8 +226,23 @@ class ArticleController extends Controller
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
-        if (Article::create($credentials)){
-            return redirect('admin/video')->with('success', config('hint.add_success'));
+        //开启事务
+        //开启事务
+        DB::beginTransaction();
+        $article_id = Article::insertGetId($credentials);
+
+        if ($article_id){
+
+            $insert_arr['aid'] = $article_id;
+            if (ArticleBlade::create($insert_arr)){
+                //提交
+                DB::commit();
+                return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
+            }else{
+                //回滚
+                return back()->with('hint',config('hint.add_failure'));
+            }
+
         }else{
             return back()->with('hint',config('hint.add_failure'));
         }
@@ -212,7 +265,7 @@ class ArticleController extends Controller
         );
         $credentials = $this->validate($request,$verif);
 
-        $credentials['label_id'] = json_encode($credentials['label_id']);
+        $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
 
       //  $credentials['label_id'] = json_decode($credentials['label_id']);
 
@@ -246,8 +299,10 @@ class ArticleController extends Controller
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
         $data['article'] = Article::find($id);
+      //  var_dump(implode(',',json_decode($data['article']->label_id)));die;
 
-        $lables = Helper::strToArr(json_decode($data['article']->label_id),',',':');
+        $lables = Helper::strToArr(implode(',',json_decode($data['article']->label_id)),',',':');
+
 
         return view('Admin.DX.Article.edit',compact('data',$data),compact('lables'));
     }
@@ -268,7 +323,7 @@ class ArticleController extends Controller
 
         $credentials = $this->validate($request,$verif);
 
-        $credentials['label_id'] = json_encode($credentials['label_id']);
+        $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
 
         $credentials['tag'] = $request->tag;
 
@@ -287,7 +342,7 @@ class ArticleController extends Controller
         //图像上传
 //        if ($request->file('cover')){
         if ($request->cover){
-            $pic_path = Upload::baseUpload($request->cover,'upload/Article');
+            $pic_path = Upload::baseUpload($request->cover,'upload/DX/Article');
 //            $pic_path = Upload::uploadOne('Article',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
