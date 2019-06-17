@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin\DX;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Newest\Recommend;
+use App\Models\Recommend;
 
 class RecommendController extends Controller
 {

@@ -87,7 +87,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{url('article/id/'.$v->id)}}" target="_blank">详情</a></li>
-                                                <li><a href='{{url("admin/jbdx/article/$v->id/edit")}}' class="font-bold">修改</a></li>
+                                                <li><a href='{{url("admin/article/$v->id/edit")}}' class="font-bold">修改</a></li>
                                                 <li>
                                                     @if($v->cho != 0)
                                                     <a href="{{url('admin/choiceness/cancel/id/'.$v->cho)}}" >取消精选</a>

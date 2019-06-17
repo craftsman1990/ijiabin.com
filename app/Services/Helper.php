@@ -167,6 +167,20 @@ class Helper
         $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
         return $http_type.$_SERVER['SERVER_NAME'];
     }
+
+    /* 将一个字符串转变成键值对数组
+     * @param    : string str 要处理的字符串 $str ='name=123&sex=1&num=12';
+     * @param    : string sp 键值对分隔符
+     * @param    : string kv 键值分隔符
+     * @return    : array
+     * */
+   public static function strToArr ($str,$sp="&",$kv="=")
+    {
+        $arr = str_replace(array($kv,$sp),array('"=>"','","'),'array("'.$str.'")');
+        eval("\$arr"." = $arr;");   // 把字符串作为PHP代码执行
+        return $arr;
+    }
+
 }
 ?>
 

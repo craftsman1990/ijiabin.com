@@ -98,6 +98,7 @@
                             <li>
                                 <a class="J_menuItem" href="video">视频列表</a>
                                 <a class="J_menuItem" href="article">文章列表</a>
+                                <a class="J_menuItem" href="jbdx/article">新文章列表</a>
                                 <a class="J_menuItem" href="advertising">广告列表</a>
                             </li>
                         </ul>
@@ -114,6 +115,7 @@
                                 <a class="J_menuItem" href="navigation">导航列表</a>
                                 <a class="J_menuItem" href="label">标签列表</a>
                                 <a class="J_menuItem" href="hotbot">热搜列表</a>
+                                <a class="J_menuItem" href="recommend">推荐位列表</a>
                             </li>
                         </ul>
                     </li>

@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form action={{url('admin/article/add')}} class="form-horizontal m-t" id="signupForm" method="GET">
+                        <form action={{url('admin/jbdx/article/add')}} class="form-horizontal m-t" id="signupForm" method="GET">
                             @include('layouts.admin_error')
                            <!-- 分类 -->
                             <div class="form-group">

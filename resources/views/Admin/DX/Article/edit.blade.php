@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form action="{{url('admin/jbdx/article/'.$data['article']->id)}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
+                        <form action="{{url('admin/article/'.$data['article']->id)}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
                             @include('layouts.admin_error')
                             <!-- 标题： -->
                             <div class="form-group">
@@ -67,7 +67,7 @@
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
                                      @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}}> {{$label['name']}}: <input type="number" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
+                                        <input type="checkbox" name="labels[]" value="{{$label['name']}}" {{in_array($label['name'],$lables) ? 'checked' : ''}}> {{$label['name']}}
                                     @endforeach
                                 </div>
                             </div>
@@ -121,7 +121,6 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{json_decode($data['article']->label_id)}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->
@@ -162,23 +161,6 @@
      <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
-
-        //下拉选复选框单选事件
-        function oneChoice(){
-            var obj_l = $('[name="labels[]"]');
-            var obj_r = $('[name="ranks"]');
-            check_val = [];
-            for(k in obj_l){
-                if(obj_l[k].checked)
-                    check_val.push(obj_l[k].value+':'+obj_r[k].value)
-            }
-
-            $('#label_id').val(check_val);
-
-            var d = $('#label_id').val();
-            console.log(d);
-        }
-
         var E = window.wangEditor
         var editor = new E('#div1','#editor')
         editor.customConfig.uploadImgServer = '/api/upload'  // 上传图片到服务器

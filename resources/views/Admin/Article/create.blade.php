@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','添加文章')
+@section('title','添加新文章')
 @section('content')
  
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -7,7 +7,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>添加文章</h5>
+                        <h5>添加新文章</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form action={{url('admin/article')}} class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
+                        <form action="{{url('admin/jbdx/article')}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
                             @include('layouts.admin_error')
                             <!-- 标题： -->
                             <div class="form-group">
@@ -47,17 +47,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- 导航 -->
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">来源：</label>
-                               <div class="col-sm-6">
-                                <select class="form-control" name="nav_id">
-                                    @foreach($data['nav'] as $nav)
-                                        <option value="{{$nav['id']}}">{{$nav['text']}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            </div>
                             <!-- 发布时间 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">发布时间：</label>
@@ -76,10 +65,18 @@
                             <!-- 标签 -->
                             <div class="form-group ">
                                 <label class="col-sm-3 control-label">标签：</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                     @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['name']}}" > {{$label['name']}}
+                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" onclick="oneChoice()" > {{$label['name']}}: <input type="number" min="0.0" max="1.0" value="0.0" name="ranks" step="0.1" onclick="oneChoice()"> &ensp;
                                     @endforeach
+                                </div>
+                            </div>
+                            <!-- 关键字： -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">关键字：</label>
+                                <div class="col-sm-6">
+                                    <input name="tag" class="form-control" type="text" value="{{old('tag')}}" maxlength="105">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 关键字，多个用，隔开</span>
                                 </div>
                             </div>
                             <!-- 封面 -->
@@ -133,6 +130,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" >
                                     <button class="btn btn-primary" type="submit">提交</button>
                                     <a class="btn btn-outline btn-default" href={{url("admin/article")}} >返回</a>
                                 </div>
@@ -161,6 +159,23 @@
     <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
+        //下拉选复选框单选事件
+        function oneChoice(){
+            var obj_l = $('[name="labels[]"]');
+            var obj_r = $('[name="ranks"]');
+            check_val = [];
+            for(k in obj_l){
+                if(obj_l[k].checked)
+                    check_val.push(obj_l[k].value+':'+obj_r[k].value)
+            }
+
+            $('#label_id').val(check_val);
+
+            var d = $('#label_id').val();
+            console.log(d);
+        }
+
+
         var E = window.wangEditor
         var editor = new E('#div1','#editor')
         editor.customConfig.uploadImgServer = '/api/upload'  // 上传图片到服务器
