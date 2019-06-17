@@ -160,7 +160,7 @@
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
         //下拉选复选框单选事件
-        function oneChoice(e){
+        function oneChoice(){
             var obj_l = $('[name="labels[]"]');
             var obj_r = $('[name="ranks"]');
             check_val = [];

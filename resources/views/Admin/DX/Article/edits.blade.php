@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','新文章修改')
+@section('title','抓取内容添加')
 @section('content')
 
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -7,7 +7,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>文章修改</h5>
+                        <h5>抓取内容添加</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -27,31 +27,20 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form action="{{url('admin/jbdx/article/'.$data['article']->id)}}" class="form-horizontal m-t" id="signupForm" method="POST" enctype="multipart/form-data">
+                        <form action="{{url('admin/jbdx/article/content')}}" class="form-horizontal m-t" id="signupForm" method="POST">
                             @include('layouts.admin_error')
                             <!-- 标题： -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标题：</label>
                                 <div class="col-sm-8">
-                                    <input  name="title" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" value="{{$data['article']->title}}">
+                                    <input  name="title" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" value="{{$result['data']['article_title']}}">
                                 </div>
                             </div>
-                            <!-- 分类 -->
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">分类：</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="cg_id">
-                                        @foreach($data['cate'] as $cate)
-                                        <option value={{$cate['id']}} {{$data['article']->cg_id == $cate['id'] ? 'selected' : ''}}>{{$cate['cg_name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- 发布时间 -->
+                             <!-- 发布时间 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">发布时间：</label>
                                 <div class="col-sm-6">
-                                    <input class="form-control layer-date" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="publish_time" value="{{$data['article']->publish_time}}">
+                                    <input class="form-control layer-date" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="publish_time" value="<?php echo date('Y-m-d H:i:s',$result['data']['article_publish_time'])?>">
                                     <label class="laydate-icon"></label>
                                 </div>
                             </div>
@@ -59,51 +48,41 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">发布者：</label>
                                 <div class="col-sm-8">
-                                    <input name="author" class="form-control" type="text" value="{{$data['article']->author}}">
+                                    <input name="author" class="form-control" type="text" value="{{$result['data']['article_author']}}">
                                 </div>
                             </div>
                             <!-- 标签 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
-                                     @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}}> {{$label['name']}}: <input type="number" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
+                                     @foreach($result['data']['label'] as $label)
+                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}"> {{$label['name']}}
                                     @endforeach
                                 </div>
-                            </div>
-                            <!-- 关键字： -->
-                            <div class="form-group">
-                               <label class="col-sm-3 control-label">关键字：</label>
-                               <div class="col-sm-6">
-                                    <input name="tag" class="form-control" type="text" value="{{$data['article']->tag}}" maxlength="105">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 关键字，多个用，隔开</span>
-                               </div>
                             </div>
                             <!-- 封面 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">封面：</label>
                                 <div class="col-sm-8">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button>
-                                    <!-- <button type="button" class="btn btn-primary choi"> 选择图片</button>
-                                    <span class="m-b-none" style="color:red;">
-                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为536*302，小于100k的图片
-                                    </span> -->
-                                </div>
-                            </div>
-                             <!-- 封面 -->
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
-                                <div class="col-sm-8">
-                                    <img width="100px;" src="{{asset($data['article']->cover)}}" id="cover">
+                                    <img width="100px;" src="{{asset($result['data']['article_cdn_url'])}}" id="cover">
                                 </div>
                             </div>
                              <!-- 简介 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">简介：</label>
                                 <div class="col-sm-8">
-                                    <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="intro">{{$data['article']->intro}}</textarea>
+                                    <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="intro">{{$result['data']['article_desc']}}</textarea>
                                     <p><span id="text-intro">80</span>/80</p>
                                     <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
+                                </div>
+                            </div>
+                            <!-- 关键词 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">关键词：</label>
+                                <div class="col-sm-8">
+                                    <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="tag"></textarea>
+                                    <p><span id="text-intro">80</span>/80</p>
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 多个标签用英文","逗号隔开</span>
                                 </div>
                             </div>
                              <!-- 内容 -->
@@ -112,22 +91,18 @@
                                 <div class="col-sm-8">
                                     <div id="div1" style="border: 1px solid #ccc;"></div>
                                     <div id="editor" style="width: 100%;border: 1px solid #ccc;">
-                                        {!!$data['article']->content!!}
+                                        {!!$result['data']['article_content']!!}
                                     </div>
-                                    <textarea name="content" id="text1" style="display: none;">{!!$data['article']->content!!}}</textarea>
-                                    <!-- <textarea id="editor" style="height:600px;" name="content" >{{$data['article']->content}}</textarea> -->
-                                    <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
+                                    <textarea name="content" id="text1" style="display: none;">
+                                    {{!!$result['data']['article_content']!!}}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{json_decode($data['article']->label_id)}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                    <input type="hidden" name="cover" value="{{old('cover')}}">
-                                    <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->
-                                    <input type="hidden" name="old_cover" value="{{$data['article']->cover}}">
-                                    <input type="hidden" name="old_labels" value="{{$data['article']->labels}}">
                                     <input type="hidden" name="_method" value="put"/>
+                                    <input type="hidden" name="cg_id" value="{{$_GET['cg_id']}}"/>
+                                    <input type="hidden" name="old_pic" value="{{asset($result['data']['article_cdn_url'])}}"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -162,23 +137,6 @@
      <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
-
-        //下拉选复选框单选事件
-        function oneChoice(){
-            var obj_l = $('[name="labels[]"]');
-            var obj_r = $('[name="ranks"]');
-            check_val = [];
-            for(k in obj_l){
-                if(obj_l[k].checked)
-                    check_val.push(obj_l[k].value+':'+obj_r[k].value)
-            }
-
-            $('#label_id').val(check_val);
-
-            var d = $('#label_id').val();
-            console.log(d);
-        }
-
         var E = window.wangEditor
         var editor = new E('#div1','#editor')
         editor.customConfig.uploadImgServer = '/api/upload'  // 上传图片到服务器
