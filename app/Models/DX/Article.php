@@ -268,4 +268,28 @@ class Article extends Model
         }
         return $arr;
     }
+
+     /*
+     * 后台查询
+     * */
+    public static function getIndex($where,$like){
+        if($where['cg_id'] == 0  && $like != null){
+            $res = self::where('title','like','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+        }elseif ($where['cg_id'] != 0  && $like == null){
+            if ($where['cg_id'] != 0){
+                $arr['cg_id'] = $where['cg_id'];
+            }
+
+            $res = self::where($arr)->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+        }elseif($where['cg_id'] != 0  && $like != null){
+            if ($where['cg_id'] != 0){
+                $arr['cg_id'] = $where['cg_id'];
+            }
+
+            $res = self::where($arr)->where('title','LIKE','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+        }else{
+            $res = self::orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+        }
+        return $res;
+    }
 }

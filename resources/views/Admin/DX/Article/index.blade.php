@@ -35,7 +35,7 @@
                             <a href="article/create/createVideo" class="btn btn-primary J_menuItem">添加视频</a>
                             <a href="article/add" class="btn btn-primary J_menuItem">导入微信公众号文章</a>
                         </div>
-                        <form action="">
+                        <form action="" >
                             <div class="form-group">
                                     <div class="col-sm-1 juzhong"><label class="dinwei">分类：</label></div>
                                     <div class="col-sm-2">

@@ -30,6 +30,7 @@ class ArticleController extends Controller
      **/
     public function index(Request $request)
     {
+
         if ($request->all()){
             $where['cg_id'] = $request->get('cg_id');
             $like = $request->get('title');
