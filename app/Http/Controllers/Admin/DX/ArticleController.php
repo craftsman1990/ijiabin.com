@@ -50,7 +50,7 @@ class ArticleController extends Controller
             $data['cg_id'] = 0;
             $data['title'] = null;
         }
-        $list->setPath(config('hint.domain').'admin/article?cg_id='.$data['cg_id'].'&title='.$data['title']);
+        $list->setPath(config('hint.domain').'admin/jbdx/article?cg_id='.$data['cg_id'].'&title='.$data['title']);
         foreach ($list as $art){
             //分类
             $cate = Category::find($art->cg_id);
