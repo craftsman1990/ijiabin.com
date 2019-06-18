@@ -67,7 +67,7 @@
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
                                      @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}}> {{$label['name']}}: <input type="number" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
+                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}}> {{$label['name']}}: <input type="number"  style="width: 60px; display: inline-block" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
                                     @endforeach
                                 </div>
                             </div>

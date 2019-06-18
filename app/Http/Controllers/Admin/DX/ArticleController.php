@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\DX;
 
+use App\Models\DX\RecommendArticle;
+use App\Models\Recommend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DX\Article;
@@ -13,6 +15,7 @@ use App\Models\Navigation;
 use App\Services\Helper;
 use App\Services\Upload;
 use App\Models\DX\ArticleBlade;
+use App\Models\DX\LabelArticle;
 use App\Services\Compress;
 
 
@@ -30,6 +33,11 @@ class ArticleController extends Controller
      **/
     public function index(Request $request)
     {
+
+        //推荐
+        $Recommend =Recommend::select('id')->where('title','精选推荐')->get()->toArray();
+
+        $data['recommend_id'] = isset($Recommend[0]['id'])?$Recommend[0]['id']: 0;
 
         if ($request->all()){
             $where['cg_id'] = $request->get('cg_id');
@@ -51,16 +59,20 @@ class ArticleController extends Controller
             }else{
                 $art->cg_name = '未知';
             }
-            //精选
-            $cho = Choiceness::where('type',1)->where('cho_id',$art->id)->get()->toArray();
-            if ($cho){
-                $art->cho = $cho[0]['id'];
+            //精品推荐
+            $rec = RecommendArticle::where('aid',$art->id)->where('recommend_id',$data['recommend_id'])->get()->toArray();
+            if ($rec){
+                $art->rec = 1;
             }else{
-                $art->cho = 0;
+                $art->rec = 0;
             }
         }
         //分类
         $data['cate'] = Category::all();
+        //推荐
+        $Recommend =Recommend::select('id')->where('title','精选推荐')->get()->toArray();
+
+        $data['recommend_id'] = isset($Recommend[0]['id'])?$Recommend[0]['id']: 0;
 
         return view('Admin.DX.Article.index',compact('list',$list),compact('data',$data));
     }
@@ -97,8 +109,6 @@ class ArticleController extends Controller
         $data['video_info'] = ArticleBlade::where('aid',$id)->first()->toArray();
 
         $data['video']->address = (json_decode($data['video_info']['video_info']))->address;
-
-
 
         $lables = Helper::strToArr(implode(',',json_decode($data['video']->label_id)),',',':');
 
@@ -481,6 +491,157 @@ class ArticleController extends Controller
        //提交事务
        DB::commit();
        return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
+    }
+
+
+
+    //文章标签数据迁移
+    public function transferLabels($id)
+    {
+        $data =  Article::select('label_id')->find($id)->toArray();
+
+        $lables = Helper::strToArr(implode(',',json_decode($data['label_id'])),',',':');
+
+        $insert_arr = array();
+        foreach ($lables as $key=>$value){
+            $insert_arr[] = array(
+                'aid' => $id,
+                'label_id' =>$key,
+                'rank' => $value,
+                'updated_at'=> date('Y-m-d H:i:s',time()),
+                'created_at'=> date('Y-m-d H:i:s',time())
+            );
+        }
+        $res =LabelArticle::insert($insert_arr);
+
+        dd($res);
+        //return $res;
+
+    }
+
+
+    /**
+     * [插入差集]
+     * @param  [type] $excelData [导入的数据]
+     * @param  [type] $data      [差集数据]
+     * @return [type]   boolean         [true/false]
+     */
+    public function insertDiff($labelData,$data,$aid)
+    {
+        $map = [];
+        $keys = array_keys($data);
+        foreach ($keys as $key =>$value)
+        {
+            $map[$key]['aid'] = $aid;
+            $map[$key]['label_id'] = $labelData[$keys[$key]]['label_id'];
+            $map[$key]['rank'] = $labelData[$keys[$key]]['aid'] ;
+            $map[$key]['updated_at'] = date('Y-m-d H:i:s',time());
+            $map[$key]['created_at'] = date('Y-m-d H:i:s',time());
+        }
+
+        return LabelArticle::insert($map);
+    }
+
+
+    /**
+     * [删除差集]
+     * @param  [type] $labelData [导入的数据]
+     * @param  [type] $data      [差集数据]
+     * @return [type]   boolean         [true/false]
+     */
+
+    public function deleteDiff($diffData,$aid)
+    {
+        $keys = array_keys($diffData);
+
+        $res = LabelArticle::whereIn('label_id',$keys)->where('aid',$aid)->delete();
+
+        return $res;
+
+    }
+
+    /**
+     * [更新交集]
+     * @param  [type] $labelData [导入的数据]
+     * @param  [type] $data      [差集数据]
+     * @return [type]   boolean         [true/false]
+     */
+
+    public function updateIntersection($labelData,$data,$aid)
+    {
+        $map = [];
+        $keys = array_keys($data);
+
+        foreach ($keys as $key =>$value){
+            //$map[]
+        }
+
+
+    }
+    /**
+     * 批量更新表的值，防止阻塞
+     * @note 生成的SQL语句如下：
+     * update mj_node set sort = case id
+     *      when 13 then 1
+     *      when 1 then 4
+     *      when 7 then 5
+     *      when 8 then 6
+     *      when 9 then 7
+     *      when 10 then 8
+     *      when 11 then 9
+     *      when 12 then 10
+     * end where id in (13,1,7,8,9,10,11,12)
+     * @param $conditions_field 条件字段
+     * @param $values_field  需要被更新的字段
+     * @param $conditions
+     * @param $values
+     * @return int
+     */
+    public function batchUpdate($conditons_field,$values_field,$conditions,$values)
+    {
+
+    }
+    /**
+     * 添加到精品推荐
+     * @param  [type] $id [文章ID]
+     * @param  [type] $recommend_id      [推荐位ID]
+     * @return [type]   boolean         [true/false]
+     */
+    public function addRecommend($id,$recommend_id)
+    {
+        $insert_arr = array(
+            'aid'=>$id,
+            'recommend_id' =>$recommend_id,
+            'created_at' => date('Y-m-d H:i:s',time()),
+            'updated_at' => date('Y-m-d H:i:s',time()),
+        );
+
+        if(RecommendArticle::create($insert_arr)){
+            return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
+        }
+        return back()->with('hint',config('hint.add_failure'));
+
+    }
+
+    /**
+     * 删除精品推荐
+     * @param  [type] $labelData [导入的数据]
+     * @param  [type] $data      [差集数据]
+     * @return [type]   boolean         [true/false]
+     */
+    public function delRecommend($id,$recommend_id)
+    {
+
+        $where = array(
+            'aid'=>$id,
+            'recommend_id' =>$recommend_id
+        );
+
+        if(RecommendArticle::where($where)->delete()){
+            return redirect('admin/jbdx/article')->with('success', config('hint.del_success'));
+        }
+        return back()->with('hint',config('hint.del_failure'));
+
     }
 
 }

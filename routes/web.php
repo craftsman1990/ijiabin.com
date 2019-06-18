@@ -226,6 +226,9 @@ Route::group(['prefix'=>'admin'],function(){
         Route::resource('content','Admin\DX\ContentController');       //课程内容
         Route::resource('comment','Admin\DX\CommentController');       //评论列表
         Route::get('article/add','Admin\DX\ArticleController@add');//导入公众号
+        Route::get('article/transfer/{id}','Admin\DX\ArticleController@transferLabels');//第二版文章标签迁移
+        Route::get('article/addRecommend/id/{id}/recommend_id/{recommend_id}','Admin\DX\ArticleController@addRecommend');//第二版文章添加推荐位
+        Route::get('article/delRecommend/id/{id}/recommend_id/{recommend_id}','Admin\DX\ArticleController@delRecommend');//第二版文章删除推荐位
         Route::any('article/content','Admin\DX\ArticleController@content');//数据处理
         Route::resource('content/bulletScreen','Admin\DX\BulletScreenController'); //弹幕列表
         Route::resource('article','Admin\DX\ArticleController');   //新文章列表
