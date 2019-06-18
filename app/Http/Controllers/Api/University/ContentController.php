@@ -177,4 +177,18 @@ class ContentController extends Controller
         $data = Article::recommenDation($request->type);
         return response()->json(['status'=>1,'msg'=>'success','data'=>$data]);
     }
+    /**
+     * 根据图片地址获取base64视频流
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getBase64Img(Request $request)
+    {
+        if (empty($request->img)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']); 
+        }
+        $lengthways_cover = file_get_contents($request->img);
+        $lengthways_cover = base64_encode($lengthways_cover);
+        return $lengthways_cover;
+    }
 }

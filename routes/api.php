@@ -72,6 +72,7 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::get('wapPay','Api\University\PayController@wapPay');//支付完成订单查询
 	Route::get('getCourse','Api\University\ContentController@getCourse');//获取三大课程数据
 	Route::get('getCourseDetail','Api\University\ContentController@getCourseDetail');//获取课程详情
+	Route::get('getBase64Img','Api\University\ContentController@getBase64Img');//根据图片地址转为图片流
 	Route::get('addLooks','Api\University\ContentController@addLooks');//记录课程播放量
 	Route::get('search','Api\University\ContentController@search');//根据关键字搜索
 	Route::get('recommendAtions','Api\University\ContentController@recommendAtions');//相关推荐
