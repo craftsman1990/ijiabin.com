@@ -51,21 +51,50 @@ class Article extends Model
             }
             //根据标签id获取标签集合
         foreach ($data as $key => $v) {
-            $label_id = explode(',', $v->label_id);
-            foreach ($label_id as $val) {
-                $labels[] = DB::table('labels')
-                ->select('id','name')
-                ->where('id','=',$val)
-                ->first();
+            //获取标签排序
+            $labels = DB::table('dx_label_article')
+            ->select('aid','label_id')
+            ->where('aid','=',$v->id)
+            ->orderBy('rank','desc')
+            ->get()
+            ->toArray();
+            if (empty($labels)) {
+                $label_id = explode(',', $v->label_id);
+              foreach ($label_id as $val) {
+                  $label[] = DB::table('labels')
+                  ->select('id','name')
+                  ->where('id','=',$val)
+                  ->first();
+              }
+            }else{
+                //循环遍历标签
+              $i = 0;
+              foreach ($labels as $keys => $val) {
+                  if ($i>5) {
+                      continue;
+                  }
+                  $label[] = DB::table('labels')
+                  ->select('id','name')
+                  ->where('id','=',$val->label_id)
+                  ->first();
+                $i++;
+              }
+            }
+            //判断图片是否是绝对路径
+            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$v->cover)) {
+                $cover = $v->cover;
+            }else{
+                $cover = url($v->cover);
+
             }
             $result[$key]['id'] = $v->id;
-            $result[$key]['cover'] = $v->cover;
+            $result[$key]['cover'] = $cover;
             $result[$key]['title'] = $v->title;
             $result[$key]['intro'] = $v->intro;
             $result[$key]['duration'] = $v->duration;
             $result[$key]['looks'] = $v->looks;
-            $result[$key]['labels'] = $labels;
-            $labels = [];
+            $result[$key]['labels'] = $label;
+            $label = [];
         }
         return $result;
     }
@@ -85,26 +114,51 @@ class Article extends Model
             if (empty($data)) {
                 return [];
             }
-            $label_id = explode(',', $data->label_id);
-            $i = 0;
-            foreach ($label_id as $k => $val) {
-                if ($i>5) {
-                    continue;
-                }
-                $labels[] = DB::table('labels')
-                ->select('id','name')
-                ->where('id','=',$val)
-                ->first();
+            //获取标签排序
+            $labels = DB::table('dx_label_article')
+            ->select('aid','label_id')
+            ->where('aid','=',$aid)
+            ->orderBy('rank','desc')
+            ->get()
+            ->toArray();
+            //循环遍历标签
+            if (empty($labels)) {
+                $label_id = explode(',', $data->label_id);
+              foreach ($label_id as $val) {
+                  $label[] = DB::table('labels')
+                  ->select('id','name')
+                  ->where('id','=',$val)
+                  ->first();
+              }
+            }else{
+                //循环遍历标签
+              $i = 0;
+              foreach ($labels as $keys => $val) {
+                  if ($i>5) {
+                      continue;
+                  }
+                  $label[] = DB::table('labels')
+                  ->select('id','name')
+                  ->where('id','=',$val->label_id)
+                  ->first();
                 $i++;
-        }
+              }
+            }
         //获取视频地址
         if (!empty($data->video_info)) {
             $video_url = json_decode($data->video_info,true)['address'];
         }else{
             $video_url = '';
         }
+        //判断图片是否是绝对路径
+        if (preg_match('/(http:\/\/)|(https:\/\/)/i',$data->cover)) {
+            $cover = $data->cover;
+        }else{
+            $cover = url($data->cover);
+
+        }
         $result['id'] = $data->aid;
-        $result['cover'] = $data->cover;
+        $result['cover'] = $cover;
         $result['title'] = $data->title;
         $result['content'] = $data->content;
         $result['duration'] = $data->duration;
@@ -112,7 +166,7 @@ class Article extends Model
         $result['intro'] = $data->intro;
         $result['created_at'] = $data->created_at;
         $result['video_url'] = $video_url;
-        $result['labels'] = $labels;
+        $result['labels'] = $label;
         return $result;
     }
 
@@ -141,6 +195,15 @@ class Article extends Model
             ->limit($limit)
             ->get()
             ->toArray();
+        foreach ($data as $key => $v) {
+            //判断图片是否是绝对路径
+            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$v->cover)) {
+                $cover = $v->cover;
+            }else{
+                $cover = url($v->cover);
+            }
+            $data[$key]->cover = $cover;
+        }
         return $data; 
     }
 
@@ -174,6 +237,18 @@ class Article extends Model
               ->offset($offset)
               ->limit($limit)
               ->get();
+      //获取图片路径
+      if ($ret) {
+           foreach ($ret as $key => $v) {
+            //判断图片是否是绝对路径
+            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$v->cover)) {
+                $cover = $v->cover;
+            }else{
+                $cover = url($v->cover);
+            }
+            $ret[$key]->cover = $cover;
+        }
+      }
       return $ret;
     }
     /**
@@ -213,6 +288,15 @@ class Article extends Model
         $id = array_column($new_arr,'id');
         array_multisort($id,SORT_DESC,$new_arr);
         $result = array_slice($new_arr,0,15);
+        foreach ($result as $keys => $vs) {
+            //判断图片是否是绝对路径
+            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$vs->cover)) {
+                $cover = $vs->cover;
+            }else{
+                $cover = url($vs->cover);
+            }
+            $result[$keys]->cover = $cover;
+        }
         return $result;
     }
 
@@ -252,44 +336,45 @@ class Article extends Model
         }
         $i = 0;
         foreach ($arr as $key => $value) {
-            $label_id = explode(',',$value['label_id']);
-            foreach ($label_id as $ks => $vals) {
-                if ($i>5) {
-                    continue;
-                }
-                $labels[] = DB::table('labels')
-                ->select('id','name')
-                ->where('id','=',$vals)
-                ->first();
+            //获取标签排序
+            $labels = DB::table('dx_label_article')
+            ->select('aid','label_id')
+            ->where('aid','=',$value['id'])
+            ->orderBy('rank','desc')
+            ->get()
+            ->toArray();
+            if (empty($labels)) {
+                $label_id = explode(',', $value['label_id']);
+              foreach ($label_id as $val) {
+                  $label[] = DB::table('labels')
+                  ->select('id','name')
+                  ->where('id','=',$val)
+                  ->first();
+              }
+            }else{
+                //循环遍历标签
+              $i = 0;
+              foreach ($labels as $keys => $val) {
+                  if ($i>5) {
+                      continue;
+                  }
+                  $label[] = DB::table('labels')
+                  ->select('id','name')
+                  ->where('id','=',$val->label_id)
+                  ->first();
                 $i++;
+              }
             }
-            $arr[$key]['labels'] = $labels;
-            $labels = [];
+            //判断图片是否是绝对路径
+            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$value['cover'])) {
+                $cover = $value['cover'];
+            }else{
+                $cover = url($value['cover']);
+            }
+            $arr[$key]['cover'] = $cover;
+            $arr[$key]['labels'] = $label;
+            $label = [];
         }
         return $arr;
-    }
-
-     /*
-     * 后台查询
-     * */
-    public static function getIndex($where,$like){
-        if($where['cg_id'] == 0  && $like != null){
-            $res = self::where('title','like','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
-        }elseif ($where['cg_id'] != 0  && $like == null){
-            if ($where['cg_id'] != 0){
-                $arr['cg_id'] = $where['cg_id'];
-            }
-
-            $res = self::where($arr)->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
-        }elseif($where['cg_id'] != 0  && $like != null){
-            if ($where['cg_id'] != 0){
-                $arr['cg_id'] = $where['cg_id'];
-            }
-
-            $res = self::where($arr)->where('title','LIKE','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
-        }else{
-            $res = self::orderBy('publish_time','desc')->paginate(config('hint.a_num'));
-        }
-        return $res;
     }
 }
