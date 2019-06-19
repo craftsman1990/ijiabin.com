@@ -132,7 +132,7 @@
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
                                     <button class="btn btn-primary" type="submit">提交</button>
-                                    <a class="btn btn-outline btn-default" href={{url("admin/article")}} >返回</a>
+                                    <a class="btn btn-outline btn-default" href={{url("admin/jbdx/article")}} >返回</a>
                                 </div>
                             </div>
                         </form>
