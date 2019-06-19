@@ -286,6 +286,7 @@ class Article extends Model
         $article = [];
         foreach ($arr as $k => $val) {
           $articles = Article::where(['id'=>$val->aid,'status'=>1])->select('id','title','duration','cover','looks','intro','label_id','type','created_at')
+          ->where('id','!=',$aid)
           ->get()
           ->toArray();
             $article = array_merge_recursive($article,$articles);
