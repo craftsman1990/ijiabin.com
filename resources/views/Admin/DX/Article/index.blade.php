@@ -64,7 +64,7 @@
                                     <th>分类</th>
                                     <th>状态</th>
                                     <th>类别</th>
-                                    <th>精品推荐</th>
+                                    <th>精选推荐</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -114,7 +114,7 @@
                                                     </li>
                                                 @endif
                                                 <li class="divider"></li>
-                                                <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/article/'.$v->id)}}">删除</a>
+                                                <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/article/'.$v->id)}}">删除</a>
                                                 </li>
                                             </ul>
                                         </div>

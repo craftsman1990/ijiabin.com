@@ -56,7 +56,7 @@
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
                                      @foreach($result['data']['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}"> {{$label['name']}}
+                                         <input type="checkbox" name="labels[]" value="{{$label['id']}}" onclick="oneChoice()" > {{$label['name']}}: <input type="number" style="width: 60px; display: inline-block" min="0.0" max="1.0" value="0.0" name="ranks" step="0.1" onclick="oneChoice()"> &ensp;
                                     @endforeach
                                 </div>
                             </div>
@@ -102,6 +102,7 @@
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="_method" value="put"/>
                                     <input type="hidden" name="cg_id" value="{{$_GET['cg_id']}}"/>
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" >
                                     <input type="hidden" name="old_pic" value="{{asset($result['data']['article_cdn_url'])}}"/>
                                 </div>
                             </div>
@@ -137,6 +138,21 @@
      <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
+     //下拉选复选框单选事件
+        function oneChoice(){
+            var obj_l = $('[name="labels[]"]');
+            var obj_r = $('[name="ranks"]');
+            check_val = [];
+            for(k in obj_l){
+                if(obj_l[k].checked)
+                    check_val.push(obj_l[k].value+':'+obj_r[k].value)
+            }
+
+            $('#label_id').val(check_val);
+
+            var d = $('#label_id').val();
+            console.log(d);
+        }
         var E = window.wangEditor
         var editor = new E('#div1','#editor')
         editor.customConfig.uploadImgServer = '/api/upload'  // 上传图片到服务器

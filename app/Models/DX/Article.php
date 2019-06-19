@@ -41,7 +41,7 @@ class Article extends Model
         $data = DB::table('dx_article')
             ->select('id','cover','title','intro','label_id','duration','looks')
             ->where(['cg_id'=>$cg_id,'status'=>1])
-            ->orderBy('created_at','desc')
+            ->orderBy('id','desc')
             ->offset($offset)
             ->limit($limit)
             ->get()
@@ -163,6 +163,7 @@ class Article extends Model
         $result['content'] = $data->content;
         $result['duration'] = $data->duration;
         $result['type'] = $data->cg_id;
+        $result['looks'] = $data->looks;
         $result['intro'] = $data->intro;
         $result['created_at'] = $data->created_at;
         $result['video_url'] = $video_url;
@@ -184,13 +185,15 @@ class Article extends Model
         if ($type) {
            $where = ['type'=>$type,'status'=>1];
         }else{
-           $where = [];
+           $where = ['status'=>1];
         }
-        $data = DB::table('dx_article')
-            ->select('id','cover','title','intro','duration','looks','created_at')
-            ->whereRaw('FIND_IN_SET(?,label_id)',[$label_id])
+        // DB::connection()->enableQueryLog();
+         $data = DB::table('dx_label_article')
+            ->join('dx_article', 'dx_label_article.aid', '=', 'dx_article.id')
+            ->select('id','cover','title','content','duration','looks','dx_article.created_at')
+            ->where('dx_label_article.label_id','=',$label_id)
             ->where($where)
-            ->orderBy('created_at','desc')
+            ->orderBy('id','desc')
             ->offset($offset)
             ->limit($limit)
             ->get()
@@ -221,7 +224,7 @@ class Article extends Model
         if ($type) {
            $where = ['type'=>$type,'status'=>1];
         }else{
-           $where = [];
+           $where = ['status'=>1];
         }
         $ret = Article::where($where)
         ->where(function($query) use($key){
@@ -232,7 +235,7 @@ class Article extends Model
             $query->where('content','like',"%{$key}%");
         });
         });
-    })->orderBy('created_at','desc')
+    })->orderBy('id','desc')
               ->select('id','title','intro','content','created_at','type','cover')
               ->offset($offset)
               ->limit($limit)
@@ -259,44 +262,38 @@ class Article extends Model
     public static function recommendAtionsList($aid)
     {
         //根据课程id查询标签
-        $ret = Article::where(['id'=>$aid,'status'=>1])->select('label_id','id','type')->first();
-        if (empty($ret)) {
-            return [];
-        }
-        $label_id = explode(',',$ret->label_id);
-        if (empty($label_id)) {
-            return [];
-        }
-        //根据标签获取推荐内容
-        foreach ($label_id as $v) {
-          $data[] = DB::table('dx_article')
-            ->select('id','cover','title','intro','duration','looks','created_at','label_id','type')
-            ->where('id','!=',$ret->id)
-            ->where('label_id','LIKE','%'.$v.'%')
-            ->orderBy('created_at','desc')
-            ->limit(16)
-             ->get()
+         $labels = DB::table('dx_label_article')
+            ->select('aid','label_id')
+            ->where('aid','=',$aid)
+            ->orderBy('rank','desc')
+            ->get()
             ->toArray();
+        if (empty($labels)) {
+            return [];
         }
         $arr = [];
-        //数组去重
-        foreach ($data as $key => $value) {
-            $arr = array_merge_recursive($arr,$value);
+        foreach ($labels as $key => $v) {
+            $label = DB::table('dx_label_article')
+            ->select('aid')
+            ->where('label_id','=',$v->label_id)
+            ->orderBy('rank','desc')
+            ->get()
+            ->toArray();
+            $arr = array_merge_recursive($arr,$label);
         }
-        $new_arr = array_unique($arr,SORT_REGULAR);
+        $arr = array_unique($arr,SORT_REGULAR);
+        //根据标签获取推荐内容
+        $article = [];
+        foreach ($arr as $k => $val) {
+          $articles = Article::where(['id'=>$val->aid,'status'=>1])->select('id','title','duration','cover','looks','intro','label_id','type','created_at')
+          ->get()
+          ->toArray();
+            $article = array_merge_recursive($article,$articles);
+        }
         //数组排序
-        $id = array_column($new_arr,'id');
-        array_multisort($id,SORT_DESC,$new_arr);
-        $result = array_slice($new_arr,0,15);
-        foreach ($result as $keys => $vs) {
-            //判断图片是否是绝对路径
-            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$vs->cover)) {
-                $cover = $vs->cover;
-            }else{
-                $cover = url($vs->cover);
-            }
-            $result[$keys]->cover = $cover;
-        }
+        $id = array_column($article,'id');
+        array_multisort($id,SORT_DESC,$article);
+        $result = array_slice($article,0,15);
         return $result;
     }
 
@@ -378,7 +375,7 @@ class Article extends Model
         return $arr;
     }
 
-        /*
+     /*
     * 后台查询
     * */
         public static function getIndex($where,$like){

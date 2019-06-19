@@ -136,6 +136,8 @@ class ArticleController extends Controller
         $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
         $credentials['type'] = 2;//标识（1：文章；2：视频）
 
+        $credentials['updated_at'] = date('Y-m-d H:i:s',time());
+
         $video_info['address'] = $credentials['address'];
         $video_info['duration'] = $credentials['duration'];
 
@@ -214,6 +216,8 @@ class ArticleController extends Controller
         $credentials['address'] = Helper::checkVideoLocal($credentials['address']);
         $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
         $credentials['type'] = 2;//标识（1：文章；2：视频）
+        $credentials['created_at'] = date('Y-m-d H:i:s',time());
+        $credentials['updated_at'] = date('Y-m-d H:i:s',time());
         //dd($credentials);
         $video_info['address'] = $credentials['address'];
         $video_info['duration'] = $credentials['duration'];
@@ -237,15 +241,24 @@ class ArticleController extends Controller
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
-        //开启事务
+
         //开启事务
         DB::beginTransaction();
         $article_id = Article::insertGetId($credentials);
 
         if ($article_id){
 
+            $lablesData = Helper::strToArr(implode(',',json_decode($credentials['label_id'])),',',':');
+
+            //插入标签中间表
+            $insert_res = $this->insertDiff($lablesData,$lablesData,$article_id);
+
             $insert_arr['aid'] = $article_id;
-            if (ArticleBlade::create($insert_arr)){
+            //插入文章附表
+            $insert_blade = ArticleBlade::create($insert_arr);
+
+             //两个相关表添加成功则提交否则回滚
+            if ($insert_res && $insert_blade){
                 //提交
                 DB::commit();
                 return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
@@ -278,8 +291,9 @@ class ArticleController extends Controller
 
         $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
 
-      //  $credentials['label_id'] = json_decode($credentials['label_id']);
 
+        $credentials['created_at'] = date('Y-m-d H:i:s',time());
+        $credentials['updated_at'] = date('Y-m-d H:i:s',time());
         $credentials['tag'] = $request->tag;
         if ($request->author){
             $credentials['author'] = $request->author;
@@ -295,8 +309,22 @@ class ArticleController extends Controller
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
-        if (Article::create($credentials)){
-            return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
+
+        DB::beginTransaction();
+        $article_id = Article::insertGetId($credentials);
+
+        if ($article_id) {
+
+            $lablesData = Helper::strToArr(implode(',', json_decode($credentials['label_id'])), ',', ':');
+
+            //插入标签中间表
+            $insert_res = $this->insertDiff($lablesData, $lablesData, $article_id);
+            if ($insert_res){
+                DB::commit();
+                return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
+            }else{
+                return back()->with('hint',config('hint.add_failure'));
+            }
         }else{
             return back()->with('hint',config('hint.add_failure'));
         }
@@ -318,6 +346,92 @@ class ArticleController extends Controller
         return view('Admin.DX.Article.edit',compact('data',$data),compact('lables'));
     }
 
+
+
+
+    /**
+     * [更新交集]
+     * @param  [type] $labelData [导入的数据]
+     * @param  [type] $data      [交集数据]
+     * @param  [type] $aid      [文章ID]
+     * @return [type]   boolean         [true/false]
+     */
+
+    public function updateIntersection($labelData,$data,$aid)
+    {
+        $map = [];
+        $keys = array_keys($data);
+
+        foreach ($keys as $key =>$value){
+              $map[$value] = $labelData[$value];
+        }
+
+        dd($map);
+
+        $res =     LabelArticle::batchUpdate('recommend_id','rank',array_keys($map),array_values($map),$aid);
+
+        dd($res);
+
+    }
+
+    /**
+     * [插入差集]
+     * @param  [type] $excelData [导入的数据]
+     * @param  [type] $data      [差集数据]
+     * @return [type]   boolean         [true/false]
+     */
+    public function insertDiff($labelData,$data,$aid)
+    {
+        $map = [];
+        $keys = array_keys($data);
+        //var_dump($data); echo "<br/>";
+        foreach ($keys as $key =>$value)
+        {
+            $map[$key]['aid'] = $aid;
+            $map[$key]['label_id'] = $value;
+            $map[$key]['rank'] = $labelData[$keys[$key]] ;
+            $map[$key]['updated_at'] = date('Y-m-d H:i:s',time());
+            $map[$key]['created_at'] = date('Y-m-d H:i:s',time());
+        }
+       // dd($map);
+
+        return LabelArticle::insert($map);
+    }
+
+    /**
+     * [执行插入，或更新，或删除标签文章关联数据]
+     * @param  [type] $request_arr [导入的数据]
+     * @param  [type] $id      [数据ID]
+     * @return [type]   boolean         [true/false]
+     */
+    public  function getDiffArr($request_arr,$id)
+    {
+
+        $new_arr = Helper::strToArr(implode(',',json_decode($request_arr)),',',':');
+        var_dump($new_arr);echo "<br/>";
+        $old_arr =  Article::select('label_id')->where('id',$id)->get()->toArray();
+        $old_arr = Helper::strToArr(implode(',',json_decode($old_arr[0]['label_id'])),',',':');
+        var_dump($old_arr);echo "<br/>";
+
+        //有交集
+        $intersect_arr = array_intersect_assoc($new_arr,$old_arr);
+        var_dump($intersect_arr);
+        if ($intersect_arr){//有交集,交集执行更新
+            $res = LabelArticle::batchUpdate('label_id','rank',array_keys($intersect_arr),array_values($intersect_arr),$id);
+            dd($res);
+        }
+        //向左差集（）
+        $left_arr = array_diff($new_arr,$old_arr);
+        //向右差集（）
+        $right_arr = array_diff($old_arr,$new_arr);
+
+        dd($intersect_arr);
+        dd($old_arr);
+        $new_arr = Helper::strToArr(implode(',',json_decode($request_arr)),',',':');
+        $insert_res = $this->insertDiff($old_arr,$new_arr,$id);
+        dd($insert_res);
+
+    }
     /**
      * 执行修改
      **/
@@ -336,13 +450,9 @@ class ArticleController extends Controller
 
         $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
 
+        $credentials['updated_at'] = date('Y-m-d H:i:s',time());
         $credentials['tag'] = $request->tag;
 
-        if ($request->labels){
-            $credentials['labels'] = implode(',',$request->labels);
-        }else{
-            $credentials['labels'] = $request->old_labels;
-        }
         if ($request->author){
             $credentials['author'] = $request->author;
         }
@@ -377,6 +487,11 @@ class ArticleController extends Controller
                 $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
             }
         }
+
+        //更新标签关联表
+//        $res = $this->getDiffArr($credentials['label_id'],$id);
+//        dd($res);
+
         if(Article::find($id)->update($credentials)){
             return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
         }else{
@@ -390,7 +505,7 @@ class ArticleController extends Controller
     /**
      *删除
      **/
-    public function destory($id)
+    public function destroy($id)
     {
         $Obj = Article::find($id);
         if (!$Obj){
@@ -451,7 +566,10 @@ class ArticleController extends Controller
      */
     public function content(Request $request)
     {
-
+       $verif = array(
+                'label_id'=>'required',
+                );
+       $credentials = $this->validate($request,$verif);
        $model = new Article();
        $model_body = new ArticleBlade();
        //获取需要处理数据
@@ -470,8 +588,11 @@ class ArticleController extends Controller
        $model->content = $request->content;//文章内容
        $model->tag = isset($request->tag)? $request->tag : '';//关键字
        //获取标签id
-       if ($request->labels) {
-           $model->label_id = implode(',',$request->labels);
+       // if ($request->labels) {
+       //     $model->label_id = implode(',',$request->labels);
+       // }
+       if ($request->label_id) {
+           $model->label_id = json_encode(explode(',',$request->label_id));
        }
        $model->cover = isset($request->old_pic) ? $request->old_pic : '';//封面图
        //事务开始
@@ -487,6 +608,17 @@ class ArticleController extends Controller
             //回滚事物
             DB::rollBack();
             return back()->with('hint',config('hint.add_failure'));
+        }
+        //处理标签权重
+        $label = explode(',',$request->label_id);
+        foreach ($label as $key => $v) {
+            $source = explode(':',$v);
+            //存储标签文章关联表
+            $LabelArticle = new LabelArticle();
+            $LabelArticle->aid = $model->id;
+            $LabelArticle->label_id = $source[0];
+            $LabelArticle->rank = $source[1];
+            $LabelArticle->save();
         }
        //提交事务
        DB::commit();
@@ -519,30 +651,6 @@ class ArticleController extends Controller
 
     }
 
-
-    /**
-     * [插入差集]
-     * @param  [type] $excelData [导入的数据]
-     * @param  [type] $data      [差集数据]
-     * @return [type]   boolean         [true/false]
-     */
-    public function insertDiff($labelData,$data,$aid)
-    {
-        $map = [];
-        $keys = array_keys($data);
-        foreach ($keys as $key =>$value)
-        {
-            $map[$key]['aid'] = $aid;
-            $map[$key]['label_id'] = $labelData[$keys[$key]]['label_id'];
-            $map[$key]['rank'] = $labelData[$keys[$key]]['aid'] ;
-            $map[$key]['updated_at'] = date('Y-m-d H:i:s',time());
-            $map[$key]['created_at'] = date('Y-m-d H:i:s',time());
-        }
-
-        return LabelArticle::insert($map);
-    }
-
-
     /**
      * [删除差集]
      * @param  [type] $labelData [导入的数据]
@@ -560,47 +668,8 @@ class ArticleController extends Controller
 
     }
 
-    /**
-     * [更新交集]
-     * @param  [type] $labelData [导入的数据]
-     * @param  [type] $data      [差集数据]
-     * @return [type]   boolean         [true/false]
-     */
-
-    public function updateIntersection($labelData,$data,$aid)
-    {
-        $map = [];
-        $keys = array_keys($data);
-
-        foreach ($keys as $key =>$value){
-            //$map[]
-        }
 
 
-    }
-    /**
-     * 批量更新表的值，防止阻塞
-     * @note 生成的SQL语句如下：
-     * update mj_node set sort = case id
-     *      when 13 then 1
-     *      when 1 then 4
-     *      when 7 then 5
-     *      when 8 then 6
-     *      when 9 then 7
-     *      when 10 then 8
-     *      when 11 then 9
-     *      when 12 then 10
-     * end where id in (13,1,7,8,9,10,11,12)
-     * @param $conditions_field 条件字段
-     * @param $values_field  需要被更新的字段
-     * @param $conditions
-     * @param $values
-     * @return int
-     */
-    public function batchUpdate($conditons_field,$values_field,$conditions,$values)
-    {
-
-    }
     /**
      * 添加到精品推荐
      * @param  [type] $id [文章ID]
