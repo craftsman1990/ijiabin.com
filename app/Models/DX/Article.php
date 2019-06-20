@@ -101,7 +101,7 @@ class Article extends Model
     public static function getCourseDetail($aid)
     {
        $data = DB::table('dx_article')
-            ->join('dx_article_blade', 'dx_article.id', '=', 'dx_article_blade.aid')
+            ->leftJoin('dx_article_blade', 'dx_article.id', '=', 'dx_article_blade.aid')
             ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','dx_article.created_at','cg_id','intro')
             ->where('dx_article.id','=',$aid)
             ->first();
