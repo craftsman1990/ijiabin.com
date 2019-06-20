@@ -127,7 +127,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{implode(',',$lables)}}">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{implode(',',json_decode($data['video']->label_id))}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->

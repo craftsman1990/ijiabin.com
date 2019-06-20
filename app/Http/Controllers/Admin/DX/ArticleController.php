@@ -186,6 +186,9 @@ class ArticleController extends Controller
             $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
 
+        //更新标签关联表
+        $this->getDiffArr($credentials['label_id'],$id);
+
         //开启事务
        // DB::beginTransaction();
 
@@ -305,7 +308,6 @@ class ArticleController extends Controller
 
         $credentials['label_id'] = json_encode(explode(',',$credentials['label_id']));
 
-
         $credentials['created_at'] = date('Y-m-d H:i:s',time());
         $credentials['updated_at'] = date('Y-m-d H:i:s',time());
         $credentials['tag'] = $request->tag;
@@ -363,7 +365,6 @@ class ArticleController extends Controller
 
         $lables = Helper::strToArr(implode(',',json_decode($data['article']->label_id)),',',':');
 
-
         return view('Admin.DX.Article.edit',compact('data',$data),compact('lables'));
     }
 
@@ -371,7 +372,7 @@ class ArticleController extends Controller
 
 
     /**
-     * [更新交集]
+     * [更新交集]ok
      * @param  [type] $labelData [导入的数据]
      * @param  [type] $data      [交集数据]
      * @param  [type] $aid      [文章ID]
@@ -387,16 +388,12 @@ class ArticleController extends Controller
               $map[$value] = $labelData[$value];
         }
 
-        dd($map);
-
-        $res =     LabelArticle::batchUpdate('recommend_id','rank',array_keys($map),array_values($map),$aid);
-
-        dd($res);
+       return    LabelArticle::batchUpdate('label_id','rank',array_keys($map),array_values($map),$aid);
 
     }
 
     /**
-     * [插入差集]
+     * [插入差集]OK
      * @param  [type] $excelData [导入的数据]
      * @param  [type] $data      [差集数据]
      * @return [type]   boolean         [true/false]
@@ -405,7 +402,7 @@ class ArticleController extends Controller
     {
         $map = [];
         $keys = array_keys($data);
-        //var_dump($data); echo "<br/>";
+
         foreach ($keys as $key =>$value)
         {
             $map[$key]['aid'] = $aid;
@@ -414,13 +411,12 @@ class ArticleController extends Controller
             $map[$key]['updated_at'] = date('Y-m-d H:i:s',time());
             $map[$key]['created_at'] = date('Y-m-d H:i:s',time());
         }
-       // dd($map);
 
         return LabelArticle::insert($map);
     }
 
     /**
-     * [执行插入，或更新，或删除标签文章关联数据]
+     * [执行插入，或更新，或删除标签文章关联数据]ok
      * @param  [type] $request_arr [导入的数据]
      * @param  [type] $id      [数据ID]
      * @return [type]   boolean         [true/false]
@@ -429,46 +425,49 @@ class ArticleController extends Controller
     {
 
         $new_arr = Helper::strToArr(implode(',',json_decode($request_arr)),',',':');
-        echo "新";
-        var_dump($new_arr);echo "<br/>";
+
         $old_arr =  Article::select('label_id')->where('id',$id)->get()->toArray();
         $old_arr = Helper::strToArr(implode(',',json_decode($old_arr[0]['label_id'])),',',':');
-        echo "旧";
-        var_dump($old_arr);echo "<br/>";
 
-        //有交集
-        $intersect_arr = array_intersect_key($new_arr,$old_arr);
-        echo "交集";
-        var_dump($intersect_arr);echo "<br/>";
-        //差集
-        echo "差集";
-        $diff_arr = array_diff_key($new_arr,$old_arr);
-        var_dump($diff_arr);echo "<br/>";
-        echo "第二交集";
-        $intersect_arr2 = '';
-        var_dump($diff_arr);echo "<br/>";
-        die;
+        //检查一下是否在中间表中已经有数据
+        $check = LabelArticle::select('label_id')->where('aid',$id)->get()->toArray();
 
-        if ($intersect_arr){//有交集,交集执行更新
-            //首先执行修改
-           // $res = LabelArticle::batchUpdate('label_id','rank',array_keys($intersect_arr),array_values($intersect_arr),$id);
-           // dd($res);
-        }else{ //没有交集
-
+        if (empty($check)){
+            //则执行插入旧标签
+            $insert_res = $this->insertDiff($old_arr,$old_arr,$id);
         }
-        dd();
-        //向左差集（）
-        $left_arr = array_diff($new_arr,$old_arr);
-        //向右差集（）
-        $right_arr = array_diff($old_arr,$new_arr);
 
-        dd($intersect_arr);
-        dd($old_arr);
-        $new_arr = Helper::strToArr(implode(',',json_decode($request_arr)),',',':');
-        $insert_res = $this->insertDiff($old_arr,$new_arr,$id);
-        dd($insert_res);
+        $intersect_arr = array_intersect_key($new_arr,$old_arr);
 
+        if ($intersect_arr){//有交集则更新
+            $res_update = $this->updateIntersection($new_arr,$intersect_arr,$id);
+        }
+
+        $diff_old_arr = array_diff_key($old_arr,$new_arr);
+
+        if ($diff_old_arr){ //如果差集中有旧标签则删除
+          $del_res = $this->delDiff($diff_old_arr,$id);
+        }
+
+        $diff_new_arr = array_diff_key($new_arr,$old_arr);
+        if ($diff_new_arr){//如果差集中有新标签则插入
+            $insert_res = $this->insertDiff($new_arr,$diff_new_arr,$id);
+        }
     }
+
+    /**
+     * [删除差集]ok
+     * @param  [type] $request_arr [导入的数据]
+     * @param  [type] $id      [数据ID]
+     * @return [type]   boolean         [true/false]
+     */
+    public  function delDiff($request_arr,$id)
+    {
+        $keys = array_keys($request_arr);
+
+        return  LabelArticle::whereIn('label_id',$keys)->where('aid',$id)->delete();
+    }
+
     /**
      * 执行修改
      **/
@@ -531,13 +530,12 @@ class ArticleController extends Controller
         if ($http_is != 'http'){
             $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
-        //dd('aaaaaa');
 
         //更新标签关联表
-       // $res = $this->getDiffArr($credentials['label_id'],$id);
-       // dd($res);
+        $this->getDiffArr($credentials['label_id'],$id);
 
         if(Article::find($id)->update($credentials)){
+
             return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
         }else{
             return back()->with('hint',config('hint.mod_failure'));
@@ -556,6 +554,15 @@ class ArticleController extends Controller
         if (!$Obj){
             return back() -> with('hint',config('hint.data_exist'));
         }
+
+        //检查一下是否在中间表中已经有数据
+        $check = LabelArticle::select('label_id')->where('aid',$id)->get()->toArray();
+
+        if ($check){
+            //有则删除旧标签
+            LabelArticle::where('aid',$id)->delete();
+        }
+
         if (Article::destroy($id)){
             if (is_file(public_path($Obj->cover))){
                 unlink(public_path($Obj->cover));
@@ -632,10 +639,7 @@ class ArticleController extends Controller
        $model->intro = $request->intro;//文章介绍
        $model->content = $request->content;//文章内容
        $model->tag = isset($request->tag)? $request->tag : '';//关键字
-       //获取标签id
-       // if ($request->labels) {
-       //     $model->label_id = implode(',',$request->labels);
-       // }
+
        if ($request->label_id) {
            $model->label_id = json_encode(explode(',',$request->label_id));
        }
@@ -669,51 +673,6 @@ class ArticleController extends Controller
        DB::commit();
        return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
     }
-
-
-
-    //文章标签数据迁移
-    public function transferLabels($id)
-    {
-        $data =  Article::select('label_id')->find($id)->toArray();
-
-        $lables = Helper::strToArr(implode(',',json_decode($data['label_id'])),',',':');
-
-        $insert_arr = array();
-        foreach ($lables as $key=>$value){
-            $insert_arr[] = array(
-                'aid' => $id,
-                'label_id' =>$key,
-                'rank' => $value,
-                'updated_at'=> date('Y-m-d H:i:s',time()),
-                'created_at'=> date('Y-m-d H:i:s',time())
-            );
-        }
-        $res =LabelArticle::insert($insert_arr);
-
-        dd($res);
-        //return $res;
-
-    }
-
-    /**
-     * [删除差集]
-     * @param  [type] $labelData [导入的数据]
-     * @param  [type] $data      [差集数据]
-     * @return [type]   boolean         [true/false]
-     */
-
-    public function deleteDiff($diffData,$aid)
-    {
-        $keys = array_keys($diffData);
-
-        $res = LabelArticle::whereIn('label_id',$keys)->where('aid',$aid)->delete();
-
-        return $res;
-
-    }
-
-
 
     /**
      * 添加到精品推荐

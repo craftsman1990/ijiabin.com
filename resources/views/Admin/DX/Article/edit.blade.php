@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 @section('title','新文章修改')
 @section('content')
-
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-sm-12">
@@ -67,7 +66,7 @@
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
                                      @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}}> {{$label['name']}}: <input type="number"  style="width: 60px; display: inline-block" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
+                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}} onclick="oneChoice()"> {{$label['name']}}: <input type="number"  style="width: 60px; display: inline-block" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
                                     @endforeach
                                 </div>
                             </div>
@@ -121,7 +120,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{implode(',',$lables)}}">
+                                    <input type="text" id ="label_id" name="label_id" style="display: none" value="{{implode(',',json_decode($data['article']->label_id))}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="cover" value="{{old('cover')}}">
                                     <!-- <input type="file" name="cover" style="display: none;" value="{{old('cover')}}"> -->

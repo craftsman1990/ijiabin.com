@@ -34,8 +34,6 @@ class LabelArticle extends Model
      */
     public static function batchUpdate($conditons_field,$values_field,$conditions,$values,$aid)
     {
-        dd($values);
-
         $table ='hg_dx_label_article'; //返回表明
 
         $sql = 'update '.$table.' set ' .$values_field .' = case '.$conditons_field;

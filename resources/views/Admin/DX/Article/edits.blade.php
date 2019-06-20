@@ -138,6 +138,13 @@
      <!-- 编辑器 -->
     <script type="text/javascript" src="{{asset('release/wangEditor.js')}}"></script>
     <script type="text/javascript">
+        //首次进入页面刷新一次
+        $(document).ready(function () {
+            if(location.href.indexOf("#reloaded")==-1){
+                location.href=location.href+"#reloaded";
+                location.reload();
+            } 
+        });
      //下拉选复选框单选事件
         function oneChoice(){
             var obj_l = $('[name="labels[]"]');
