@@ -108,6 +108,9 @@ class UserController extends Controller
                return response()->json(['status'=>999,'msg'=>'请输入正确的手机号']);
             }
             $codes = Code::where('mobile',$request->mobile)->get();
+            if (!$codes->toArray()) {
+               return response()->json(['status'=>999,'msg'=>'验证码错误！']);
+            }
             $user_obj = $codes[0];
              if ($request->mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
                 return response()->json(['status'=>999,'msg'=>'验证码错误！']);

@@ -284,6 +284,14 @@ class Article extends Model
         $id = array_column($article,'id');
         array_multisort($id,SORT_DESC,$article);
         $result = array_slice($article,0,15);
+        foreach ($result as $ks => $value) {
+           if (preg_match('/(http:\/\/)|(https:\/\/)/i',$value['cover'])) {
+                $cover = $value['cover'];
+            }else{
+                $cover = url($value['cover']);
+            }
+            $result[$ks]['cover'] = $cover;
+        }
         return $result;
     }
 
