@@ -158,8 +158,8 @@ class ArticleController extends Controller
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
                 //创建缩略图
-                $Compress = new Compress(public_path($credentials['cover']),'0.4');
-                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+               // $Compress = new Compress(public_path($credentials['cover']),'0.4');
+               // $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
                 if (is_file(public_path($request->old_cover))){
                     unlink(public_path($request->old_cover));
                 }
@@ -173,11 +173,18 @@ class ArticleController extends Controller
             $credentials['cover'] = $request->old_cover;
             if (!is_file(public_path(thumbnail($credentials['cover'])))){
                 //创建缩略图
-                $Compress = new Compress(public_path($credentials['cover']),'0.4');
-                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+                //$Compress = new Compress(public_path($credentials['cover']),'0.4');
+                //$Compress->compressImg(public_path(thumbnail($credentials['cover'])));
             }
         }
         //(Article::find($id)->update($credentials));
+
+        //补全图片url域名链接substr(string,start,length)
+        $http_is = substr($credentials['cover'],0,4);
+//       // dd($http_is);
+        if ($http_is != 'http'){
+            $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
+        }
 
         //开启事务
        // DB::beginTransaction();
@@ -236,10 +243,17 @@ class ArticleController extends Controller
         if ($pic_path){
             $credentials['cover'] = $pic_path;
             //创建缩略图
-            $Compress = new Compress(public_path($credentials['cover']),'0.4');
-            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+           // $Compress = new Compress(public_path($credentials['cover']),'0.4');
+           // $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
+        }
+
+        //补全图片url域名链接substr(string,start,length)
+        $http_is = substr($credentials['cover'],0,4);
+//       // dd($http_is);
+        if ($http_is != 'http'){
+            $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
 
         //开启事务
@@ -304,10 +318,17 @@ class ArticleController extends Controller
         if ($pic_path){
             $credentials['cover'] = $pic_path;
             //创建缩略图
-            $Compress = new Compress(public_path($credentials['cover']),'0.4');
-            $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+          //  $Compress = new Compress(public_path($credentials['cover']),'0.4');
+          //  $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
+        }
+
+        //补全图片url域名链接substr(string,start,length)
+        $http_is = substr($credentials['cover'],0,4);
+//       // dd($http_is);
+        if ($http_is != 'http'){
+            $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
 
         DB::beginTransaction();
@@ -408,18 +429,34 @@ class ArticleController extends Controller
     {
 
         $new_arr = Helper::strToArr(implode(',',json_decode($request_arr)),',',':');
+        echo "新";
         var_dump($new_arr);echo "<br/>";
         $old_arr =  Article::select('label_id')->where('id',$id)->get()->toArray();
         $old_arr = Helper::strToArr(implode(',',json_decode($old_arr[0]['label_id'])),',',':');
+        echo "旧";
         var_dump($old_arr);echo "<br/>";
 
         //有交集
-        $intersect_arr = array_intersect_assoc($new_arr,$old_arr);
-        var_dump($intersect_arr);
+        $intersect_arr = array_intersect_key($new_arr,$old_arr);
+        echo "交集";
+        var_dump($intersect_arr);echo "<br/>";
+        //差集
+        echo "差集";
+        $diff_arr = array_diff_key($new_arr,$old_arr);
+        var_dump($diff_arr);echo "<br/>";
+        echo "第二交集";
+        $intersect_arr2 = '';
+        var_dump($diff_arr);echo "<br/>";
+        die;
+
         if ($intersect_arr){//有交集,交集执行更新
-            $res = LabelArticle::batchUpdate('label_id','rank',array_keys($intersect_arr),array_values($intersect_arr),$id);
-            dd($res);
+            //首先执行修改
+           // $res = LabelArticle::batchUpdate('label_id','rank',array_keys($intersect_arr),array_values($intersect_arr),$id);
+           // dd($res);
+        }else{ //没有交集
+
         }
+        dd();
         //向左差集（）
         $left_arr = array_diff($new_arr,$old_arr);
         //向右差集（）
@@ -468,8 +505,8 @@ class ArticleController extends Controller
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
                 //创建缩略图
-                $Compress = new Compress(public_path($credentials['cover']),'0.4');
-                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+               // $Compress = new Compress(public_path($credentials['cover']),'0.4');
+               // $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
                 if (is_file(public_path($request->old_cover))){
                     unlink(public_path($request->old_cover));
                 }
@@ -483,14 +520,22 @@ class ArticleController extends Controller
             $credentials['cover'] = $request->get('old_cover');
             if (!is_file(public_path(thumbnail($credentials['cover'])))){
                 //创建缩略图
-                $Compress = new Compress(public_path($credentials['cover']),'0.4');
-                $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
+                //$Compress = new Compress(public_path($credentials['cover']),'0.4');
+                //$Compress->compressImg(public_path(thumbnail($credentials['cover'])));
             }
         }
 
+        //补全图片url域名链接substr(string,start,length)
+        $http_is = substr($credentials['cover'],0,4);
+//       // dd($http_is);
+        if ($http_is != 'http'){
+            $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
+        }
+        //dd('aaaaaa');
+
         //更新标签关联表
-//        $res = $this->getDiffArr($credentials['label_id'],$id);
-//        dd($res);
+       // $res = $this->getDiffArr($credentials['label_id'],$id);
+       // dd($res);
 
         if(Article::find($id)->update($credentials)){
             return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));

@@ -59,13 +59,7 @@ class Article extends Model
             ->get()
             ->toArray();
             if (empty($labels)) {
-                $label_id = explode(',', $v->label_id);
-              foreach ($label_id as $val) {
-                  $label[] = DB::table('labels')
-                  ->select('id','name')
-                  ->where('id','=',$val)
-                  ->first();
-              }
+               $label = [];
             }else{
                 //循环遍历标签
               $i = 0;
@@ -123,13 +117,7 @@ class Article extends Model
             ->toArray();
             //循环遍历标签
             if (empty($labels)) {
-                $label_id = explode(',', $data->label_id);
-              foreach ($label_id as $val) {
-                  $label[] = DB::table('labels')
-                  ->select('id','name')
-                  ->where('id','=',$val)
-                  ->first();
-              }
+               $label = [];
             }else{
                 //循环遍历标签
               $i = 0;
@@ -168,6 +156,7 @@ class Article extends Model
         $result['created_at'] = $data->created_at;
         $result['video_url'] = $video_url;
         $result['labels'] = $label;
+        $label = [];
         return $result;
     }
 
@@ -342,13 +331,7 @@ class Article extends Model
             ->get()
             ->toArray();
             if (empty($labels)) {
-                $label_id = explode(',', $value['label_id']);
-              foreach ($label_id as $val) {
-                  $label[] = DB::table('labels')
-                  ->select('id','name')
-                  ->where('id','=',$val)
-                  ->first();
-              }
+                $label = [];
             }else{
                 //循环遍历标签
               $i = 0;
