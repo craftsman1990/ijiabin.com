@@ -321,7 +321,7 @@ class Article extends Model
             ->select('aid','created_at')
             ->where(['recommend_id'=>$recommend_id])
             ->orderBy('created_at','desc')
-            ->limit(16)
+            // ->limit(16)
              ->get()
             ->toArray();
         //根据推荐id获取推荐内容
@@ -330,6 +330,7 @@ class Article extends Model
             $article = Article::where(['id'=>$v->aid,'status'=>1,'type'=>$type])->select('id','title','duration','cover','looks','intro','label_id')->get()->toArray();
             $arr = array_merge_recursive($arr,$article);
         }
+        $arr = array_slice($arr,0,15);
         $i = 0;
         foreach ($arr as $key => $value) {
             //获取标签排序
