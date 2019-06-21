@@ -314,6 +314,7 @@ class Article extends Model
      */
     public static function recommenDation($type)
     {
+       $recommend_id = 1;
         //获取精品推荐id
         $recommend_ids = DB::table('dx_recommend_article')
             // ->join('dx_recommend_article', 'dx_recommend.id', '=', 'dx_recommend_article.recommend_id')
