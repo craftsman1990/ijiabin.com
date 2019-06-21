@@ -28,7 +28,10 @@ class LoginController extends Controller
     	}
     	if (!empty($request->code)) {//判断是否验证码登录
       		$codes = Code::where('mobile',$request->mobile)->get();
-      		$users = User::where('mobile',$request->mobile)->get();     		
+      		$users = User::where('mobile',$request->mobile)->get();
+      		if (!$codes->toArray()) {
+               return response()->json(['status'=>999,'msg'=>'验证码错误！']);
+            }    		
       		$user_obj = $codes[0];
             if ($request->mobile!=$user_obj->mobile || $request->code!=$user_obj->code) {
             	return response()->json(['status'=>999,'msg'=>'验证码错误！']);

@@ -189,15 +189,21 @@ class ArticleController extends Controller
         //更新标签关联表
         $this->getDiffArr($credentials['label_id'],$id);
 
+        $pic_info['cover'] = $credentials['cover'] ;
+        $insert_arr['pic_info'] = json_encode($pic_info);
         //开启事务
-       // DB::beginTransaction();
+        DB::beginTransaction();
 
         if(Article::find($id)->update($credentials)){
 
-            ArticleBlade::where('aid',$id)->update($insert_arr);
+             //修改文章附表
+            if (ArticleBlade::where('aid',$id)->update($insert_arr)){
                 //提交
-            return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
-
+                DB::commit();
+                return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
+            }else{
+                return back()->with('hint',config('hint.mod_failure'));
+            }
         }else{
             return back()->with('hint',config('hint.mod_failure'));
         }
@@ -259,6 +265,8 @@ class ArticleController extends Controller
             $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
 
+        $pic_info['cover'] = $credentials['cover'] ;
+        $insert_arr['pic_info'] = json_encode($pic_info);// json_decode($pic_info);
         //开启事务
         DB::beginTransaction();
         $article_id = Article::insertGetId($credentials);
@@ -333,12 +341,19 @@ class ArticleController extends Controller
             $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
 
+        $pic_info['cover'] = $credentials['cover'] ;
+        $insert_arr['pic_info'] = json_encode($pic_info);
+
         DB::beginTransaction();
         $article_id = Article::insertGetId($credentials);
 
         if ($article_id) {
 
             $lablesData = Helper::strToArr(implode(',', json_decode($credentials['label_id'])), ',', ':');
+
+            $insert_arr['aid'] = $article_id;
+            //插入文章附表
+            $insert_blade = ArticleBlade::create($insert_arr);
 
             //插入标签中间表
             $insert_res = $this->insertDiff($lablesData, $lablesData, $article_id);
@@ -531,19 +546,21 @@ class ArticleController extends Controller
             $credentials['cover'] =  asset($credentials['cover']);//url($credentials['cover'])
         }
 
+        $pic_info['cover'] = $credentials['cover'] ;
+        $insert_arr['pic_info'] = json_encode($pic_info);// json_decode($pic_info);
+
         //更新标签关联表
         $this->getDiffArr($credentials['label_id'],$id);
 
         if(Article::find($id)->update($credentials)){
-
+            //修改附表
+            ArticleBlade::where('aid',$id)->update($insert_arr);
             return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
         }else{
             return back()->with('hint',config('hint.mod_failure'));
         }
 
     }
-
-
 
     /**
      *删除
@@ -561,6 +578,13 @@ class ArticleController extends Controller
         if ($check){
             //有则删除旧标签
             LabelArticle::where('aid',$id)->delete();
+        }
+
+        $check_blade = ArticleBlade::select('id')->where('aid',$id)->get()->toArray();
+
+        if ($check){
+            //有则删除旧附表
+            ArticleBlade::where('aid',$id)->delete();
         }
 
         if (Article::destroy($id)){
