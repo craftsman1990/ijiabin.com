@@ -315,11 +315,11 @@ class Article extends Model
     public static function recommenDation($type)
     {
         //获取精品推荐id
-        $recommend_ids = DB::table('dx_recommend')
-            ->join('dx_recommend_article', 'dx_recommend.id', '=', 'dx_recommend_article.recommend_id')
-            ->select('aid','rank')
-            ->where(['dx_recommend.status'=>1])
-            ->orderBy('rank','desc')
+        $recommend_ids = DB::table('dx_recommend_article')
+            // ->join('dx_recommend_article', 'dx_recommend.id', '=', 'dx_recommend_article.recommend_id')
+            ->select('aid','created_at')
+            ->where(['recommend_id'=>$recommend_id])
+            ->orderBy('created_at','desc')
             ->limit(16)
              ->get()
             ->toArray();
