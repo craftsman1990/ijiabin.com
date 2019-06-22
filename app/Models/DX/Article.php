@@ -102,7 +102,7 @@ class Article extends Model
     {
        $data = DB::table('dx_article')
             ->leftJoin('dx_article_blade', 'dx_article.id', '=', 'dx_article_blade.aid')
-            ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','dx_article.created_at','cg_id','intro')
+            ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','dx_article.created_at','cg_id','intro','tag')
             ->where('dx_article.id','=',$aid)
             ->first();
             if (empty($data)) {
@@ -155,6 +155,7 @@ class Article extends Model
         $result['intro'] = $data->intro;
         $result['created_at'] = $data->created_at;
         $result['video_url'] = $video_url;
+        $result['tag'] = $data->tag;
         $result['labels'] = $label;
         $label = [];
         return $result;
@@ -225,7 +226,7 @@ class Article extends Model
         });
         });
     })->orderBy('id','desc')
-              ->select('id','title','intro','content','created_at','type','cover')
+              ->select('id','title','intro','content','created_at','type','cover','duration')
               ->offset($offset)
               ->limit($limit)
               ->get();
@@ -283,7 +284,7 @@ class Article extends Model
         //数组排序
         $id = array_column($article,'id');
         array_multisort($id,SORT_DESC,$article);
-        $result = array_slice($article,0,15);
+        $result = array_slice($article,0,16);
         foreach ($result as $ks => $value) {
            if (preg_match('/(http:\/\/)|(https:\/\/)/i',$value['cover'])) {
                 $cover = $value['cover'];
@@ -330,7 +331,7 @@ class Article extends Model
             $article = Article::where(['id'=>$v->aid,'status'=>1,'type'=>$type])->select('id','title','duration','cover','looks','intro','label_id')->get()->toArray();
             $arr = array_merge_recursive($arr,$article);
         }
-        $arr = array_slice($arr,0,15);
+        $arr = array_slice($arr,0,16);
         $i = 0;
         foreach ($arr as $key => $value) {
             //获取标签排序
