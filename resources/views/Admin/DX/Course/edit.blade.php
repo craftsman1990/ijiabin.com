@@ -130,7 +130,7 @@
                                 <label class="col-sm-3 control-label">简介：</label>
                                 <div class="col-sm-8">
                                     <textarea id="intro" style="width: 100%;height: 200px;resize: none;" name="intro">{{$course->intro}}</textarea>
-                                    <p><span id="text-intro">1000</span>/1000</p>
+                                    <p><span id="text-intro">30</span>/30</p>
                                 </div>
                             </div>
                             <!-- 内容  -->
@@ -222,15 +222,15 @@
 
         //简介
         var intro = $('[name=intro]').val();
-        $("#text-intro").text(1000-intro.length);
+        $("#text-intro").text(30-intro.length);
         $('#intro').on('input propertychange',function(){
             var $this = $(this),
                 _val = $this.val(),
                 count = "";
-            if (_val.length > 1000) {
-                $this.val(_val.substring(0, 1000));
+            if (_val.length > 30) {
+                $this.val(_val.substring(0, 30));
             }
-            count = 1000 - $this.val().length;
+            count = 30 - $this.val().length;
             $("#text-intro").text(count);
         });
     </script>
