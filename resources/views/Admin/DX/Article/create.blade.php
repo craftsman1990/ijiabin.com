@@ -33,7 +33,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标题：</label>
                                 <div class="col-sm-8">
-                                    <input  name="title" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" value="{{old('title')}}">
+                                    <input  name="title" maxlength="24" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" value="{{old('title')}}">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 最多可输入24个字</span>
                                 </div>
                             </div>
                             <!-- 分类 -->
@@ -69,6 +70,7 @@
                                     @foreach($data['label'] as $label)
                                         <input type="checkbox" name="labels[]" value="{{$label['id']}}" onclick="oneChoice()" > {{$label['name']}}: <input type="number" style="width: 60px; display: inline-block" min="0.0" max="1.0" value="0.0" name="ranks" step="0.1" onclick="oneChoice()"> &ensp;
                                     @endforeach
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
                                 </div>
                             </div>
                             <!-- 关键字： -->
@@ -76,7 +78,7 @@
                                 <label class="col-sm-3 control-label">关键字：</label>
                                 <div class="col-sm-6">
                                     <input name="tag" class="form-control" type="text" value="{{old('tag')}}" maxlength="105">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 关键字，多个用，隔开</span>
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 关键字，多个用，隔开(个数最多5个，最大字数8个字符）</span>
                                 </div>
                             </div>
                             <!-- 封面 -->
@@ -103,7 +105,7 @@
                                 <div class="col-sm-8">
                                     <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="intro">{{old('intro')}}</textarea>
                                     <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
-                                    <p><span id="text-intro">80</span>/80</p>
+                                    <p><span id="text-intro">30</span>/30</p>
                                 </div>
                             </div>
 
@@ -242,10 +244,10 @@
                 var $this = $(this),
                     _val = $this.val(),
                     count = "";
-                if (_val.length > 80) {
-                    $this.val(_val.substring(0, 80));
+                if (_val.length > 30) {
+                    $this.val(_val.substring(0, 30));
                 }
-                count = 80 - $this.val().length;
+                count = 30 - $this.val().length;
                 $("#text-intro").text(count);   
             });
     </script>

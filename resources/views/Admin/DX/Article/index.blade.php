@@ -44,7 +44,7 @@
                                             @foreach($data['cate'] as $cate)
                                             <option value="{{$cate->id}}" {{$data['cg_id'] == $cate->id ? 'selected' : ''}} >{{$cate->cg_name}}</option>
                                             @endforeach
-                                            
+
                                         </select>
                                     </div>
                                     <div class="col-sm-1 juzhong"><label class="dinwei">标题：</label></div>

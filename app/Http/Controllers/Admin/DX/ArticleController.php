@@ -122,13 +122,13 @@ class ArticleController extends Controller
     public function updateVideo(Request $request,$id)
     {
         $verif = array(
-            'title'=>'required',
+            'title'=>'required|max:24',
             'address'=>'required',
             'duration'=>'required|numeric|min:0',
             'cg_id'=>'required|numeric',
             'publish_time'=>'required',
             'content'=>'required',
-            'intro'=>'required',
+            'intro'=>'required|max:30',
             'label_id'=> 'required'
         );
         $credentials = $this->validate($request,$verif);
@@ -157,9 +157,6 @@ class ArticleController extends Controller
 //            $pic_path = Upload::uploadOne   ('Video',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
-                //创建缩略图
-               // $Compress = new Compress(public_path($credentials['cover']),'0.4');
-               // $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
                 if (is_file(public_path($request->old_cover))){
                     unlink(public_path($request->old_cover));
                 }
@@ -171,11 +168,6 @@ class ArticleController extends Controller
             }
         }else{
             $credentials['cover'] = $request->old_cover;
-            if (!is_file(public_path(thumbnail($credentials['cover'])))){
-                //创建缩略图
-                //$Compress = new Compress(public_path($credentials['cover']),'0.4');
-                //$Compress->compressImg(public_path(thumbnail($credentials['cover'])));
-            }
         }
         //(Article::find($id)->update($credentials));
 
@@ -218,14 +210,14 @@ class ArticleController extends Controller
     public function storeVideo(Request $request)
     {
         $verif = array(
-            'title'=>'required',
+            'title'=>'required|max:24',
             'address'=>'required',
             'duration'=>'required|numeric|min:0',
             'cg_id'=>'required|numeric',
             'publish_time'=>'required',
             'cover'=>'required',
             'content'=>'required',
-            'intro'=>'required',
+            'intro'=>'required|max:30',
             'label_id'=>'required'
         );
         $credentials = $this->validate($request,$verif);
@@ -251,9 +243,6 @@ class ArticleController extends Controller
 //        $pic_path = Upload::uploadOne('Video',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
-            //创建缩略图
-           // $Compress = new Compress(public_path($credentials['cover']),'0.4');
-           // $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -304,13 +293,13 @@ class ArticleController extends Controller
     {
 
         $verif = array(
-            'title'=>'required',
+            'title'=>'required|max:24',
             'content'=>'required',
             'cg_id'=>'required|numeric',
             'publish_time'=>'required',
             'label_id'=>'required',
             'cover'=>'required',
-            'intro'=>'required'
+            'intro'=>'required|max:30'
         );
         $credentials = $this->validate($request,$verif);
 
@@ -327,9 +316,6 @@ class ArticleController extends Controller
 //        $pic_path = Upload::uploadOne('Article',$credentials['cover']);
         if ($pic_path){
             $credentials['cover'] = $pic_path;
-            //创建缩略图
-          //  $Compress = new Compress(public_path($credentials['cover']),'0.4');
-          //  $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
         }else{
             return back() -> with('hint',config('hint.upload_failure'));
         }
@@ -489,11 +475,11 @@ class ArticleController extends Controller
     public function update(Request $request,$id)
     {
         $verif = array(
-            'title'=>'required',
+            'title'=>'required|max:24',
             'content'=>'required',
             'cg_id'=>'required|numeric',
             'publish_time'=>'required',
-            'intro'=>'required',
+            'intro'=>'required|max:30',
             'label_id'=>'required'
         );
 
@@ -510,7 +496,6 @@ class ArticleController extends Controller
         //图片大小
 //        $size = strlen(file_get_contents($request->cover))/1024;
 
-//        dd($size);
         //图像上传
 //        if ($request->file('cover')){
         if ($request->cover){
@@ -518,9 +503,6 @@ class ArticleController extends Controller
 //            $pic_path = Upload::uploadOne('Article',$request->file('cover'));
             if ($pic_path){
                 $credentials['cover'] = $pic_path;
-                //创建缩略图
-               // $Compress = new Compress(public_path($credentials['cover']),'0.4');
-               // $Compress->compressImg(public_path(thumbnail($credentials['cover'])));
                 if (is_file(public_path($request->old_cover))){
                     unlink(public_path($request->old_cover));
                 }
@@ -532,11 +514,6 @@ class ArticleController extends Controller
             }
         }else{
             $credentials['cover'] = $request->get('old_cover');
-            if (!is_file(public_path(thumbnail($credentials['cover'])))){
-                //创建缩略图
-                //$Compress = new Compress(public_path($credentials['cover']),'0.4');
-                //$Compress->compressImg(public_path(thumbnail($credentials['cover'])));
-            }
         }
 
         //补全图片url域名链接substr(string,start,length)
