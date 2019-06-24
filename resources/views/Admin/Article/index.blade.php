@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','新文章')
+@section('title','文章')
 @section('content')
 <style type="text/css">
     .juzhong{text-align: right;}
@@ -10,7 +10,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>新文章列表  {{$list->total()}}</h5>
+                        <h5>文章列表  {{$list->total()}}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -32,7 +32,7 @@
                     <div class="ibox-content">
                         <div class="">
                             <a href="article/create" class="btn btn-primary J_menuItem">添加文章</a>
-                            <a href="article/create/createVideo" class="btn btn-primary J_menuItem">添加视频</a>
+                            <a href="{{url('assist')}}" class="btn btn-primary J_menuItem" target="_blank">清除工具</a>
                             <a href="article/add" class="btn btn-primary J_menuItem">导入微信公众号文章</a>
                         </div>
                         <form action="">
@@ -45,6 +45,15 @@
                                             <option value="{{$cate->id}}" {{$data['cg_id'] == $cate->id ? 'selected' : ''}} >{{$cate->cg_name}}</option>
                                             @endforeach
                                             
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1 juzhong"><label class="dinwei">来源：</label></div>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" name="nav_id">
+                                            <option value="0">请选择来源</option>
+                                            @foreach($data['nav'] as $nav)
+                                            <option value="{{$nav['id']}}" {{$data['nav_id'] == $nav['id'] ? 'selected' : ''}}>{{$nav['text']}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-sm-1 juzhong"><label class="dinwei">标题：</label></div>
@@ -62,6 +71,7 @@
                                     <th >ID</th>
                                     <th>标题</th>
                                     <th>分类</th>
+                                    <th>来源</th>
                                     <th>状态</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
@@ -73,6 +83,7 @@
                                     <td>{{$v->id}}</td>
                                     <td>{{$v->title}}</td>
                                     <td class="center">{{$v->cg_name}}</td>
+                                    <td class="center">{{$v->nav_name}}</td>
                                     <td class="center">
                                         @if($v->status == 1)
                                             <span class="label label-info">正常</span>
@@ -87,7 +98,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{url('article/id/'.$v->id)}}" target="_blank">详情</a></li>
-                                                <li><a href='{{url("admin/jbdx/article/$v->id/edit")}}' class="font-bold">修改</a></li>
+                                                <li><a href='{{url("admin/article/$v->id/edit")}}' class="font-bold">修改</a></li>
                                                 <li>
                                                     @if($v->cho != 0)
                                                     <a href="{{url('admin/choiceness/cancel/id/'.$v->cho)}}" >取消精选</a>

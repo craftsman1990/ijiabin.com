@@ -103,7 +103,7 @@
                                 <label class="col-sm-3 control-label">简介：</label>
                                 <div class="col-sm-8">
                                     <textarea id="intro" style="width: 100%;height: 100px;resize: none;" name="intro">{{$data['article']->intro}}</textarea>
-                                    <p><span id="text-intro">80</span>/80</p>
+                                    <p><span id="text-intro">30</span>/30</p>
                                     <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span> -->
                                 </div>
                             </div>
