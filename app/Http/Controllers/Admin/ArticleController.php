@@ -28,7 +28,6 @@ class articleController extends Controller
             $data['cg_id'] = $where['cg_id'];
             $data['nav_id'] = $where['nav_id'];
             $data['title'] = $like;
-
         }else{
             $list = Article::orderBy('publish_time','desc')->paginate(config('hint.a_num'));
             $data['cg_id'] = 0;
