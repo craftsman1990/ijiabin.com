@@ -180,7 +180,7 @@ class Article extends Model
         // DB::connection()->enableQueryLog();
          $data = DB::table('dx_label_article')
             ->join('dx_article', 'dx_label_article.aid', '=', 'dx_article.id')
-            ->select('id','cover','title','content','duration','looks','dx_article.created_at')
+            ->select('id','cover','title','content','duration','looks','dx_article.created_at','intro')
             ->where('dx_label_article.label_id','=',$label_id)
             ->where($where)
             ->orderBy('id','desc')
