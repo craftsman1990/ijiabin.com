@@ -29,11 +29,65 @@ class ArticleController extends Controller
     }
 
     /**
+     * 推荐位列表页
+     **/
+    public function recommendIndex(Request $request)
+    {
+        //推荐
+        $Recommend =Recommend::where('status',1)->get()->toArray();
+
+        $recommend_info = '';
+       // dd($Recommend);
+        if ($Recommend){
+            foreach ($Recommend as $list){
+                dd($list);
+            }
+        }
+
+        $data['recommend_info'] = $Recommend;
+
+        if ($request->all()){
+            $where['rec_id'] = $request->get('rec_id');
+            $like = $request->get('title');
+            $list = Article::getIndex($where,$like);
+            $data['rec_id'] = $where['rec_id'];
+            $data['title'] = $like;
+        }else{
+            $list = Article::orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+            $data['rec_id'] = 0;
+            $data['title'] = null;
+        }
+        $list->setPath(config('hint.domain').'admin/jbdx/article/recommendList?rec_id='.$data['rec_id'].'&title='.$data['title']);
+        foreach ($list as $art){
+            //推荐位
+            if ($art){
+                $art->cg_name = $art->cg_name;
+            }else{
+                $art->cg_name = '未知';
+            }
+            //精品推荐
+            $rec = RecommendArticle::where('aid',$art->id)->where('recommend_id',$data['recommend_id'])->get()->toArray();
+            if ($rec){
+                $art->rec = 1;
+            }else{
+                $art->rec = 0;
+            }
+        }
+        //分类
+        $data['cate'] = Category::all();
+        //推荐
+        $Recommend =Recommend::select('id')->where('title','精选推荐')->get()->toArray();
+
+        $data['recommend_id'] = isset($Recommend[0]['id'])?$Recommend[0]['id']: 0;
+
+        return view('Admin.DX.Article.index',compact('list',$list),compact('data',$data));
+    }
+
+    /**
      * 列表页
      **/
     public function index(Request $request)
     {
-
         //推荐
         $Recommend =Recommend::select('id')->where('title','精选推荐')->get()->toArray();
 
@@ -184,18 +238,15 @@ class ArticleController extends Controller
         $pic_info['cover'] = $credentials['cover'] ;
         $insert_arr['pic_info'] = json_encode($pic_info);
         //开启事务
-        DB::beginTransaction();
+       // DB::beginTransaction();
 
         if(Article::find($id)->update($credentials)){
 
              //修改文章附表
-            if (ArticleBlade::where('aid',$id)->update($insert_arr)){
+           ArticleBlade::where('aid',$id)->update($insert_arr);
                 //提交
-                DB::commit();
-                return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
-            }else{
-                return back()->with('hint',config('hint.mod_failure'));
-            }
+               // DB::commit();
+            return redirect('admin/jbdx/article')->with('success', config('hint.mod_success'));
         }else{
             return back()->with('hint',config('hint.mod_failure'));
         }
