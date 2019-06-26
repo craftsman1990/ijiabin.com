@@ -671,47 +671,4 @@ class ArticleController extends Controller
        return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
     }
 
-    /**
-     * 添加到精品推荐
-     * @param  [type] $id [文章ID]
-     * @param  [type] $recommend_id      [推荐位ID]
-     * @return [type]   boolean         [true/false]
-     */
-    public function addRecommend($id,$recommend_id)
-    {
-        $insert_arr = array(
-            'aid'=>$id,
-            'recommend_id' =>$recommend_id,
-            'created_at' => date('Y-m-d H:i:s',time()),
-            'updated_at' => date('Y-m-d H:i:s',time()),
-        );
-
-        if(RecommendArticle::create($insert_arr)){
-            return redirect('admin/jbdx/article')->with('success', config('hint.add_success'));
-        }
-        return back()->with('hint',config('hint.add_failure'));
-
-    }
-
-    /**
-     * 删除精品推荐
-     * @param  [type] $labelData [导入的数据]
-     * @param  [type] $data      [差集数据]
-     * @return [type]   boolean         [true/false]
-     */
-    public function delRecommend($id,$recommend_id)
-    {
-
-        $where = array(
-            'aid'=>$id,
-            'recommend_id' =>$recommend_id
-        );
-
-        if(RecommendArticle::where($where)->delete()){
-            return redirect('admin/jbdx/article')->with('success', config('hint.del_success'));
-        }
-        return back()->with('hint',config('hint.del_failure'));
-
-    }
-
 }

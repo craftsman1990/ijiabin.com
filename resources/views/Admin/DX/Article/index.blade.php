@@ -104,15 +104,6 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{url('article/id/'.$v->id)}}" target="_blank">详情</a></li>
                                                 <li><a href='{{url( $v->type == 1 ? "admin/jbdx/article/$v->id/edit" : "admin/jbdx/article/update/editVideo/$v->id")}}' class="font-bold">修改</a></li>
-                                                @if($data['recommend_id'])
-                                                    <li>
-                                                        @if($v->rec != 0)
-                                                        <a href="{{url('admin/jbdx/article/delRecommend/id/'.$v->id.'/recommend_id/'.$data['recommend_id'])}}" >取消精选推荐</a>
-                                                        @else
-                                                        <a href={{url('admin/jbdx/article/addRecommend/id/'.$v->id.'/recommend_id/'.$data['recommend_id'])}} >设置精选推荐</a>
-                                                        @endif
-                                                    </li>
-                                                @endif
                                                 <li class="divider"></li>
                                                 <li><a href="javascript:;" id="{{$v->id}}" class="delete" url="{{url('admin/jbdx/article/'.$v->id)}}">删除</a>
                                                 </li>

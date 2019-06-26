@@ -43,7 +43,7 @@ class ArticleRecommendController extends Controller
             $list =Article::getRecommendList($data,$data['title']);
         }
 
-        $list->setPath(config('hint.domain').'admin/jbdx/article/recommendList?rec_id='.$data['rec_id'].'&type='.$data['type'].'&title='.$data['title']);
+        $list->setPath(config('hint.domain').'admin/jbdx/article/recommend?rec_id='.$data['rec_id'].'&type='.$data['type'].'&title='.$data['title']);
         // dd($list);
         return view('Admin.DX.Article.Recommend.index',compact('list',$list),compact('data',$data));
     }
