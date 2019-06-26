@@ -67,7 +67,11 @@
                                 <label class="col-sm-3 control-label">封面：</label>
                                 <div class="col-sm-8">
                                     <img width="100px;" src="{{asset($result['data']['article_cdn_url'])}}" id="cover">
+                                    <span class="m-b-none" style="color:red;">
+                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为780*438，小于100k的图片
+                                    </span>
                                 </div>
+
                             </div>
                              <!-- 简介 -->
                             <div class="form-group">

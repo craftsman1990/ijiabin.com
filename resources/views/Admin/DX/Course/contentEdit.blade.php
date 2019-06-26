@@ -105,6 +105,9 @@
                                  <div class="col-sm-8">
                                         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button> -->
                                      <button type="button" class="btn btn-primary choi-c"> 选择图片</button>
+                                     <span class="m-b-none" style="color:red;">
+                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为780*438，小于100k的图片
+                                    </span>
                                  </div>
                              </div>
                              <!-- 横向封面图： -->

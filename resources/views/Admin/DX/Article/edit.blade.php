@@ -85,10 +85,10 @@
                                 <label class="col-sm-3 control-label">封面：</label>
                                 <div class="col-sm-8">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> 选择图片</button>
-                                    <!-- <button type="button" class="btn btn-primary choi"> 选择图片</button>
+                                    <!-- <button type="button" class="btn btn-primary choi"> 选择图片</button>-->
                                     <span class="m-b-none" style="color:red;">
-                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为536*302，小于100k的图片
-                                    </span> -->
+                                        <i class="fa fa-info-circle"></i> 为保证图片展示效果，请上传分辨率为780*438，小于100k的图片
+                                    </span>
                                 </div>
                             </div>
                              <!-- 封面 -->

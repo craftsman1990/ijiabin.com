@@ -95,11 +95,18 @@
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="video">视频列表</a></li>
+                            <li><a class="J_menuItem" href="article">文章列表</a></li>
+                            <li><a class="J_menuItem" href="advertising">广告列表</a></li>
                             <li>
-                                <a class="J_menuItem" href="video">视频列表</a>
-                                <a class="J_menuItem" href="article">文章列表</a>
-                                <a class="J_menuItem" href="jbdx/article">新文章列表</a>
-                                <a class="J_menuItem" href="advertising">广告列表</a>
+                                <a href="#">
+                                    <span class="nav-label">新文章管理</span>
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level">
+                                    <li><a class="J_menuItem" href="jbdx/article">新文章列表</a></li>
+                                    <li><a class="J_menuItem" href="jbdx/article/recommend">新文章推荐列表</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

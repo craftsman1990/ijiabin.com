@@ -9,5 +9,5 @@ class RecommendArticle extends Model
 {
     protected $table = 'dx_recommend_article';
 
-    protected $fillable = ['recommend_id','aid'];
+    protected $fillable = ['recommend_id','aid','created_at','updated_at'];
 }

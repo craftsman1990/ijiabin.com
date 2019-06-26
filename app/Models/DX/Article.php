@@ -393,4 +393,66 @@ class Article extends Model
             }
             return $res;
         }
+
+        /*
+        * 后台推荐位查询
+        * */
+        public static function getRecommendList($where,$like)
+        {
+            if($where['rec_id'] == 0 && $where['type'] == 0  && $like != null){
+                $res = DB::table('dx_recommend_article')
+                    ->Join('dx_article','dx_article.id','=','dx_recommend_article.aid')
+                    ->Join('dx_recommend','dx_recommend.id','=','dx_recommend_article.recommend_id')
+                    ->Join('category','dx_article.cg_id','=','category.id')
+                    ->select('dx_article.id','dx_recommend_article.recommend_id','dx_article.title','category.cg_name','dx_article.status','dx_article.type','dx_recommend.title as re_name','dx_article.created_at')
+                    ->where('dx_article.title','like','%'.$like.'%')
+                    ->orderBy('dx_article.created_at','desc')
+                    ->paginate(config('hint.a_num'));
+            }elseif ( ($where['rec_id'] != 0 || $where['type']!=0)  && $like == null){
+
+                if ($where['rec_id'] != 0 ){
+                    $arr['dx_recommend_article.recommend_id']= $where['rec_id'];
+                }
+
+                if ($where['type']!=0){
+                    $arr['dx_article.type'] = $where['type'];
+                }
+                $res = DB::table('dx_recommend_article')
+                    ->Join('dx_article','dx_article.id','=','dx_recommend_article.aid')
+                    ->Join('dx_recommend','dx_recommend.id','=','dx_recommend_article.recommend_id')
+                    ->Join('category','dx_article.cg_id','=','category.id')
+                    ->select('dx_article.id','dx_recommend_article.recommend_id','dx_article.title','category.cg_name','dx_article.status','dx_article.type','dx_recommend.title as re_name','dx_article.created_at')
+                    ->where($arr)
+                    ->orderBy('dx_article.created_at','desc')
+                    ->paginate(config('hint.a_num'));
+            }elseif(($where['rec_id'] != 0 || $where['type'] !=0)  && $like != null){
+                if ($where['rec_id'] != 0 ){
+                    $arr['dx_recommend_article.recommend_id']= $where['rec_id'];
+                }
+
+                if ($where['type']!=0){
+                    $arr['dx_article.type'] = $where['type'];
+                }
+
+                $res = DB::table('dx_recommend_article')
+                    ->Join('dx_article','dx_article.id','=','dx_recommend_article.aid')
+                    ->Join('dx_recommend','dx_recommend.id','=','dx_recommend_article.recommend_id')
+                    ->Join('category','dx_article.cg_id','=','category.id')
+                    ->select('dx_article.id','dx_recommend_article.recommend_id','dx_article.title','category.cg_name','dx_article.status','dx_article.type','dx_recommend.title as re_name','dx_article.created_at')
+                    ->where($arr)
+                    ->where('dx_article.title','like','%'.$like.'%')
+                    ->orderBy('dx_article.created_at','desc')
+                    ->paginate(config('hint.a_num'));
+            }else{
+                $res = DB::table('dx_recommend_article')
+                    ->Join('dx_article','dx_article.id','=','dx_recommend_article.aid')
+                    ->Join('dx_recommend','dx_recommend.id','=','dx_recommend_article.recommend_id')
+                    ->Join('category','dx_article.cg_id','=','category.id')
+                    ->select('dx_article.id','dx_recommend_article.recommend_id','dx_article.title','category.cg_name','dx_article.status','dx_article.type','dx_recommend.title as re_name','dx_article.created_at')
+                    ->orderBy('dx_article.created_at','desc')
+                    ->paginate(config('hint.a_num'));
+            }
+            return $res;
+
+        }
 }

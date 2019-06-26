@@ -29,61 +29,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * 推荐位列表页
-     **/
-    public function recommendIndex(Request $request)
-    {
-        //推荐
-        $Recommend =Recommend::where('status',1)->get()->toArray();
-
-        $recommend_info = '';
-       // dd($Recommend);
-        if ($Recommend){
-            foreach ($Recommend as $list){
-                dd($list);
-            }
-        }
-
-        $data['recommend_info'] = $Recommend;
-
-        if ($request->all()){
-            $where['rec_id'] = $request->get('rec_id');
-            $like = $request->get('title');
-            $list = Article::getIndex($where,$like);
-            $data['rec_id'] = $where['rec_id'];
-            $data['title'] = $like;
-        }else{
-            $list = Article::orderBy('publish_time','desc')->paginate(config('hint.a_num'));
-            $data['rec_id'] = 0;
-            $data['title'] = null;
-        }
-        $list->setPath(config('hint.domain').'admin/jbdx/article/recommendList?rec_id='.$data['rec_id'].'&title='.$data['title']);
-        foreach ($list as $art){
-            //推荐位
-            if ($art){
-                $art->cg_name = $art->cg_name;
-            }else{
-                $art->cg_name = '未知';
-            }
-            //精品推荐
-            $rec = RecommendArticle::where('aid',$art->id)->where('recommend_id',$data['recommend_id'])->get()->toArray();
-            if ($rec){
-                $art->rec = 1;
-            }else{
-                $art->rec = 0;
-            }
-        }
-        //分类
-        $data['cate'] = Category::all();
-        //推荐
-        $Recommend =Recommend::select('id')->where('title','精选推荐')->get()->toArray();
-
-        $data['recommend_id'] = isset($Recommend[0]['id'])?$Recommend[0]['id']: 0;
-
-        return view('Admin.DX.Article.index',compact('list',$list),compact('data',$data));
-    }
-
-    /**
      * 列表页
      **/
     public function index(Request $request)
