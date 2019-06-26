@@ -143,6 +143,7 @@ class PayController extends Controller
             'out_trade_no' => $order->order_num,
             'body' => $order->title,
             'total_fee' => $order->price * 100,
+            'notify_url' => 'https://m.ijiabin.com/callback',
         ];
         return app('wechat_pay')->wap($wx_order);
     }
