@@ -81,7 +81,9 @@ class Article extends Model
                 $cover = url($v->cover);
 
             }
-            $cover = str_replace("http","https",$cover);
+            if (!preg_match('/(https:\/\/)/i',$cover)) {
+              $cover = str_replace("http","https",$cover);
+            }
             $result[$key]['id'] = $v->id;
             $result[$key]['cover'] = $cover;
             $result[$key]['title'] = $v->title;
@@ -146,7 +148,9 @@ class Article extends Model
             $cover = url($data->cover);
 
         }
-        $cover = str_replace("http","https",$cover);
+        if (!preg_match('/(https:\/\/)/i',$cover)) {
+              $cover = str_replace("http","https",$cover);
+        }
         $result['id'] = $data->aid;
         $result['cover'] = $cover;
         $result['title'] = $data->title;
@@ -197,7 +201,9 @@ class Article extends Model
             }else{
                 $cover = url($v->cover);
             }
-            $cover = str_replace("http","https",$cover);
+            if (!preg_match('/(https:\/\/)/i',$cover)) {
+              $cover = str_replace("http","https",$cover);
+            }
             $data[$key]->cover = $cover;
         }
         return $data; 
@@ -242,7 +248,9 @@ class Article extends Model
             }else{
                 $cover = url($v->cover);
             }
-            $cover = str_replace("http","https",$cover);
+            if (!preg_match('/(https:\/\/)/i',$cover)) {
+              $cover = str_replace("http","https",$cover);
+            }
             $ret[$key]->cover = $cover;
         }
       }
@@ -295,7 +303,9 @@ class Article extends Model
             }else{
                 $cover = url($value['cover']);
             }
-            $cover = str_replace("http","https",$cover);
+            if (!preg_match('/(https:\/\/)/i',$cover)) {
+              $cover = str_replace("http","https",$cover);
+            }
             $result[$ks]['cover'] = $cover;
         }
         return $result;
@@ -368,7 +378,9 @@ class Article extends Model
             }else{
                 $cover = url($value['cover']);
             }
-            $cover = str_replace("http","https",$cover);
+            if (!preg_match('/(https:\/\/)/i',$cover)) {
+              $cover = str_replace("http","https",$cover);
+            }
             $arr[$key]['cover'] = $cover;
             $arr[$key]['labels'] = $label;
             $label = [];
