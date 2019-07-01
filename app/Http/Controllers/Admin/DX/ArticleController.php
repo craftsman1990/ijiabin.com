@@ -641,6 +641,7 @@ class ArticleController extends Controller
            $model->label_id = json_encode(explode(',',$request->label_id));
        }
        $model->cover = isset($request->old_pic) ? $request->old_pic : '';//封面图
+       $model->cover = str_replace("http","https",$model->cover);
        //事务开始
        DB::beginTransaction();
        if (!$model->save()) {
