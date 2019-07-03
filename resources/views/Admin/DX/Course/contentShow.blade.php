@@ -298,7 +298,15 @@
                 $(this).parent().parent().parent().remove();
             });
         }
-        var tr = '<tr><td class="duan"><input type="text" name="card[]" class="form-control"></td><td><input type="text" name="answer[]" class="form-control"></td><td><div class="btn-group hidden-xs"><button type="button" class="btn btn-outline btn-default trash"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button></div></td></tr>';
+        var tr = '<tr>' +
+            '<td class="duan"><input type="text" name="card[]" class="form-control"></td>' +
+            '<td><input type="text" name="answer[]" class="form-control"><br/>' +
+            '<textarea id="analysisMod" style="width: 100%;height: 120px;resize: none;" name="analysis[]"></textarea></td>' +
+            '<td><div class="btn-group hidden-xs">' +
+            '<button type="button" class="btn btn-outline btn-default trash">' +
+            '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>' +
+            '</div></td>' +
+            '</tr>';
         $('.plus').click(function(){
             // console.log($(this).parent().parent().parent().parent().prev().html());
             $(this).parent().parent().parent().parent().prev().append(tr);
@@ -322,7 +330,8 @@
                             $.each(d,function(index,item){
                                 html += '<tr>';
                                 html += '<td class="duan"><input type="text" name="card[]" class="form-control" value="'+item.card+'"></td>';
-                                html += '<td><input type="text" name="answer[]" class="form-control" value="'+item.answer+'"></td>';
+                                html += '<td><input type="text" name="answer[]" class="form-control" value="'+item.answer+'"><br/>';
+                                html += '<textarea id="analysisMod" style="width: 100%;height: 120px;resize: none;" name="analysis[]"></textarea></td>';
                                 html += '<td><div class="btn-group hidden-xs"><button type="button" class="btn btn-outline btn-default trash"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button></div></td>';
                                 html += '</tr><input type="hidden" name="CRUD" value="1">';
                             });

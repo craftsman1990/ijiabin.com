@@ -72,6 +72,8 @@
                                                 <li><a href="{{url('admin/jbdx/content/'.$v->id)}}" class="demo4">自测试题</a></li>
                                                 <li><a href="{{url('admin/jbdx/content/bulletScreen/'.$v->id)}}" class="demo4">弹幕列表</a></li>
                                                 <li><a href="{{url('admin/jbdx/comment/'.$v->id.'?type=3')}}" class="demo4">评论列表</a></li>
+                                                <li><a href="{{url('admin/jbdx/knowledge/'.$v->id)}}" class="demo4">知识点列表</a></li>
+                                                <li><a href="{{url('admin/jbdx/notes/'.$v->id)}}" class="demo4">笔记列表</a></li>
                                                 <li class="divider"></li>
                                                 <li><a id="{{$v->id}}" data_status ="{{$v->status}}" class="font-bold cgedit update_status" url="{{url('admin/jbdx/content/updateStatus/id/'.$v->id)}}" >{{$v->status == 1 ? '下架' : '上架'}}</a></li>
                                                 </li>

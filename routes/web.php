@@ -207,6 +207,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::resource('navigation','Admin\NavigationController'); //导航
     Route::resource('label','Admin\LabelController');           //标签
     Route::resource('recommend','Admin\RecommendController');   //推荐位
+    Route::resource('column','Admin\ColumnController');         //栏目
     Route::resource('user','Admin\UserController');             //用户
     Route::resource('tutorStudent','Admin\TutorStudentController');  //导师学员
     Route::resource('video','Admin\VideoController');           //视频
@@ -244,6 +245,11 @@ Route::group(['prefix'=>'admin'],function(){
         Route::get('content/create/course_id/{course_id}','Admin\DX\ContentController@create');       //课程内容添加
         Route::resource('quiz','Admin\DX\QuizController');                 //自测题
         Route::resource('answer','Admin\DX\AnswerController');             //自测题答案
+        Route::resource('blackboard','Admin\DX\BlackboardController');     //黑板报
+        Route::resource('files','Admin\DX\FilesController');               //文件夹
+        Route::resource('knowledge','Admin\DX\KnowledgePointController');      //知识点
+        Route::resource('notes','Admin\DX\NotesController');      //知识点
+        Route::resource('notes/updateStatus/{$id}','Admin\DX\NotesController@updateStatus');      //知识点
         Route::get('getQuiz','Admin\DX\QuizController@getQuiz');           //获取自测题信息;
         Route::get('getAnswer','Admin\DX\AnswerController@getAnswer');     //获取问题列表;
 

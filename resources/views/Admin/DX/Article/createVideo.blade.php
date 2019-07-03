@@ -80,6 +80,18 @@
                                     <input name="author" class="form-control" type="text" value="{{old('author')}}">
                                 </div>
                             </div>
+                            <!-- 栏目 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">栏目：</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="column_id">
+                                        <option value = 0 >请选择栏目</option>
+                                        @foreach($data['column'] as $column)
+                                            <option value={{$column['id']}}>{{$column['title']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <!-- 标签 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标签：</label>

@@ -123,6 +123,7 @@
                                 <a class="J_menuItem" href="label">标签列表</a>
                                 <a class="J_menuItem" href="hotbot">热搜列表</a>
                                 <a class="J_menuItem" href="recommend">推荐位列表</a>
+                                <a class="J_menuItem" href="column">栏目列表</a>
                             </li>
                         </ul>
                     </li>

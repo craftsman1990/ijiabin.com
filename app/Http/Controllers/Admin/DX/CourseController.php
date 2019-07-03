@@ -4,7 +4,7 @@
 use App\Models\DX\Course;	
 use App\Models\CourseSite;	
 use App\Services\Upload;
- use Doctrine\DBAL\Driver\IBMDB2\DB2Driver;
+use Doctrine\DBAL\Driver\IBMDB2\DB2Driver;
  use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;	
 use App\Services\Compress;
@@ -67,9 +67,10 @@ use App\Services\Compress;
             'price.numeric'=>'价格 只能是数值',	
             'crosswise_cover.required'=>'横向封面图 不能为空',	
             'lengthways_cover.required'=>'纵向封面图 不能为空',	
-        ];	
+        ];
         $credentials = $this->validate($request,$verif,$message);
         $credentials['content'] = $request->content;
+        dd($credentials['crosswise_cover']);
 //        dd($credentials);	
         //横图	
         $cor_size = $credentials['crosswise_cover']->getSize() / 1024;	

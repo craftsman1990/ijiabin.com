@@ -83,6 +83,7 @@ class ArticleController extends Controller
     public function create()
     {
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
+        $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
         return view('Admin.DX.Article.create',compact('data',$data));
     }
@@ -93,6 +94,7 @@ class ArticleController extends Controller
     public function createVideo()
     {
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
+        $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
         return view('Admin.DX.Article.createVideo',compact('data',$data));
     }
@@ -104,6 +106,7 @@ class ArticleController extends Controller
     {
 
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
+        $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
         $data['video'] = Article::find($id);
         $data['video_info'] = ArticleBlade::where('aid',$id)->first()->toArray();
@@ -149,6 +152,10 @@ class ArticleController extends Controller
         if ($request->author){
             $credentials['author'] = $request->author;
         }
+        //栏目可选
+
+        $credentials['column_id'] = $request->column_id;
+
      //  dd($credentials);
         //图像上传
 //        if ($request->file('cover')){
@@ -235,6 +242,10 @@ class ArticleController extends Controller
         if ($request->author){
             $credentials['author'] = $request->author;
         }
+        //栏目可选
+
+        $credentials['column_id'] = $request->column_id;
+
         //上传图片
         $pic_path = Upload::baseUpload($credentials['cover'],'upload/DX/Article');
 //        $pic_path = Upload::uploadOne('Video',$credentials['cover']);
@@ -308,6 +319,9 @@ class ArticleController extends Controller
         if ($request->author){
             $credentials['author'] = $request->author;
         }
+        //栏目可选
+        $credentials['column_id'] = $request->column_id;
+
         //上传图片
         $pic_path = Upload::baseUpload($credentials['cover'],'upload/DX/Article');
 //        $pic_path = Upload::uploadOne('Article',$credentials['cover']);
@@ -357,6 +371,7 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
+        $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
         $data['article'] = Article::find($id);
       //  var_dump(implode(',',json_decode($data['article']->label_id)));die;
@@ -490,6 +505,9 @@ class ArticleController extends Controller
         if ($request->author){
             $credentials['author'] = $request->author;
         }
+
+        $credentials['column_id'] = $request->column_id;
+
         //图片大小
 //        $size = strlen(file_get_contents($request->cover))/1024;
 

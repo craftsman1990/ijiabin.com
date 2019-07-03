@@ -9,7 +9,7 @@ class Article extends Model
 {
     protected $table = 'dx_article';
 
-    protected $fillable = ['title','type','duration','label_id','tag','looks','cg_id','nav_id','author','status','author','publish_time','intro','content','cover'];
+    protected $fillable = ['title','type','duration','label_id','tag','looks','column_id','cg_id','author','status','author','publish_time','intro','content','cover'];
 
 
     /**

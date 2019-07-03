@@ -190,7 +190,15 @@
     </script>
     <!-- 编辑器 -->
 
-    <script type="text/javascript">
+    <script type="text/javascript">        //普通图片上传
+        $('.choi-c').click(function(){
+            $('[name=crosswise_cover]').trigger('click');
+        })
+        $('[name=crosswise_cover]').change(function(){
+            var imgurl = getObjectURL(this.files[0]);
+            console.log(imgurl);
+            $('#crosswise_cover').attr('src',imgurl);
+        });
         //截图上传
             /*var sgw = $('[name=scre_gm_width]').val(),
                 sgh = $('[name=scre_gm_height]').val(),
@@ -216,15 +224,8 @@
                 }
             });*/
         
-        //普通图片上传
-        $('.choi-c').click(function(){
-            $('[name=crosswise_cover]').trigger('click');
-        })
-        $('[name=crosswise_cover]').change(function(){
-            var imgurl = getObjectURL(this.files[0]);
-            // console.log(imgurl);
-            $('#crosswise_cover').attr('src',imgurl);
-        });  
+
+
         $('.choi-l').click(function(){
             $('[name=lengthways_cover]').trigger('click');
         })
