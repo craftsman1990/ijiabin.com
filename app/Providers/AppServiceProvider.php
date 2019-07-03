@@ -44,7 +44,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('wechat_pay', function () {
             $config = config('pay.wechat');
             $config['notify_url'] = 'https://www.ijiabin.com/payment/wechat/notify';
-            $config['return_url'] = 'https://www.ijiabin.com/test';
             if (app()->environment() !== 'production') {
                 $config['log']['level'] = Logger::DEBUG;
             } else {

@@ -144,6 +144,7 @@ class PayController extends Controller
             'body' => $order->title,
             'total_fee' => $order->price * 100,
         ];
-        return app('wechat_pay')->wap($wx_order);
+            $config['return_url'] = 'https://www.ijiabin.com/test';
+        return app('wechat_pay',$config)->wap($wx_order);
     }
 }
