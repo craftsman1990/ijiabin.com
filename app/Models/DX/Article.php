@@ -39,7 +39,7 @@ class Article extends Model
     {
         $offset = ($page-1)*$limit;
         $data = DB::table('dx_article')
-            ->select('id','cover','title','intro','label_id','duration','looks')
+            ->select('id','cover','title','intro','label_id','duration','looks','column_id')
             ->where(['cg_id'=>$cg_id,'status'=>1])
             ->orderBy('id','desc')
             ->offset($offset)
@@ -84,6 +84,10 @@ class Article extends Model
             if (!preg_match('/(https:\/\/)/i',$cover)) {
               $cover = str_replace("http","https",$cover);
             }
+            //根据栏目id获取栏目
+            $column[] = DB::table('dx_column')
+            ->select('id','title')
+            ->where(['id'=>$v->column_id,'status'=>1])->first();
             $result[$key]['id'] = $v->id;
             $result[$key]['cover'] = $cover;
             $result[$key]['title'] = $v->title;
@@ -91,7 +95,9 @@ class Article extends Model
             $result[$key]['duration'] = $v->duration;
             $result[$key]['looks'] = $v->looks;
             $result[$key]['labels'] = $label;
+            $result[$key]['column'] = empty($column[0])?[]:$column;
             $label = [];
+            $column = [];
         }
         return $result;
     }
@@ -105,7 +111,7 @@ class Article extends Model
     {
        $data = DB::table('dx_article')
             ->leftJoin('dx_article_blade', 'dx_article.id', '=', 'dx_article_blade.aid')
-            ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','dx_article.created_at','cg_id','intro','tag')
+            ->select('aid','cover','title','content','label_id','duration','looks','pic_info','video_info','dx_article.created_at','cg_id','intro','tag','column_id')
             ->where('dx_article.id','=',$aid)
             ->first();
             if (empty($data)) {
@@ -151,6 +157,10 @@ class Article extends Model
         if (!preg_match('/(https:\/\/)/i',$cover)) {
               $cover = str_replace("http","https",$cover);
         }
+        //根据栏目id获取栏目
+        $column[] = DB::table('dx_column')
+        ->select('id','title','cover')
+        ->where(['id'=>$data->column_id,'status'=>1])->first();
         $result['id'] = $data->aid;
         $result['cover'] = $cover;
         $result['title'] = $data->title;
@@ -163,6 +173,7 @@ class Article extends Model
         $result['video_url'] = $video_url;
         $result['tag'] = $data->tag;
         $result['labels'] = $label;
+        $result['column'] = empty($column[0])?[]:$column;
         $label = [];
         return $result;
     }
@@ -472,5 +483,45 @@ class Article extends Model
             }
             return $res;
 
+        }
+                //根据栏目id查询相应课程
+        public static function ColumnList($column_id,$page,$limit)
+        {
+          //获取栏目信息
+          $column = DB::table('dx_column')
+            ->select('id','title','cover')
+            ->where(['status'=>1])->first();
+          if (empty($column)) {
+            return [];
+          }
+          //根据栏目id获取课程
+           $offset = ($page-1)*$limit;
+           $where = ['column_id'=>$column_id,'status'=>1];
+           $data = DB::table('dx_article')
+              ->select('id','cover','title','content','duration','looks','created_at','intro')
+              ->where($where)
+              ->orderBy('id','desc')
+              ->offset($offset)
+              ->limit($limit)
+              ->get()
+              ->toArray();
+          if (empty($data)) {
+             $data = [];
+          }
+          foreach ($data as $key => $v) {
+              //判断图片是否是绝对路径
+              if (preg_match('/(http:\/\/)|(https:\/\/)/i',$v->cover)) {
+                  $cover = $v->cover;
+              }else{
+                  $cover = url($v->cover);
+              }
+              $cover = str_replace("http","https",$cover);
+              $data[$key]->cover = $cover;
+          }
+          $result['id'] = $column->id;
+          $result['title'] = $column->title;
+          $result['cover'] = $column->cover;
+          $result['column_list'] = $data;
+         return $result;
         }
 }

@@ -52,6 +52,18 @@
                                     <input name="author" class="form-control" type="text" value="{{$result['data']['article_author']}}">
                                 </div>
                             </div>
+                            <!-- 分类 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">栏目：</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="column_id">
+                                      <option value=''>请选择</option>
+                                       @foreach($result['data']['column'] as $cate)
+                                        <option value={{$cate['id']}} {{$cate['id'] == '3' ? 'selected' : ''}}>{{$cate['title']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <!-- 标签 -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标签：</label>

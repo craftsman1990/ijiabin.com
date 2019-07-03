@@ -191,4 +191,19 @@ class ContentController extends Controller
         $lengthways_cover = base64_encode($lengthways_cover);
         return $lengthways_cover;
     }
+     /**
+     * 根据栏目id获取课程
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function column(Request $request)
+    {
+       if (empty($request->column_id)) {
+           return response()->json(['status'=>999,'msg'=>'参数错误！']); 
+        }
+        $page = isset($request->page) ? (int)$request->page : 1;
+        $limit = isset($request->limit) ? (int)$request->limit : 10;//默认10条
+        $column_list = Article::ColumnList($request->column_id,$page,$limit);
+        return response()->json(['status'=>1,'msg'=>'success','data'=>$column_list]);
+    }
 }

@@ -16,6 +16,7 @@ use App\Services\Helper;
 use App\Services\Upload;
 use App\Models\DX\ArticleBlade;
 use App\Models\DX\LabelArticle;
+use App\Models\DX\Column;
 use App\Services\Compress;
 
 
@@ -603,6 +604,7 @@ class ArticleController extends Controller
                 return back()->with('jbdx',config('jbdx.add_wx_article'));
             }
             $result['data']['label'] = Label::select('id','name')->get()->toArray();
+            $result['data']['column'] = Column::select('id','title')->get()->toArray();
             // print_r($result);die;
             return view('Admin.DX.Article.edits',compact('result',$result),compact('lables'));
         }
