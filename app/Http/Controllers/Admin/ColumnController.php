@@ -41,7 +41,7 @@ class ColumnController extends Controller
 
         $verif = array(
             'title'=>'required|unique:dx_column',
-            'sort'=>'required|numeric',
+         //   'sort'=>'required|numeric',
             'status'=>'required|numeric',
             'cover'=>'required',
         );
@@ -94,7 +94,7 @@ class ColumnController extends Controller
         //验证参数
         $verif = array(
             'title'=>'required|unique:dx_column,title,'.$id,
-            'sort'=>'required|numeric',
+          //  'sort'=>'required|numeric',
             'status'=>'required|numeric'
         );
         $credentials = $this->validate($request,$verif);

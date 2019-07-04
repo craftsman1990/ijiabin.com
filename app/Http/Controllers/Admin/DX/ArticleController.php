@@ -630,6 +630,7 @@ class ArticleController extends Controller
                 return back()->with('jbdx',config('jbdx.add_wx_article'));
             }
             $result['data']['label'] = Label::select('id','name')->get()->toArray();
+            $result['data']['label'] = array_chunk($result['data']['label'],4);
             $result['data']['column'] = Column::select('id','title')->get()->toArray();
             // print_r($result);die;
             return view('Admin.DX.Article.edits',compact('result',$result),compact('lables'));

@@ -36,7 +36,7 @@
                                 <th>ID</th>
                                 <th>封面图</th>
                                 <th>栏目名称</th>
-                                <th>排序</th>
+{{--                                <th>排序</th>--}}
                                 <th>状态</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
@@ -48,7 +48,7 @@
                                     <td>{{$v->id}}</td>
                                     <td><img src="{{asset($v->cover)}}" width="40px"></td>
                                     <td>{{$v->title}}</td>
-                                    <td>{{$v->sort}}</td>
+{{--                                    <td>{{$v->sort}}</td>--}}
                                     <td>
                                         @if($v->status == 1)
                                             <span class="label label-info">显示</span>
@@ -107,13 +107,13 @@
                                 <input  name="title" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">栏目权重：</label>
-                            <div class="col-sm-8">
-                                <input  name="sort" class="form-control" type="number" min="0.0" max="1.0" step="0.1" aria-required="true" aria-invalid="true" class="error"value="0.0">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 权重（0.1～1）值越大，排序越靠前，值相同按创建时间排序</span>
-                            </div>
-                        </div>
+{{--                        <div class="form-group">--}}
+{{--                            <label class="col-sm-3 control-label">栏目排序：</label>--}}
+{{--                            <div class="col-sm-8">--}}
+{{--                                <input  name="sort" class="form-control" type="number" aria-required="true" aria-invalid="true" class="error" id="mod_cgsort">--}}
+{{--                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 值越大，排序越靠前，值相同按创建时间排序</span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="form-group">
                             <label class="col-sm-3 control-label">栏目状态：</label>
                             <div class="col-sm-4">
@@ -143,7 +143,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-8 col-sm-offset-3">
-                                <input type="file" name="cover" style="display: none;" value="{{old('cover')}}" accept="image/gif"/>
+                                <input type="file"  accept="image/*" name="cover" style="display: none;" value="{{old('cover')}}" accept="image/gif"/>
                             </div>
                         </div>
 
@@ -174,16 +174,15 @@
                             <label class="col-sm-3 control-label">栏目名称：</label>
                             <div class="col-sm-8">
                                 <input  name="title" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error" id="mod_cgname">
-
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">栏目排序：</label>
-                            <div class="col-sm-8">
-                                <input  name="sort" class="form-control" type="number" aria-required="true" aria-invalid="true" class="error" id="mod_cgsort">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 值越大，排序越靠前，值相同按创建时间排序</span>
-                            </div>
-                        </div>
+{{--                        <div class="form-group">--}}
+{{--                            <label class="col-sm-3 control-label">栏目排序：</label>--}}
+{{--                            <div class="col-sm-8">--}}
+{{--                                <input  name="sort" class="form-control" type="number" aria-required="true" aria-invalid="true" class="error" id="mod_cgsort">--}}
+{{--                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 值越大，排序越靠前，值相同按创建时间排序</span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="form-group">
                             <label class="col-sm-3 control-label">栏目状态：</label>
                             <div class="col-sm-4">
@@ -213,7 +212,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-8 col-sm-offset-3">
-                                <input type="file" name="new_cover" style="display: none;" value="{{old('new_cover')}}" />
+                                <input type="file" accept="image/*" name="new_cover" style="display: none;" value="{{old('new_cover')}}" />
                                 <input type="hidden"  name="old_cover" style="display: none;"   id="old_cover" />
 
                             </div>
@@ -232,11 +231,11 @@
     <script type="text/javascript">
         $('.cgedit').click(function(){
             var cgstatus = $(this).attr('status');
-            var cgsort = $(this).parent().parent().parent().parent().prev().prev().prev().html();
-            var cgname = $(this).parent().parent().parent().parent().prev().prev().prev().prev().html();
-            var cgcover = $(this).parent().parent().parent().parent().prev().prev().prev().prev().prev().children().attr('src');
+          //  var cgsort = $(this).parent().parent().parent().parent().prev().prev().prev().html();
+            var cgname = $(this).parent().parent().parent().parent().prev().prev().prev().html();
+            var cgcover = $(this).parent().parent().parent().parent().prev().prev().prev().prev().children().attr('src');
             var url = $(this).attr('url');
-            $('#mod_cgsort').val(cgsort);
+           // $('#mod_cgsort').val(cgsort);
             $('#mod_cgname').val(cgname);
             $('#new_cover').attr('src',cgcover);
             console.log(cgcover);

@@ -209,7 +209,7 @@ class Article extends Model
         // DB::connection()->enableQueryLog();
          $data = DB::table('dx_label_article')
             ->join('dx_article', 'dx_label_article.aid', '=', 'dx_article.id')
-            ->select('id','cover','title','content','duration','looks','dx_article.created_at','intro')
+            ->select('id','cover','title','content','duration','looks','dx_article.created_at','intro','column_id')
             ->where('dx_label_article.label_id','=',$label_id)
             ->where($where)
             ->orderBy('id','desc')
@@ -218,6 +218,10 @@ class Article extends Model
             ->get()
             ->toArray();
         foreach ($data as $key => $v) {
+            //根据栏目id获取栏目
+            $column[] = DB::table('dx_column')
+            ->select('id','title')
+            ->where(['id'=>$v->column_id,'status'=>1])->first();
             //判断图片是否是绝对路径
             if (preg_match('/(http:\/\/)|(https:\/\/)/i',$v->cover)) {
                 $cover = $v->cover;
@@ -228,6 +232,8 @@ class Article extends Model
               $cover = str_replace("http","https",$cover);
             }
             $data[$key]->cover = $cover;
+            $data[$key]->column = empty($column[0])?[]:$column;
+            $column = [];
         }
         return $data; 
     }

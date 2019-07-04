@@ -96,13 +96,16 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-8">
-                                    @foreach($data['label'] as $value)
-                                        @foreach($value as $label)
-                                            <input type="checkbox"  style="width: 20px; display: inline-block; margin-bottom: 6px;" name="labels[]" value="{{$label['id']}}" onclick="oneChoice()" > {{$label['name']}}: <input type="number" style="width: 60px; display: inline-block; margin-bottom: 6px;" min="0.0" max="1.0" value="0.0" name="ranks" step="0.1" onclick="oneChoice()"> &ensp;
+                                    <table class="line" style="float: left;" border="0">
+                                        @foreach($data['label'] as $value)
+                                            <tr>
+                                                @foreach($value as $label)
+                                                    <td style="width: 23%"> <input type="checkbox"  style="width: 20px; display: inline-block; margin-bottom: 6px;" name="labels[]" value="{{$label['id']}}" onclick="oneChoice()" > {{$label['name']}}: <input type="number" style="width: 60px; display: inline-block; margin-bottom: 6px;" min="0.0" max="1.0" value="0.0" name="ranks" step="0.1" onclick="oneChoice()"></td>
+                                                @endforeach
+                                            </tr>
                                         @endforeach
-                                        <br/>
-                                    @endforeach
-                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
+                                    </table>
+                                    <span class="help-block m-b-none" style="float: left;display:block;width:100%;"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
                                 </div>
                             </div>
                             <!-- 关键字： -->
