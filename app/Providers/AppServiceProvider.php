@@ -50,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
                 $config['log']['level'] = Logger::WARNING;
             }
             // 调用 Yansongda\Pay 来创建一个微信支付对象
+//            dd($config);
             return Pay::wechat($config);
         });
     }
