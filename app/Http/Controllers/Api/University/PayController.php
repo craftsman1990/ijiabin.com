@@ -151,7 +151,7 @@ class PayController extends Controller
         //加载支付配置
         $config = config('pay.wechat');
         $config['notify_url'] = 'https://www.ijiabin.com/payment/wechat/notify';
-        $config['return_url'] = 'https://m.ijiabin.com/#/Particulars?course_id='.$request->course_id;
+        $config['return_url'] = 'https://m.ijiabin.com/Particulars?course_id='.$request->course_id;
         //线上环境写入日志
         $config['log']['level'] = Logger::WARNING;
 //        dd($config);
