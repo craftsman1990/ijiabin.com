@@ -153,6 +153,7 @@ class PayController extends Controller
         $config['return_url'] = 'https://wwww.test.com/test';
         //线上环境写入日志
         $config['log']['level'] = Logger::WARNING;
+        dd($config);
         return Pay::wechat($config)->wap($wx_order);
 //        return app('wechat_pay')->wap($wx_order);
     }
