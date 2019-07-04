@@ -490,7 +490,7 @@ class Article extends Model
           //获取栏目信息
           $column = DB::table('dx_column')
             ->select('id','title','cover')
-            ->where(['status'=>1])->first();
+            ->where(['status'=>1,'id'=>$column_id])->first();
           if (empty($column)) {
             return [];
           }
@@ -515,12 +515,19 @@ class Article extends Model
               }else{
                   $cover = url($v->cover);
               }
-              $cover = str_replace("http","https",$cover);
+              if (!preg_match('/(https:\/\/)/i',$cover)) {
+                $cover = str_replace("http","https",$cover);
+              }
               $data[$key]->cover = $cover;
+          }
+          if (preg_match('/(http:\/\/)|(https:\/\/)/i',$column->cover)) {
+                  $column_cover = $column->cover;
+              }else{
+                  $column_cover = url($column->cover);
           }
           $result['id'] = $column->id;
           $result['title'] = $column->title;
-          $result['cover'] = $column->cover;
+          $result['cover'] = $column_cover;
           $result['column_list'] = $data;
          return $result;
         }
