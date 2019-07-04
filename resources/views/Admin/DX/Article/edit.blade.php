@@ -78,10 +78,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">标签：</label>
                                 <div class="col-sm-6">
-                                     @foreach($data['label'] as $label)
-                                        <input type="checkbox" name="labels[]" value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}} onclick="oneChoice()"> {{$label['name']}}: <input type="number"  style="width: 60px; display: inline-block" min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
+                                    @foreach($data['label'] as $value)
+                                         @foreach($value as $label)
+                                            <input type="checkbox" name="labels[]"  style="width: 20px; display: inline-block; margin-bottom: 6px;"  value="{{$label['id']}}" {{in_array($label['id'],array_keys($lables)) ? 'checked' : ''}} onclick="oneChoice()"> {{$label['name']}}: <input type="number"  style="width: 60px; display: inline-block; margin-bottom: 6px;"  min="0.0" max="1.0" value="{{in_array($label['id'],array_keys($lables)) ? $lables[$label['id']] : '0.0'}}" name="ranks" step="0.1" onclick="oneChoice()">
+                                        @endforeach
+                                     <br>
                                     @endforeach
-                                         <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
+                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
                                 </div>
                             </div>
                             <!-- 关键字： -->

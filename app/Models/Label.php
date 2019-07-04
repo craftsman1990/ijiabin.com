@@ -8,5 +8,5 @@ class Label extends Model
 {
     protected $table = 'labels';
 
-    protected $fillable = ['name',];
+    protected $fillable = ['id','name'];
 }

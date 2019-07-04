@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Video;
 use App\Models\User;
 use App\Models\DX\Course;
+use App\Models\Category;
 use App\Models\DX\Article;
 
 class ContentController extends Controller
@@ -205,5 +206,24 @@ class ContentController extends Controller
         $limit = isset($request->limit) ? (int)$request->limit : 10;//默认10条
         $column_list = Article::ColumnList($request->column_id,$page,$limit);
         return response()->json(['status'=>1,'msg'=>'success','data'=>$column_list]);
+    }
+    public function category(Request $request)
+    {
+       $category = Category::select('id','cg_name')->where(['status'=>1])->get()->toArray();
+       //获取案例库，和视频公开课名称以及id
+       foreach ($category as $key => $v) {
+           if ($v['cg_name']=='案例' || $v['cg_name']=='公开课') {
+              $arr[] = $v;
+           }
+       }
+       foreach ($arr as $k => $val) {
+           if ($val['cg_name']=='案例') {
+               $arr[$k]['cg_name'] = '文字案例库';
+           }
+           if ($val['cg_name']=='公开课') {
+               $arr[$k]['cg_name'] = '公开课';
+           }
+       }
+       return response()->json(['status'=>1,'msg'=>'success','data'=>$arr]);
     }
 }

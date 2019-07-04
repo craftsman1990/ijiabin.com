@@ -32,7 +32,7 @@
                     <div class="ibox-content">
                         <div class="">
                             <a href="article/create" class="btn btn-primary J_menuItem">添加文章</a>
-                            <a href="{{url('assist')}}" class="btn btn-primary J_menuItem" target="_blank">清除工具</a>
+                            <a href="{{url('assist')}}" class="btn btn-primary J_menuItem" target="_blank" >清除工具</a>
                             <a href="article/add" class="btn btn-primary J_menuItem">导入微信公众号文章</a>
                         </div>
                         <form action="">

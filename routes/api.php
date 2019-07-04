@@ -80,4 +80,5 @@ Route::group(['prefix'=>'jbcm'],function(){
 	Route::get('labelSearch','Api\University\LabelsController@labelSearch');//获取标签聚合页列表
 	Route::get('hotBot','Api\University\LabelsController@hotBot');//获取热搜词列表
 	Route::get('column','Api\University\ContentController@column');//根据栏目获取列表
+	Route::get('category','Api\University\ContentController@category');//获取类别
 });

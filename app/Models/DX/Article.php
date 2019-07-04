@@ -161,6 +161,18 @@ class Article extends Model
         $column[] = DB::table('dx_column')
         ->select('id','title','cover')
         ->where(['id'=>$data->column_id,'status'=>1])->first();
+        if (!empty($column[0])) {
+          //判断图片是否是绝对路径
+          if (preg_match('/(http:\/\/)|(https:\/\/)/i',$column[0]->cover)) {
+              $column_cover = $column[0]->cover;
+            }else{
+                $column_cover = url($column[0]->cover);
+            }
+          if (!preg_match('/(https:\/\/)/i',$column_cover)) {
+                $column_cover = str_replace("http","https",$column_cover);
+          }
+          $column[0]->cover = $column_cover;
+        }
         $result['id'] = $data->aid;
         $result['cover'] = $cover;
         $result['title'] = $data->title;
@@ -341,7 +353,19 @@ class Article extends Model
      */
     public static function recommenDation($type)
     {
-       $recommend_id = 1;
+       //获取分类id
+        $recommend = DB::table('dx_recommend')
+            ->select('id','title')
+            ->where(['status'=>1])
+            ->get()
+            ->toArray();
+        foreach ($recommend as $key => $val) {
+          if ($val->title=='精选推荐') {
+            $recommend_id = $val->id;
+          }else{
+            $recommend_id = 1;
+          }
+        }
         //获取精品推荐id
         $recommend_ids = DB::table('dx_recommend_article')
             // ->join('dx_recommend_article', 'dx_recommend.id', '=', 'dx_recommend_article.recommend_id')
@@ -404,21 +428,21 @@ class Article extends Model
     * */
         public static function getIndex($where,$like){
             if($where['cg_id'] == 0  && $like != null){
-                $res = self::where('title','like','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+                $res = DB::table('dx_article')->where('title','like','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
             }elseif ($where['cg_id'] != 0  && $like == null){
                 if ($where['cg_id'] != 0){
                     $arr['cg_id'] = $where['cg_id'];
                 }
 
-                $res = self::where($arr)->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+                $res = DB::table('dx_article')->where($arr)->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
             }elseif($where['cg_id'] != 0  && $like != null){
                 if ($where['cg_id'] != 0){
                     $arr['cg_id'] = $where['cg_id'];
                 }
 
-                $res = self::where($arr)->where('title','LIKE','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+                $res = DB::table('dx_article')->where($arr)->where('title','LIKE','%'.$like.'%')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
             }else{
-                $res = self::orderBy('publish_time','desc')->paginate(config('hint.a_num'));
+                $res =DB::table('dx_article')->orderBy('publish_time','desc')->paginate(config('hint.a_num'));
             }
             return $res;
         }

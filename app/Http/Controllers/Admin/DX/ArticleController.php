@@ -50,7 +50,8 @@ class ArticleController extends Controller
             $data['cg_id'] = 0;
             $data['title'] = null;
         }
-        $list->setPath(config('hint.domain').'admin/jbdx/article?cg_id='.$data['cg_id'].'&title='.$data['title']);
+
+        $list->setPath(asset('admin/jbdx/article?cg_id='.$data['cg_id'].'&title='.$data['title']));
         foreach ($list as $art){
             //分类
             $cate = Category::find($art->cg_id);
@@ -85,6 +86,10 @@ class ArticleController extends Controller
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
         $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
+
+        $data['label'] = array_chunk($data['label'],4);
+       //   dd($data['label']);
+
         return view('Admin.DX.Article.create',compact('data',$data));
     }
 
@@ -96,6 +101,7 @@ class ArticleController extends Controller
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
         $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
+        $data['label'] = array_chunk($data['label'],4);
         return view('Admin.DX.Article.createVideo',compact('data',$data));
     }
 
@@ -108,6 +114,7 @@ class ArticleController extends Controller
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
         $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
+        $data['label'] = array_chunk($data['label'],4);
         $data['video'] = Article::find($id);
         $data['video_info'] = ArticleBlade::where('aid',$id)->first()->toArray();
 
@@ -373,6 +380,7 @@ class ArticleController extends Controller
         $data['cate'] = Category::select('id','cg_name')->get()->toArray();
         $data['column'] = Column::select('id','title')->where('status',1)->get()->toArray();
         $data['label'] = Label::select('id','name')->get()->toArray();
+        $data['label'] = array_chunk($data['label'],4);
         $data['article'] = Article::find($id);
       //  var_dump(implode(',',json_decode($data['article']->label_id)));die;
 
@@ -650,6 +658,7 @@ class ArticleController extends Controller
        }
        $model->title = $article['title'];
        $model->cg_id = $article['cg_id'];
+       $model->column_id = $request->column_id;
        $model->type = 1;//1：文章；2：视频
        $model->publish_time = $request->publish_time;//文章的发布时间
        $model->author = $request->author;//文章作者
