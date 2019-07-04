@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\DX\Course;
 use App\Models\DX\Order;
 use App\Models\User;
+use Yansongda\Pay\Pay;
+use Monolog\Logger;
 
 class PayController extends Controller
 {
@@ -144,7 +146,14 @@ class PayController extends Controller
             'body' => $order->title,
             'total_fee' => $order->price * 100,
         ];
-            $config['return_url'] = 'https://www.ijiabin.com/test';
-        return app('wechat_pay',$config)->wap($wx_order);
+
+        //加载支付配置
+        $config = config('pay.wechat');
+        $config['notify_url'] = 'https://www.ijiabin.com/payment/wechat/notify';
+        $config['return_url'] = 'https://wwww.test.com/test';
+        //线上环境写入日志
+        $config['log']['level'] = Logger::WARNING;
+        return Pay::wechat($config)->wap($wx_order);
+//        return app('wechat_pay')->wap($wx_order);
     }
 }
