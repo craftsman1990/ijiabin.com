@@ -149,13 +149,13 @@ class PayController extends Controller
         ];
 
         //加载支付配置
-        /*$config = config('pay.wechat');
+        $config = config('pay.wechat');
         $config['notify_url'] = 'https://www.ijiabin.com/payment/wechat/notify';
         $config['return_url'] = 'https://wwww.test.com/test';
         //线上环境写入日志
         $config['log']['level'] = Logger::WARNING;
-//        dd($config);
-        return Pay::wechat($config)->wap($wx_order);*/
-        return app('wechat_pay')->wap($wx_order);
+        dd($config);
+        return Pay::wechat($config)->wap($wx_order);
+//        return app('wechat_pay')->wap($wx_order);
     }
 }
