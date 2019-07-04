@@ -88,7 +88,8 @@
                                             </tr>
                                         @endforeach
                                     </table>
-                                    <span class="help-block m-b-none" style="float: left;"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
+                                    <span class="help-block m-b-none" style="float: left;display:block;width:100%;"><i class="fa fa-info-circle"></i> 标签个数(2-5),权重(0.1-1.0)</span>
+
                                 </div>
                             </div>
                             <!-- 关键字： -->
